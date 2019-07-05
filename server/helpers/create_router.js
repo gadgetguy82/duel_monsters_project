@@ -24,7 +24,13 @@ const createRouter = function(collection) {
       res.status(500);
       res.json({ status: 500, error:err });
     });
-  })
+  }),
+
+  router.post('/', (req, res) => {
+    const body = req.body;
+    collection.insertOne(body)
+    .then((result) => res.json(result.ops[0]));
+  });
   return router;
 };
 
