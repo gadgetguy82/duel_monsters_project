@@ -2,7 +2,8 @@ const express = require('express');
 const app = express();
 
 const parser = require('body-parser');
-app.use(parser.json());
+app.use(parser.json({limit: '50mb'}));
+app.use(parser.urlencoded({limit: '50mb', extended: true}));
 
 const cors = require('cors');
 app.use(cors());

@@ -1,5 +1,5 @@
 use duel_monsters_game;
-db.dropdatabase();
+db.dropDatabase();
 
 db.cards.insertMany([
   {
