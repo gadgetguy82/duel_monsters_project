@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home';
-import Battlefield from '@/views/Battlefield';
+import Battlefield from '@/views/BattleField';
 
 Vue.use(Router);
 
