@@ -1,6 +1,11 @@
 const baseURL = 'http://localhost:3000/api/duel_monsters_game/';
 
 export default {
+  getAllCards() {
+    return fetch(baseURL)
+    .then(res => res.json());
+  },
+
   postCard(body) {
     return fetch(baseURL, {
       method: 'POST',
