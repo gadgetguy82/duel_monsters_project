@@ -5,6 +5,10 @@
       <playing-hand></playing-hand>
       <life-points></life-points>
     </div>
+    <div class="bottom-row">
+      <battle-hand></battle-hand>
+      <graveyard-deck></graveyard-deck>
+    </div>
   </div>
 </template>
 
@@ -12,12 +16,16 @@
 import PlayingDeck from '@/components/PlayingDeck.vue'
 import PlayingHand from '@/components/PlayingHand.vue'
 import LifePoints from '@/components/LifePoints.vue'
+import BattleHand from '@/components/BattleHand.vue'
+import GraveyardDeck from '@/components/GraveyardDeck.vue'
 export default {
   name: 'player-board',
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
-    "life-points": LifePoints
+    "life-points": LifePoints,
+    "battle-hand": BattleHand,
+    "graveyard-deck": GraveyardDeck
   }
 }
 </script>
@@ -31,6 +39,10 @@ export default {
   height: 400px;
 }
 .top-row{
+  display: flex;
+  justify-content: space-between;
+}
+.bottom-row{
   display: flex;
   justify-content: space-between;
 }
