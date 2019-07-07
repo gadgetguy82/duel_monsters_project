@@ -14,5 +14,7 @@ export default {
   .playing-deck-container {
     border-style: solid;
     border-width: 1px;
+    width: 100px;
+    height: 150px;
   }
 </style>

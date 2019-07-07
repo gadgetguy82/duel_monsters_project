@@ -17,7 +17,7 @@ export default {
 .card{
   border-style: solid;
   border-width: 1px;
-  width: 20px;
-  height: 40px;
+  width: 100px;
+  height: 150px;
 }
 </style>
