@@ -2,28 +2,27 @@
   <div id='battlefield'>
     <p>Battlefield View</p>
     <div class="board-container">
-      <p>this is the playerboard container</p>
+      <player-board>this is the player board</player-board>
     </div>
     <div class="board-container">
-      <p>this is the ai board container</p>
+      <ai-board>this is the ai board</ai-board>
     </div>
   </div>
 </template>
 
 <script>
+import AIBoard from "@/components/AiBoard.vue"
+import PlayerBoard from "@/components/PlayerBoard.vue"
 export default {
-  name: 'battlefield'
+  name: 'battlefield',
+  components: {
+    "player-board": PlayerBoard,
+    "ai-board": AIBoard
+  }
 }
 
 </script>
 
 <style lang="css" scoped>
 
-.board-container{
-  border-style: solid;
-  border-width: 1px;
-  margin: 0px;
-  width: 100%;
-  height: 400px;
-}
 </style>
