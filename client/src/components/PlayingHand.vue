@@ -1,11 +1,15 @@
 <template lang="html">
   <div class="playing-hand-container">
+    <card v-for="card in playerHand">
+
+    </card>
     <p>this is the playing hand</p>
   </div>
 </template>
 
 <script>
 import { eventBus } from '@/main.js'
+import Card from '@/components/Card.vue'
 
 export default {
   name: "playing-hand",
@@ -16,6 +20,9 @@ export default {
   },
   mounted() {
     eventBus.$on('one-card', card => this.playerHand.push(card))
+  },
+  components: {
+    "card": Card
   }
 }
 </script>
