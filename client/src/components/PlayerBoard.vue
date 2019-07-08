@@ -42,7 +42,7 @@ export default {
 
   methods: {
     randomizeCards() {
-      for (let i=0, i<40, i++) {
+      for (let i=0; i<40; i++) {
         this.deck.push(this.normCards[Math.floor(Math.random()* this.normCards.length)])
       }
     },
