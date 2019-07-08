@@ -5,8 +5,17 @@
 </template>
 
 <script>
+// import {eventBus} from '@/main.js'
 export default {
-  name: "graveyard-deck"
+  name: "graveyard-deck",
+  data() {
+    return {
+      cards: []
+    }
+  },
+  mounted() {
+    // eventBus.$on('win-lose-card', card=>this.cards.push(card))
+  }
 }
 </script>
 
