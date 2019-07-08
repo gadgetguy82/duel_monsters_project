@@ -1,13 +1,13 @@
 <template lang="html">
   <div id='battlefield'>
     <p>Battlefield View</p>
-    <div class="board-container">
+    <div class="board-container top-board">
       <player-board :normalCards="normalCards" :player="'one'"></player-board>
     </div>
     <div class="battle-result">
       <battle-result></battle-result>
     </div>
-    <div class="board-container">
+    <div class="board-container bottom-board">
       <player-board :normalCards="normalCards" :player="'two'"></player-board>
     </div>
 
@@ -35,12 +35,21 @@ export default {
   background-color: lightblue;
 }
 
+.battle-result {
+  /* top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+  text-align: center;
+}
 
-  .battle-result {
-    /* top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%); */
-    text-align: center;
-  }
+.top-board {
+  background-image: url('../../public/img/yugioh_yami_yugi_mat.jpg');
+  background-size: cover;
+}
+
+.bottom-board {
+  background-image: url('../../public/img/yugioh_dark_armed_dragon_mat.png');
+  background-size: cover;
+}
 
 </style>
