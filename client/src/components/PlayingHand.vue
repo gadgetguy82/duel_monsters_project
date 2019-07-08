@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <card v-for="card in playerHand">
+    <card v-for="card in playerHand" :card="card">
 
     </card>
     <p>this is the playing hand</p>
