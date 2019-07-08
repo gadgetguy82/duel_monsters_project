@@ -29,5 +29,8 @@ export default {
     border-width: 1px;
     width: 100px;
     height: 150px;
+    background-image: url("../../public/card_back.png");
+    background-size: 100px;
+    color: white;
   }
 </style>

@@ -30,6 +30,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.board-container{
+  background-color: lightblue;
+}
+
 
   /* .battle-result {
     top: 50%;
