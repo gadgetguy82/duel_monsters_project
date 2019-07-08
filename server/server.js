@@ -8,6 +8,30 @@ app.use(parser.urlencoded({limit: '50mb', extended: true}));
 const cors = require('cors');
 app.use(cors());
 
+const http = require('http');
+const server = http.Server(app);
+
+const socketIO = require('socket.io');
+const io = socketIO(server);
+app.set('port', 5000);
+app.use('/public', express.static(__dirname + '/public'));
+
+const path = require('path');
+
+// Routing
+app.get('/', function(request, response) {
+  response.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// Starts the server.
+server.listen(5000, function() {
+  console.log('Starting server on port 5000');
+});
+
+io.on('connection', function(socket) {
+
+});
+
 const MongoClient = require('mongodb').MongoClient;
 const createRouter = require('./helpers/create_router.js');
 
