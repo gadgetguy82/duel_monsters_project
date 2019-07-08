@@ -9,7 +9,7 @@ import { eventBus } from '@/main.js'
 
 export default {
   name: 'playing-deck',
-  props: ['normalCards'],
+  props: ['deck'],
   methods: {
     addCardToPlayingHand(){
       const card = this.normalCards.pop();

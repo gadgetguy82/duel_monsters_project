@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="player-board-container">
     <div class="top-row">
-      <playing-deck :normalCards="normalCards"></playing-deck>
+      <playing-deck :deck="deck" ></playing-deck>
       <playing-hand></playing-hand>
       <life-points></life-points>
     </div>
