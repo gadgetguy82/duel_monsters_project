@@ -9,7 +9,7 @@
 import {eventBus1, eventBus2} from '@/main.js'
 export default {
   name: 'life_points',
-  props: ['player']
+  props: ['player'],
   data() {
     return {
       points: 8000
