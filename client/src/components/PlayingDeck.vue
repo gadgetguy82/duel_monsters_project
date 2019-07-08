@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="playing-deck-container">
-    <li v-on:click="addCardToPlayingHand" >Sample Click</li>
+  <div class="playing-deck-container" v-on:click="addCardToPlayingHand">
+    
   </div>
 </template>
 
