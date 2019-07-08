@@ -8,7 +8,7 @@
 // import {eventBus1, eventBus2} from '@/main.js'
 export default {
   name: "graveyard-deck",
-  props: ['player']
+  props: ['player'],
   data() {
     return {
       cards: []
