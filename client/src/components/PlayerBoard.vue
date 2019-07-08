@@ -20,13 +20,35 @@ import BattleHand from '@/components/BattleHand.vue'
 import GraveyardDeck from '@/components/GraveyardDeck.vue'
 export default {
   name: 'player-board',
+  data() {
+    return{
+      deck: []
+    }
+  },
+  props: ['normCards'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
     "life-points": LifePoints,
     "battle-hand": BattleHand,
     "graveyard-deck": GraveyardDeck
-  }
+  },
+
+  mounted() {
+    this.randomizeCards()
+    console.log(this.deck);
+
+  },
+
+  methods: {
+    randomizeCards() {
+      for (let i=0, i<40, i++) {
+        this.deck.push(this.normCards[Math.floor(Math.random()* this.normCards.length)])
+      }
+    },
+  },
+
+
 }
 </script>
 
