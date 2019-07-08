@@ -1,10 +1,10 @@
 <template lang="html">
   <div id='battlefield'>
     <p>Battlefield View</p>
-    <div class="board-container">
+    <div class="player-board-container">
       <player-board :normalCards="normalCards"></player-board>
     </div>
-    <div class="board-container">
+    <div class="ai-board-container">
       <ai-board></ai-board>
     </div>
   </div>
@@ -25,5 +25,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
+.player-board-container{
+  background-color: lightblue;
+}
+.ai-board-container{
+  background-color: lightgreen;
+}
 </style>
