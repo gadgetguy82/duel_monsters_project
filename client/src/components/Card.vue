@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="card">
+  <div class="card" v-on:click="addToBattleHand">
     <h4>Name:</h4>
     <p>atk: </p>
     <p>def: </p>
@@ -7,8 +7,16 @@
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
+
 export default {
-  name: 'card'
+  name: 'card',
+  props: ['card'],
+  methods: {
+    addToBattleHand(){
+      eventBus.$emit('select-card', this.card )
+    }
+  }
 
 }
 </script>

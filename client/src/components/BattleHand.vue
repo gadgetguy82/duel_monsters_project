@@ -1,12 +1,29 @@
 <template lang="html">
   <div class="battle-hand-container">
-    <p>this is the battlehand</p>
+    <!-- <p>this is the battlehand</p> -->
+    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index"></playing-card>
   </div>
 </template>
 
 <script>
+import { eventBus } from '@/main.js';
+import Card from '@/components/Card'
+
 export default {
-  name: "battlehand"
+  name: "battlehand",
+  data(){
+    return {
+      battleArray: []
+    }
+  },
+  mounted(){
+    eventBus.$on('select-card', card => {
+      this.battleArray.push(card);
+    })
+  },
+  components: {
+    "playing-card" : Card
+  }
 }
 </script>
 
