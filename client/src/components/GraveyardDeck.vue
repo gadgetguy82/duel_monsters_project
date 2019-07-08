@@ -5,16 +5,17 @@
 </template>
 
 <script>
-// import {eventBus} from '@/main.js'
+// import {eventBus1, eventBus2} from '@/main.js'
 export default {
   name: "graveyard-deck",
+  props: ['player']
   data() {
     return {
       cards: []
     }
   },
   mounted() {
-    // eventBus.$on('win-lose-card', card=>this.cards.push(card))
+    // eventBus1.$on('win-lose-card', card=>this.cards.push(card))
   }
 }
 </script>

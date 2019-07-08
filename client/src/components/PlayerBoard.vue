@@ -1,13 +1,13 @@
 <template lang="html">
   <div class="player-board-container">
     <div class="top-row">
-      <playing-deck :deck="deck" ></playing-deck>
-      <playing-hand></playing-hand>
-      <life-points></life-points>
+      <playing-deck :deck="deck" :player="player"></playing-deck>
+      <playing-hand :player="player"></playing-hand>
+      <life-points :player="player"></life-points>
     </div>
     <div class="bottom-row">
-      <battle-hand></battle-hand>
-      <graveyard-deck></graveyard-deck>
+      <battle-hand :player="player"></battle-hand>
+      <graveyard-deck :player="player"></graveyard-deck>
     </div>
   </div>
 </template>
@@ -18,7 +18,6 @@ import PlayingHand from '@/components/PlayingHand.vue'
 import LifePoints from '@/components/LifePoints.vue'
 import BattleHand from '@/components/BattleHand.vue'
 import GraveyardDeck from '@/components/GraveyardDeck.vue'
-import { eventBus } from '@/main.js'
 
 export default {
   name: 'player-board',
@@ -27,7 +26,7 @@ export default {
       deck: []
     }
   },
-  props: ['normalCards'],
+  props: ['normalCards', 'player'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,

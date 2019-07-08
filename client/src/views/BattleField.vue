@@ -2,10 +2,10 @@
   <div id='battlefield'>
     <p>Battlefield View</p>
     <div class="board-container">
-      <player-board :normalCards="normalCards"></player-board>
+      <player-board :normalCards="normalCards" :player="'one'"></player-board>
     </div>
     <div class="board-container">
-      <ai-board></ai-board>
+      <player-board :normalCards="normalCards" :player="'two'"></player-board>
     </div>
   </div>
 </template>
