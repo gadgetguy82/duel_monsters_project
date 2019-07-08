@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="result">
-    <playing-card>{{playerOneCard}}</playing-card>
+    <playing-card></playing-card>
     <p>Result</p>
-    <playing-card>{{playerTwoCard}}</playing-card>
+    <playing-card></playing-card>
   </div>
 </template>
 
@@ -19,14 +19,15 @@ export default {
     playerOneCard(){
       eventBus1.$on('select-battlecard', card => {
         return card;
-      });
+      })
     },
     playerTwoCard(){
       eventBus2.$on('select-battlecard', card => {
         return card;
-      });
+      })
     }
   }
+
 }
 </script>
 
