@@ -5,8 +5,18 @@
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
+
 export default {
-  name: "playing-hand"
+  name: "playing-hand",
+  data() {
+    return {
+      playerHand: []
+    }
+  },
+  mounted() {
+    eventBus.$on('one-card', card => this.playerHand.push(card))
+  }
 }
 </script>
 

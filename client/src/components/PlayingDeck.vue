@@ -1,12 +1,21 @@
 <template lang="html">
   <div class="playing-deck-container">
-    <p>this is the playing deck</p>
+    <li v-on:click="addCardToPlayingHand" >Sample Click</li>
   </div>
 </template>
 
 <script>
+import { eventBus } from '@/main.js'
+
 export default {
-  name: 'playing-deck'
+  name: 'playing-deck',
+  props: ['normalCards'],
+  methods: {
+    addCardToPlayingHand(){
+      const card = this.normalCards.pop();
+      eventBus.$emit('one-card', card);
+    }
+  }
 }
 </script>
 
