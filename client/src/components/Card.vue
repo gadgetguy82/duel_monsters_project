@@ -1,8 +1,11 @@
 <template lang="html">
   <div class="card">
-    <h4>{{card.name}}</h4>
+    <!-- <h4>{{card.name}}</h4>
     <p>atk: {{card.atk}} </p>
-    <p>def: {{card.def}} </p>
+    <p>def: {{card.def}} </p> -->
+    <!-- <p>im: {{card.card_images[0].image_url_small}}</p> -->
+    <img :src="card.card_images[0].image_url_small">
+    
   </div>
 </template>
 
@@ -12,6 +15,7 @@ import { eventBus } from '@/main.js'
 export default {
   name: 'card',
   props: ['card']
+
 }
 </script>
 
@@ -22,4 +26,8 @@ export default {
   width: 100px;
   height: 150px;
 }
+img {
+  height: 150px;
+}
+
 </style>
