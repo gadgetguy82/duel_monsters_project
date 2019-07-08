@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="battle-hand-container">
     <!-- <p>this is the battlehand</p> -->
-    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index"></playing-card>
+    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index" v-on:click.native="addToBattleResult(card)"></playing-card>
   </div>
 </template>
 
@@ -21,6 +21,11 @@ export default {
       this.battleArray.push(card);
     })
   },
+  methods: {
+    addToBattleResult(card) {
+      eventBus.$emit('select-battlecard', card);
+    }
+  }
   components: {
     "playing-card" : Card
   }
