@@ -12,7 +12,7 @@ export default {
   props: ['deck'],
   methods: {
     addCardToPlayingHand(){
-      const card = this.normalCards.pop();
+      const card = this.deck.pop();
       eventBus.$emit('one-card', card);
     }
   }
