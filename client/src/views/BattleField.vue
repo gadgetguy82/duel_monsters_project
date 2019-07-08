@@ -7,17 +7,22 @@
     <div class="board-container">
       <player-board :normalCards="normalCards" :player="'two'"></player-board>
     </div>
+    <div class="battle-result">
+      <battle-result></battle-result>
+    </div>
   </div>
 </template>
 
 <script>
-import AIBoard from "@/components/AiBoard.vue"
-import PlayerBoard from "@/components/PlayerBoard.vue"
+import AIBoard from "@/components/AiBoard.vue";
+import PlayerBoard from "@/components/PlayerBoard.vue";
+import BattleResult from "@/components/BattleResult.vue";
 export default {
   name: 'battlefield',
   components: {
     "player-board": PlayerBoard,
-    "ai-board": AIBoard
+    "ai-board": AIBoard,
+    "battle-result" : BattleResult
   },
   props: ['normalCards']
 }
@@ -25,5 +30,11 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+  /* .battle-result {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } */
 
 </style>
