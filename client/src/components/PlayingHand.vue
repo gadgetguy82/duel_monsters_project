@@ -26,9 +26,15 @@ export default {
   },
   methods: {
     addToBattleHand(card){
-      eventBus1.$emit('select-card', card );
-      const index = this.playerHand.findIndex(handCard => handCard === card);
-      this.playerHand.splice(index, 1);
+      if (this.player === "one") {
+        eventBus1.$emit('select-card', card );
+        const index = this.playerHand.findIndex(handCard => handCard === card);
+        this.playerHand.splice(index, 1);
+      } else {
+        eventBus2.$emit('select-card', card );
+        const index = this.playerHand.findIndex(handCard => handCard === card);
+        this.playerHand.splice(index, 1);
+      }
     }
   },
   components: {
