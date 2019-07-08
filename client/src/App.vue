@@ -32,4 +32,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+#view {
+  background-image: url('../public/img/yugioh_god_cards.jpg');
+  background-size: cover;
+  height: 600px;
+}
+
+a {
+  color: #FFFFFF;
+}
+
 </style>
