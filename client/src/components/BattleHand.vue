@@ -37,6 +37,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   height: 150px;
-  width: 500px
+  width: 500px;
+  display: flex;
 }
 </style>

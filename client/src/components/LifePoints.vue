@@ -1,12 +1,21 @@
 <template lang="html">
   <div class="life-points-container">
-    <p>this is life points</p>
+    <h1>life points</h1>
+    <p>{{this.points}}</p>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'life-points'
+  name: 'life_points',
+  data() {
+    return {
+      points: 8000
+    }
+  },
+ mounted() {
+   // eventBus.$on('win-lose', result=>this.life_points+=result)
+ }
 }
 </script>
 
@@ -16,5 +25,9 @@ export default {
   width: 150px;
   border-style: solid;
   border-width: 1px;
+}
+h1{
+  font-size: 12px;
+
 }
 </style>
