@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="playing-hand-container">
     <!-- <p>this is the playing hand</p> -->
-    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card"></playing-card>
+    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="addToBattleHand(card)"></playing-card>
   </div>
 </template>
 
@@ -18,11 +18,13 @@ export default {
   },
   mounted() {
     eventBus.$on('one-card', card => this.playerHand.push(card))
-
-    eventBus.$on('select-card', card => {
+  },
+  methods: {
+    addToBattleHand(card){
+      eventBus.$emit('select-card', card );
       const index = this.playerHand.findIndex(handCard => handCard === card);
       this.playerHand.splice(index, 1);
-    })
+    }
   },
   components: {
     "playing-card": Card
