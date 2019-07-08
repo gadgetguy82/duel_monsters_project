@@ -25,7 +25,7 @@ export default {
     addToBattleResult(card) {
       eventBus.$emit('select-battlecard', card);
     }
-  }
+  },
   components: {
     "playing-card" : Card
   }
