@@ -26,7 +26,8 @@ export default {
     "life-points": LifePoints,
     "battle-hand": BattleHand,
     "graveyard-deck": GraveyardDeck
-  }
+  },
+  props: ['normalCards']
 }
 </script>
 
