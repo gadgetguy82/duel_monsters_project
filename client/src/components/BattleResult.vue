@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="result">
-    <playing-card></playing-card>
-    <p>Result</p>
-    <playing-card></playing-card>
+    <playing-card v-if="playerOneCard"></playing-card>
+    <p>----Battle Result Area----</p>
+    <playing-card v-if="playerTwoCard"></playing-card>
   </div>
 </template>
 
@@ -12,20 +12,23 @@ import Card from '@/components/Card'
 
 export default {
   name: 'battle-result',
+  data(){
+    return{
+      playerOneCard: null,
+      playerTwoCard: null,
+
+    }
+  },
   components: {
     "playing-card" : Card
   },
-  computed: {
-    playerOneCard(){
-      eventBus1.$on('select-battlecard', card => {
-        return card;
-      })
-    },
-    playerTwoCard(){
-      eventBus2.$on('select-battlecard', card => {
-        return card;
-      })
-    }
+  mounted() {
+    eventBus1.$on('select-battlecard', card => {
+      this.playerOneCard = card;
+    });
+    eventBus2.$on('select-battlecard', card => {
+      this.playerTwoCard = card;
+    });
   }
 
 }

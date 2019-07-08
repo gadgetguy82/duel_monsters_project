@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  name: 'card',
+  name: 'playing-card',
   props: ['card']
 
 }

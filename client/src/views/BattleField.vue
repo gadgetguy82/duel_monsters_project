@@ -4,12 +4,13 @@
     <div class="board-container">
       <player-board :normalCards="normalCards" :player="'one'"></player-board>
     </div>
-    <div class="board-container">
-      <player-board :normalCards="normalCards" :player="'two'"></player-board>
-    </div>
     <div class="battle-result">
       <battle-result></battle-result>
     </div>
+    <div class="board-container">
+      <player-board :normalCards="normalCards" :player="'two'"></player-board>
+    </div>
+
   </div>
 </template>
 
@@ -35,10 +36,11 @@ export default {
 }
 
 
-  /* .battle-result {
-    top: 50%;
+  .battle-result {
+    /* top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
-  } */
+    transform: translate(-50%, -50%); */
+    text-align: center;
+  }
 
 </style>
