@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'home' }"> Home </router-link>
       <router-link :to="{ name: 'battlefield' }"> Battlefield </router-link>
     </nav>
-    <router-view id='view' :normCards="normalMonsterCards"></router-view>
+    <router-view id='view' :normalCards="normalMonsterCards"></router-view>
   </div>
 </template>
 

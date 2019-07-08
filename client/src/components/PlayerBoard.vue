@@ -25,7 +25,7 @@ export default {
       deck: []
     }
   },
-  props: ['normCards'],
+  props: ['normalCards'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
@@ -33,22 +33,18 @@ export default {
     "battle-hand": BattleHand,
     "graveyard-deck": GraveyardDeck
   },
-
   mounted() {
-    this.randomizeCards()
+    this.randomizeCards();
     console.log(this.deck);
-
   },
-
   methods: {
     randomizeCards() {
-      for (let i=0; i<40; i++) {
-        this.deck.push(this.normCards[Math.floor(Math.random()* this.normCards.length)])
+      for (let i = 0; i < 40; i++) {
+        const index = Math.floor(Math.random() * this.normalCards.length);
+        this.deck.push(this.normalCards[index]);
       }
-    },
-  },
-
-
+    }
+  }
 }
 </script>
 
