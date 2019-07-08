@@ -6,24 +6,35 @@
 </template>
 
 <script>
-import { eventBus } from '@/main.js'
+import { eventBus1, eventBus2 } from '@/main.js'
 import Card from '@/components/Card'
 
 export default {
   name: "playing-hand",
+  props: ['player'],
   data() {
     return {
       playerHand: []
     }
   },
   mounted() {
-    eventBus.$on('one-card', card => this.playerHand.push(card))
+    if (this.player === 'one') {
+      eventBus1.$on('one-card', card => this.playerHand.push(card))
+    } else {
+      eventBus2.$on('one-card', card => this.playerHand.push(card))
+    }
   },
   methods: {
     addToBattleHand(card){
-      eventBus.$emit('select-card', card );
-      const index = this.playerHand.findIndex(handCard => handCard === card);
-      this.playerHand.splice(index, 1);
+      if (this.player === "one") {
+        eventBus1.$emit('select-card', card );
+        const index = this.playerHand.findIndex(handCard => handCard === card);
+        this.playerHand.splice(index, 1);
+      } else {
+        eventBus2.$emit('select-card', card );
+        const index = this.playerHand.findIndex(handCard => handCard === card);
+        this.playerHand.splice(index, 1);
+      }
     }
   },
   components: {

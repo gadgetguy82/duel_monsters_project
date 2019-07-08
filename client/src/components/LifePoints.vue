@@ -6,16 +6,17 @@
 </template>
 
 <script>
-import {eventBus} from '@/main.js'
+import {eventBus1, eventBus2} from '@/main.js'
 export default {
   name: 'life_points',
+  props: ['player'],
   data() {
     return {
       points: 8000
     }
   },
  mounted() {
-   // eventBus.$on('win-lose', result=>this.life_points+=result)
+   // eventBus1.$on('win-lose', result=>this.life_points+=result)
  }
 }
 </script>

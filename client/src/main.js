@@ -4,7 +4,8 @@ import router from '@/router.js';
 
 Vue.config.productionTip = false;
 
-export const eventBus = new Vue();
+export const eventBus1 = new Vue();
+export const eventBus2 = new Vue();
 
 new Vue({
   router,

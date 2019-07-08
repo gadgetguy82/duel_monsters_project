@@ -5,15 +5,19 @@
 </template>
 
 <script>
-import { eventBus } from '@/main.js'
+import { eventBus1, eventBus2 } from '@/main.js'
 
 export default {
   name: 'playing-deck',
-  props: ['deck'],
+  props: ['deck', 'player'],
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      eventBus.$emit('one-card', card);
+      if (this.player === "one") {
+        eventBus1.$emit('one-card', card);
+      } else {
+        eventBus2.$emit('one-card', card);
+      }
     }
   }
 }
