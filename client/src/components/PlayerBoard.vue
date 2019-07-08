@@ -22,6 +22,12 @@ import { eventBus } from '@/main.js'
 
 export default {
   name: 'player-board',
+  data() {
+    return{
+      deck: []
+    }
+  },
+  props: ['normalCards'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
@@ -29,8 +35,17 @@ export default {
     "battle-hand": BattleHand,
     "graveyard-deck": GraveyardDeck
   },
-  props: ['normalCards'],
+  mounted() {
+    this.randomizeCards();
+    console.log(this.deck);
+  },
   methods: {
+    randomizeCards() {
+      for (let i = 0; i < 40; i++) {
+        const index = Math.floor(Math.random() * this.normalCards.length);
+        this.deck.push(this.normalCards[index]);
+      }
+    }
   }
 }
 </script>
