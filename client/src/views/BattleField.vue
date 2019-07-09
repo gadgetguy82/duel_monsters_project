@@ -1,6 +1,5 @@
 <template lang="html">
   <div id='battlefield'>
-    <p>Battlefield View</p>
     <div class="board-container top-board">
       <player-board :normalCards="normalCards" :player="'one'"></player-board>
     </div>
@@ -46,13 +45,13 @@ export default {
 
 .top-board {
   /* background-image: url('../../public/img/yugioh_ra_light.jpg'); */
-  background-color: rgba(201, 169, 109, 0.5);
+  background-color: rgba(201, 169, 109, 0.7);
   background-size: cover;
 }
 
 .bottom-board {
   /* background-image: url('../../public/img/yugioh_obelisk_light.jpg'); */
-  background-color: rgba(109, 140, 201, 0.5);
+  background-color: rgba(109, 140, 201, 0.7);
   background-size: cover;
 }
 
