@@ -57,7 +57,7 @@ export default {
   margin: 0px;
   width: 100%;
   /* padding: 0 140px; */
-  height: 400px;
+  /* height: 400px; */
   display: flex;
   flex-direction: column;
 }
