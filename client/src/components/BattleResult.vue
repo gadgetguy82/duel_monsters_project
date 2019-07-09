@@ -1,8 +1,8 @@
 <template lang="html">
   <div class="result">
-    <playing-card v-if="playerOneCard"></playing-card>
+    <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
     <p>----Battle Result Area----</p>
-    <playing-card v-if="playerTwoCard"></playing-card>
+    <playing-card v-if="playerTwoCard" :card="playerTwoCard"></playing-card>
   </div>
 </template>
 
