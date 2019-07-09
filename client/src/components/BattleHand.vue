@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="battle-hand-container">
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
-      <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
+      <playing-card :card="card" :emptyhand="emptyHand" v-on:click.native="addToBattleResult(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)">attack</button>
       <button v-if="card" v-on:click="setDefence(card)">defence</button>
     </div>
@@ -17,7 +17,11 @@ export default {
   props: ['player'],
   data(){
     return {
-      battleArray: []
+      battleArray: [],
+      emptyHand: {
+        atk: 0,
+        def: 0
+      }
     }
   },
   watch: {
@@ -74,11 +78,22 @@ export default {
         eventBus2.$emit('select-battlecard', card);
       }
     },
+
     setAttack(card) {
       card.position = "atk";
     },
     setDefence(card) {
       card.position = "def";
+    },
+
+    checkBattleHand() {
+      if (this.battleArray.length === 0 ) {
+        if (this.player === "one") {
+          eventBus1.$emit('empty-battlehand', this.emptyHand);
+        } else {
+          eventBus2.$emit('empty-battlehand', this.emptyHand);
+        }
+      }
     }
   },
   components: {
