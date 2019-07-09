@@ -63,11 +63,11 @@ export default {
 }
 
 .player-board-container.top {
-  justify-content: flex-end;
+  justify-content: space-around;
 }
 .player-board-container.bottom {
   flex-direction: column-reverse;
-  justify-content: flex-end;
+  justify-content: space-around;
 }
 
 .player-board-container.bottom .top-row {
