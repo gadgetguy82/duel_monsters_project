@@ -1,8 +1,19 @@
 <template lang="html">
   <div class="result">
-    <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
-    <p>----Battle Result Area----</p>
-    <playing-card v-if="playerTwoCard" :card="playerTwoCard"></playing-card>
+    <div class="result-container">
+      <div class="player-one">
+        <h4>Player One</h4>
+        <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
+      </div>
+      <div>
+        <p>----Battle Result Area----</p>
+        <button v-if="playerOneCard && playerTwoCard" v-on:click="battleWinner">Fight!!!</button>
+      </div>
+      <div class="player-two">
+        <h4>Player Two</h4>
+        <playing-card v-if="playerTwoCard" :card="playerTwoCard"></playing-card>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -25,11 +36,11 @@ export default {
   mounted() {
     eventBus1.$on('select-battlecard', card => {
       this.playerOneCard = card;
-      this.battleWinner();
+      // this.battleWinner();
     });
     eventBus2.$on('select-battlecard', card => {
       this.playerTwoCard = card;
-      this.battleWinner();
+      // this.battleWinner();
     });
 
   },
@@ -61,7 +72,31 @@ export default {
 
 <style lang="css" scoped>
 
-  .result {
-    z-index: 1;
-  }
+.result {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: rgba(251, 140, 109, 0.5);
+  /* top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); */
+}
+
+.result-container {
+  display: flex;
+  align-items: center;
+}
+
+.player-one, .player-two {
+  width: 100px;
+  height: 170px;
+  border: 1px solid #000000;
+  border-radius: 5px;
+}
+
+h4 {
+  margin: 0;
+}
+
 </style>
