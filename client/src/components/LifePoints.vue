@@ -43,6 +43,7 @@ export default {
   height: 70px;
   width: 150px;
   border-style: solid;
+  border-radius: 5px;
   border-width: 1px;
   background-color: rgba(255,255,255,0.4)
 }
