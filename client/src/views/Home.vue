@@ -1,8 +1,12 @@
 <template lang="html">
   <div id='home'>
     <div id="background">
-    <button v-on:click='fetchData'>Update Database</button>
-  </div>
+      <h1>Duel Monsters Card Game</h1>
+      <h2>--Rules of Play--</h2>
+      <button><router-link :to="{ name: 'battlefield'}"> BEGIN GAME!</router-link></button>
+      <p>Select 'update database' for the most current card collection</p>
+      <button v-on:click='fetchData'>Update Database</button>
+    </div>
   </div>
 </template>
 
@@ -29,7 +33,15 @@ export default {
 </script>
 
 <style lang="css" scoped>
-#background{
-  height: 1000px;
-}
+
+  #background {
+    padding: 50px;
+    color: #FF8C00;
+    height: 685px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* border: 2px solid black; */
+
+  }
 </style>

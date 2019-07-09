@@ -4,7 +4,9 @@
       <router-link :to="{ name: 'home' }"> HOME </router-link>
       <router-link :to="{ name: 'battlefield' }"> BATTLEFIELD </router-link>
     </nav>
-    <router-view id='view' :normalCards="normalMonsterCards"></router-view>
+    <div class="view">
+      <router-view id='view' :normalCards="normalMonsterCards"></router-view>
+    </div>
   </div>
 </template>
 
@@ -40,12 +42,13 @@ export default {
   /* height: 600px; */
   background-size: cover;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  /* background-attachment: fixed; */
   background-position: center;
 }
 
 a {
-  padding:20px;
+  margin:0;
+  padding:0 20px;
   text-decoration: none;
   color: rgb(100, 250, 140);
   font-weight: bold;
