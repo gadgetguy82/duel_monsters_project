@@ -25,32 +25,32 @@ export default {
   mounted() {
     eventBus1.$on('select-battlecard', card => {
       this.playerOneCard = card;
+      this.battleWinner();
     });
     eventBus2.$on('select-battlecard', card => {
       this.playerTwoCard = card;
+      this.battleWinner();
     });
+
   },
-  computed: {
+  methods: {
     battleWinner(){
       if ((this.playerOneCard !== null) && (this.playerTwoCard !== null)) {
         if (this.playerOneCard.atk < this.playerTwoCard.atk) {
           let damage = this.playerOneCard.atk - this.playerTwoCard.atk;
           eventBus1.$emit('lose', {card: this.playerOneCard,
-                                   damage: damage})
-        } else {
-          let damage = this.playerTwoCard.atk - this.playerOneCard.atk;
-          eventBus2.$emit('lose', {card: this.playerTwoCard,
-                                   damage: damage})
-        };
-        this.playerOneCard = null;
-        this.playerTwoCard = null;
+            damage: damage})
+          } else {
+            let damage = this.playerTwoCard.atk - this.playerOneCard.atk;
+            eventBus2.$emit('lose', {card: this.playerTwoCard,
+              damage: damage})
+          };
+          this.playerOneCard = null;
+          this.playerTwoCard = null;
+        }
       }
     }
-    //do calculation
-    //winner: card, player, and lifepoints.
   }
-
-}
 </script>
 
 <style lang="css" scoped>
