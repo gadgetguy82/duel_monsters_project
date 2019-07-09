@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <!-- <p>this is the playing hand</p> -->
     <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="addToBattleHand(card)"></playing-card>
   </div>
 </template>

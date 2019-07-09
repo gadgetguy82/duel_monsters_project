@@ -27,7 +27,7 @@ export default {
       deck: []
     }
   },
-  props: ['normalCards', 'player'],
+  props: ['normalCards', 'player', 'turn', 'phase'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
@@ -56,8 +56,6 @@ export default {
   border-width: 1px;
   margin: 0px;
   width: 100%;
-  /* padding: 0 140px; */
-  /* height: 400px; */
   display: flex;
   flex-direction: column;
 }
