@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="playing-deck-container" v-on:click="addCardToPlayingHand">
-    
+
   </div>
 </template>
 
@@ -27,6 +27,7 @@ export default {
   .playing-deck-container {
     border-style: solid;
     border-width: 1px;
+    border-radius: 5px;
     width: 100px;
     height: 150px;
     background-image: url("../../public/card_back.png");

@@ -47,6 +47,7 @@ export default {
 .playing-hand-container{
   border-width: 1px;
   border-style: solid;
+  border-radius: 5px;
   height: 150px;
   width: 500px;
   display: flex;

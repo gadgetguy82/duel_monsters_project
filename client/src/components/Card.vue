@@ -26,6 +26,7 @@ export default {
 }
 img {
   height: 150px;
+  border-radius: 5px;
 }
 #card:hover .text{
   visibility: visible;
