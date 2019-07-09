@@ -21,6 +21,7 @@ export default {
 .card{
   border-style: solid;
   border-width: 1px;
+  border-radius: 5px;
   width: 100px;
   height: 150px;
 }

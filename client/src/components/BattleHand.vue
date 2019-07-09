@@ -63,7 +63,7 @@ export default {
   border-style: solid;
   border-radius: 5px;
   height: 150px;
-  width: 500px;
+  width: 510px;
   display: flex;
 }
 </style>
