@@ -44,6 +44,7 @@ export default {
   width: 150px;
   border-style: solid;
   border-width: 1px;
+  background-color: rgba(255,255,255,0.4)
 }
 p{
   font-size: 17px;

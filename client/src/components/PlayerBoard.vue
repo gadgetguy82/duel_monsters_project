@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="player-board-container">
+  <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
       <playing-deck :deck="deck" :player="player"></playing-deck>
       <playing-hand :player="player"></playing-hand>
@@ -56,16 +56,33 @@ export default {
   border-width: 1px;
   margin: 0px;
   width: 100%;
+  /* padding: 0 140px; */
   height: 400px;
-}
-.top-row{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
-.bottom-row{
+
+.player-board-container.top {
+  justify-content: flex-end;
+}
+.player-board-container.bottom {
+  flex-direction: column-reverse;
+  justify-content: flex-end;
+}
+
+.player-board-container.bottom .top-row {
+  align-items: flex-end;
+}
+
+.top-row, .bottom-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
+
+.top-row > *, .bottom-row > * {
+  margin: 0 20px;
+}
+
 .spell-and-trap-cards{
   width: 53px;
 }

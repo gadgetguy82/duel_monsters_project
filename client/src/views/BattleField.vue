@@ -46,13 +46,13 @@ export default {
 
 .top-board {
   /* background-image: url('../../public/img/yugioh_ra_light.jpg'); */
-  background-color: rgba(201, 169, 109, 0.5);
+  background-color: rgba(201, 169, 109, 0.85);
   background-size: cover;
 }
 
 .bottom-board {
   /* background-image: url('../../public/img/yugioh_obelisk_light.jpg'); */
-  background-color: rgba(109, 140, 201, 0.5);
+  background-color: rgba(109, 140, 201, 0.85);
   background-size: cover;
 }
 
