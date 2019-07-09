@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="battle-hand-container">
+  <div class="battle-hand-container" v-on:click="checkBattleHand">
     <!-- <p>this is the battlehand</p> -->
-    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index" v-on:click.native="addToBattleResult(card)"></playing-card>
+    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index" :emptyhand="emptyHand" v-on:click.native="addToBattleResult(card)"></playing-card>
   </div>
 </template>
 
@@ -14,7 +14,11 @@ export default {
   props: ['player'],
   data(){
     return {
-      battleArray: []
+      battleArray: [],
+      emptyHand: {
+        atk: 0,
+        def: 0
+      }
     }
   },
   mounted(){
@@ -48,6 +52,15 @@ export default {
         eventBus1.$emit('select-battlecard', card);
       } else {
         eventBus2.$emit('select-battlecard', card);
+      }
+    },
+    checkBattleHand() {
+      if (this.battleArray.length === 0 ) {
+        if (this.player === "one") {
+          eventBus1.$emit('empty-battlehand', this.emptyHand);
+        } else {
+          eventBus2.$emit('empty-battlehand', this.emptyHand);
+        }
       }
     }
   },

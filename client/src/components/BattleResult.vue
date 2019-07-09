@@ -23,6 +23,7 @@ import Card from '@/components/Card'
 
 export default {
   name: 'battle-result',
+  props: ['emptyHand'],
   data(){
     return{
       playerOneCard: null,
@@ -41,6 +42,12 @@ export default {
       this.playerTwoCard = card;
     });
 
+    eventBus1.$on('empty-battlehand', empty => {
+      this.playerOneCard = empty;
+    });
+    eventBus2.$on('empty-battlehand', empty => {
+      this.playerTwoCard = empty;
+    });
   },
   methods: {
     battleWinner(){
