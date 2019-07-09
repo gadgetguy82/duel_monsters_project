@@ -66,4 +66,7 @@ export default {
   display: flex;
   justify-content: space-between;
 }
+.spell-and-trap-cards{
+  width: 53px;
+}
 </style>
