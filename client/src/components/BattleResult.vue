@@ -36,11 +36,9 @@ export default {
   mounted() {
     eventBus1.$on('select-battlecard', card => {
       this.playerOneCard = card;
-      // this.battleWinner();
     });
     eventBus2.$on('select-battlecard', card => {
       this.playerTwoCard = card;
-      // this.battleWinner();
     });
 
   },
@@ -49,14 +47,24 @@ export default {
       if ((this.playerOneCard !== null) && (this.playerTwoCard !== null)) {
         const playerOneAtk = parseInt(this.playerOneCard.atk);
         const playerTwoAtk = parseInt(this.playerTwoCard.atk);
+        let damage = 0;
         if (playerOneAtk < playerTwoAtk) {
-          let damage = playerOneAtk - playerTwoAtk;
+          damage = playerOneAtk - playerTwoAtk;
           eventBus1.$emit('lose', {
             card: this.playerOneCard,
             damage: damage
           });
+        } else if (playerOneAtk > playerTwoAtk) {
+          damage = playerTwoAtk - playerOneAtk;
+          eventBus2.$emit('lose', {
+            card: this.playerTwoCard,
+            damage: damage
+          });
         } else {
-          let damage = playerTwoAtk - playerOneAtk;
+          eventBus1.$emit('lose', {
+            card: this.playerOneCard,
+            damage: damage
+          });
           eventBus2.$emit('lose', {
             card: this.playerTwoCard,
             damage: damage
