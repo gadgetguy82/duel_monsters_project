@@ -7,6 +7,9 @@
     <div class="battle-result">
       <battle-result></battle-result>
     </div>
+    <div class="win-lose">
+      <win-lose></win-lose>
+    </div>
     <div class="board-container bottom-board">
       <player-board :normalCards="normalCards" :player="'two'"></player-board>
     </div>
@@ -18,12 +21,14 @@
 import AIBoard from "@/components/AiBoard.vue";
 import PlayerBoard from "@/components/PlayerBoard.vue";
 import BattleResult from "@/components/BattleResult.vue";
+import WinLose from "@/components/WinLose.vue";
 export default {
   name: 'battlefield',
   components: {
     "player-board": PlayerBoard,
     "ai-board": AIBoard,
-    "battle-result" : BattleResult
+    "battle-result" : BattleResult,
+    "win-lose": WinLose
   },
   props: ['normalCards']
 }

@@ -20,8 +20,10 @@ export default {
       if (this.points <= 0) {
         if (this.player === "one") {
           eventBus1.$emit('defeat', this.player);
+          eventBus2.$emit('winner', "two");
         } else {
           eventBus2.$emit('defeat', this.player);
+          eventBus1.$emit('winner', "one");
         }
       }
     }
