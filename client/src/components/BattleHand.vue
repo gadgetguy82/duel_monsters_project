@@ -1,7 +1,10 @@
 <template lang="html">
   <div class="battle-hand-container">
-    <!-- <p>this is the battlehand</p> -->
-    <playing-card v-for="(card,index) in battleArray" :card="card" :key="index" v-on:click.native="addToBattleResult(card)"></playing-card>
+    <div class="card-container" v-for="(card,index) in battleArray" :key="index">
+      <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
+      <button v-if="card" v-on:click="setAttack(card)">attack</button>
+      <button v-if="card" v-on:click="setDefence(card)">defence</button>
+    </div>
   </div>
 </template>
 
@@ -17,14 +20,35 @@ export default {
       battleArray: []
     }
   },
+  watch: {
+    battleArray: function() {
+      if (this.battleArray.length === 5) {
+        if (this.player === "one") {
+          eventBus1.$emit("monster-zone", "full");
+        } else {
+          eventBus2.$emit("monster-zone", "full");
+        }
+      } else {
+        if (this.player === "two") {
+          eventBus1.$emit("monster-zone", "space");
+        } else {
+          eventBus2.$emit("monster-zone", "space");
+        }
+      }
+    }
+  },
   mounted(){
     if (this.player === "one") {
       eventBus1.$on('select-card', card => {
-        this.battleArray.push(card);
+        if (this.battleArray.length < 5) {
+          this.battleArray.push(card);
+        }
       })
     } else {
       eventBus2.$on('select-card', card => {
-        this.battleArray.push(card);
+        if (this.battleArray.length < 5) {
+          this.battleArray.push(card);
+        }
       })
     };
 
@@ -49,6 +73,12 @@ export default {
       } else {
         eventBus2.$emit('select-battlecard', card);
       }
+    },
+    setAttack(card) {
+      card.position = "atk";
+    },
+    setDefence(card) {
+      card.position = "def";
     }
   },
   components: {
@@ -62,7 +92,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 150px;
+  height: 170px;
   width: 510px;
   display: flex;
 }

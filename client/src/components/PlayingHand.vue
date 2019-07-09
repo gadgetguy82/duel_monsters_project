@@ -13,26 +13,33 @@ export default {
   props: ['player'],
   data() {
     return {
-      playerHand: []
+      playerHand: [],
+      monsterZone: "space"
     }
   },
   mounted() {
     if (this.player === 'one') {
-      eventBus1.$on('one-card', card => this.playerHand.push(card))
+      eventBus1.$on('one-card', card => this.playerHand.push(card));
+      eventBus1.$on('monster-zone', full => this.monsterZone = full);
     } else {
       eventBus2.$on('one-card', card => this.playerHand.push(card))
+      eventBus2.$on('monster-zone', full => this.monsterZone = full);
     }
   },
   methods: {
     addToBattleHand(card){
       if (this.player === "one") {
         eventBus1.$emit('select-card', card );
-        const index = this.playerHand.findIndex(handCard => handCard === card);
-        this.playerHand.splice(index, 1);
+        if (this.monsterZone !== "full") {
+          const index = this.playerHand.findIndex(handCard => handCard === card);
+          this.playerHand.splice(index, 1);
+        }
       } else {
         eventBus2.$emit('select-card', card );
-        const index = this.playerHand.findIndex(handCard => handCard === card);
-        this.playerHand.splice(index, 1);
+        if (this.monsterZone !== "full") {
+          const index = this.playerHand.findIndex(handCard => handCard === card);
+          this.playerHand.splice(index, 1);
+        }
       }
     }
   },
