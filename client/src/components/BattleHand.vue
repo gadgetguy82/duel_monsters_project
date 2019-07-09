@@ -26,7 +26,21 @@ export default {
       eventBus2.$on('select-card', card => {
         this.battleArray.push(card);
       })
-    }
+    };
+
+    if (this.player === "one") {
+      eventBus1.$on('lose', result => {
+        const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
+        this.battleArray.splice(index, 1);
+      })
+    } else {
+      eventBus2.$on('lose', result => {
+        const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
+        this.battleArray.splice(index, 1);
+      })
+    };
+
+
   },
   methods: {
     addToBattleResult(card) {
