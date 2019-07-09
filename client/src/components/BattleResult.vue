@@ -36,21 +36,29 @@ export default {
   methods: {
     battleWinner(){
       if ((this.playerOneCard !== null) && (this.playerTwoCard !== null)) {
-        if (this.playerOneCard.atk < this.playerTwoCard.atk) {
-          let damage = this.playerOneCard.atk - this.playerTwoCard.atk;
-          eventBus1.$emit('lose', {card: this.playerOneCard,
-            damage: damage})
-          } else {
-            let damage = this.playerTwoCard.atk - this.playerOneCard.atk;
-            eventBus2.$emit('lose', {card: this.playerTwoCard,
-              damage: damage})
-          };
-          this.playerOneCard = null;
-          this.playerTwoCard = null;
+        const playerOneAtk = parseInt(this.playerOneCard.atk);
+        const playerTwoAtk = parseInt(this.playerTwoCard.atk);
+        if (playerOneAtk < playerTwoAtk) {
+          let damage = playerOneAtk - playerTwoAtk;
+          console.log('if', damage);
+          eventBus1.$emit('lose', {
+            card: this.playerOneCard,
+            damage: damage
+          });
+        } else {
+          let damage = playerTwoAtk - playerOneAtk;
+          console.log('else', damage);
+          eventBus2.$emit('lose', {
+            card: this.playerTwoCard,
+            damage: damage
+          });
         }
+        this.playerOneCard = null;
+        this.playerTwoCard = null;
       }
     }
   }
+}
 </script>
 
 <style lang="css" scoped>
