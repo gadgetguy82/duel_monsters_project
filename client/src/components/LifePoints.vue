@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="life-points-container">
-    <h1>life points</h1>
-    <p>{{this.points}}</p>
+    <p>☠️life points☠️ <br>
+    {{this.points}}</p>
   </div>
 </template>
 
@@ -38,13 +38,17 @@ export default {
 
 <style lang="css" scoped>
 .life-points-container{
-  height: 50px;
+  height: 70px;
   width: 150px;
   border-style: solid;
   border-width: 1px;
 }
-h1{
-  font-size: 12px;
+p{
+  font-size: 17px;
+  font-family: fantasy;
+  margin: 5px;
+  text-align: center;
+  text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
 
 }
 </style>
