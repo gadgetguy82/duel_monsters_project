@@ -1,8 +1,8 @@
 <template lang="html">
   <div id='app'>
     <nav>
-      <router-link :to="{ name: 'home' }"> Home </router-link>
-      <router-link :to="{ name: 'battlefield' }"> Battlefield </router-link>
+      <router-link :to="{ name: 'home' }"> HOME </router-link>
+      <router-link :to="{ name: 'battlefield' }"> BATTLEFIELD </router-link>
     </nav>
     <router-view id='view' :normalCards="normalMonsterCards"></router-view>
   </div>
@@ -45,7 +45,10 @@ export default {
 }
 
 a {
-  color: #FFFFFF;
+  padding:20px;
+  text-decoration: none;
+  color: rgb(100, 250, 140);
+  font-weight: bold;
 }
 
 </style>
