@@ -1,6 +1,8 @@
 <template lang="html">
   <div id='home'>
+    <div id="background">
     <button v-on:click='fetchData'>Update Database</button>
+  </div>
   </div>
 </template>
 
@@ -27,4 +29,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#background{
+  height: 1000px;
+}
 </style>
