@@ -40,14 +40,12 @@ export default {
         const playerTwoAtk = parseInt(this.playerTwoCard.atk);
         if (playerOneAtk < playerTwoAtk) {
           let damage = playerOneAtk - playerTwoAtk;
-          console.log('if', damage);
           eventBus1.$emit('lose', {
             card: this.playerOneCard,
             damage: damage
           });
         } else {
           let damage = playerTwoAtk - playerOneAtk;
-          console.log('else', damage);
           eventBus2.$emit('lose', {
             card: this.playerTwoCard,
             damage: damage

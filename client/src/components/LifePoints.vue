@@ -15,14 +15,24 @@ export default {
       points: 8000
     }
   },
- mounted() {
-   if ( this.player === "one") {
-     eventBus1.$on('lose', result=>this.points+=result.damage)
-   } else {
-     eventBus2.$on('lose', result=>this.points+=result.damage)
-   }
-
- }
+  watch: {
+    points: function () {
+      if (this.points <= 0) {
+        if (this.player === "one") {
+          eventBus1.$emit('defeat', this.player);
+        } else {
+          eventBus2.$emit('defeat', this.player);
+        }
+      }
+    }
+  },
+  mounted() {
+    if ( this.player === "one") {
+      eventBus1.$on('lose', result=>this.points+=result.damage)
+    } else {
+      eventBus2.$on('lose', result=>this.points+=result.damage)
+    }
+  }
 }
 </script>
 
