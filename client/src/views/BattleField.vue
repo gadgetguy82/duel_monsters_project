@@ -45,21 +45,13 @@ export default {
 
 .top-board {
   /* background-image: url('../../public/img/yugioh_ra_light.jpg'); */
-<<<<<<< HEAD
   background-color: rgba(201, 169, 109, 0.85);
-=======
-  background-color: rgba(201, 169, 109, 0.7);
->>>>>>> develop
   background-size: cover;
 }
 
 .bottom-board {
   /* background-image: url('../../public/img/yugioh_obelisk_light.jpg'); */
-<<<<<<< HEAD
   background-color: rgba(109, 140, 201, 0.85);
-=======
-  background-color: rgba(109, 140, 201, 0.7);
->>>>>>> develop
   background-size: cover;
 }
 
