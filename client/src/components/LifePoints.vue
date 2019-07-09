@@ -31,8 +31,10 @@ export default {
   mounted() {
     if ( this.player === "one") {
       eventBus1.$on('lose', result=>this.points+=result.damage)
+      eventBus1.$on('nowin', result=>this.points+=result.damage)
     } else {
       eventBus2.$on('lose', result=>this.points+=result.damage)
+      eventBus2.$on('nowin', result=>this.points+=result.damage)
     }
   }
 }
