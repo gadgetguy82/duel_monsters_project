@@ -43,12 +43,12 @@ export default {
 }
 
 .top-board {
-  background-image: url('../../public/img/yugioh_yami_yugi_mat.jpg');
+  background-image: url('../../public/img/yugioh_ra.jpg');
   background-size: cover;
 }
 
 .bottom-board {
-  background-image: url('../../public/img/yugioh_dark_armed_dragon_mat.png');
+  background-image: url('../../public/img/yugioh_obelisk.jpg');
   background-size: cover;
 }
 
