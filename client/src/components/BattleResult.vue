@@ -84,7 +84,7 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 200px;
+  /* height: 200px; */
   background-color: rgba(251, 140, 109, 0.5);
   /* top: 50%;
   left: 50%;
