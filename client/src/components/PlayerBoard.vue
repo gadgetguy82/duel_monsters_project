@@ -6,6 +6,7 @@
       <life-points :player="player"></life-points>
     </div>
     <div class="bottom-row">
+      <div class="spell-and-trap-cards"></div>
       <battle-hand :player="player"></battle-hand>
       <graveyard-deck :player="player"></graveyard-deck>
     </div>
