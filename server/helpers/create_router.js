@@ -38,6 +38,7 @@ const createRouter = function(collection) {
   }),
 
   router.post('/all', (req, res) => {
+    collection.drop();
     const body = req.body;
     collection.insertMany(body)
     .then((result) => res.json(result.ops))

@@ -16,7 +16,12 @@ export default {
     }
   },
  mounted() {
-   // eventBus1.$on('win-lose', result=>this.life_points+=result)
+   if ( this.player === "one") {
+     eventBus1.$on('lose', result=>this.points+=result.damage)
+   } else {
+     eventBus2.$on('lose', result=>this.points+=result.damage)
+   }
+
  }
 }
 </script>
