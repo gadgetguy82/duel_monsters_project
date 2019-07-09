@@ -29,9 +29,9 @@ export default {
     border-width: 1px;
     border-radius: 5px;
     width: 100px;
-    height: 150px;
+    height: 145px;
     background-image: url("../../public/card_back.png");
+    background-repeat: no-repeat;
     background-size: 100px;
-    color: white;
   }
 </style>
