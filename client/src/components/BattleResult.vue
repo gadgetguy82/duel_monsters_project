@@ -5,7 +5,7 @@
         <h4>Player One</h4>
         <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
       </div>
-      <div>
+      <div class="result-center">
         <p>----Battle Result Area----</p>
         <button v-if="playerOneCard && playerTwoCard" v-on:click="battleWinner">Fight!!!</button>
       </div>
@@ -135,8 +135,18 @@ export default {
   border-radius: 5px;
 }
 
+.result-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 h4 {
   margin: 0;
+}
+
+button {
+  width: 60%;
 }
 
 </style>
