@@ -2,8 +2,8 @@
   <div  v-on:click="checkBattleHand" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
       <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
-      <button v-if="card" v-on:click="setAttack(card)">attack</button>
-      <button v-if="card" v-on:click="setDefence(card)">defence</button>
+      <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
+      <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defence</button>
     </div>
   </div>
 </template>
@@ -114,6 +114,13 @@ export default {
     width: 575px;
     display: flex;
   } */
+  .selected {
+    background-color: green;
+  }
+
+  .unselected {
+    background-color: red;
+  }
 
   .card-container {
     margin: 2px;
