@@ -2,11 +2,25 @@
   <div id='home'>
     <div id="background">
       <h1>Duel Monsters Card Game</h1>
-      <h2>--Rules of Play--</h2>
-
-      <button><router-link :to="{ name: 'battlefield'}"> BEGIN GAME!</router-link></button>
       <p>Select 'update database' for the most current card collection</p>
       <button v-on:click='fetchData'>Update Database</button>
+      <h2>--How to Play--</h2>
+      <ul>
+        <li>Click the update database button above to store a local copy of the cards</li>
+        <li>Player one starts first, click on the Start button to begin player one's turn</li>
+        <li>Clicking the button changes the phases during your turn</li>
+        <li>In the draw phase player one can start drawing cards from their playing deck</li>
+        <li>You can skip the standby phase for now as effects/spells/traps are not in game yet</li>
+        <li>In the first main phase you can summon monsters out to the monster zone</li>
+        <li>Once summoned you should set each monster to attack/defence</li>
+        <li>In the battle phase select one of your attack monsters to attack the opponent</li>
+        <li>Starting player cannot attack on his first turn</li>
+        <li>In the second main phase you can summon more monsters out to the monster zone</li>
+        <li>Click the end phase to end your turn</li>
+        <li>Pass play to your opponent</li>
+        <li>Click begin game below to start a match</li>
+      </ul>
+      <button><router-link :to="{ name: 'battlefield'}"> BEGIN GAME!</router-link></button>
     </div>
   </div>
 </template>
