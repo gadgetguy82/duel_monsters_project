@@ -2,6 +2,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from '@/views/Home';
 import Battlefield from '@/views/BattleField';
+import Store from '@/views/Store';
+
 
 Vue.use(Router);
 
@@ -16,6 +18,11 @@ const router = new Router({
       path: '/battlefield',
       name: 'battlefield',
       component: Battlefield
+    },
+    {
+      path: '/store',
+      name: 'store',
+      component: Store
     }
   ]
 });
