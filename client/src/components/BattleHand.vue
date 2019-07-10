@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="battle-hand-container">
+  <div class="battle-hand-container" v-on:click="checkBattleHand">
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
-      <playing-card :card="card" :emptyhand="emptyHand" v-on:click.native="addToBattleResult(card)"></playing-card>
+      <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)">attack</button>
       <button v-if="card" v-on:click="setDefence(card)">defence</button>
     </div>
@@ -20,7 +20,8 @@ export default {
       battleArray: [],
       emptyHand: {
         atk: 0,
-        def: 0
+        def: 0,
+        card_images: [{ img_url_small: "" }]
       }
     }
   },
