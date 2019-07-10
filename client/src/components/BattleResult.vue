@@ -148,12 +148,14 @@ export default {
   flex-direction: column;
   align-items: center;
   color: #FFFFFF;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
 }
 
 h4 {
   margin: 0;
   padding: 0 10px;
   color: #FFFFFF;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
 }
 
 button {

@@ -20,6 +20,7 @@ button{
   background-color: rgb(100, 250, 140);
   border: none;
   color: white;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
   text-align: center;
   text-decoration: none;
   display: inline-block;
