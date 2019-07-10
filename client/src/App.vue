@@ -3,6 +3,8 @@
     <nav>
       <router-link :to="{ name: 'home' }"> HOME </router-link>
       <router-link :to="{ name: 'battlefield' }"> BATTLEFIELD </router-link>
+      <router-link :to="{ name: 'store' }"> STORE </router-link>
+
     </nav>
     <div class="view">
       <router-view id='view' :normalCards="normalMonsterCards"></router-view>
