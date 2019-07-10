@@ -46,14 +46,14 @@ export default {
     if (this.player === "one") {
       eventBus1.$on('select-card', card => {
         if (this.battleArray.length < 5) {
-          card.position = "atk"
+          this.$set(card, "position", "atk");
           this.battleArray.push(card);
         }
       })
     } else {
       eventBus2.$on('select-card', card => {
         if (this.battleArray.length < 5) {
-          card.position = "atk"
+          this.$set(card, "position", "atk");
           this.battleArray.push(card);
         }
       })

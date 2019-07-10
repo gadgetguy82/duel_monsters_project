@@ -5,11 +5,19 @@
     </div>
     <div class="battle-result">
       <div class="button-container">
-        <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase" class="player-1-button"></phase-button>
+        <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
+        <div class="btn">
+          <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase" class="player-1-button"></phase-button>
+        </div>
+        <h2 class="hide"></h2>
       </div>
       <battle-result></battle-result>
       <div class="button-container">
-        <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button>
+        <h2 class="hide"></h2>
+        <div class="btn">
+          <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button>
+        </div>
+        <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
     </div>
     <div class="win-lose">
@@ -90,6 +98,35 @@ export default {
 
 .button-container {
   width: 260px;
+}
+
+h2 {
+  margin: 0;
+}
+
+i {
+  border: solid black;
+  border-width: 0 3px 3px 0;
+  display: inline-block;
+  padding: 3px;
+}
+
+.arrow-up {
+  transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+}
+
+.arrow-down {
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
+
+.btn {
+  height: 100px;
+}
+
+.hide {
+  height: 25px;
 }
 
 </style>
