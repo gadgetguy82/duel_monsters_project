@@ -7,7 +7,7 @@
     </div>
     <div class="bottom-row">
       <div class="spell-and-trap-cards"></div>
-      <battle-hand :player="player"></battle-hand>
+      <battle-hand :player="player" :phase="phase" :turn="turn"></battle-hand>
       <graveyard-deck :player="player"></graveyard-deck>
     </div>
   </div>
