@@ -11,9 +11,7 @@
         </div>
       </div>
     </div>
-
   </div>
-
 
 </template>
 
@@ -49,6 +47,8 @@ export default {
 .store-cards-container {
  display: flex;
  flex-wrap: wrap;
+ max-height: 800px;
+ overflow: scroll;
 }
 
 .store-card {
