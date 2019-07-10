@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="battle-hand-container" v-on:click="checkBattleHand">
+  <div  v-on:click="checkBattleHand" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
       <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)">attack</button>
@@ -7,7 +7,7 @@
     </div>
   </div>
 </template>
-
+<!-- class="battle-hand-container" -->
 <script>
 import { eventBus1, eventBus2 } from '@/main.js';
 import Card from '@/components/Card'
@@ -104,12 +104,41 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.battle-hand-container{
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  height: 170px;
-  width: 510px;
-  display: flex;
-}
+  /* .battle-hand-container{
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    height: 180px;
+    width: 575px;
+    display: flex;
+  } */
+
+  .card-container {
+    margin: 2px;
+    opacity: 1;
+  }
+
+  .blue-player {
+    background-image: url('../../public/img/yugioh_obelisk.jpg');
+    background-size: cover;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    height: 180px;
+    width: 575px;
+    display: flex;
+    opacity: 0.7;
+  }
+
+  .yellow-player {
+    background-image: url('../../public/img/yellow_battle_hand_image.jpg');
+    background-size: cover;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    height: 180px;
+    width: 575px;
+    display: flex;
+    opacity: 0.7;
+  }
 </style>

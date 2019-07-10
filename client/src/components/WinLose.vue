@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="win-lose-container">
     <div id="winner" v-if="winner != null">
-      <h1>Player {{winner}} won!</h1>
+      <h1>&#x2655; Winner - Player {{winner}} &#x2655;</h1>
       <router-link :to="{ name: 'home' }">Back to Home</router-link>
     </div>
   </div>

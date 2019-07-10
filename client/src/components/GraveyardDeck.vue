@@ -40,5 +40,6 @@ export default {
   background-image: url("../../public/img/gravestone.jpeg");
   background-size: cover;
   background-repeat: no-repeat;
+  opacity: 0.7;
 }
 </style>

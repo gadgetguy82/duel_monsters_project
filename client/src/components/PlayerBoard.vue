@@ -2,7 +2,7 @@
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
       <playing-deck :deck="deck" :player="player"></playing-deck>
-      <playing-hand :player="player"></playing-hand>
+      <playing-hand :player="player" :phase="phase" :turn="turn"></playing-hand>
       <life-points :player="player"></life-points>
     </div>
     <div class="bottom-row">
@@ -43,6 +43,7 @@ export default {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
         const index = Math.floor(Math.random() * this.normalCards.length);
+        this.normalCards[index].hidden = true;
         this.deck.push(this.normalCards[index]);
       }
     }
@@ -84,4 +85,5 @@ export default {
 .spell-and-trap-cards{
   width: 53px;
 }
+
 </style>

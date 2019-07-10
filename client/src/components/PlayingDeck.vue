@@ -30,7 +30,7 @@ export default {
     border-radius: 5px;
     width: 100px;
     height: 145px;
-    background-image: url("../../public/card_back.png");
+    background-image: url("../../public/img/card_back.png");
     background-repeat: no-repeat;
     background-size: 100px;
   }
