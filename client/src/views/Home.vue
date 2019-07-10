@@ -3,6 +3,7 @@
     <div id="background">
       <h1>Duel Monsters Card Game</h1>
       <h2>--Rules of Play--</h2>
+
       <button><router-link :to="{ name: 'battlefield'}"> BEGIN GAME!</router-link></button>
       <p>Select 'update database' for the most current card collection</p>
       <button v-on:click='fetchData'>Update Database</button>
@@ -41,7 +42,8 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    /* border: 2px solid black; */
 
+    border: 2px solid black;
+    background-color: rgba(0, 0, 0, 0.8);
   }
 </style>
