@@ -17,11 +17,11 @@ export default {
 <style lang="css" scoped>
 
 button{
-  background-color: rgb(200, 180, 110);
+  background-color: rgb(110, 140, 200);
   border: none;
   color: white;
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
-  text-align: right;
+  text-align: left;
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
@@ -33,23 +33,23 @@ button{
 button:after {
   content: "";
   position: absolute;
-  left: 0;
+  left: -30px;
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 30px solid rgb(230, 130, 100);
+  border-right: 30px solid rgb(110, 140, 200);
   border-top: 50px solid transparent;
   border-bottom: 50px solid transparent;
 }
 
-button:before {
+button:before{
   content: "";
   position: absolute;
-  right: -30px;
+  right: 0;
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 30px solid rgb(200, 180, 110);
+  border-right: 30px solid rgb(230, 130, 100);
   border-top: 50px solid transparent;
   border-bottom: 50px solid transparent;
 }

@@ -7,7 +7,7 @@
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
-          <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase" class="player-1-button"></phase-button>
+          <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase"></phase-button>
         </div>
         <h2 class="hide"></h2>
       </div>
@@ -15,7 +15,7 @@
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button>
+          <phase-button-inverted v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button-inverted>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
@@ -35,6 +35,7 @@ import PlayerBoard from "@/components/PlayerBoard.vue";
 import BattleResult from "@/components/BattleResult.vue";
 import WinLose from "@/components/WinLose.vue";
 import PhaseButton from "@/components/PhaseButton.vue";
+import PhaseButtonInverted from "@/components/PhaseButtonInverted.vue";
 import GameLogic from "@/services/game_logic.js";
 
 export default {
@@ -51,7 +52,8 @@ export default {
     "ai-board": AIBoard,
     "battle-result" : BattleResult,
     "win-lose": WinLose,
-    "phase-button": PhaseButton
+    "phase-button": PhaseButton,
+    "phase-button-inverted": PhaseButtonInverted
   },
   methods: {
     changePhase() {
@@ -68,14 +70,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-.player-1-button {
-  background-color: rgb(200, 180, 110);
-}
-
-.player-2-button {
-  background-color: rgb(110, 140, 200);
-}
 
 .battle-result {
   display: flex;
