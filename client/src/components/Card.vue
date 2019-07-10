@@ -45,8 +45,11 @@ img {
   text-align: center;
 }
 
+
+
 #card:hover .text{
   visibility: visible;
+
 }
 
 </style>
