@@ -3,7 +3,7 @@
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
       <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
-      <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defence</button>
+      <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
     </div>
   </div>
 </template>
