@@ -43,8 +43,8 @@ export default {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
         const index = Math.floor(Math.random() * this.normalCards.length);
-        this.$set(this.normalCards[index], "hidden", true);
-        this.deck.push(this.normalCards[index]);
+        const chosenCardCopy = Object.assign({}, this.normalCards[index]);
+        this.deck.push(chosenCardCopy);
       }
     }
   }
