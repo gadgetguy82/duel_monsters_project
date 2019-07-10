@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="life-points-container">
-    <p :class="{ 'green' : this.points > 4000 , 'amber': this.points > 1000 , 'red' : this.points <= 1000 }">☠️life points☠️ <br>
+    <p :class="{ 'green' : this.points > 4000 , 'amber': this.points > 1000 , 'red' : this.points <= 1000 }">☠️Life Points☠️ <br>
     {{this.points}}</p>
   </div>
 </template>

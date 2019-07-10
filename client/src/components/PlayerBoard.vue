@@ -85,4 +85,5 @@ export default {
 .spell-and-trap-cards{
   width: 53px;
 }
+
 </style>

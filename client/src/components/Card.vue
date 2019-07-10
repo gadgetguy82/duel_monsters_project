@@ -25,19 +25,32 @@ export default {
   width: 100px;
   height: 150px;
 }
+
 img {
   height: 150px;
   border-radius: 5px;
+  z-index: 1;
+  position: absolute;
 }
-#card:hover .text{
-  visibility: visible;
-}
+
 .text {
   visibility: hidden;
   padding: 4px;
   border-style: solid;
   border-width: 1px;
-  background-color: rgba(255, 255, 255, 0.8);
+  border-color: rgb(201, 169, 109);
+  background-color: rgba(201, 169, 109, 0.8);
+  z-index: 2;
+  position: absolute;
+  width: 90px;
+  text-align: center;
+}
+
+
+
+#card:hover .text{
+  visibility: visible;
+
 }
 
 </style>
