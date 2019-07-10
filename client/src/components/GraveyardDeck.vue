@@ -37,5 +37,8 @@ export default {
   border-radius: 5px;
   width: 100px;
   height: 150px;
+  background-image: url("../../public/img/gravestone.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 </style>
