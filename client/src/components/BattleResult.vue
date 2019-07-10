@@ -117,33 +117,43 @@ export default {
 <style lang="css" scoped>
 
 .result {
+  margin:5px;
+  background-image: url('../../public/img/battleresult_background.jpg');
+  background-size: contain;
+  background-position: center;
+  opacity: 0.7;
   display: flex;
   justify-content: center;
   align-items: center;
+  border: 1px solid #000000;
+  border-radius: 5px;
 }
 
 .result-container {
   display: flex;
   align-items: center;
-  margin: 5px 0;
+  margin: 10px;
 }
 
 .player-one, .player-two {
   width: 100px;
   height: 170px;
-  border: 1px solid #000000;
+  border: 1px solid #FFFFFF;
   border-radius: 5px;
+  /* text-align:center; */
 }
 
 .result-center {
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #FFFFFF;
 }
 
 h4 {
   margin: 0;
-  text-align: center;
+  padding: 0 10px;
+  color: #FFFFFF;
 }
 
 button {

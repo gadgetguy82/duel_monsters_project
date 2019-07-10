@@ -10,19 +10,42 @@ import Card from '@/components/Card'
 
 export default {
   name: "playing-hand",
-  props: ['player'],
+  props: ['player', 'phase', 'turn'],
   data() {
     return {
       playerHand: [],
       monsterZone: "space"
     }
   },
+  watch: {
+    phase: function() {
+      if (this.phase === "Draw") {
+        if (this.player === this.turn) {
+          for (let card of this.playerHand) {
+            card.hidden = !card.hidden;
+          }
+        }
+      } else if (this.phase === "Start") {
+        if (this.player !== this.turn) {
+          for (let card of this.playerHand) {
+            card.hidden = !card.hidden;
+          }
+        }
+      }
+    }
+  },
   mounted() {
     if (this.player === 'one') {
-      eventBus1.$on('one-card', card => this.playerHand.push(card));
+      eventBus1.$on('one-card', card => {
+        card.hidden = false;
+        this.playerHand.push(card);
+      });
       eventBus1.$on('monster-zone', full => this.monsterZone = full);
     } else {
-      eventBus2.$on('one-card', card => this.playerHand.push(card))
+      eventBus2.$on('one-card', card => {
+        card.hidden = false;
+        this.playerHand.push(card);
+      });
       eventBus2.$on('monster-zone', full => this.monsterZone = full);
     }
   },
@@ -51,11 +74,15 @@ export default {
 
 <style lang="css" scoped>
 .playing-hand-container{
+  background-image: url('../../public/img/playinghand_background.jpg');
+  background-size: contain;
+  background-position: center;
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
   height: 150px;
   width: 510px;
   display: flex;
+  opacity: 0.7;
 }
 </style>
