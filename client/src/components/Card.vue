@@ -4,7 +4,8 @@
     <p>atk: {{card.atk}} </p>
     <p>def: {{card.def}} </p> -->
     <!-- <p>im: {{card.card_images[0].image_url_small}}</p> -->
-    <img :src="card.card_images[0].image_url_small" class="hover"/>
+    <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
+    <img v-if="card.hidden" src='../../public/img/card_back.png'>
     <p class="text">{{card.name}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
   </div>
 </template>
