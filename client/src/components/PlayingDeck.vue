@@ -9,13 +9,13 @@ import { eventBus1, eventBus2 } from '@/main.js'
 
 export default {
   name: 'playing-deck',
-  props: ['deck', 'player'],
+  props: ['deck', 'player', 'phase', 'turn'],
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      if (this.player === "one") {
+      if (this.player === this.turn && this.player === "one" && this.phase === "Draw") {
         eventBus1.$emit('one-card', card);
-      } else {
+      } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
         eventBus2.$emit('one-card', card);
       }
     }
