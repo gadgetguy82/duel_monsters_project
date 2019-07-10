@@ -5,6 +5,10 @@ export default {
     return fetch(baseURL)
     .then(res => res.json());
   },
+  getAllStoreCards(){
+    return fetch(baseURL)
+    .then(res => res.json());
+  },
 
   postCard(body) {
     return fetch(baseURL, {
