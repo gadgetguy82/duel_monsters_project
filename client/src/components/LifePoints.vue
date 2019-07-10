@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="life-points-container">
-    <p>☠️life points☠️ <br>
+    <p :class="{ 'green' : this.points > 4000 , 'amber': this.points > 1000 , 'red' : this.points <= 1000 }">☠️life points☠️ <br>
     {{this.points}}</p>
   </div>
 </template>
@@ -52,9 +52,22 @@ export default {
 p{
   font-size: 17px;
   font-family: fantasy;
+  font-weight: bold;
   margin: 5px;
   text-align: center;
-  text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF;
+  /* text-shadow: 0 0 3px #FF0000, 0 0 5px #0000FF; */
 
+}
+
+.red {
+  color : red;
+}
+
+.amber {
+  color: orange;
+}
+
+.green {
+  color: green;
 }
 </style>
