@@ -51,13 +51,13 @@ export default {
   },
   methods: {
     addToBattleHand(card){
-      if (this.player === "one") {
+      if (this.player === "one" && this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
         eventBus1.$emit('select-card', card );
         if (this.monsterZone !== "full") {
           const index = this.playerHand.findIndex(handCard => handCard === card);
           this.playerHand.splice(index, 1);
         }
-      } else {
+      } else if (this.player === "two" && this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
         eventBus2.$emit('select-card', card );
         if (this.monsterZone !== "full") {
           const index = this.playerHand.findIndex(handCard => handCard === card);
