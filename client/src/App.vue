@@ -39,17 +39,18 @@ export default {
 
 #view {
   background-image: url('../public/img/yugioh_god_cards.jpg');
-
+  height: 875px;
   /* background-repeat: repeat-y;
    */
-  /* height: 600px; */
-  background-size: 100%;
-  height: 875px;
+  background-size: cover;
   background-repeat: no-repeat;
   /* background-attachment: fixed; */
   background-position: center;
 }
-
+nav {
+  margin: 0;
+  padding: 0;
+}
 a {
   margin:0;
   padding:0 20px;

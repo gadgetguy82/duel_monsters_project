@@ -63,7 +63,7 @@ export default {
 
 .battle-result {
   display: flex;
-  justify-content: space-evenly;
+  justify-content:space-evenly;
   align-items: center;
   background-color: rgba(250, 140, 110, 0.85);
 }

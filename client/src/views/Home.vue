@@ -35,7 +35,7 @@ export default {
 <style lang="css" scoped>
 
   #background {
-    padding: 50px;
+    /* padding: 50px; */
     color: #FF8C00;
     text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
     display: flex;
