@@ -51,11 +51,15 @@ export default {
 
 <style lang="css" scoped>
 .playing-hand-container{
+  background-image: url('../../public/img/playinghand_background.jpg');
+  background-size: contain;
+  background-position: center;
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
   height: 150px;
   width: 510px;
   display: flex;
+  opacity: 0.7;
 }
 </style>
