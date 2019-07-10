@@ -104,12 +104,16 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.battle-hand-container{
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  height: 170px;
-  width: 510px;
-  display: flex;
-}
+  .battle-hand-container{
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    height: 180px;
+    width: 575px;
+    display: flex;
+  }
+
+  .card-container {
+    margin: 2px;
+  }
 </style>
