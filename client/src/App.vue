@@ -37,10 +37,12 @@ export default {
 
 #view {
   background-image: url('../public/img/yugioh_god_cards.jpg');
+
   /* background-repeat: repeat-y;
    */
   /* height: 600px; */
-  background-size: cover;
+  background-size: 100%;
+  height: 875px;
   background-repeat: no-repeat;
   /* background-attachment: fixed; */
   background-position: center;

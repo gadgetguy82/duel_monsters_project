@@ -37,7 +37,6 @@ export default {
   #background {
     padding: 50px;
     color: #FF8C00;
-    height: 685px;
     display: flex;
     flex-direction: column;
     align-items: center;

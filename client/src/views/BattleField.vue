@@ -60,9 +60,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.board-container{
-  background-color: lightblue;
-}
 
 .battle-result {
   display: flex;
