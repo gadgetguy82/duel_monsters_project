@@ -14,14 +14,15 @@ import Card from '@/components/Card'
 
 export default {
   name: "battlehand",
-  props: ['player'],
+  props: ['player', 'phase', 'turn'],
   data(){
     return {
       battleArray: [],
       emptyHand: {
         atk: 0,
         def: 0,
-        card_images: [{ img_url_small: "" }]
+        card_images: [{ img_url_small: "" }],
+        position: "atk"
       }
     }
   },
@@ -73,9 +74,9 @@ export default {
   },
   methods: {
     addToBattleResult(card) {
-      if (this.player === "one") {
+      if (this.player === "one" && this.player === this.turn && this.phase === "Battle") {
         eventBus1.$emit('select-battlecard', card);
-      } else {
+      } else if (this.player === "two" && this.player === this.turn && this.phase === "Battle") {
         eventBus2.$emit('select-battlecard', card);
       }
     },
