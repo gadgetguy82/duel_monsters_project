@@ -63,4 +63,7 @@ export default {
     padding: 10px;
   }
 
+  li {
+    list-style-type: decimal;
+  }
 </style>

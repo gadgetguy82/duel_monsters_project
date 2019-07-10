@@ -119,7 +119,7 @@ export default {
   }
 
   .unselected {
-    background-color: red;
+    background-color: white;
   }
 
   .card-container {
