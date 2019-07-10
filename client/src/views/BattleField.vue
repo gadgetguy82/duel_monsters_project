@@ -5,11 +5,11 @@
     </div>
     <div class="battle-result">
       <div class="button-container">
-        <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase"></phase-button>
+        <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase" class="player-1-button"></phase-button>
       </div>
       <battle-result></battle-result>
       <div class="button-container">
-        <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase"></phase-button>
+        <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button>
       </div>
     </div>
     <div class="win-lose">
@@ -60,6 +60,14 @@ export default {
 </script>
 
 <style lang="css" scoped>
+
+.player-1-button {
+  background-color: rgb(200, 180, 110);
+}
+
+.player-2-button {
+  background-color: rgb(110, 140, 200);
+}
 
 .battle-result {
   display: flex;

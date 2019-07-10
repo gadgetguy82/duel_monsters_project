@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'pretty-button',
-  props: ['text'],
+  props: ['text', 'player'],
   methods: {
     handleClick(event){
       event.preventDefault()
@@ -17,7 +17,7 @@ export default {
 <style lang="css" scoped>
 
 button{
-  background-color: rgba(100, 250, 140, 0.85);
+  background-color: rgb(100, 250, 140);
   border: none;
   color: white;
   text-align: center;
@@ -36,7 +36,7 @@ button:after {
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 30px solid rgba(230, 130, 100, 0.85);
+  border-left: 30px solid rgb(230, 130, 100);
   border-top: 50px solid transparent;
   border-bottom: 50px solid transparent;
 }
@@ -48,7 +48,7 @@ button:before {
   bottom: 0;
   width: 0;
   height: 0;
-  border-left: 30px solid rgba(100, 250, 140, 0.85);
+  border-left: 30px solid rgb(100, 250, 140);
   border-top: 50px solid transparent;
   border-bottom: 50px solid transparent;
 }
