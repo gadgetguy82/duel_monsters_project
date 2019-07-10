@@ -37,6 +37,7 @@ export default {
   #background {
     padding: 50px;
     color: #FF8C00;
+    text-shadow: 1px 1px 3px black, 0 0 2em black, 0 0 0.2em black;
     display: flex;
     flex-direction: column;
     align-items: center;
