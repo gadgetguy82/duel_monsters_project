@@ -5,7 +5,8 @@
       <h1>Duel Monsters Store</h1>
       <div class="store-cards-container">
         <div class="store-card" v-for="(card) in normalStoreCards">
-          <p>{{card.name}}</p>
+          <p class="card-title">{{card.name}}</p>
+          <img :src="card.card_images[0].image_url_small">
           <button>Buy!</button>
         </div>
       </div>
@@ -51,9 +52,19 @@ export default {
 }
 
 .store-card {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.7);
   border-width: 1px;
   border-style: solid;
-  width: 100px;
+  margin: 5px;
+  padding: 5px
 }
+
+img, .store-card{
+  width: 100px
+}
+
+.card-title{
+  height: 40px
+}
+
 </style>
