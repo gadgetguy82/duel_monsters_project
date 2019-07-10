@@ -19,16 +19,18 @@ export default {
     addCardToPlayingHand(){
       const card = this.deck.pop();
       if (this.player === this.turn && this.player === "one" && this.phase === "Draw") {
-        if (this.deck.length === 0) {
+        if (this.lastCard) {
           eventBus1.$emit('defeat', this.player);
           eventBus2.$emit('winner', "two");
+        } else if (this.deck.length === 0) {
           this.lastCard = true;
         }
         eventBus1.$emit('one-card', card);
       } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
-        if (this.deck.length === 0) {
+        if (this.lastCard) {
           eventBus2.$emit('defeat', this.player);
           eventBus1.$emit('winner', "one");
+        } else if (this.deck.length === 0) {
           this.lastCard = true;
         }
         eventBus2.$emit('one-card', card);
