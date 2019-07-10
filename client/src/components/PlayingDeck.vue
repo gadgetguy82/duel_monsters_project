@@ -13,11 +13,9 @@ export default {
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      console.log(this.player);
-      console.log(this.turn);
       if (this.player === this.turn && this.player === "one" && this.phase === "Draw") {
         eventBus1.$emit('one-card', card);
-      } else if (this.phase === "Draw"){
+      } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
         eventBus2.$emit('one-card', card);
       }
     }
