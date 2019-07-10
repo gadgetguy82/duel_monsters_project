@@ -63,7 +63,16 @@ export default {
     padding: 10px;
   }
 
-  li {
+  p, li {
+    margin: 5px;
+    font-size: 18px;
     list-style-type: decimal;
+  }
+
+  button {
+    margin: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+    text-decoration: none;
   }
 </style>
