@@ -125,6 +125,7 @@ export default {
 .result-container {
   display: flex;
   align-items: center;
+  margin: 5px 0;
 }
 
 .player-one, .player-two {
