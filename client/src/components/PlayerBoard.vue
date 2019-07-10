@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
-      <playing-deck :deck="deck" :player="player"></playing-deck>
+      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn"></playing-deck>
       <playing-hand :player="player" :phase="phase" :turn="turn"></playing-hand>
       <life-points :player="player"></life-points>
     </div>
