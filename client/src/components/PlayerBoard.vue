@@ -43,7 +43,7 @@ export default {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
         const index = Math.floor(Math.random() * this.normalCards.length);
-        this.normalCards[index].hidden = true;
+        this.$set(this.normalCards[index], "hidden", true);
         this.deck.push(this.normalCards[index]);
       }
     }
