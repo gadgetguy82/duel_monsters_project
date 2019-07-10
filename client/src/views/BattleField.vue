@@ -5,11 +5,11 @@
     </div>
     <div class="battle-result">
       <div class="button-container">
-        <phase-button v-if="turn === 'playerOne'" v-on:click.native="changePhase" :text="phase"></phase-button>
+        <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase"></phase-button>
       </div>
       <battle-result></battle-result>
       <div class="button-container">
-        <phase-button v-if="turn === 'playerTwo'" v-on:click.native="changePhase" :text="phase"></phase-button>
+        <phase-button v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase"></phase-button>
       </div>
     </div>
     <div class="win-lose">
@@ -33,8 +33,8 @@ export default {
   name: 'battlefield',
   data() {
     return {
-      turn: "playerOne",
-      phase: "draw"
+      turn: "one",
+      phase: "Start"
     }
   },
   props: ['normalCards'],
@@ -47,8 +47,8 @@ export default {
   },
   methods: {
     changePhase() {
-      if (this.phase === "end") {
-        this.phase = "draw";
+      if (this.phase === "End") {
+        this.phase = GameLogic.changePhase(this.phase);
         this.turn = GameLogic.changeTurn(this.turn);
       } else {
         this.phase = GameLogic.changePhase(this.phase);

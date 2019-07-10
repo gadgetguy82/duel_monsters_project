@@ -1,30 +1,33 @@
 export default {
   changeTurn(turn) {
-    if (turn === "playerOne") {
-      return "playerTwo";
+    if (turn === "one") {
+      return "two";
     } else {
-      return "playerOne";
+      return "one";
     }
   },
   changePhase(phase) {
     switch (phase) {
-      case "draw":
-      phase = "standby";
+      case "Start":
+      phase = "Draw";
       break;
-      case "standby":
-      phase = "first main";
+      case "Draw":
+      phase = "Standby";
       break;
-      case "first main":
-      phase = "battle";
+      case "Standby":
+      phase = "First Main";
       break;
-      case "battle":
-      phase = "second main";
+      case "First Main":
+      phase = "Battle";
       break;
-      case "second main":
-      phase = "end";
+      case "Battle":
+      phase = "Second Main";
       break;
-      case "end":
-      phase = "draw"
+      case "Second Main":
+      phase = "End";
+      break;
+      case "End":
+      phase = "Start"
     }
     return phase;
   }
