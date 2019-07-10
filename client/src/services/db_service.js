@@ -5,7 +5,7 @@ export default {
     return fetch(baseURL)
     .then(res => res.json());
   },
-  getAllStoreCards() {
+  getAllStoreCards(){
     return fetch(baseURL)
     .then(res => res.json());
   },

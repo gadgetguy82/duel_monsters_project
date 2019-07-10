@@ -3,7 +3,9 @@
   <div id="store">
     <div id="store-container">
       <h1>Duel Monsters Store</h1>
+      <div class="store-cards-container">
 
+      </div>
     </div>
 
   </div>
