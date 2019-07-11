@@ -74,9 +74,9 @@ export default {
   },
   methods: {
     addToBattleResult(card) {
-      if (this.player === "one" && this.player === this.turn && this.phase === "Battle") {
+      if (this.player === "one" && this.phase === "Battle") {
         eventBus1.$emit('select-battlecard', card);
-      } else if (this.player === "two" && this.player === this.turn && this.phase === "Battle") {
+      } else if (this.player === "two" && this.phase === "Battle") {
         eventBus2.$emit('select-battlecard', card);
       }
     },
