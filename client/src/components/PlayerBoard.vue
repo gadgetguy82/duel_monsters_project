@@ -37,7 +37,6 @@ export default {
   },
   mounted() {
     this.randomizeCards();
-    console.log(this.deck);
   },
   methods: {
     randomizeCards() {

@@ -25,7 +25,9 @@ export default {
         } else if (this.deck.length === 0) {
           this.lastCard = true;
         }
-        eventBus1.$emit('one-card', card);
+        if (this.deck.length > 0) {
+          eventBus1.$emit('one-card', card);
+        }
       } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
         if (this.lastCard) {
           eventBus2.$emit('defeat', this.player);
@@ -33,7 +35,9 @@ export default {
         } else if (this.deck.length === 0) {
           this.lastCard = true;
         }
-        eventBus2.$emit('one-card', card);
+        if (this.deck.length > 0) {
+          eventBus2.$emit('one-card', card);
+        }
       }
     }
   }
