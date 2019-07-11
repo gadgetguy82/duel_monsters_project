@@ -20,7 +20,7 @@
         <li>Pass play to your opponent</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button><router-link :to="{ name: 'battlefield'}"> BEGIN GAME!</router-link></button>
+      <button><router-link :to="{ name: 'battlefield'}" v-if="normalCards.length > 0"> BEGIN GAME!</router-link></button>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'home',
+  props: ['normalCards'],
   data() {
     return {
       allCards: []
