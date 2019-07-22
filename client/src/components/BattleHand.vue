@@ -7,14 +7,13 @@
     </div>
   </div>
 </template>
-<!-- class="battle-hand-container" -->
+
 <script>
-import { eventBus1, eventBus2 } from '@/main.js';
 import Card from '@/components/Card'
 
 export default {
   name: "battlehand",
-  props: ['player', 'phase', 'turn'],
+  props: ['player', 'phase', 'turn', 'eventBus'],
   data(){
     return {
       battleArray: [],
@@ -29,55 +28,28 @@ export default {
   watch: {
     battleArray: function() {
       if (this.battleArray.length === 5) {
-        if (this.player === "one") {
-          eventBus1.$emit("monster-zone", "full");
-        } else {
-          eventBus2.$emit("monster-zone", "full");
-        }
+        this.eventBus.$emit("monster-zone", "full");
       } else {
-        if (this.player === "two") {
-          eventBus1.$emit("monster-zone", "space");
-        } else {
-          eventBus2.$emit("monster-zone", "space");
-        }
+        this.eventBus.$emit("monster-zone", "space");
       }
     }
   },
   mounted(){
-    if (this.player === "one") {
-      eventBus1.$on('select-card', card => {
-        if (this.battleArray.length < 5) {
-          this.battleArray.push(card);
-        }
-      })
-    } else {
-      eventBus2.$on('select-card', card => {
-        if (this.battleArray.length < 5) {
-          this.battleArray.push(card);
-        }
-      })
-    };
+    this.eventBus.$on('select-card', card => {
+      if (this.battleArray.length < 5) {
+        this.battleArray.push(card);
+      }
+    });
 
-    if (this.player === "one") {
-      eventBus1.$on('lose', result => {
-        const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
-        this.battleArray.splice(index, 1);
-      })
-    } else {
-      eventBus2.$on('lose', result => {
-        const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
-        this.battleArray.splice(index, 1);
-      })
-    };
-
-
+    this.eventBus.$on('lose', result => {
+      const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
+      this.battleArray.splice(index, 1);
+    });
   },
   methods: {
     addToBattleResult(card) {
-      if (this.player === "one" && this.phase === "Battle") {
-        eventBus1.$emit('select-battlecard', card);
-      } else if (this.player === "two" && this.phase === "Battle") {
-        eventBus2.$emit('select-battlecard', card);
+      if (this.phase === "Battle") {
+        this.eventBus.$emit('select-battlecard', card);
       }
     },
 
@@ -90,11 +62,7 @@ export default {
 
     checkBattleHand() {
       if (this.battleArray.length === 0 ) {
-        if (this.player === "one") {
-          eventBus1.$emit('empty-battlehand', this.emptyHand);
-        } else {
-          eventBus2.$emit('empty-battlehand', this.emptyHand);
-        }
+        this.eventBus.$emit('empty-battlehand', this.emptyHand);
       }
     }
   },
@@ -105,48 +73,41 @@ export default {
 </script>
 
 <style lang="css" scoped>
-  /* .battle-hand-container{
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    height: 180px;
-    width: 575px;
-    display: flex;
-  } */
-  .selected {
-    background-color: green;
-  }
 
-  .unselected {
-    background-color: white;
-  }
+.selected {
+  background-color: green;
+}
 
-  .card-container {
-    margin: 2px 6px;
-    opacity: 1;
-  }
+.unselected {
+  background-color: white;
+}
 
-  .blue-player {
-    background-image: url('../../public/img/yugioh_obelisk.jpg');
-    background-size: cover;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    height: 180px;
-    width: 575px;
-    display: flex;
-    opacity: 0.7;
-  }
+.card-container {
+  margin: 2px 6px;
+  opacity: 1;
+}
 
-  .yellow-player {
-    background-image: url('../../public/img/yellow_battle_hand_image.jpg');
-    background-size: cover;
-    border-width: 1px;
-    border-style: solid;
-    border-radius: 5px;
-    height: 180px;
-    width: 575px;
-    display: flex;
-    opacity: 0.7;
-  }
+.blue-player {
+  background-image: url('../../public/img/yugioh_obelisk.jpg');
+  background-size: cover;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  height: 180px;
+  width: 575px;
+  display: flex;
+  opacity: 0.7;
+}
+
+.yellow-player {
+  background-image: url('../../public/img/yellow_battle_hand_image.jpg');
+  background-size: cover;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 5px;
+  height: 180px;
+  width: 575px;
+  display: flex;
+  opacity: 0.7;
+}
 </style>

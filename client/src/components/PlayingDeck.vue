@@ -9,7 +9,7 @@ import { eventBus1, eventBus2 } from '@/main.js'
 
 export default {
   name: 'playing-deck',
-  props: ['deck', 'player', 'phase', 'turn'],
+  props: ['deck', 'player', 'phase', 'turn', 'eventBus'],
   data() {
     return {
       lastCard: false

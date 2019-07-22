@@ -9,7 +9,7 @@
 import {eventBus1, eventBus2} from '@/main.js'
 export default {
   name: 'life_points',
-  props: ['player'],
+  props: ['player', 'eventBus'],
   data() {
     return {
       points: 8000
@@ -18,24 +18,18 @@ export default {
   watch: {
     points: function () {
       if (this.points <= 0) {
+        this.eventBus.$emit('defeat', this.player);
         if (this.player === "one") {
-          eventBus1.$emit('defeat', this.player);
           eventBus2.$emit('winner', "two");
         } else {
-          eventBus2.$emit('defeat', this.player);
           eventBus1.$emit('winner', "one");
         }
       }
     }
   },
   mounted() {
-    if ( this.player === "one") {
-      eventBus1.$on('lose', result=>this.points+=result.damage)
-      eventBus1.$on('nowin', result=>this.points+=result.damage)
-    } else {
-      eventBus2.$on('lose', result=>this.points+=result.damage)
-      eventBus2.$on('nowin', result=>this.points+=result.damage)
-    }
+    this.eventBus.$on('lose', result => this.points += result.damage);
+    this.eventBus.$on('nowin', result => this.points += result.damage);
   }
 }
 </script>

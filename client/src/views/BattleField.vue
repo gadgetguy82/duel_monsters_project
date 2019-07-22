@@ -1,7 +1,7 @@
 <template lang="html">
   <div id='battlefield'>
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase"></player-board>
+      <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
     </div>
     <div class="battle-result">
       <div class="button-container">
@@ -24,7 +24,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :player="'two'" :turn="turn" :phase="phase"></player-board>
+      <player-board :normalCards="normalCards" :player="'two'" :turn="turn" :phase="phase" :eventBus="eventBus2"></player-board>
     </div>
   </div>
 </template>
@@ -37,13 +37,16 @@ import WinLose from "@/components/WinLose.vue";
 import PhaseButton from "@/components/PhaseButton.vue";
 import PhaseButtonInverted from "@/components/PhaseButtonInverted.vue";
 import GameLogic from "@/services/game_logic.js";
+import { eventBus1, eventBus2 } from "@/main.js";
 
 export default {
   name: 'battlefield',
   data() {
     return {
       turn: "one",
-      phase: "Start"
+      phase: "Start",
+      eventBus1: eventBus1,
+      eventBus2: eventBus2,
     }
   },
   props: ['normalCards'],

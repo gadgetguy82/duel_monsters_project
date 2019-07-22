@@ -5,24 +5,18 @@
 </template>
 
 <script>
-import {eventBus1, eventBus2} from '@/main.js'
 import Card from '@/components/Card'
 
 export default {
   name: "graveyard-deck",
-  props: ['player'],
+  props: ['player', 'eventBus'],
   data() {
     return {
       cards: []
     }
   },
   mounted() {
-    if ( this.player === "one") {
-      eventBus1.$on('lose', result=>this.cards.push(result.card))
-    } else {
-      eventBus2.$on('lose', result=>this.cards.push(result.card))
-    }
-
+    this.eventBus.$on('lose', result=>this.cards.push(result.card))
   },
   components: {
     "playing-card" : Card

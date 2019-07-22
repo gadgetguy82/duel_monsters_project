@@ -1,14 +1,14 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
-      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn"></playing-deck>
-      <playing-hand :player="player" :phase="phase" :turn="turn"></playing-hand>
-      <life-points :player="player"></life-points>
+      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+      <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+      <life-points :player="player" :eventBus="eventBus"></life-points>
     </div>
     <div class="bottom-row">
       <div class="spell-and-trap-cards"></div>
-      <battle-hand :player="player" :phase="phase" :turn="turn"></battle-hand>
-      <graveyard-deck :player="player"></graveyard-deck>
+      <battle-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></battle-hand>
+      <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
       deck: []
     }
   },
-  props: ['normalCards', 'player', 'turn', 'phase'],
+  props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,

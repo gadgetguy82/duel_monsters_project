@@ -5,12 +5,11 @@
 </template>
 
 <script>
-import { eventBus1, eventBus2 } from '@/main.js'
 import Card from '@/components/Card'
 
 export default {
   name: "playing-hand",
-  props: ['player', 'phase', 'turn'],
+  props: ['player', 'phase', 'turn', 'eventBus'],
   data() {
     return {
       playerHand: [],
@@ -35,30 +34,16 @@ export default {
     }
   },
   mounted() {
-    if (this.player === 'one') {
-      eventBus1.$on('one-card', card => {
-        card.hidden = false;
-        this.playerHand.push(card);
-      });
-      eventBus1.$on('monster-zone', full => this.monsterZone = full);
-    } else {
-      eventBus2.$on('one-card', card => {
-        card.hidden = false;
-        this.playerHand.push(card);
-      });
-      eventBus2.$on('monster-zone', full => this.monsterZone = full);
-    }
+    this.eventBus.$on('one-card', card => {
+      card.hidden = false;
+      this.playerHand.push(card);
+    });
+    this.eventBus.$on('monster-zone', full => this.monsterZone = full);
   },
   methods: {
     addToBattleHand(card){
-      if (this.player === "one" && this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
-        eventBus1.$emit('select-card', card );
-        if (this.monsterZone !== "full") {
-          const index = this.playerHand.findIndex(handCard => handCard === card);
-          this.playerHand.splice(index, 1);
-        }
-      } else if (this.player === "two" && this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
-        eventBus2.$emit('select-card', card );
+      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+        this.eventBus.$emit('select-card', card );
         if (this.monsterZone !== "full") {
           const index = this.playerHand.findIndex(handCard => handCard === card);
           this.playerHand.splice(index, 1);
