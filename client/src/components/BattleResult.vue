@@ -20,6 +20,7 @@
 <script>
 import { eventBus1, eventBus2 } from '@/main.js'
 import Card from '@/components/Card'
+import GameLogic from '@/services/game_logic.js'
 
 export default {
   name: 'battle-result',
@@ -49,66 +50,48 @@ export default {
     });
   },
   methods: {
-    battleWinner(){
-      if ((this.playerOneCard !== null) && (this.playerTwoCard !== null)) {
-        const playerOneAtk = parseInt(this.playerOneCard.atk);
-        const playerTwoAtk = parseInt(this.playerTwoCard.atk);
-        const playerOneDef = parseInt(this.playerOneCard.def);
-        const playerTwoDef = parseInt(this.playerTwoCard.def);
-        let damage = 0;
-        if (this.playerOneCard.position === "atk" && this.playerTwoCard.position === "atk") {
-          if (playerOneAtk < playerTwoAtk) {
-            damage = playerOneAtk - playerTwoAtk;
+    battleWinner() {
+      const result = GameLogic.checkDamage(this.playerOneCard, this.playerTwoCard);
+      if (result.cards.length < 2) {
+        if (result.cards[0] === this.playerOneCard) {
+          if (this.playerTwoCard.position === "atk") {
             eventBus1.$emit('lose', {
-              card: this.playerOneCard,
-              damage: damage
-            });
-          } else if (playerOneAtk > playerTwoAtk) {
-            damage = playerTwoAtk - playerOneAtk;
-            eventBus2.$emit('lose', {
-              card: this.playerTwoCard,
-              damage: damage
+              card: result.cards[0],
+              damage: result.damage
             });
           } else {
-            eventBus1.$emit('lose', {
-              card: this.playerOneCard,
-              damage: damage
-            });
-            eventBus2.$emit('lose', {
-              card: this.playerTwoCard,
-              damage: damage
-            });
-          }
-        } else if (this.playerOneCard.position === "atk" && this.playerTwoCard.position === "def") {
-          if (playerOneAtk < playerTwoDef) {
-            damage = playerOneAtk - playerTwoDef;
             eventBus1.$emit('nowin', {
-              card: this.playerOneCard,
-              damage: damage
-            });
-          } else if (playerOneAtk > playerTwoDef) {
-            eventBus2.$emit('lose', {
-              card: this.playerTwoCard,
-              damage: damage
+              card: result.cards[0],
+              damage: result.damage
             });
           }
         } else {
-          if (playerOneDef < playerTwoAtk) {
-            eventBus1.$emit('lose', {
-              card: this.playerOneCard,
-              damage: damage
+          if (this.playerOneCard.position === "atk") {
+            eventBus2.$emit('lose', {
+              card: result.cards[0],
+              damage: result.damage
             });
-          } else if (playerOneDef > playerTwoAtk) {
-            damage = playerTwoAtk - playerOneDef;
+          } else {
             eventBus2.$emit('nowin', {
-              card: this.playerTwoCard,
-              damage: damage
+              card: result.cards[0],
+              damage: result.damage
             });
           }
         }
-        this.playerOneCard = null;
-        this.playerTwoCard = null;
+      } else {
+        if (result.cards[0].position === "atk" && result.cards[1].position === "atk") {
+          eventBus1.$emit('lose', {
+            card: result.cards[0],
+            damage: result.damage
+          });
+          eventBus2.$emit('lose', {
+            card: result.cards[1],
+            damage: result.damage
+          });
+        }
       }
+      this.playerOneCard = null;
+      this.playerTwoCard = null;
     }
   }
 }
