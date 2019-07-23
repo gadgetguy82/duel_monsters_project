@@ -16,7 +16,11 @@ export default {
     }
   },
   mounted() {
-    this.eventBus.$on('lose', result=>this.cards.push(result.card))
+    this.eventBus.$on('lose', result => {
+      if (result.card.name !== "null_card") {
+        this.cards.push(result.card)
+      }
+    });
   },
   components: {
     "playing-card" : Card

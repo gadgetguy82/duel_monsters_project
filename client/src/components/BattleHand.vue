@@ -18,6 +18,7 @@ export default {
     return {
       battleArray: [],
       emptyHand: {
+        name: "null_card",
         atk: 0,
         def: 0,
         card_images: [{ img_url_small: "" }],
