@@ -55,10 +55,14 @@ export default {
     },
 
     setAttack(card) {
-      card.position = "atk";
+      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+        card.position = "atk";
+      }
     },
     setDefence(card) {
-      card.position = "def";
+      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+        card.position = "def";
+      }
     },
 
     checkBattleHand() {
