@@ -25,11 +25,11 @@ app.get('/', function(request, response) {
 
 // Starts the server.
 server.listen(5000, function() {
-  console.log('Starting server on port 5000');
+  console.log(`Starting server on port ${this.address().port}`);
 });
 
 io.on('connection', function(socket) {
-
+  
 });
 
 const MongoClient = require('mongodb').MongoClient;
