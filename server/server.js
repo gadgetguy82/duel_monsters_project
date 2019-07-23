@@ -44,6 +44,9 @@ MongoClient.connect('mongodb://localhost:27017', (error, client) => {
   const playerDeckCollection = db.collection('player_deck');
   const cardsRouter = createRouter(cardsCollection);
   app.use('/api/duel_monsters_game', cardsRouter);
+  const storeCardsCollection = db.collection('store_cards');
+  const storeRouter = createRouter(storeCardsCollection);
+  app.use('/api/duel_monsters_game', storeRouter);
 });
 
 app.listen(3000, function() {

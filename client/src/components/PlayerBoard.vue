@@ -1,13 +1,14 @@
 <template lang="html">
-  <div class="player-board-container">
+  <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
-      <playing-deck :deck="deck" :player="player"></playing-deck>
-      <playing-hand :player="player"></playing-hand>
-      <life-points :player="player"></life-points>
+      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+      <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+      <life-points :player="player" :eventBus="eventBus"></life-points>
     </div>
     <div class="bottom-row">
-      <battle-hand :player="player"></battle-hand>
-      <graveyard-deck :player="player"></graveyard-deck>
+      <div class="spell-and-trap-cards"></div>
+      <battle-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></battle-hand>
+      <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
     </div>
   </div>
 </template>
@@ -26,7 +27,7 @@ export default {
       deck: []
     }
   },
-  props: ['normalCards', 'player'],
+  props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
   components: {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
@@ -36,13 +37,13 @@ export default {
   },
   mounted() {
     this.randomizeCards();
-    console.log(this.deck);
   },
   methods: {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
         const index = Math.floor(Math.random() * this.normalCards.length);
-        this.deck.push(this.normalCards[index]);
+        const chosenCardCopy = Object.assign({}, this.normalCards[index]);
+        this.deck.push(chosenCardCopy);
       }
     }
   }
@@ -55,14 +56,33 @@ export default {
   border-width: 1px;
   margin: 0px;
   width: 100%;
-  height: 400px;
-}
-.top-row{
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
-.bottom-row{
+
+.player-board-container.top {
+  justify-content: space-around;
+}
+.player-board-container.bottom {
+  flex-direction: column-reverse;
+  justify-content: space-around;
+}
+
+.player-board-container.bottom .top-row {
+  align-items: flex-end;
+}
+
+.top-row, .bottom-row {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
 }
+
+.top-row > *, .bottom-row > * {
+  margin: 5px 20px;
+}
+
+.spell-and-trap-cards{
+  width: 53px;
+}
+
 </style>

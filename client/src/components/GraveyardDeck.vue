@@ -1,21 +1,25 @@
 <template lang="html">
   <div class="graveyard-deck-container">
-    <p>this is the graveyard deck</p>
+    <playing-card v-if="cards.length > 0" :card="cards[cards.length-1]"></playing-card>
   </div>
 </template>
 
 <script>
-// import {eventBus1, eventBus2} from '@/main.js'
+import Card from '@/components/Card'
+
 export default {
   name: "graveyard-deck",
-  props: ['player'],
+  props: ['player', 'eventBus'],
   data() {
     return {
       cards: []
     }
   },
   mounted() {
-    // eventBus1.$on('win-lose-card', card=>this.cards.push(card))
+    this.eventBus.$on('lose', result=>this.cards.push(result.card))
+  },
+  components: {
+    "playing-card" : Card
   }
 }
 </script>
@@ -24,7 +28,12 @@ export default {
 .graveyard-deck-container{
   border-style: solid;
   border-width: 1px;
+  border-radius: 5px;
   width: 100px;
   height: 150px;
+  background-image: url("../../public/img/gravestone.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  opacity: 0.7;
 }
 </style>
