@@ -28,7 +28,7 @@ server.listen(5000, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
 
-io.on('connection', function(socket) {
+io.on('connection', socket => {
   
 });
 
