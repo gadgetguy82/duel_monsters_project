@@ -43,10 +43,14 @@ export default {
   methods: {
     addToBattleHand(card){
       if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
-        this.eventBus.$emit('select-card', card );
         if (this.monsterZone !== "full") {
-          const index = this.playerHand.findIndex(handCard => handCard === card);
-          this.playerHand.splice(index, 1);
+          if (parseInt(card.level) <= 4) {
+            this.eventBus.$emit('normal-summon', card );
+            const index = this.playerHand.findIndex(handCard => handCard === card);
+            this.playerHand.splice(index, 1);
+          } else if (parseInt(card.level) <= 6){
+            
+          }
         }
       }
     }

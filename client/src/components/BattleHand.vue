@@ -36,14 +36,12 @@ export default {
     }
   },
   mounted(){
-    this.eventBus.$on('select-card', card => {
-      if (this.battleArray.length < 5) {
-        this.battleArray.push(card);
-      }
+    this.eventBus.$on('normal-summon', card => {
+      this.battleArray.push(card);
     });
 
     this.eventBus.$on('lose', result => {
-      const index = this.battleArray.findIndex( battleCard => battleCard === result.card);
+      const index = this.battleArray.findIndex(battleCard => battleCard === result.card);
       this.battleArray.splice(index, 1);
     });
   },
