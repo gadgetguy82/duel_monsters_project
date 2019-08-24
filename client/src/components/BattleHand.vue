@@ -1,7 +1,7 @@
 <template lang="html">
   <div v-on:click="checkBattleHand" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
     <div class="card-container" v-for="(card,index) in battleArray" :key="index">
-      <playing-card :card="card" v-on:click.native="addToBattleResult(card)"></playing-card>
+      <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
       <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
     </div>
@@ -23,7 +23,10 @@ export default {
         def: 0,
         card_images: [{ img_url_small: "" }],
         position: "atk"
-      }
+      },
+      summoningCard: null,
+      sacrificeAmount: 0,
+      sacrifices: []
     }
   },
   watch: {
@@ -44,10 +47,22 @@ export default {
       const index = this.battleArray.findIndex(battleCard => battleCard === result.card);
       this.battleArray.splice(index, 1);
     });
+
+    this.eventBus.$on('sacrifice-one-summon', card => {
+      this.summoningCard = card;
+      this.sacrificeAmount = 1;
+    });
   },
   methods: {
-    addToBattleResult(card) {
-      if (this.phase === "Battle") {
+    handleClick(card) {
+      if (this.phase === "First Main" || this.phase === "Second Main") {
+        if (this.sacrifices.length < this.sacrificeAmount) {
+          this.sacrifices.push(card);
+        }
+        if (this.sacrifices.length === this.sacrificeAmount) {
+          this.eventBus.$emit('sacrifices-selected', this.sacrifices);
+        }
+      } else if (this.phase === "Battle") {
         this.eventBus.$emit('select-battlecard', card);
       }
     },

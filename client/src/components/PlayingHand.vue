@@ -49,7 +49,7 @@ export default {
             const index = this.playerHand.findIndex(handCard => handCard === card);
             this.playerHand.splice(index, 1);
           } else if (parseInt(card.level) <= 6){
-            
+            this.eventBus.$emit('sacrifice-one-summon', card)
           }
         }
       }
