@@ -35,17 +35,17 @@ export default {
     "playing-card" : Card
   },
   mounted() {
-    eventBus1.$on('select-battlecard', card => {
+    eventBus1.$on('select-monster-card', card => {
       this.playerOneCard = card;
     });
-    eventBus2.$on('select-battlecard', card => {
+    eventBus2.$on('select-monster-card', card => {
       this.playerTwoCard = card;
     });
 
-    eventBus1.$on('empty-battlehand', empty => {
+    eventBus1.$on('empty-monster-zone', empty => {
       this.playerOneCard = empty;
     });
-    eventBus2.$on('empty-battlehand', empty => {
+    eventBus2.$on('empty-monster-zone', empty => {
       this.playerTwoCard = empty;
     });
   },

@@ -1,6 +1,6 @@
 <template lang="html">
-  <div v-on:click="checkBattleHand" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
-    <div class="card-container" v-for="(card,index) in battleArray" :key="index">
+  <div v-on:click="checkMonsterZone" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
+    <div class="card-container" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
       <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
@@ -12,11 +12,11 @@
 import Card from '@/components/Card'
 
 export default {
-  name: "battlehand",
+  name: "battle-hand",
   props: ['player', 'phase', 'turn', 'eventBus'],
   data(){
     return {
-      battleArray: [],
+      monsterZone: [],
       emptyHand: {
         name: "null_card",
         atk: 0,
@@ -30,8 +30,8 @@ export default {
     }
   },
   watch: {
-    battleArray: function() {
-      if (this.battleArray.length === 5) {
+    monsterZone: function() {
+      if (this.monsterZone.length === 5) {
         this.eventBus.$emit("monster-zone", "full");
       } else {
         this.eventBus.$emit("monster-zone", "space");
@@ -40,12 +40,12 @@ export default {
   },
   mounted(){
     this.eventBus.$on('normal-summon', card => {
-      this.battleArray.push(card);
+      this.monsterZone.push(card);
     });
 
     this.eventBus.$on('lose', result => {
-      const index = this.battleArray.findIndex(battleCard => battleCard === result.card);
-      this.battleArray.splice(index, 1);
+      const index = this.monsterZone.findIndex(battleCard => battleCard === result.card);
+      this.monsterZone.splice(index, 1);
     });
 
     this.eventBus.$on('sacrifice-one-summon', card => {
@@ -63,7 +63,7 @@ export default {
           this.eventBus.$emit('sacrifices-selected', this.sacrifices);
         }
       } else if (this.phase === "Battle") {
-        this.eventBus.$emit('select-battlecard', card);
+        this.eventBus.$emit('select-monster-card', card);
       }
     },
 
@@ -78,9 +78,9 @@ export default {
       }
     },
 
-    checkBattleHand() {
-      if (this.battleArray.length === 0 ) {
-        this.eventBus.$emit('empty-battlehand', this.emptyHand);
+    checkMonsterZone() {
+      if (this.monsterZone.length === 0 ) {
+        this.eventBus.$emit('empty-monster-zone', this.emptyHand);
       }
     }
   },

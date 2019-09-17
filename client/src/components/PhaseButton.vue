@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'pretty-button-inverted',
+  name: 'pretty-button',
   props: ['text', 'player'],
   methods: {
     handleClick(event){
