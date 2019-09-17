@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="battlefield">
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :player="one" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
+      <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
     </div>
     <div class="battle-result">
       <div class="button-container">
@@ -24,7 +24,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :player="two" :turn="turn" :phase="phase" :eventBus="eventBus2"></player-board>
+      <player-board :normalCards="normalCards" :player="'two'" :turn="turn" :phase="phase" :eventBus="eventBus2"></player-board>
     </div>
   </div>
 </template>
