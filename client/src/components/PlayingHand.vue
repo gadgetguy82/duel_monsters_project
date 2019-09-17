@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="addToBattleHand(card)"></playing-card>
+    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
   </div>
 </template>
 
@@ -34,22 +34,22 @@ export default {
     }
   },
   mounted() {
-    this.eventBus.$on('one-card', card => {
+    this.eventBus.$on("one-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
     });
-    this.eventBus.$on('monster-zone', full => this.monsterZone = full);
+    this.eventBus.$on("monster-zone", full => this.monsterZone = full);
   },
   methods: {
-    addToBattleHand(card){
+    summon(card){
       if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
         if (this.monsterZone !== "full") {
           if (parseInt(card.level) <= 4) {
-            this.eventBus.$emit('normal-summon', card );
+            this.eventBus.$emit("normal-summon", card );
             const index = this.playerHand.findIndex(handCard => handCard === card);
             this.playerHand.splice(index, 1);
           } else if (parseInt(card.level) <= 6){
-            this.eventBus.$emit('sacrifice-one-summon', card)
+            this.eventBus.$emit("sacrifice-one-summon", card)
           }
         }
       }

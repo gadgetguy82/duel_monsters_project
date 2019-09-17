@@ -17,7 +17,7 @@ export default {
   data(){
     return {
       monsterZone: [],
-      emptyHand: {
+      noCard: {
         name: "null_card",
         atk: 0,
         def: 0,
@@ -39,16 +39,16 @@ export default {
     }
   },
   mounted(){
-    this.eventBus.$on('normal-summon', card => {
+    this.eventBus.$on("normal-summon", card => {
       this.monsterZone.push(card);
     });
 
-    this.eventBus.$on('lose', result => {
+    this.eventBus.$on("lose", result => {
       const index = this.monsterZone.findIndex(battleCard => battleCard === result.card);
       this.monsterZone.splice(index, 1);
     });
 
-    this.eventBus.$on('sacrifice-one-summon', card => {
+    this.eventBus.$on("sacrifice-one-summon", card => {
       this.summoningCard = card;
       this.sacrificeAmount = 1;
     });
@@ -60,10 +60,10 @@ export default {
           this.sacrifices.push(card);
         }
         if (this.sacrifices.length === this.sacrificeAmount) {
-          this.eventBus.$emit('sacrifices-selected', this.sacrifices);
+          this.eventBus.$emit("sacrifices-selected", this.sacrifices);
         }
       } else if (this.phase === "Battle") {
-        this.eventBus.$emit('select-monster-card', card);
+        this.eventBus.$emit("select-monster-card", card);
       }
     },
 
@@ -80,7 +80,7 @@ export default {
 
     checkMonsterZone() {
       if (this.monsterZone.length === 0 ) {
-        this.eventBus.$emit('empty-monster-zone', this.emptyHand);
+        this.eventBus.$emit("empty-monster-zone", this.noCard);
       }
     }
   },
