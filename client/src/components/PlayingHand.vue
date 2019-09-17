@@ -13,7 +13,8 @@ export default {
   data() {
     return {
       playerHand: [],
-      monsterZone: "space"
+      monsterZone: "space",
+      summonData: {}
     }
   },
   watch: {
@@ -49,7 +50,9 @@ export default {
             const index = this.playerHand.findIndex(handCard => handCard === card);
             this.playerHand.splice(index, 1);
           } else if (parseInt(card.level) <= 6){
-            this.eventBus.$emit("sacrifice-one-summon", card)
+            this.summonData.card = card;
+            this.summonData.amount = 1;
+            this.eventBus.$emit("sacrifice-summon", this.summonData)
           }
         }
       }

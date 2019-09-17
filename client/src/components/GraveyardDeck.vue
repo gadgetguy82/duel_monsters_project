@@ -21,6 +21,10 @@ export default {
         this.cards.push(result.card)
       }
     });
+
+    this.eventBus.$on('sacrifices-selected', sacrifices => {
+      this.cards.push(sacrifices)
+    });
   },
   components: {
     "playing-card" : Card

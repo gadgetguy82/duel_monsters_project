@@ -45,13 +45,19 @@ export default {
     });
 
     this.eventBus.$on("lose", result => {
-      const index = this.monsterZone.findIndex(battleCard => battleCard === result.card);
-      this.monsterZone.splice(index, 1);
+      this.removeMonster(result.card);
     });
 
-    this.eventBus.$on("sacrifice-one-summon", card => {
-      this.summoningCard = card;
-      this.sacrificeAmount = 1;
+    this.eventBus.$on("sacrifice-summon", summonData => {
+      this.summoningCard = summonData.card;
+      this.sacrificeAmount = summonData.amount;
+    });
+
+    this.eventBus.$on("sacrifices-selected", () => {
+      for (let monster of this.sacrifices) {
+        this.removeMonster(monster);
+      }
+      this.monsterZone.push(card);
     });
   },
   methods: {
@@ -69,12 +75,13 @@ export default {
     },
 
     setAttack(card) {
-      if (this.player === this.turn && this.mainPhases.includes(this.phase) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
         card.position = "atk";
       }
     },
+
     setDefence(card) {
-      if (this.player === this.turn && this.mainPhases.includes(this.phase) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
         card.position = "def";
       }
     },
@@ -83,6 +90,11 @@ export default {
       if (this.monsterZone.length === 0 ) {
         this.eventBus.$emit("empty-monster-zone", this.noCard);
       }
+    },
+
+    removeMonster(monster) {
+      const index = this.monsterZone.findIndex(monsterCard => monsterCard === monster);
+      this.monsterZone.splice(index, 1);
     }
   },
   components: {
