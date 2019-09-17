@@ -16,6 +16,7 @@ export default {
   props: ['player', 'phase', 'turn', 'eventBus'],
   data(){
     return {
+      mainPhases: ["First Main", "Second Main"],
       monsterZone: [],
       noCard: {
         name: "null_card",
@@ -55,7 +56,7 @@ export default {
   },
   methods: {
     handleClick(card) {
-      if (this.phase === "First Main" || this.phase === "Second Main") {
+      if (this.mainPhases.includes(this.phase)) {
         if (this.sacrifices.length < this.sacrificeAmount) {
           this.sacrifices.push(card);
         }
@@ -68,12 +69,12 @@ export default {
     },
 
     setAttack(card) {
-      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase) {
         card.position = "atk";
       }
     },
     setDefence(card) {
-      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase) {
         card.position = "def";
       }
     },
