@@ -25,6 +25,10 @@ MongoClient.connect('mongodb://localhost:27017', (error, client) => {
   app.use('/api/duel_monsters_game', storeRouter);
 });
 
-app.listen(3000, function() {
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+app.listen(port, function() {
   console.log(`Listening on port ${this.address().port}`);
-})
+});
