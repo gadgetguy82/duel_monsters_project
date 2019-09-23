@@ -10,6 +10,7 @@
 
 <script>
 import Card from '@/components/Card'
+import GameLogic from '@/services/game_logic.js'
 
 export default {
   name: "battle-hand",
@@ -45,19 +46,12 @@ export default {
     });
 
     this.eventBus.$on("lose", result => {
-      this.removeMonster(result.card);
+      GameLogic.removeMonster(result.card, this.monsterZone);
     });
 
     this.eventBus.$on("sacrifice-summon", summonData => {
       this.summoningCard = summonData.card;
       this.sacrificeAmount = summonData.amount;
-    });
-
-    this.eventBus.$on("sacrifices-selected", () => {
-      for (let monster of this.sacrifices) {
-        this.removeMonster(monster);
-      }
-      this.monsterZone.push(card);
     });
   },
   methods: {
@@ -65,9 +59,12 @@ export default {
       if (this.mainPhases.includes(this.phase)) {
         if (this.sacrifices.length < this.sacrificeAmount) {
           this.sacrifices.push(card);
-        }
-        if (this.sacrifices.length === this.sacrificeAmount) {
-          this.eventBus.$emit("sacrifices-selected", this.sacrifices);
+          if (this.sacrifices.length === this.sacrificeAmount) {
+            for (let monster of this.sacrifices) {
+              GameLogic.removeMonster(monster, this.monsterZone);
+            }
+            this.monsterZone.push(this.summoningCard);
+          }
         }
       } else if (this.phase === "Battle") {
         this.eventBus.$emit("select-monster-card", card);
@@ -90,11 +87,6 @@ export default {
       if (this.monsterZone.length === 0 ) {
         this.eventBus.$emit("empty-monster-zone", this.noCard);
       }
-    },
-
-    removeMonster(monster) {
-      const index = this.monsterZone.findIndex(monsterCard => monsterCard === monster);
-      this.monsterZone.splice(index, 1);
     }
   },
   components: {

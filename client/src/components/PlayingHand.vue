@@ -6,6 +6,7 @@
 
 <script>
 import Card from '@/components/Card'
+import GameLogic from '@/services/game_logic.js'
 
 export default {
   name: "playing-hand",
@@ -45,16 +46,14 @@ export default {
   methods: {
     summon(card){
       if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
-        if (this.monsterZone !== "full") {
-          if (parseInt(card.level) <= 4) {
-            this.eventBus.$emit("normal-summon", card );
-            const index = this.playerHand.findIndex(handCard => handCard === card);
-            this.playerHand.splice(index, 1);
-          } else if (parseInt(card.level) <= 6){
-            this.summonData.card = card;
-            this.summonData.amount = 1;
-            this.eventBus.$emit("sacrifice-summon", this.summonData)
-          }
+        if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
+          this.eventBus.$emit("normal-summon", card );
+          const index = this.playerHand.findIndex(handCard => handCard === card);
+          this.playerHand.splice(index, 1);
+        } else if (parseInt(card.level) < 7){
+          this.summonData.card = card;
+          this.summonData.amount = 1;
+          this.eventBus.$emit("sacrifice-summon", this.summonData)
         }
       }
     }
