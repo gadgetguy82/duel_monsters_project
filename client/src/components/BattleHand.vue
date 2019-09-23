@@ -65,6 +65,8 @@ export default {
             }
             this.monsterZone.push(this.summoningCard);
           }
+          this.eventBus.$emit("sacrifices-selected", this.sacrifices);
+          this.eventBus.$emit("sacrifice-success", this.summoningCard);
         }
       } else if (this.phase === "Battle") {
         this.eventBus.$emit("select-monster-card", card);

@@ -18,12 +18,12 @@ export default {
   mounted() {
     this.eventBus.$on('lose', result => {
       if (result.card.name !== "null_card") {
-        this.cards.push(result.card)
+        this.cards.push(result.card);
       }
     });
 
     this.eventBus.$on('sacrifices-selected', sacrifices => {
-      this.cards.push(sacrifices)
+      this.cards.push(sacrifices);
     });
   },
   components: {

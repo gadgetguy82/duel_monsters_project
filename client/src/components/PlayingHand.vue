@@ -41,15 +41,19 @@ export default {
       card.hidden = false;
       this.playerHand.push(card);
     });
+
     this.eventBus.$on("monster-zone", full => this.monsterZone = full);
+
+    this.eventBus.$on("sacrifice-success", card => {
+      GameLogic.removeCard(card, this.playerHand);
+    });
   },
   methods: {
     summon(card){
       if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
-          this.eventBus.$emit("normal-summon", card );
-          const index = this.playerHand.findIndex(handCard => handCard === card);
-          this.playerHand.splice(index, 1);
+          this.eventBus.$emit("normal-summon", card);
+          GameLogic.removeCard(card, this.playerHand);
         } else if (parseInt(card.level) < 7){
           this.summonData.card = card;
           this.summonData.amount = 1;
