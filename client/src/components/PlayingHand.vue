@@ -12,6 +12,7 @@ export default {
   props: ['player', 'phase', 'turn', 'eventBus'],
   data() {
     return {
+      mainPhases: ["First Main", "Second Main"],
       playerHand: [],
       monsterZone: "space",
       summonData: {}
@@ -43,7 +44,7 @@ export default {
   },
   methods: {
     summon(card){
-      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
         if (this.monsterZone !== "full") {
           if (parseInt(card.level) <= 4) {
             this.eventBus.$emit("normal-summon", card );
