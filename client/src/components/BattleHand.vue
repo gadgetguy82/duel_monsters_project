@@ -64,9 +64,12 @@ export default {
               GameLogic.removeCard(monster, this.monsterZone);
             }
             this.monsterZone.push(this.summoningCard);
+            this.eventBus.$emit("sacrifices-selected", this.sacrifices);
+            this.eventBus.$emit("sacrifice-success", this.summoningCard);
+            this.sacrifices = [];
+            this.sacrificeAmount = 0;
+            this.summoningCard = null;
           }
-          this.eventBus.$emit("sacrifices-selected", this.sacrifices);
-          this.eventBus.$emit("sacrifice-success", this.summoningCard);
         }
       } else if (this.phase === "Battle") {
         this.eventBus.$emit("select-monster-card", card);

@@ -58,10 +58,12 @@ export default {
           this.summonData.card = card;
           this.summonData.amount = 1;
           this.eventBus.$emit("sacrifice-summon", this.summonData);
+          this.summonData = {};
         } else if (parseInt(card.level) >= 7){
           this.summonData.card = card;
           this.summonData.amount = 2;
           this.eventBus.$emit("sacrifice-summon", this.summonData);
+          this.summonData = {};
         }
       }
     }
