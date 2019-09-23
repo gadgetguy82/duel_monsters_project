@@ -46,7 +46,7 @@ export default {
     });
 
     this.eventBus.$on("lose", result => {
-      GameLogic.removeMonster(result.card, this.monsterZone);
+      GameLogic.removeCard(result.card, this.monsterZone);
     });
 
     this.eventBus.$on("sacrifice-summon", summonData => {
@@ -61,7 +61,7 @@ export default {
           this.sacrifices.push(card);
           if (this.sacrifices.length === this.sacrificeAmount) {
             for (let monster of this.sacrifices) {
-              GameLogic.removeMonster(monster, this.monsterZone);
+              GameLogic.removeCard(monster, this.monsterZone);
             }
             this.monsterZone.push(this.summoningCard);
           }

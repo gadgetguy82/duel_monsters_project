@@ -23,7 +23,9 @@ export default {
     });
 
     this.eventBus.$on('sacrifices-selected', sacrifices => {
-      this.cards.push(sacrifices);
+      for (let card of sacrifices) {
+        this.cards.push(card);
+      }
     });
   },
   components: {
