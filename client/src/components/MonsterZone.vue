@@ -13,7 +13,7 @@ import Card from '@/components/Card'
 import GameLogic from '@/services/game_logic.js'
 
 export default {
-  name: "battle-hand",
+  name: "monster-zone",
   props: ['player', 'phase', 'turn', 'eventBus'],
   data(){
     return {

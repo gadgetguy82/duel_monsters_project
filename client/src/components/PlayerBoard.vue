@@ -7,7 +7,7 @@
     </div>
     <div class="bottom-row">
       <div class="spell-and-trap-cards"></div>
-      <battle-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></battle-hand>
+      <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
       <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
     </div>
   </div>
@@ -17,7 +17,7 @@
 import PlayingDeck from '@/components/PlayingDeck.vue'
 import PlayingHand from '@/components/PlayingHand.vue'
 import LifePoints from '@/components/LifePoints.vue'
-import BattleHand from '@/components/BattleHand.vue'
+import MonsterZone from '@/components/MonsterZone.vue'
 import GraveyardDeck from '@/components/GraveyardDeck.vue'
 
 export default {
@@ -32,7 +32,7 @@ export default {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
     "life-points": LifePoints,
-    "battle-hand": BattleHand,
+    "monster-zone": MonsterZone,
     "graveyard-deck": GraveyardDeck
   },
   mounted() {
