@@ -10,6 +10,9 @@ import Card from '@/components/Card'
 export default {
   name: "graveyard-deck",
   props: ['player', 'eventBus'],
+  components: {
+    "playing-card" : Card
+  },
   data() {
     return {
       cards: []
@@ -27,9 +30,6 @@ export default {
         this.cards.push(card);
       }
     });
-  },
-  components: {
-    "playing-card" : Card
   }
 }
 </script>

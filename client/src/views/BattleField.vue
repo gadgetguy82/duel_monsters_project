@@ -41,14 +41,6 @@ import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
   name: "battlefield",
-  data() {
-    return {
-      turn: 'one',
-      phase: "Start",
-      eventBus1: eventBus1,
-      eventBus2: eventBus2,
-    }
-  },
   props: ['normalCards'],
   components: {
     "player-board": PlayerBoard,
@@ -57,6 +49,14 @@ export default {
     "win-lose": WinLose,
     "phase-button": PhaseButton,
     "phase-button-inverted": PhaseButtonInverted
+  },
+  data() {
+    return {
+      turn: 'one',
+      phase: "Start",
+      eventBus1: eventBus1,
+      eventBus2: eventBus2,
+    }
   },
   methods: {
     changePhase() {

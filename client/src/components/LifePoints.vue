@@ -15,6 +15,10 @@ export default {
       points: 8000
     }
   },
+  mounted() {
+    this.eventBus.$on('lose', result => this.points += result.damage);
+    this.eventBus.$on('nowin', result => this.points += result.damage);
+  },
   watch: {
     points: function () {
       if (this.points <= 0) {
@@ -26,10 +30,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.eventBus.$on('lose', result => this.points += result.damage);
-    this.eventBus.$on('nowin', result => this.points += result.damage);
   }
 }
 </script>

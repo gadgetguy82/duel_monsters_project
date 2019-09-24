@@ -24,11 +24,6 @@ import ExtraDeck from '@/components/ExtraDeck.vue'
 
 export default {
   name: 'player-board',
-  data() {
-    return{
-      deck: []
-    }
-  },
   props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
   components: {
     "playing-deck": PlayingDeck,
@@ -37,6 +32,11 @@ export default {
     "spell-trap-zone": SpellTrapZone,
     "monster-zone": MonsterZone,
     "graveyard-deck": GraveyardDeck
+  },
+  data() {
+    return{
+      deck: []
+    }
   },
   mounted() {
     this.randomizeCards();

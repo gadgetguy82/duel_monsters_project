@@ -15,6 +15,9 @@ import GameLogic from '@/services/game_logic.js'
 export default {
   name: "monster-zone",
   props: ['player', 'phase', 'turn', 'eventBus'],
+  components: {
+    "playing-card" : Card
+  },
   data(){
     return {
       mainPhases: ["First Main", "Second Main"],
@@ -31,15 +34,6 @@ export default {
       sacrifices: []
     }
   },
-  watch: {
-    monsterZone: function() {
-      if (this.monsterZone.length === 5) {
-        this.eventBus.$emit("monster-zone", "full");
-      } else {
-        this.eventBus.$emit("monster-zone", "space");
-      }
-    }
-  },
   mounted(){
     this.eventBus.$on("normal-summon", card => {
       this.monsterZone.push(card);
@@ -53,6 +47,15 @@ export default {
       this.summoningCard = summonData.card;
       this.sacrificeAmount = summonData.amount;
     });
+  },
+  watch: {
+    monsterZone: function() {
+      if (this.monsterZone.length === 5) {
+        this.eventBus.$emit("monster-zone", "full");
+      } else {
+        this.eventBus.$emit("monster-zone", "space");
+      }
+    }
   },
   methods: {
     handleClick(card) {
@@ -93,9 +96,6 @@ export default {
         this.eventBus.$emit("empty-monster-zone", this.noCard);
       }
     }
-  },
-  components: {
-    "playing-card" : Card
   }
 }
 </script>

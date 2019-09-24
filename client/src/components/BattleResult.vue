@@ -25,14 +25,14 @@ import GameLogic from '@/services/game_logic.js'
 export default {
   name: "battle-result",
   props: ['emptyHand'],
+  components: {
+    "playing-card" : Card
+  },
   data(){
     return{
       playerOneCard: null,
       playerTwoCard: null,
     }
-  },
-  components: {
-    "playing-card" : Card
   },
   mounted() {
     eventBus1.$on('select-monster-card', card => {

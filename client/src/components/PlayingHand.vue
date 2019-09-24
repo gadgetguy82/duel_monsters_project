@@ -11,6 +11,9 @@ import GameLogic from '@/services/game_logic.js'
 export default {
   name: "playing-hand",
   props: ['player', 'phase', 'turn', 'eventBus'],
+  components: {
+    "playing-card": Card
+  },
   data() {
     return {
       mainPhases: ["First Main", "Second Main"],
@@ -18,6 +21,18 @@ export default {
       monsterZone: "space",
       summonData: {}
     }
+  },
+  mounted() {
+    this.eventBus.$on("one-card", card => {
+      card.hidden = false;
+      this.playerHand.push(card);
+    });
+
+    this.eventBus.$on("monster-zone", full => this.monsterZone = full);
+
+    this.eventBus.$on("sacrifice-success", card => {
+      GameLogic.removeCard(card, this.playerHand);
+    });
   },
   watch: {
     phase: function() {
@@ -35,18 +50,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.eventBus.$on("one-card", card => {
-      card.hidden = false;
-      this.playerHand.push(card);
-    });
-
-    this.eventBus.$on("monster-zone", full => this.monsterZone = full);
-
-    this.eventBus.$on("sacrifice-success", card => {
-      GameLogic.removeCard(card, this.playerHand);
-    });
   },
   methods: {
     summon(card){
@@ -67,9 +70,6 @@ export default {
         }
       }
     }
-  },
-  components: {
-    "playing-card": Card
   }
 }
 </script>
