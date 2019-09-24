@@ -1,5 +1,5 @@
 <template lang="html">
-  <div v-on:click="checkMonsterZone" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
+  <div v-on:click="checkMonsterZone" :class= "{ 'yellow-monster' : player === 'one', 'blue-monster' : player === 'two' }">
     <div class="monster-zone-container" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
@@ -115,7 +115,7 @@ export default {
   opacity: 1;
 }
 
-.blue-player {
+.blue-monster {
   background-image: url('../../public/img/yugioh_obelisk.jpg');
   background-size: cover;
   border-width: 1px;
@@ -127,8 +127,8 @@ export default {
   opacity: 0.7;
 }
 
-.yellow-player {
-  background-image: url('../../public/img/yellow_battle_hand_image.jpg');
+.yellow-monster {
+  background-image: url('../../public/img/yellow_monster_zone.jpg');
   background-size: cover;
   border-width: 1px;
   border-style: solid;
