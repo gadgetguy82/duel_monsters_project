@@ -1,6 +1,6 @@
 <template lang="html">
   <div v-on:click="checkMonsterZone" :class= "{ 'yellow-player' : player === 'one', 'blue-player' : player === 'two' }">
-    <div class="card-container" v-for="(card,index) in monsterZone" :key="index">
+    <div class="monster-zone-container" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
       <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
@@ -110,7 +110,7 @@ export default {
   background-color: white;
 }
 
-.card-container {
+.monster-zone-container {
   margin: 2px 6px;
   opacity: 1;
 }

@@ -1,5 +1,4 @@
 <template lang="html">
-
   <div id="store">
     <div id="store-container">
       <h1>Duel Monsters Store</h1>
@@ -12,7 +11,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
