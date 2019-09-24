@@ -30,7 +30,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 180px;
+  height: 145px;
   width: 575px;
   display: flex;
   opacity: 0.7;
@@ -42,7 +42,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 180px;
+  height: 145px;
   width: 575px;
   display: flex;
   opacity: 0.7;

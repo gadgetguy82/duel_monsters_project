@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="playing-deck-container" :class="{'last': lastCard}" v-on:click="addCardToPlayingHand">
-
+    <h4>Deck</h4>
   </div>
 </template>
 
@@ -49,7 +49,15 @@ div.last {
   background-image: none;
 }
 
+h4 {
+  margin: 0;
+  padding: 0 10px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
+}
+
 .playing-deck-container {
+  text-align: center;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

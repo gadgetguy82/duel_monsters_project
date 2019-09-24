@@ -1,12 +1,13 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
-      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+      <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
       <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
       <life-points :player="player" :eventBus="eventBus"></life-points>
     </div>
     <div class="bottom-row">
-      <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+      <extra-deck></extra-deck>
+      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
       <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
       <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
     </div>
@@ -31,7 +32,8 @@ export default {
     "life-points": LifePoints,
     "spell-trap-zone": SpellTrapZone,
     "monster-zone": MonsterZone,
-    "graveyard-deck": GraveyardDeck
+    "graveyard-deck": GraveyardDeck,
+    "extra-deck": ExtraDeck
   },
   data() {
     return{
