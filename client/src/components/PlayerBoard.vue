@@ -2,7 +2,7 @@
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
       <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
-      <spell-trap-cards :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-cards>
+      <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
       <life-points :player="player" :eventBus="eventBus"></life-points>
     </div>
     <div class="bottom-row">
