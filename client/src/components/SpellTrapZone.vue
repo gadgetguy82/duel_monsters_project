@@ -10,7 +10,7 @@
 import Card from '@/components/Card'
 
 export default {
-  name: "spell-trap-zone",
+  name: 'spell-trap-zone',
   props: ['player', 'phase', 'turn', 'eventBus'],
   components: {
     "playing-card" : Card

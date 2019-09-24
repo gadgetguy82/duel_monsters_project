@@ -8,7 +8,7 @@
 import Card from '@/components/Card'
 
 export default {
-  name: "graveyard-deck",
+  name: 'graveyard-deck',
   props: ['player', 'eventBus'],
   components: {
     "playing-card" : Card

@@ -13,7 +13,7 @@ import Card from '@/components/Card'
 import GameLogic from '@/services/game_logic.js'
 
 export default {
-  name: "monster-zone",
+  name: 'monster-zone',
   props: ['player', 'phase', 'turn', 'eventBus'],
   components: {
     "playing-card" : Card
