@@ -1,14 +1,15 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="top-row">
+      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
       <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
       <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
       <life-points :player="player" :eventBus="eventBus"></life-points>
     </div>
     <div class="bottom-row">
       <extra-deck></extra-deck>
-      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
       <field-zone></field-zone>
+      <extra-monster-zone></extra-monster-zone>
       <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
       <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
     </div>
@@ -20,10 +21,11 @@ import PlayingDeck from '@/components/PlayingDeck.vue'
 import PlayingHand from '@/components/PlayingHand.vue'
 import LifePoints from '@/components/LifePoints.vue'
 import SpellTrapZone from '@/components/SpellTrapZone.vue'
-import MonsterZone from '@/components/MonsterZone.vue'
-import FieldZone from '@/components/FieldZone.vue'
-import GraveyardDeck from '@/components/GraveyardDeck.vue'
 import ExtraDeck from '@/components/ExtraDeck.vue'
+import FieldZone from '@/components/FieldZone.vue'
+import ExtraMonsterZone from '@/components/ExtraMonsterZone.vue'
+import MonsterZone from '@/components/MonsterZone.vue'
+import GraveyardDeck from '@/components/GraveyardDeck.vue'
 
 export default {
   name: 'player-board',
@@ -33,10 +35,11 @@ export default {
     "playing-hand": PlayingHand,
     "life-points": LifePoints,
     "spell-trap-zone": SpellTrapZone,
-    "monster-zone": MonsterZone,
+    "extra-deck": ExtraDeck,
     "field-zone": FieldZone,
-    "graveyard-deck": GraveyardDeck,
-    "extra-deck": ExtraDeck
+    "extra-monster-zone": ExtraMonsterZone,
+    "monster-zone": MonsterZone,
+    "graveyard-deck": GraveyardDeck
   },
   data() {
     return{
