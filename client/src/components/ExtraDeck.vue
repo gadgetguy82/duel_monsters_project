@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="extra-deck-container">
     <h4>Extra Deck</h4>
+    <div class="extra-deck">
+
+    </div>
   </div>
 </template>
 
@@ -20,6 +23,9 @@ h4 {
 
 .extra-deck-container {
   text-align: center;
+}
+
+.extra-deck {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

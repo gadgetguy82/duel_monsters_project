@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="field-zone-container">
     <h4>Field Zone</h4>
+    <div class="field-zone">
+
+    </div>
   </div>
 </template>
 
@@ -18,8 +21,11 @@ h4 {
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
 }
 
-.field-zone-container {
+.field-zone-container {  
   text-align: center;
+}
+
+.field-zone {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

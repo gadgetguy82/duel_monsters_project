@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="graveyard-deck-container">
-    <playing-card v-if="cards.length > 0" :card="cards[cards.length-1]"></playing-card>
+    <h4>Graveyard</h4>
+    <div class="graveyard-deck">
+      <playing-card v-if="cards.length > 0" :card="cards[cards.length-1]"></playing-card>
+    </div>
   </div>
 </template>
 
@@ -35,7 +38,18 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.graveyard-deck-container{
+h4 {
+  margin: 0;
+  padding: 0 10px;
+  color: #FFFFFF;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
+}
+
+.graveyard-deck-container {
+  text-align: center;
+}
+
+.graveyard-deck {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
