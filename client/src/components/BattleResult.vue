@@ -100,7 +100,7 @@ export default {
 <style lang="css" scoped>
 
 .result {
-  margin:5px;
+  margin: 30px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
   background-position: center;

@@ -3,7 +3,8 @@
     <div class="board-container top-board">
       <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
     </div>
-    <div class="battle-result">
+    <div class="middle-section">
+      <info-box></info-box>
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
@@ -49,7 +50,8 @@ export default {
     "battle-result" : BattleResult,
     "win-lose": WinLose,
     "phase-button": PhaseButton,
-    "phase-button-inverted": PhaseButtonInverted
+    "phase-button-inverted": PhaseButtonInverted,
+    "info-box": InfoBox
   },
   data() {
     return {
@@ -75,7 +77,7 @@ export default {
 
 <style lang="css" scoped>
 
-.battle-result {
+.middle-section {
   display: flex;
   justify-content:space-evenly;
   align-items: center;

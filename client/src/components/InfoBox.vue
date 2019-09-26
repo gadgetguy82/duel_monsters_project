@@ -12,7 +12,8 @@ export default {
 
 <style lang="css" scoped>
 .info-box-container {
-  width: 200px;
-  height: 200px;
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 180px;
+  height: 240px;
 }
 </style>
