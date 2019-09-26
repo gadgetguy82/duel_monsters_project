@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
-    <div class="left-side">
+    <div class="first col">
       <div class="top-row">
         <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
       </div>
@@ -9,15 +9,27 @@
         <extra-deck></extra-deck>
       </div>
     </div>
-    <div class="right-side">
+    <div class="second col">
+      <div class="top-row">
+        <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
+      </div>
+      <div class="bottom-row">
+        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
+      </div>
+    </div>
+    <div class="third col">
       <div class="top-row">
         <field-zone></field-zone>
-        <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
-        <life-points :player="player" :eventBus="eventBus"></life-points>
       </div>
       <div class="bottom-row">
         <extra-monster-zone></extra-monster-zone>
-        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
+      </div>
+    </div>
+    <div class="last col">
+      <div class="top-row">
+        <life-points :player="player" :eventBus="eventBus"></life-points>
+      </div>
+      <div class="bottom-row">
         <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
       </div>
     </div>
@@ -88,19 +100,18 @@ export default {
   justify-content: space-around;
 }
 
-.player-board-container.bottom .left-side, .player-board-container.bottom .right-side {
+.player-board-container.bottom .col {
   flex-direction: column-reverse;
   justify-content: space-around;
 }
 
-.left-side {
+.col {
   display: flex;
   flex-direction: column;
 }
 
-.right-side {
-  display: flex;
-  flex-direction: column;
+.last, .player-board-container.bottom .last {
+  justify-content: space-between;
 }
 
 .player-board-container.bottom .top-row {

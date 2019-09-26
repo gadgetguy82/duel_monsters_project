@@ -19,7 +19,6 @@ h4 {
   padding: 0 10px;
   color: #FFFFFF;
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
-  width: 100px;
 }
 
 .extra-monster-zone-container {
