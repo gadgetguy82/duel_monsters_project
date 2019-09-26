@@ -7,6 +7,7 @@
       <div class="bottom-row">
         <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
         <extra-deck></extra-deck>
+        <side-deck></side-deck>
       </div>
     </div>
     <div class="second col">
@@ -38,13 +39,14 @@
 
 <script>
 import PlayingDeck from '@/components/PlayingDeck.vue'
-import PlayingHand from '@/components/PlayingHand.vue'
-import LifePoints from '@/components/LifePoints.vue'
-import SpellTrapZone from '@/components/SpellTrapZone.vue'
 import ExtraDeck from '@/components/ExtraDeck.vue'
+import SideDeck from '@/components/SideDeck.vue'
+import PlayingHand from '@/components/PlayingHand.vue'
+import SpellTrapZone from '@/components/SpellTrapZone.vue'
 import FieldZone from '@/components/FieldZone.vue'
-import ExtraMonsterZone from '@/components/ExtraMonsterZone.vue'
 import MonsterZone from '@/components/MonsterZone.vue'
+import ExtraMonsterZone from '@/components/ExtraMonsterZone.vue'
+import LifePoints from '@/components/LifePoints.vue'
 import GraveyardDeck from '@/components/GraveyardDeck.vue'
 
 export default {
@@ -52,13 +54,14 @@ export default {
   props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
   components: {
     "playing-deck": PlayingDeck,
-    "playing-hand": PlayingHand,
-    "life-points": LifePoints,
-    "spell-trap-zone": SpellTrapZone,
     "extra-deck": ExtraDeck,
+    "side-deck": SideDeck,
+    "playing-hand": PlayingHand,
+    "spell-trap-zone": SpellTrapZone,
     "field-zone": FieldZone,
-    "extra-monster-zone": ExtraMonsterZone,
     "monster-zone": MonsterZone,
+    "extra-monster-zone": ExtraMonsterZone,
+    "life-points": LifePoints,
     "graveyard-deck": GraveyardDeck
   },
   data() {

@@ -82,7 +82,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 150px;
+  height: 151px;
   width: 510px;
   display: flex;
   opacity: 0.7;

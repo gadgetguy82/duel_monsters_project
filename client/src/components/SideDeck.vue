@@ -36,6 +36,7 @@ h4 {
   background-image: url("../../public/img/card_back.png");
   background-repeat: no-repeat;
   background-size: 100px;
+  transform: rotate(-90deg);
 }
 
 .layer {

@@ -35,6 +35,9 @@ img {
   height: 150px;
   border-radius: 5px;
   z-index: 1;
+}
+
+.playing-hand-container .card img {
   position: absolute;
 }
 

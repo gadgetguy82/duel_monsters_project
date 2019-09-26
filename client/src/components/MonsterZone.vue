@@ -1,9 +1,11 @@
 <template lang="html">
-  <div v-on:click="checkMonsterZone" :class= "{ 'yellow-monster' : player === 'one', 'blue-monster' : player === 'two' }">
-    <div class="monster-zone-container" v-for="(card,index) in monsterZone" :key="index">
+  <div class="monster-container" :class= "{ 'yellow' : player === 'one', 'blue' : player === 'two' }" v-on:click="checkMonsterZone">
+    <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
-      <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
-      <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
+      <div class="button-container">
+        <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
+        <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
+      </div>
     </div>
   </div>
 </template>
@@ -110,13 +112,12 @@ export default {
   background-color: white;
 }
 
-.monster-zone-container {
+.monster-zone {
   margin: 2px 6px;
   opacity: 1;
 }
 
-.blue-monster {
-  background-image: url('../../public/img/yugioh_obelisk.jpg');
+.monster-container {
   background-size: cover;
   border-width: 1px;
   border-style: solid;
@@ -127,15 +128,11 @@ export default {
   opacity: 0.7;
 }
 
-.yellow-monster {
+.blue {
+  background-image: url('../../public/img/yugioh_obelisk.jpg');
+}
+
+.yellow {
   background-image: url('../../public/img/yellow_monster_zone.jpg');
-  background-size: cover;
-  border-width: 1px;
-  border-style: solid;
-  border-radius: 5px;
-  height: 180px;
-  width: 575px;
-  display: flex;
-  opacity: 0.7;
 }
 </style>
