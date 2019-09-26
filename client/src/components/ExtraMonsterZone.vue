@@ -2,7 +2,9 @@
   <div class="extra-monster-zone-container">
     <h4>Extra Monster Zone</h4>
     <div class="extra-monster-zone">
+      <div class="layer">
 
+      </div>
     </div>
   </div>
 </template>
@@ -37,5 +39,14 @@ h4 {
   background-image: url("../../public/img/card_back.png");
   background-repeat: no-repeat;
   background-size: 100px;
+}
+
+.layer {
+  background-color: rgba(30, 144, 255, 0.7);
+  border-radius: 5px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 99.9%;
 }
 </style>
