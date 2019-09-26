@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="card" class="card">
+  <div class="card">
     <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
     <img v-if="card.hidden" src="../../public/img/card_back.png">
     <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
@@ -29,19 +29,21 @@ export default {
   border-radius: 5px;
   width: 100px;
   height: 150px;
+  display: flex;
 }
 
 .card:last-child {
   flex: 0 0 auto;
 }
 
+.card:hover .text{
+  visibility: visible;
+}
+
 img {
   height: 150px;
   border-radius: 5px;
   z-index: 1;
-}
-
-.playing-hand-container .card img {
   position: absolute;
 }
 
@@ -56,10 +58,6 @@ img {
   position: absolute;
   width: 90px;
   text-align: center;
-}
-
-#card:hover .text{
-  visibility: visible;
 }
 
 </style>
