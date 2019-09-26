@@ -1,9 +1,8 @@
 <template lang="html">
   <div class="extra-deck-container">
-    <h4>Extra Deck</h4>
     <div class="extra-deck">
       <div class="layer">
-
+        <h4>Extra Deck</h4>
       </div>
     </div>
   </div>
@@ -45,5 +44,8 @@ h4 {
   left: 0;
   width: 100%;
   height: 99.9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

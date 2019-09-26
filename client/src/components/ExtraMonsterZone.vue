@@ -1,9 +1,8 @@
 <template lang="html">
   <div class="extra-monster-zone-container">
-    <h4>Extra Monster Zone</h4>
     <div class="extra-monster-zone">
       <div class="layer">
-
+        <h4>Extra Monster Zone</h4>
       </div>
     </div>
   </div>
@@ -48,5 +47,8 @@ h4 {
   left: 0;
   width: 100%;
   height: 99.9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

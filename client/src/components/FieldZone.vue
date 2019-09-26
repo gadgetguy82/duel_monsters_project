@@ -1,9 +1,8 @@
 <template lang="html">
   <div class="field-zone-container">
-    <h4>Field Zone</h4>
     <div class="field-zone">
       <div class="layer">
-
+        <h4>Field Zone</h4>
       </div>
     </div>
   </div>
@@ -45,5 +44,8 @@ h4 {
   left: 0;
   width: 100%;
   height: 99.9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

@@ -23,7 +23,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.card{
+.card {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

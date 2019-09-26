@@ -25,7 +25,7 @@ button{
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
-  width: 200px;
+  width: 160px;
   height: 100px;
   position: relative;
 }

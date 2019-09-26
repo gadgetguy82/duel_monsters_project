@@ -13,16 +13,10 @@
     <div class="second col">
       <div class="top-row">
         <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
-      </div>
-      <div class="bottom-row">
-        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
-      </div>
-    </div>
-    <div class="third col">
-      <div class="top-row">
         <field-zone></field-zone>
       </div>
       <div class="bottom-row">
+        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
         <extra-monster-zone></extra-monster-zone>
       </div>
     </div>
@@ -124,6 +118,7 @@ export default {
 .top-row, .bottom-row {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 
 .top-row > *, .bottom-row > * {

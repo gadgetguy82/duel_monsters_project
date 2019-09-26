@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="playing-deck-container">
-    <h4>Deck</h4>
     <div class="playing-deck" :class="{'last': lastCard}" v-on:click="addCardToPlayingHand">
+      <h4>Main Deck</h4>
     </div>
   </div>
 </template>
@@ -58,7 +58,7 @@ h4 {
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
 }
 
-.playing-deck-container {  
+.playing-deck-container {
   text-align: center;
 }
 
@@ -71,6 +71,9 @@ h4 {
   background-image: url("../../public/img/card_back.png");
   background-repeat: no-repeat;
   background-size: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 </style>

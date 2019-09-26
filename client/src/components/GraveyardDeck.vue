@@ -1,6 +1,5 @@
 <template lang="html">
   <div class="graveyard-deck-container">
-    <h4>Graveyard</h4>
     <div class="graveyard-deck">
       <playing-card v-if="cards.length > 0" :card="cards[cards.length-1]"></playing-card>
     </div>
@@ -59,5 +58,6 @@ h4 {
   background-size: cover;
   background-repeat: no-repeat;
   opacity: 0.7;
+  margin: 15px;
 }
 </style>

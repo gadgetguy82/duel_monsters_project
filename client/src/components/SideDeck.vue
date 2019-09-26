@@ -1,9 +1,8 @@
 <template lang="html">
   <div class="side-deck-container">
-    <h4>Side Deck</h4>
     <div class="side-deck">
       <div class="layer">
-
+        <h4>Side Deck</h4>
       </div>
     </div>
   </div>
@@ -21,6 +20,7 @@ h4 {
   padding: 0 10px;
   color: #FFFFFF;
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
+  transform: rotate(90deg);
 }
 
 .side-deck-container {
@@ -46,5 +46,8 @@ h4 {
   left: 0;
   width: 100%;
   height: 99.9%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
