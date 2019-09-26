@@ -18,9 +18,9 @@
 </template>
 
 <script>
-import { eventBus1, eventBus2 } from '@/main.js'
-import Card from '@/components/Card'
-import GameLogic from '@/services/game_logic.js'
+import { eventBus1, eventBus2 } from '@/main.js';
+import Card from '@/components/Card';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'battle-result',

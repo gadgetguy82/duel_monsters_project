@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import Card from '@/components/Card'
-import GameLogic from '@/services/game_logic.js'
+import Card from '@/components/Card';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-zone',

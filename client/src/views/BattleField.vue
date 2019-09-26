@@ -36,6 +36,7 @@ import BattleResult from '@/components/BattleResult.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
 import PhaseButtonInverted from '@/components/PhaseButtonInverted.vue';
+import InfoBox from '@/components/InfoBox.vue';
 import GameLogic from '@/services/game_logic.js';
 import { eventBus1, eventBus2 } from '@/main.js';
 

@@ -32,16 +32,16 @@
 </template>
 
 <script>
-import PlayingDeck from '@/components/PlayingDeck.vue'
-import ExtraDeck from '@/components/ExtraDeck.vue'
-import SideDeck from '@/components/SideDeck.vue'
-import PlayingHand from '@/components/PlayingHand.vue'
-import SpellTrapZone from '@/components/SpellTrapZone.vue'
-import FieldZone from '@/components/FieldZone.vue'
-import MonsterZone from '@/components/MonsterZone.vue'
-import ExtraMonsterZone from '@/components/ExtraMonsterZone.vue'
-import LifePoints from '@/components/LifePoints.vue'
-import GraveyardDeck from '@/components/GraveyardDeck.vue'
+import PlayingDeck from '@/components/PlayingDeck'
+import ExtraDeck from '@/components/ExtraDeck'
+import SideDeck from '@/components/SideDeck'
+import PlayingHand from '@/components/PlayingHand'
+import SpellTrapZone from '@/components/SpellTrapZone'
+import FieldZone from '@/components/FieldZone'
+import MonsterZone from '@/components/MonsterZone'
+import ExtraMonsterZone from '@/components/ExtraMonsterZone'
+import LifePoints from '@/components/LifePoints'
+import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'player-board',
@@ -105,6 +105,10 @@ export default {
 .col {
   display: flex;
   flex-direction: column;
+}
+
+.first {
+  justify-content: space-evenly;
 }
 
 .last, .player-board-container.bottom .last {

@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import PlayingDeck from '@/components/PlayingDeck.vue'
-import PlayingHand from '@/components/PlayingHand.vue'
-import LifePoints from '@/components/LifePoints.vue'
-import MonsterZone from '@/components/MonsterZone.vue'
-import GraveyardDeck from '@/components/GraveyardDeck.vue'
+import PlayingDeck from '@/components/PlayingDeck.vue';
+import PlayingHand from '@/components/PlayingHand.vue';
+import LifePoints from '@/components/LifePoints.vue';
+import MonsterZone from '@/components/MonsterZone.vue';
+import GraveyardDeck from '@/components/GraveyardDeck.vue';
 
 export default {
   name: 'ai-board',

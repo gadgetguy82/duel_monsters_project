@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import DBService from '@/services/db_service'
+import DBService from '@/services/db_service';
 
 export default {
   name: 'store',
