@@ -1,17 +1,25 @@
 <template lang="html">
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
-    <div class="top-row">
-      <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
-      <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
-      <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
-      <life-points :player="player" :eventBus="eventBus"></life-points>
+    <div class="left-side">
+      <div class="top-row">
+        <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+      </div>
+      <div class="bottom-row">
+        <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+        <extra-deck></extra-deck>
+      </div>
     </div>
-    <div class="bottom-row">
-      <extra-deck></extra-deck>
-      <field-zone></field-zone>
-      <extra-monster-zone></extra-monster-zone>
-      <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
-      <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
+    <div class="right-side">
+      <div class="top-row">
+        <field-zone></field-zone>
+        <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
+        <life-points :player="player" :eventBus="eventBus"></life-points>
+      </div>
+      <div class="bottom-row">
+        <extra-monster-zone></extra-monster-zone>
+        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
+        <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
+      </div>
     </div>
   </div>
 </template>
@@ -68,15 +76,31 @@ export default {
   margin: 0px;
   width: 100%;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .player-board-container.top {
   justify-content: space-around;
 }
+
 .player-board-container.bottom {
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.player-board-container.bottom .left-side, .player-board-container.bottom .right-side {
   flex-direction: column-reverse;
   justify-content: space-around;
+}
+
+.left-side {
+  display: flex;
+  flex-direction: column;
+}
+
+.right-side {
+  display: flex;
+  flex-direction: column;
 }
 
 .player-board-container.bottom .top-row {
