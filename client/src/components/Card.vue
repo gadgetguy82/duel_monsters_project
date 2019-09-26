@@ -31,6 +31,10 @@ export default {
   height: 150px;
 }
 
+.card:last-child {
+  flex: 0 0 auto;
+}
+
 img {
   height: 150px;
   border-radius: 5px;
