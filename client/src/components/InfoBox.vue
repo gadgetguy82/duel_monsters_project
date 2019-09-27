@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="info-box-container">
-    <img v-if="source !== ''" src="source"/>
+    <img v-if="source !== ''" :src="source"/>
   </div>
 </template>
 
@@ -28,5 +28,10 @@ export default {
   background-color: rgba(255, 255, 255, 0.5);
   width: 180px;
   height: 240px;
+  z-index: 10;
+}
+
+img {
+
 }
 </style>

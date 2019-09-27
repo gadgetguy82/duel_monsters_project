@@ -21,7 +21,7 @@ export default {
     this.eventBus.$on('nowin', result => this.points += result.damage);
   },
   watch: {
-    points: function () {
+    points() {
       if (this.points <= 0) {
         this.eventBus.$emit('defeat', this.player);
         if (this.player === "one") {

@@ -51,7 +51,7 @@ export default {
     });
   },
   watch: {
-    monsterZone: function() {
+    monsterZone() {
       if (this.monsterZone.length === 5) {
         this.eventBus.$emit("monster-zone", "full");
       } else {

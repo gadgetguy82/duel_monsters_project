@@ -35,18 +35,14 @@ export default {
     });
   },
   watch: {
-    phase: function() {
-      if (this.phase === "Draw") {
-        if (this.player === this.turn) {
-          for (let card of this.playerHand) {
-            card.hidden = !card.hidden;
-          }
+    phase() {
+      if (this.phase === "Draw" && this.player === this.turn) {
+        for (let card of this.playerHand) {
+          card.hidden = !card.hidden;
         }
-      } else if (this.phase === "Start") {
-        if (this.player !== this.turn) {
-          for (let card of this.playerHand) {
-            card.hidden = !card.hidden;
-          }
+      } else if (this.phase === "Start" && this.player !== this.turn) {
+        for (let card of this.playerHand) {
+          card.hidden = !card.hidden;
         }
       }
     }

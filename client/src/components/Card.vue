@@ -1,8 +1,8 @@
 <template lang="html">
-  <div class="card">
+  <div class="card" v-on:mouseover.native="display(card)" v-on:mouseout.native="cancel">
     <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
     <img v-if="card.hidden" src="../../public/img/card_back.png">
-    <p class="text" v-on:mouseover.native="display(card)" v-on:mouseout.native="cancel">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
+    <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
   </div>
 </template>
 
@@ -17,18 +17,8 @@ export default {
       eventBusInfo: eventBusInfo
     }
   },
-  watch: {
-    card: function() {
-      if (this.card.hidden) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  },
   methods: {
     display(card) {
-      console.log(card);
       this.eventBusInfo.$emit("display-card", card);
     },
 
