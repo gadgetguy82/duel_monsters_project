@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'pretty-button-inverted',
+  name: 'pretty-button',
   props: ['text', 'player'],
   methods: {
     handleClick(event){
@@ -15,7 +15,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 button{
   background-color: rgb(200, 180, 110);
   border: none;
@@ -25,7 +24,7 @@ button{
   text-decoration: none;
   display: inline-block;
   font-size: 20px;
-  width: 200px;
+  width: 160px;
   height: 100px;
   position: relative;
 }

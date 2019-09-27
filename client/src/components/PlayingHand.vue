@@ -1,62 +1,71 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="addToBattleHand(card)"></playing-card>
+    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
   </div>
 </template>
 
 <script>
-import Card from '@/components/Card'
+import Card from '@/components/Card';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
-  name: "playing-hand",
+  name: 'playing-hand',
   props: ['player', 'phase', 'turn', 'eventBus'],
+  components: {
+    "playing-card": Card
+  },
   data() {
     return {
+      mainPhases: ["First Main", "Second Main"],
       playerHand: [],
-      monsterZone: "space"
-    }
-  },
-  watch: {
-    phase: function() {
-      if (this.phase === "Draw") {
-        if (this.player === this.turn) {
-          for (let card of this.playerHand) {
-            card.hidden = !card.hidden;
-          }
-        }
-      } else if (this.phase === "Start") {
-        if (this.player !== this.turn) {
-          for (let card of this.playerHand) {
-            card.hidden = !card.hidden;
-          }
-        }
-      }
+      monsterZone: "space",
+      summonData: {}
     }
   },
   mounted() {
-    this.eventBus.$on('one-card', card => {
+    this.eventBus.$on("one-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
     });
-    this.eventBus.$on('monster-zone', full => this.monsterZone = full);
+
+    this.eventBus.$on("monster-zone", full => this.monsterZone = full);
+
+    this.eventBus.$on("tribute-success", card => {
+      GameLogic.removeCard(card, this.playerHand);
+    });
   },
-  methods: {
-    addToBattleHand(card){
-      if (this.player === this.turn && (this.phase === "First Main" || this.phase === "Second Main")) {
-        if (this.monsterZone !== "full") {
-          if (parseInt(card.level) <= 4) {
-            this.eventBus.$emit('normal-summon', card );
-            const index = this.playerHand.findIndex(handCard => handCard === card);
-            this.playerHand.splice(index, 1);
-          } else if (parseInt(card.level) <= 6){
-            
-          }
+  watch: {
+    phase() {
+      if (this.phase === "Draw" && this.player === this.turn) {
+        for (let card of this.playerHand) {
+          card.hidden = !card.hidden;
+        }
+      } else if (this.phase === "Start" && this.player !== this.turn) {
+        for (let card of this.playerHand) {
+          card.hidden = !card.hidden;
         }
       }
     }
   },
-  components: {
-    "playing-card": Card
+  methods: {
+    summon(card) {
+      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
+        if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
+          this.eventBus.$emit("normal-summon", card);
+          GameLogic.removeCard(card, this.playerHand);
+        } else if (parseInt(card.level) < 7){
+          this.summonData.card = card;
+          this.summonData.amount = 1;
+          this.eventBus.$emit("tribute-summon", this.summonData);
+          this.summonData = {};
+        } else if (parseInt(card.level) >= 7){
+          this.summonData.card = card;
+          this.summonData.amount = 2;
+          this.eventBus.$emit("tribute-summon", this.summonData);
+          this.summonData = {};
+        }
+      }
+    }
   }
 }
 </script>
@@ -69,7 +78,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 150px;
+  height: 151px;
   width: 510px;
   display: flex;
   opacity: 0.7;

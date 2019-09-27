@@ -14,8 +14,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-button{
+button {
   background-color: lightblue;
   border: none;
   color: white;
@@ -25,5 +24,4 @@ button{
   display: inline-block;
   font-size: 14px;
 }
-
 </style>

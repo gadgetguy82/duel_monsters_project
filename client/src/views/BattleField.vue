@@ -1,9 +1,10 @@
 <template lang="html">
-  <div id='battlefield'>
+  <div id="battlefield">
     <div class="board-container top-board">
       <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
     </div>
-    <div class="battle-result">
+    <div class="middle-section">
+      <info-box></info-box>
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
@@ -30,25 +31,18 @@
 </template>
 
 <script>
-import AIBoard from "@/components/AiBoard.vue";
-import PlayerBoard from "@/components/PlayerBoard.vue";
-import BattleResult from "@/components/BattleResult.vue";
-import WinLose from "@/components/WinLose.vue";
-import PhaseButton from "@/components/PhaseButton.vue";
-import PhaseButtonInverted from "@/components/PhaseButtonInverted.vue";
-import GameLogic from "@/services/game_logic.js";
-import { eventBus1, eventBus2 } from "@/main.js";
+import AIBoard from '@/components/AiBoard.vue';
+import PlayerBoard from '@/components/PlayerBoard.vue';
+import BattleResult from '@/components/BattleResult.vue';
+import WinLose from '@/components/WinLose.vue';
+import PhaseButton from '@/components/PhaseButton.vue';
+import PhaseButtonInverted from '@/components/PhaseButtonInverted.vue';
+import InfoBox from '@/components/InfoBox.vue';
+import GameLogic from '@/services/game_logic.js';
+import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
-  name: 'battlefield',
-  data() {
-    return {
-      turn: "one",
-      phase: "Start",
-      eventBus1: eventBus1,
-      eventBus2: eventBus2,
-    }
-  },
+  name: "battlefield",
   props: ['normalCards'],
   components: {
     "player-board": PlayerBoard,
@@ -56,7 +50,16 @@ export default {
     "battle-result" : BattleResult,
     "win-lose": WinLose,
     "phase-button": PhaseButton,
-    "phase-button-inverted": PhaseButtonInverted
+    "phase-button-inverted": PhaseButtonInverted,
+    "info-box": InfoBox
+  },
+  data() {
+    return {
+      turn: 'one',
+      phase: "Start",
+      eventBus1: eventBus1,
+      eventBus2: eventBus2,
+    }
   },
   methods: {
     changePhase() {
@@ -73,8 +76,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
-.battle-result {
+.middle-section {
   display: flex;
   justify-content:space-evenly;
   align-items: center;
@@ -82,14 +84,10 @@ export default {
 }
 
 .top-board {
-  /* background-image: url('../../public/img/yugioh_ra_light.jpg'); */
-  /* background-size: cover; */
   background-color: rgba(200, 170, 110, 0.85);
 }
 
 .bottom-board {
-  /* background-image: url('../../public/img/yugioh_obelisk_light.jpg'); */
-  /* background-size: cover; */
   background-color: rgba(110, 140, 200, 0.85);
 }
 
@@ -125,5 +123,4 @@ i {
 .hide {
   height: 25px;
 }
-
 </style>

@@ -6,6 +6,7 @@ export default {
       return "one";
     }
   },
+
   changePhase(phase) {
     switch (phase) {
       case "Start":
@@ -31,6 +32,7 @@ export default {
     }
     return phase;
   },
+
   compareStats(card1, card2) {
     if ((card1 !== null) && (card2 !== null)) {
       const card1BattleStat = card1.position === "atk" ? parseInt(card1.atk) : parseInt(card1.def)
@@ -54,11 +56,17 @@ export default {
       }
     }
   },
+
   checkDamage(card1, card2) {
     const result = this.compareStats(card1, card2);
     if (result.cards[0].position === "def") {
       result.damage = 0;
     }
     return result;
+  },
+
+  removeCard(card, zone) {
+    const index = zone.findIndex(zoneCard => zoneCard === card);
+    zone.splice(index, 1);
   }
 }

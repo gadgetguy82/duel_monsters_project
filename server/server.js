@@ -8,6 +8,51 @@ app.use(parser.urlencoded({limit: '50mb', extended: true}));
 const cors = require('cors');
 app.use(cors());
 
+const http = require('http');
+const server = http.Server(app);
+
+const socketIO = require('socket.io');
+const io = socketIO(server);
+app.set('port', 5000);
+app.use(express.static('../client/public'));
+
+// Starts the server.
+server.listen(5000, function() {
+  console.log(`Starting server on port ${this.address().port}`);
+});
+
+let roomCount = 1;
+
+io.on('connection', socket => {
+  socket.on('SEND_MESSAGE', msg => {
+    console.log(msg);
+  });
+
+  const roomList = io.sockets.adapter.rooms;
+  let currentRoom = "room" + roomCount;
+
+  let count
+  if (roomList[currentRoom] === undefined) {
+    count = 0;
+  } else {
+    count = roomList[currentRoom].length;
+  }
+
+  if (count < 2) {
+    socket.join(currentRoom);
+    io.to(currentRoom).emit("roomNumber", currentRoom);
+  } else {
+    roomCount++;
+    currentRoom = "room" + roomCount;
+    socket.join(currentRoom);
+    io.to(currentRoom).emit("roomNumber", currentRoom);
+  }
+
+  socket.on('action', emitObject => {
+    io.to(emitObject.room).emit('action', emitObject.action);
+  });
+});
+
 const MongoClient = require('mongodb').MongoClient;
 const createRouter = require('./helpers/create_router.js');
 

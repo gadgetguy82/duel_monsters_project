@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="card" class="card">
+  <div class="card" v-on:mouseover="display(card)" v-on:mouseout="cancel">
     <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
     <img v-if="card.hidden" src="../../public/img/card_back.png">
     <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
@@ -7,28 +7,44 @@
 </template>
 
 <script>
+import { eventBusInfo } from '@/main.js';
+
 export default {
   name: 'playing-card',
   props: ['card'],
-  watch: {
-    card: function() {
-      if (this.card.hidden) {
-        return true;
-      } else {
-        return false;
-      }
+  data() {
+    return {
+      eventBusInfo: eventBusInfo
+    }
+  },
+  methods: {
+    display(card) {
+      this.eventBusInfo.$emit("display-card", card);
+    },
+
+    cancel() {
+      this.eventBusInfo.$emit("cancel");
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-.card{
+.card {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
   width: 100px;
   height: 150px;
+  display: flex;
+}
+
+.card:last-child {
+  flex: 0 0 auto;
+}
+
+.card:hover .text{
+  visibility: visible;
 }
 
 img {
@@ -50,9 +66,4 @@ img {
   width: 90px;
   text-align: center;
 }
-
-#card:hover .text{
-  visibility: visible;
-}
-
 </style>
