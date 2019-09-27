@@ -27,8 +27,8 @@ export default {
       }
     });
 
-    this.eventBus.$on('sacrifices-selected', sacrifices => {
-      for (let card of sacrifices) {
+    this.eventBus.$on('tributes-selected', tributes => {
+      for (let card of tributes) {
         this.cards.push(card);
       }
     });
