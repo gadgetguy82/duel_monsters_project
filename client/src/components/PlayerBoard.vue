@@ -128,5 +128,4 @@ export default {
 .top-row > *, .bottom-row > * {
   margin: 5px 20px;
 }
-
 </style>

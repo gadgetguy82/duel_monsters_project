@@ -15,7 +15,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 button{
   background-color: rgb(200, 180, 110);
   border: none;

@@ -42,6 +42,7 @@ export default {
   height: 809px;
 
 } */
+
 .store-cards-container {
  display: flex;
  flex-wrap: wrap;
@@ -64,5 +65,4 @@ img, .store-card{
 .card-title{
   height: 40px
 }
-
 </style>

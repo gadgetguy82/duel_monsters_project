@@ -38,7 +38,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 #view {
   background-image: url('../public/img/yugioh_god_cards.jpg');
   height: 875px;
@@ -46,10 +45,12 @@ export default {
   background-repeat: no-repeat;
   background-position: center;
 }
+
 nav {
   margin: 0;
   padding: 0;
 }
+
 a {
   margin:0;
   padding:0 20px;
@@ -57,5 +58,4 @@ a {
   color: rgb(100, 250, 140);
   font-weight: bold;
 }
-
 </style>

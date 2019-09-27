@@ -76,7 +76,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .middle-section {
   display: flex;
   justify-content:space-evenly;
@@ -128,5 +127,4 @@ i {
 .hide {
   height: 25px;
 }
-
 </style>

@@ -103,7 +103,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .selected {
   background-color: green;
 }

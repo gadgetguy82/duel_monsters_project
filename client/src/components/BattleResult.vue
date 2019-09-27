@@ -98,7 +98,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .result {
   margin: 30px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
@@ -144,5 +143,4 @@ h4 {
 button {
   width: 60%;
 }
-
 </style>

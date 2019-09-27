@@ -52,7 +52,7 @@ export default {
     }
   },
   methods: {
-    summon(card){
+    summon(card) {
       if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
           this.eventBus.$emit("normal-summon", card);

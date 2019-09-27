@@ -32,7 +32,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .ai-board-container{
   border-style: solid;
   border-width: 1px;
@@ -50,5 +49,4 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-
 </style>
