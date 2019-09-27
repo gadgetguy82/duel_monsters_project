@@ -84,14 +84,10 @@ export default {
 }
 
 .top-board {
-  /* background-image: url("../../public/img/yugioh_ra_light.jpg"); */
-  /* background-size: cover; */
   background-color: rgba(200, 170, 110, 0.85);
 }
 
 .bottom-board {
-  /* background-image: url("../../public/img/yugioh_obelisk_light.jpg"); */
-  /* background-size: cover; */
   background-color: rgba(110, 140, 200, 0.85);
 }
 

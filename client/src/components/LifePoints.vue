@@ -43,7 +43,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.life-points-container{
+.life-points-container {
   height: 70px;
   width: 150px;
   border-style: solid;
@@ -51,7 +51,8 @@ export default {
   border-width: 1px;
   background-color: rgba(255,255,255,0.4)
 }
-p{
+
+p {
   font-size: 17px;
   font-family: fantasy;
   font-weight: bold;

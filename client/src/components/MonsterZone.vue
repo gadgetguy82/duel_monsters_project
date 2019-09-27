@@ -132,6 +132,6 @@ export default {
 }
 
 .yellow {
-  background-image: url('../../public/img/yellow_monster_zone.jpg');
+  background-image: url('../../public/img/yugioh_ra.jpg');
 }
 </style>

@@ -40,7 +40,6 @@ export default {
 <style lang="css" scoped>
 /* #store-container {
   height: 809px;
-
 } */
 
 .store-cards-container {
