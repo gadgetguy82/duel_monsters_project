@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="life-points-container">
+  <div class="life-points-container" v-on:click="sendMessage">
     <p :class="{ 'green' : this.points > 4000 , 'amber': this.points > 1000 , 'red' : this.points <= 1000 }">☠️Life Points☠️ <br>
     {{this.points}}</p>
   </div>
@@ -7,13 +7,15 @@
 
 <script>
 import {eventBus1, eventBus2} from '@/main.js';
+import socketio from 'socket.io-client';
 
 export default {
   name: 'life_points',
   props: ['player', 'eventBus'],
   data() {
     return {
-      points: 8000
+      points: 8000,
+      socket : socketio('localhost:5000')
     }
   },
   mounted() {
@@ -30,6 +32,11 @@ export default {
           eventBus1.$emit('winner', "one");
         }
       }
+    }
+  },
+  methods: {
+    sendMessage() {
+      this.socket.emit('SEND_MESSAGE', "hello");
     }
   }
 }

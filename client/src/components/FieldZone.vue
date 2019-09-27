@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="field-zone-container">
-    <div class="field-zone" v-on:click="sendMessage">
+    <div class="field-zone">
       <div class="layer">
         <h4>Field Zone</h4>
       </div>
@@ -9,26 +9,8 @@
 </template>
 
 <script>
-import io from 'socket.io-client';
-
 export default {
   name: 'field-zone',
-  data() {
-    return {
-      socket : io('localhost:5000')
-    }
-  },
-  mounted() {
-    this.socket.on('MESSAGE', (data) => {
-      this.messages = [...this.messages, data];
-      // you can also do this.messages.push(data)
-    });
-  },
-  methods: {
-    sendMessage() {
-      this.socket.emit('SEND_MESSAGE');
-    }
-  }
 }
 </script>
 

@@ -16,11 +16,6 @@ const io = socketIO(server);
 app.set('port', 5000);
 app.use(express.static('../client/public'));
 
-// Routing
-// app.get('/', function(request, response) {
-//   response.sendFile(`${ __dirname }/../client/public/index.html`);
-// });
-
 // Starts the server.
 server.listen(5000, function() {
   console.log(`Starting server on port ${this.address().port}`);
@@ -29,9 +24,8 @@ server.listen(5000, function() {
 let roomCount = 1;
 
 io.on('connection', socket => {
-  console.log(socket.id);
-  socket.on('SEND_MESSAGE', function(data) {
-    io.emit('MESSAGE', data);
+  socket.on('SEND_MESSAGE', msg => {
+    console.log(msg);
   });
 
   const roomList = io.sockets.adapter.rooms;
