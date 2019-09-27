@@ -1,5 +1,4 @@
 <template lang="html">
-
   <div id="store">
     <div id="store-container">
       <h1>Duel Monsters Store</h1>
@@ -12,11 +11,10 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
-import DBService from '@/services/db_service'
+import DBService from '@/services/db_service';
 
 export default {
   name: 'store',
@@ -44,6 +42,7 @@ export default {
   height: 809px;
 
 } */
+
 .store-cards-container {
  display: flex;
  flex-wrap: wrap;
@@ -66,5 +65,4 @@ img, .store-card{
 .card-title{
   height: 40px
 }
-
 </style>

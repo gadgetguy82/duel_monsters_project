@@ -18,34 +18,34 @@
 </template>
 
 <script>
-import { eventBus1, eventBus2 } from '@/main.js'
-import Card from '@/components/Card'
-import GameLogic from '@/services/game_logic.js'
+import { eventBus1, eventBus2 } from '@/main.js';
+import Card from '@/components/Card';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'battle-result',
   props: ['emptyHand'],
+  components: {
+    "playing-card" : Card
+  },
   data(){
     return{
       playerOneCard: null,
       playerTwoCard: null,
     }
   },
-  components: {
-    "playing-card" : Card
-  },
   mounted() {
-    eventBus1.$on('select-battlecard', card => {
+    eventBus1.$on('select-monster-card', card => {
       this.playerOneCard = card;
     });
-    eventBus2.$on('select-battlecard', card => {
+    eventBus2.$on('select-monster-card', card => {
       this.playerTwoCard = card;
     });
 
-    eventBus1.$on('empty-battlehand', empty => {
+    eventBus1.$on('empty-monster-zone', empty => {
       this.playerOneCard = empty;
     });
-    eventBus2.$on('empty-battlehand', empty => {
+    eventBus2.$on('empty-monster-zone', empty => {
       this.playerTwoCard = empty;
     });
   },
@@ -98,9 +98,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
-
 .result {
-  margin:5px;
+  margin: 30px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
   background-position: center;
@@ -144,5 +143,4 @@ h4 {
 button {
   width: 60%;
 }
-
 </style>

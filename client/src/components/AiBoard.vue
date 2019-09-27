@@ -2,7 +2,7 @@
   <div class="ai-board-container">
     <div class="top-row">
       <playing-deck></playing-deck>
-      <battle-hand></battle-hand>
+      <monster-zone></monster-zone>
       <life-points></life-points>
     </div>
     <div class="bottom-row">
@@ -13,11 +13,11 @@
 </template>
 
 <script>
-import PlayingDeck from '@/components/PlayingDeck.vue'
-import PlayingHand from '@/components/PlayingHand.vue'
-import LifePoints from '@/components/LifePoints.vue'
-import BattleHand from '@/components/BattleHand.vue'
-import GraveyardDeck from '@/components/GraveyardDeck.vue'
+import PlayingDeck from '@/components/PlayingDeck.vue';
+import PlayingHand from '@/components/PlayingHand.vue';
+import LifePoints from '@/components/LifePoints.vue';
+import MonsterZone from '@/components/MonsterZone.vue';
+import GraveyardDeck from '@/components/GraveyardDeck.vue';
 
 export default {
   name: 'ai-board',
@@ -25,14 +25,13 @@ export default {
     "playing-deck": PlayingDeck,
     "playing-hand": PlayingHand,
     "life-points": LifePoints,
-    'battle-hand': BattleHand,
+    "monster-zone": MonsterZone,
     "graveyard-deck": GraveyardDeck
   }
 }
 </script>
 
 <style lang="css" scoped>
-
 .ai-board-container{
   border-style: solid;
   border-width: 1px;
@@ -50,5 +49,4 @@ export default {
   display: flex;
   justify-content: space-between;
 }
-
 </style>

@@ -49,31 +49,30 @@ export default {
 </script>
 
 <style lang="css" scoped>
+#background {
+  color: #FF8C00;
+  text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 2px solid black;
+  background-color: rgba(0, 0, 0, 0.8);
+  height: fit-content;
+  width: fit-content;
+  margin: auto;
+  padding: 10px;
+}
 
-  #background {
-    color: #FF8C00;
-    text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 2px solid black;
-    background-color: rgba(0, 0, 0, 0.8);
-    height: fit-content;
-    width: fit-content;
-    margin: auto;
-    padding: 10px;
-  }
+p, li {
+  margin: 5px;
+  font-size: 18px;
+  list-style-type: decimal;
+}
 
-  p, li {
-    margin: 5px;
-    font-size: 18px;
-    list-style-type: decimal;
-  }
-
-  button {
-    margin: 5px;
-    font-size: 16px;
-    border-radius: 5px;
-    text-decoration: none;
-  }
+button {
+  margin: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  text-decoration: none;
+}
 </style>

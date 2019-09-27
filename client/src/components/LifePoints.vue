@@ -6,7 +6,8 @@
 </template>
 
 <script>
-import {eventBus1, eventBus2} from '@/main.js'
+import {eventBus1, eventBus2} from '@/main.js';
+
 export default {
   name: 'life_points',
   props: ['player', 'eventBus'],
@@ -15,8 +16,12 @@ export default {
       points: 8000
     }
   },
+  mounted() {
+    this.eventBus.$on('lose', result => this.points += result.damage);
+    this.eventBus.$on('nowin', result => this.points += result.damage);
+  },
   watch: {
-    points: function () {
+    points() {
       if (this.points <= 0) {
         this.eventBus.$emit('defeat', this.player);
         if (this.player === "one") {
@@ -26,10 +31,6 @@ export default {
         }
       }
     }
-  },
-  mounted() {
-    this.eventBus.$on('lose', result => this.points += result.damage);
-    this.eventBus.$on('nowin', result => this.points += result.damage);
   }
 }
 </script>

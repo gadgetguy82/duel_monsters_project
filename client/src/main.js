@@ -9,6 +9,7 @@ Vue.config.productionTip = false;
 
 export const eventBus1 = new Vue();
 export const eventBus2 = new Vue();
+export const eventBusInfo = new Vue();
 
 new Vue({
   router,
