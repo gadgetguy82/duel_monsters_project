@@ -32,8 +32,8 @@ export default {
         position: "atk"
       },
       summoningCard: null,
-      sacrificeAmount: 0,
-      sacrifices: []
+      tributeAmount: 0,
+      tributes: []
     }
   },
   mounted(){
@@ -45,9 +45,9 @@ export default {
       GameLogic.removeCard(result.card, this.monsterZone);
     });
 
-    this.eventBus.$on("sacrifice-summon", summonData => {
+    this.eventBus.$on("tribute-summon", summonData => {
       this.summoningCard = summonData.card;
-      this.sacrificeAmount = summonData.amount;
+      this.tributeAmount = summonData.amount;
     });
   },
   watch: {
@@ -62,17 +62,17 @@ export default {
   methods: {
     handleClick(card) {
       if (this.mainPhases.includes(this.phase)) {
-        if (this.sacrifices.length < this.sacrificeAmount) {
-          this.sacrifices.push(card);
-          if (this.sacrifices.length === this.sacrificeAmount) {
-            for (let monster of this.sacrifices) {
+        if (this.tributes.length < this.tributeAmount) {
+          this.tributes.push(card);
+          if (this.tributes.length === this.tributeAmount) {
+            for (let monster of this.tributes) {
               GameLogic.removeCard(monster, this.monsterZone);
             }
             this.monsterZone.push(this.summoningCard);
-            this.eventBus.$emit("sacrifices-selected", this.sacrifices);
-            this.eventBus.$emit("sacrifice-success", this.summoningCard);
-            this.sacrifices = [];
-            this.sacrificeAmount = 0;
+            this.eventBus.$emit("tributes-selected", this.tributes);
+            this.eventBus.$emit("tribute-success", this.summoningCard);
+            this.tributes = [];
+            this.tributeAmount = 0;
             this.summoningCard = null;
           }
         }

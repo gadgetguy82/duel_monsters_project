@@ -30,7 +30,7 @@ export default {
 
     this.eventBus.$on("monster-zone", full => this.monsterZone = full);
 
-    this.eventBus.$on("sacrifice-success", card => {
+    this.eventBus.$on("tribute-success", card => {
       GameLogic.removeCard(card, this.playerHand);
     });
   },
@@ -56,12 +56,12 @@ export default {
         } else if (parseInt(card.level) < 7){
           this.summonData.card = card;
           this.summonData.amount = 1;
-          this.eventBus.$emit("sacrifice-summon", this.summonData);
+          this.eventBus.$emit("tribute-summon", this.summonData);
           this.summonData = {};
         } else if (parseInt(card.level) >= 7){
           this.summonData.card = card;
           this.summonData.amount = 2;
-          this.eventBus.$emit("sacrifice-summon", this.summonData);
+          this.eventBus.$emit("tribute-summon", this.summonData);
           this.summonData = {};
         }
       }
