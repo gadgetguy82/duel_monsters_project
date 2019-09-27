@@ -35,8 +35,8 @@ export default {
     });
   }
 }
-</script>
 
+</script>
 <style lang="css" scoped>
 #view {
   background-image: url('../public/img/yugioh_god_cards.jpg');

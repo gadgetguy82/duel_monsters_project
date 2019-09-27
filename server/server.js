@@ -14,22 +14,46 @@ const server = http.Server(app);
 const socketIO = require('socket.io');
 const io = socketIO(server);
 app.set('port', 5000);
-app.use('/public', express.static(__dirname + '/public'));
+app.use(express.static('../client/public'));
 
-const path = require('path');
+// const path = require('path');
 
 // Routing
-app.get('/', function(request, response) {
-  response.sendFile(path.join(__dirname, 'index.html'));
-});
+// app.get('/', function(request, response) {
+//   response.sendFile(`${ __dirname }/../client/public/index.html`);
+// });
 
 // Starts the server.
 server.listen(5000, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
 
+let roomCount = 1;
+
 io.on('connection', socket => {
-  
+  const roomList = io.sockets.adapter.rooms;
+  let currentRoom = "room" + roomCount;
+
+  let count
+  if (roomList[currentRoom] === undefined) {
+    count = 0;
+  } else {
+    count = roomList[currentRoom].length;
+  }
+
+  if (count < 2) {
+    socket.join(currentRoom);
+    io.to(currentRoom).emit("roomNumber", currentRoom);
+  } else {
+    roomCount++;
+    currentRoom = "room" + roomCount;
+    socket.join(currentRoom);
+    io.to(currentRoom).emit("roomNumber", currentRoom);
+  }
+
+  socket.on('action', emitObject => {
+    io.to(emitObject.room).emit('action', emitObject.action);
+  });
 });
 
 const MongoClient = require('mongodb').MongoClient;

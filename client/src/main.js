@@ -1,9 +1,17 @@
 import Vue from 'vue';
 import App from './App.vue';
 import router from '@/router.js';
-import VueSocketio from 'vue-socket.io';
+import VueSocketIO from 'vue-socket.io';
 
-// Vue.use(VueSocketio, 'http://localhost:5000/');
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:5000',
+  vue: {
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  },
+  options: { path: "" }
+}));
 
 Vue.config.productionTip = false;
 
