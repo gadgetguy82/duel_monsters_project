@@ -32,6 +32,10 @@ export default {
 }
 
 img {
-
+  position: relative;
+  width: auto;
+  height: 400px;
+  right: 60px;
+  bottom: 80px;
 }
 </style>
