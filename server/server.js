@@ -16,8 +16,6 @@ const io = socketIO(server);
 app.set('port', 5000);
 app.use(express.static('../client/public'));
 
-// const path = require('path');
-
 // Routing
 // app.get('/', function(request, response) {
 //   response.sendFile(`${ __dirname }/../client/public/index.html`);
@@ -31,6 +29,11 @@ server.listen(5000, function() {
 let roomCount = 1;
 
 io.on('connection', socket => {
+  console.log(socket.id);
+  socket.on('SEND_MESSAGE', function(data) {
+    io.emit('MESSAGE', data);
+  });
+
   const roomList = io.sockets.adapter.rooms;
   let currentRoom = "room" + roomCount;
 
