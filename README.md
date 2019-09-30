@@ -1,0 +1,9 @@
+# duel_monsters_project
+
+This is our JavaScript project built to help our group learn and solidify our knowledge in the use of the express and Vue frameworks along with the non-relational database MongoDB. We were given a selection of three briefs to base our project on. Our group opted to implement a card/dice game. We chose the Yu-Gi-Oh card trading game to implement for our project.
+
+Our MVP was to have a basic version of the game working where only the normal monster cards could be used to perform attacks on your opponent's card or life-points. The game is fairly simple in this scenario as we would only need to compare the attack and defence stats of the cards to determine the result of each battle. The winner of the game would be the one who could reduce their opponent's life-points down to zero first. We had only one week to complete the project before we presented it to an audience. The components we had here were only the player's deck, their current hand, the monster zone, the graveyard, the player's life-points, the phase button, and the battle area.
+
+The project is still an ongoing one, and as such a lot of refactoring has taken place since the presentation. More components are being added which will handle all the cards that have special effects which were left out of the basic version of the game. More functionality will be added to handle the effects of these cards. The socket.io and socket.io-client packages have also been added to the project. Hopefully soon we will have multiple users being able to connect to the server and be paired up in rooms to partake in matches against each other.
+
+The components that have been added are the spell/trap zone, field card zone, extra deck, side deck, and extra monster zone. The latter three components will not be functional until the majority of the card effects have been implemented.
