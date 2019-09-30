@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {eventBus1, eventBus2} from '@/main.js';
+import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
   name: 'win-lose',

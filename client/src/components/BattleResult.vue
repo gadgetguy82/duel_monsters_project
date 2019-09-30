@@ -60,7 +60,7 @@ export default {
               damage: result.damage
             });
           } else {
-            eventBus1.$emit('nowin', {
+            eventBus1.$emit('no-win', {
               card: result.cards[0],
               damage: result.damage
             });
@@ -72,7 +72,7 @@ export default {
               damage: result.damage
             });
           } else {
-            eventBus2.$emit('nowin', {
+            eventBus2.$emit('no-win', {
               card: result.cards[0],
               damage: result.damage
             });

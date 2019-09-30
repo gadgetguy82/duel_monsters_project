@@ -19,7 +19,7 @@ export default {
   },
   mounted() {
     this.boardData.eventBus.$on('lose', result => this.points += result.damage);
-    this.boardData.eventBus.$on('nowin', result => this.points += result.damage);
+    this.boardData.eventBus.$on('no-win', result => this.points += result.damage);
   },
   watch: {
     points() {
