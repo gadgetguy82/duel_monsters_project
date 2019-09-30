@@ -56,7 +56,7 @@ io.on('connection', socket => {
 const MongoClient = require('mongodb').MongoClient;
 const createRouter = require('./helpers/create_router.js');
 
-MongoClient.connect('mongodb://localhost:27017', (error, client) => {
+MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (error, client) => {
   if (error) {
     console.log(error);
   }
