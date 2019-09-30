@@ -2,21 +2,21 @@
   <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
     <div class="first col">
       <div class="top-row">
-        <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+        <playing-hand :player="player" :gameState="gameState" :eventBus="eventBus"></playing-hand>
       </div>
       <div class="bottom-row">
-        <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+        <playing-deck :deck="deck" :player="player" :gameState="gameState" :eventBus="eventBus"></playing-deck>
         <extra-deck></extra-deck>
         <side-deck></side-deck>
       </div>
     </div>
     <div class="second col">
       <div class="top-row">
-        <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
+        <spell-trap-zone :player="player" :gameState="gameState" :eventBus="eventBus"></spell-trap-zone>
         <field-zone></field-zone>
       </div>
       <div class="bottom-row">
-        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
+        <monster-zone :player="player" :gameState="gameState" :eventBus="eventBus"></monster-zone>
         <extra-monster-zone></extra-monster-zone>
       </div>
     </div>
@@ -45,7 +45,7 @@ import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'player-board',
-  props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
+  props: ['normalCards', 'player', 'gameState', 'eventBus'],
   components: {
     "playing-deck": PlayingDeck,
     "extra-deck": ExtraDeck,

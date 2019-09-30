@@ -10,7 +10,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-hand',
-  props: ['player', 'phase', 'turn', 'eventBus'],
+  props: ['player', 'gameState', 'eventBus'],
   components: {
     "playing-card": Card
   },
@@ -35,12 +35,12 @@ export default {
     });
   },
   watch: {
-    phase() {
-      if (this.phase === "Draw" && this.player === this.turn) {
+    "gameState.phase"() {
+      if (this.gameState.phase === "Draw" && this.player === this.gameState.turn) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
-      } else if (this.phase === "Start" && this.player !== this.turn) {
+      } else if (this.gameState.phase === "Start" && this.player !== this.gameState.turn) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     summon(card) {
-      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
+      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
           this.eventBus.$emit("normal-summon", card);
           GameLogic.removeCard(card, this.playerHand);

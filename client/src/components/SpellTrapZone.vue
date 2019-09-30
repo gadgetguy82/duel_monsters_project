@@ -11,7 +11,7 @@ import Card from '@/components/Card';
 
 export default {
   name: 'spell-trap-zone',
-  props: ['player', 'phase', 'turn', 'eventBus'],
+  props: ['player', 'gameState', 'eventBus'],
   components: {
     "playing-card" : Card
   }

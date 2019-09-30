@@ -11,7 +11,7 @@ import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
   name: 'playing-deck',
-  props: ['deck', 'player', 'phase', 'turn', 'eventBus'],
+  props: ['deck', 'player', 'gameState', 'eventBus'],
   data() {
     return {
       lastCard: false
@@ -20,7 +20,7 @@ export default {
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      if (this.player === this.turn && this.player === "one" && this.phase === "Draw") {
+      if (this.player === this.gameState.turn && this.player === "one" && this.gameState.phase === "Draw") {
         if (this.lastCard) {
           eventBus1.$emit('defeat', this.player);
           eventBus2.$emit('winner', "two");
@@ -30,7 +30,7 @@ export default {
         if (this.deck.length > 0) {
           eventBus1.$emit('one-card', card);
         }
-      } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
+      } else if (this.player === this.gameState.turn && this.player === "two" && this.gameState.phase === "Draw"){
         if (this.lastCard) {
           eventBus2.$emit('defeat', this.player);
           eventBus1.$emit('winner', "one");

@@ -16,7 +16,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-zone',
-  props: ['player', 'phase', 'turn', 'eventBus'],
+  props: ['player', 'gameState', 'eventBus'],
   components: {
     "playing-card" : Card
   },
@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     handleClick(card) {
-      if (this.mainPhases.includes(this.phase)) {
+      if (this.mainPhases.includes(this.gameState.phase)) {
         if (this.tributes.length < this.tributeAmount) {
           this.tributes.push(card);
           if (this.tributes.length === this.tributeAmount) {
@@ -76,19 +76,19 @@ export default {
             this.summoningCard = null;
           }
         }
-      } else if (this.phase === "Battle") {
+      } else if (this.gameState.phase === "Battle") {
         this.eventBus.$emit("select-monster-card", card);
       }
     },
 
     setAttack(card) {
-      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
+      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "atk";
       }
     },
 
     setDefence(card) {
-      if (this.player === this.turn && this.mainPhases.includes(this.phase)) {
+      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "def";
       }
     },
