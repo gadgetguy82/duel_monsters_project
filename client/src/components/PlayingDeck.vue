@@ -18,7 +18,7 @@ export default {
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      if (this.boardData.player === this.gameState.turn && this.gameState.phase === "Draw") {
+      if (GameLogic.checkTurn(boardData, gameState) && this.gameState.phase === "Draw") {
         if (this.lastCard) {
           this.boardData.eventBus.$emit('defeat', this.boardData.player);
         } else if (this.deck.length === 0) {

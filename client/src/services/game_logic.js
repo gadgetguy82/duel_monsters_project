@@ -33,6 +33,10 @@ export default {
     return phase;
   },
 
+  checkTurn({player}, {turn}) {
+    return player === turn;
+  },
+
   compareStats(card1, card2) {
     if ((card1 !== null) && (card2 !== null)) {
       const card1BattleStat = card1.position === "atk" ? parseInt(card1.atk) : parseInt(card1.def)

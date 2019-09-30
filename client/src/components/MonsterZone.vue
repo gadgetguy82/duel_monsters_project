@@ -82,13 +82,13 @@ export default {
     },
 
     setAttack(card) {
-      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (GameLogic.checkTurn(boardData, gameState) && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "atk";
       }
     },
 
     setDefence(card) {
-      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (GameLogic.checkTurn(boardData, gameState) && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "def";
       }
     },

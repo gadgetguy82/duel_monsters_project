@@ -36,11 +36,11 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === "Draw" && this.boardData.player === this.gameState.turn) {
+      if (this.gameState.phase === "Draw" && GameLogic.checkTurn(boardData, gameState)) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
-      } else if (this.gameState.phase === "Start" && this.boardData.player !== this.gameState.turn) {
+      } else if (this.gameState.phase === "Start" && !GameLogic.checkTurn(boardData, gameState)) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
@@ -49,7 +49,7 @@ export default {
   },
   methods: {
     summon(card) {
-      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (GameLogic.checkTurn(boardData, gameState) && this.mainPhases.includes(this.gameState.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
           this.boardData.eventBus.$emit("normal-summon", card);
           GameLogic.removeCard(card, this.playerHand);
