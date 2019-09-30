@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import { eventBus1, eventBus2 } from '@/main.js';
-
 export default {
   name: 'playing-deck',
   props: ['deck', 'gameState', 'boardData'],
@@ -20,25 +18,14 @@ export default {
   methods: {
     addCardToPlayingHand(){
       const card = this.deck.pop();
-      if (this.boardData.player === this.gameState.turn && this.boardData.player === "one" && this.gameState.phase === "Draw") {
+      if (this.boardData.player === this.gameState.turn && this.gameState.phase === "Draw") {
         if (this.lastCard) {
-          eventBus1.$emit('defeat', this.boardData.player);
-          eventBus2.$emit('winner', "two");
+          this.boardData.eventBus.$emit('defeat', this.boardData.player);
         } else if (this.deck.length === 0) {
           this.lastCard = true;
         }
         if (this.deck.length > 0) {
-          eventBus1.$emit('one-card', card);
-        }
-      } else if (this.boardData.player === this.gameState.turn && this.boardData.player === "two" && this.gameState.phase === "Draw"){
-        if (this.lastCard) {
-          eventBus2.$emit('defeat', this.boardData.player);
-          eventBus1.$emit('winner', "one");
-        } else if (this.deck.length === 0) {
-          this.lastCard = true;
-        }
-        if (this.deck.length > 0) {
-          eventBus2.$emit('one-card', card);
+          this.boardData.eventBus.$emit('one-card', card);
         }
       }
     }

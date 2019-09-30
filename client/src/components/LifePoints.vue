@@ -6,7 +6,6 @@
 </template>
 
 <script>
-import {eventBus1, eventBus2} from '@/main.js';
 import socketio from 'socket.io-client';
 
 export default {
@@ -26,11 +25,6 @@ export default {
     points() {
       if (this.points <= 0) {
         this.boardData.eventBus.$emit('defeat', this.boardData.player);
-        if (this.boardData.player === "one") {
-          eventBus2.$emit('winner', "two");
-        } else {
-          eventBus1.$emit('winner', "one");
-        }
       }
     }
   },
