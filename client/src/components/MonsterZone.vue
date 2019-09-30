@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="monster-container" :class= "{ 'yellow' : player === 'one', 'blue' : player === 'two' }" v-on:click="checkMonsterZone">
+  <div class="monster-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
     <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <div class="button-container">
@@ -16,7 +16,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-zone',
-  props: ['player', 'gameState', 'eventBus'],
+  props: ['gameState', 'boardData'],
   components: {
     "playing-card" : Card
   },
@@ -37,15 +37,15 @@ export default {
     }
   },
   mounted(){
-    this.eventBus.$on("normal-summon", card => {
+    this.boardData.eventBus.$on("normal-summon", card => {
       this.monsterZone.push(card);
     });
 
-    this.eventBus.$on("lose", result => {
+    this.boardData.eventBus.$on("lose", result => {
       GameLogic.removeCard(result.card, this.monsterZone);
     });
 
-    this.eventBus.$on("tribute-summon", summonData => {
+    this.boardData.eventBus.$on("tribute-summon", summonData => {
       this.summoningCard = summonData.card;
       this.tributeAmount = summonData.amount;
     });
@@ -53,9 +53,9 @@ export default {
   watch: {
     monsterZone() {
       if (this.monsterZone.length === 5) {
-        this.eventBus.$emit("monster-zone", "full");
+        this.boardData.eventBus.$emit("monster-zone", "full");
       } else {
-        this.eventBus.$emit("monster-zone", "space");
+        this.boardData.eventBus.$emit("monster-zone", "space");
       }
     }
   },
@@ -69,33 +69,33 @@ export default {
               GameLogic.removeCard(monster, this.monsterZone);
             }
             this.monsterZone.push(this.summoningCard);
-            this.eventBus.$emit("tributes-selected", this.tributes);
-            this.eventBus.$emit("tribute-success", this.summoningCard);
+            this.boardData.eventBus.$emit("tributes-selected", this.tributes);
+            this.boardData.eventBus.$emit("tribute-success", this.summoningCard);
             this.tributes = [];
             this.tributeAmount = 0;
             this.summoningCard = null;
           }
         }
       } else if (this.gameState.phase === "Battle") {
-        this.eventBus.$emit("select-monster-card", card);
+        this.boardData.eventBus.$emit("select-monster-card", card);
       }
     },
 
     setAttack(card) {
-      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "atk";
       }
     },
 
     setDefence(card) {
-      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         card.position = "def";
       }
     },
 
     checkMonsterZone() {
       if (this.monsterZone.length === 0 ) {
-        this.eventBus.$emit("empty-monster-zone", this.noCard);
+        this.boardData.eventBus.$emit("empty-monster-zone", this.noCard);
       }
     }
   }

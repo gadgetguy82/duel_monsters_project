@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="battlefield">
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :player="'one'" :gameState="gameState" :eventBus="eventBus1"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
       <info-box></info-box>
@@ -25,7 +25,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :player="'two'" :gameState="gameState" :eventBus="eventBus2"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="bluePlayerData"></player-board>
     </div>
   </div>
 </template>
@@ -59,8 +59,14 @@ export default {
         turn: 'one',
         phase: "Start",
       },
-      eventBus1: eventBus1,
-      eventBus2: eventBus2,
+      yellowPlayerData: {
+        player: 'one',
+        eventBus: eventBus1,
+      },
+      bluePlayerData: {
+        player: 'two',
+        eventBus: eventBus2,
+      }
     }
   },
   methods: {

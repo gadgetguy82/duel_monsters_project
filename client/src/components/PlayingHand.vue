@@ -10,7 +10,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-hand',
-  props: ['player', 'gameState', 'eventBus'],
+  props: ['gameState', 'boardData'],
   components: {
     "playing-card": Card
   },
@@ -23,24 +23,24 @@ export default {
     }
   },
   mounted() {
-    this.eventBus.$on("one-card", card => {
+    this.boardData.eventBus.$on("one-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
     });
 
-    this.eventBus.$on("monster-zone", full => this.monsterZone = full);
+    this.boardData.eventBus.$on("monster-zone", full => this.monsterZone = full);
 
-    this.eventBus.$on("tribute-success", card => {
+    this.boardData.eventBus.$on("tribute-success", card => {
       GameLogic.removeCard(card, this.playerHand);
     });
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === "Draw" && this.player === this.gameState.turn) {
+      if (this.gameState.phase === "Draw" && this.boardData.player === this.gameState.turn) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
-      } else if (this.gameState.phase === "Start" && this.player !== this.gameState.turn) {
+      } else if (this.gameState.phase === "Start" && this.boardData.player !== this.gameState.turn) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
@@ -49,19 +49,19 @@ export default {
   },
   methods: {
     summon(card) {
-      if (this.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
+      if (this.boardData.player === this.gameState.turn && this.mainPhases.includes(this.gameState.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
-          this.eventBus.$emit("normal-summon", card);
+          this.boardData.eventBus.$emit("normal-summon", card);
           GameLogic.removeCard(card, this.playerHand);
         } else if (parseInt(card.level) < 7){
           this.summonData.card = card;
           this.summonData.amount = 1;
-          this.eventBus.$emit("tribute-summon", this.summonData);
+          this.boardData.eventBus.$emit("tribute-summon", this.summonData);
           this.summonData = {};
         } else if (parseInt(card.level) >= 7){
           this.summonData.card = card;
           this.summonData.amount = 2;
-          this.eventBus.$emit("tribute-summon", this.summonData);
+          this.boardData.eventBus.$emit("tribute-summon", this.summonData);
           this.summonData = {};
         }
       }
