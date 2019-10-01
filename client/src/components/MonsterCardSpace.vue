@@ -11,6 +11,7 @@
 
 <script>
 import Card from '@/components/Card.vue';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-card-space',
@@ -20,6 +21,7 @@ export default {
   },
   data() {
     return {
+      mainPhases: ["First Main", "Second Main"],
       card: null,
       temp: null,
       canSummon: false
@@ -38,9 +40,13 @@ export default {
   },
   methods: {
     handleClick() {
-      if (this.canSummon) {
-        this.card = this.temp;
-        this.boardData.eventBus.$emit("summon-success", this.card);
+      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.mainPhases.includes(this.gameState.phase)) {
+        if (this.canSummon) {
+          this.card = this.temp;
+          this.boardData.eventBus.$emit("summon-success", this.card);
+        } else {
+          this.card.position = this.card.position === "atk" ? "def" : "atk"
+        }
       }
     }
   }
@@ -70,12 +76,16 @@ export default {
 }
 
 .space-landscape {
-  height: 105px;
-  width: 155px;
+  height: 155px;
+  width: 105px;
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
   border-color: #FFFFFF;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transform: rotate(-90deg);
 }
 </style>

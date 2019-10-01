@@ -89,18 +89,6 @@ export default {
       }
     },
 
-    setAttack(card) {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.mainPhases.includes(this.gameState.phase)) {
-        card.position = "atk";
-      }
-    },
-
-    setDefence(card) {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.mainPhases.includes(this.gameState.phase)) {
-        card.position = "def";
-      }
-    },
-
     checkMonsterZone() {
       if (this.monsterZone.length === 0 ) {
         this.boardData.eventBus.$emit("empty-monster-zone", this.noCard);
