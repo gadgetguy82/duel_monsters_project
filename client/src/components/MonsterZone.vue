@@ -45,6 +45,10 @@ export default {
       this.tributeAmount = tributeData.amount;
     });
 
+    this.boardData.eventBus.$on("tributes-selected", tributes => {
+      this.monsterZone -= tributes.length;
+    });
+
     this.boardData.eventBus.$on("lose", () => {
       this.monsterZone--;
     });
@@ -59,27 +63,8 @@ export default {
     }
   },
   methods: {
-    handleClick(card) {
-      if (this.mainPhases.includes(this.gameState.phase)) {
-        if (this.tributes.length < this.tributeAmount) {
-          this.tributes.push(card);
-          if (this.tributes.length === this.tributeAmount) {
-            for (let monster of this.tributes) {
-              GameLogic.removeCard(monster, this.monsterZone);
-            }
-            this.monsterZone.push(this.summoningCard);
-            this.boardData.eventBus.$emit("tributes-selected", this.tributes);
-            this.boardData.eventBus.$emit("summon-success", this.summoningCard);
-            this.tributes = [];
-            this.tributeAmount = 0;
-            this.summoningCard = null;
-          }
-        }
-      }
-    },
-
     checkMonsterZone() {
-      if (this.monsterZone.length === 0 ) {
+      if (GameLogic.checkBattlePhase(this.boardData, this.gameState) && this.monsterZone === 0 ) {
         this.boardData.eventBus.$emit("battle-select-monster", this.noCard);
       }
     }
