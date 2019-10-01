@@ -30,14 +30,17 @@ export default {
       this.canSummon = true;
       this.temp = card;
     });
+
+    this.boardData.eventBus.$on("summon-success", () => {
+      this.canSummon = false;
+      this.temp = null;
+    });
   },
   methods: {
     handleClick() {
       if (this.canSummon) {
-        this.canSummon = false;
         this.card = this.temp;
-        this.temp = null;
-        this.boardData.eventBus.$emit("summon-success");
+        this.boardData.eventBus.$emit("summon-success", this.card);
       }
     }
   }
@@ -61,6 +64,9 @@ export default {
   border-radius: 5px;
   border-color: #FFFFFF;
   position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .space-landscape {

@@ -69,8 +69,10 @@ export default {
     return result;
   },
 
-  removeCard(card, zone) {
-    const index = zone.findIndex(zoneCard => zoneCard === card);
-    zone.splice(index, 1);
+  removeCard(card, array) {
+    const index = array.findIndex(arrayCard => arrayCard === card);
+    if (index >= 0) {
+      array.splice(index, 1);
+    }
   }
 }
