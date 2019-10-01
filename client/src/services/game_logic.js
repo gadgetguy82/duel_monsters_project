@@ -1,4 +1,7 @@
+const mainPhases = ["First Main", "Second Main"];
+
 export default {
+
   changeTurn(turn) {
     if (turn === "one") {
       return "two";
@@ -35,6 +38,18 @@ export default {
 
   checkTurn({player}, {turn}) {
     return player === turn;
+  },
+
+  checkChangeTurn({player}, {turn}) {
+    return phase === "Start" && !checkTurn({player}, {turn})
+  },
+
+  checkDrawPhase({player}, {turn, phase}) {
+    return phase === "Draw" && checkTurn({player}, {turn});
+  },
+
+  checkMainPhase({player}, {turn, phase}) {
+    return mainPhases.includes(phase) && checkTurn({player}, {turn});
   },
 
   compareStats(card1, card2) {

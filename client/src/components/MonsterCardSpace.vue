@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     handleClick() {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.mainPhases.includes(this.gameState.phase)) {
+      if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
         if (this.canSummon) {
           this.card = this.temp;
           this.boardData.eventBus.$emit("summon-success", this.card);
