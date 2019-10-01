@@ -5,14 +5,6 @@
     <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
     <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
     <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <!-- <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
-      <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
-      <div class="button-container">
-        <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
-        <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
-      </div>
-    </div> -->
-
   </div>
 </template>
 
@@ -45,10 +37,6 @@ export default {
     }
   },
   mounted(){
-    this.boardData.eventBus.$on("normal-summon", card => {
-      this.monsterZone.push(card);
-    });
-
     this.boardData.eventBus.$on("lose", result => {
       GameLogic.removeCard(result.card, this.monsterZone);
     });
@@ -117,10 +105,11 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 180px;
+  height: 160px;
   width: 780px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   opacity: 0.7;
 }
 
