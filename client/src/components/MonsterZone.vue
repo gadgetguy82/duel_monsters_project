@@ -1,17 +1,17 @@
 <template lang="html">
   <div class="monster-zone-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
-    <monster-space></monster-space>
-    <monster-space></monster-space>
-    <monster-space></monster-space>
-    <monster-space></monster-space>
-    <monster-space></monster-space>
-    <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
+    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+    <!-- <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <div class="button-container">
         <button v-if="card" v-on:click="setAttack(card)" :class="{ 'selected' : card.position === 'atk', 'unselected' : card.position === 'def'}">attack</button>
         <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
             }
             this.monsterZone.push(this.summoningCard);
             this.boardData.eventBus.$emit("tributes-selected", this.tributes);
-            this.boardData.eventBus.$emit("tribute-success", this.summoningCard);
+            this.boardData.eventBus.$emit("summon-success", this.summoningCard);
             this.tributes = [];
             this.tributeAmount = 0;
             this.summoningCard = null;

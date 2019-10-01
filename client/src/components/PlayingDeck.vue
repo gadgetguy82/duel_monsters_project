@@ -14,7 +14,7 @@ export default {
   props: ['deck', 'gameState', 'boardData'],
   data() {
     return {
-      canDraw: true
+      canDraw: false
     }
   },
   mounted() {

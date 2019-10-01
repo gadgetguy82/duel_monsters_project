@@ -30,7 +30,7 @@ export default {
 
     this.boardData.eventBus.$on("monster-zone", full => this.monsterZone = full);
 
-    this.boardData.eventBus.$on("tribute-success", card => {
+    this.boardData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
     });
   },
@@ -58,7 +58,6 @@ export default {
       if (GameLogic.checkTurn(this.boardData, this.gameState) && this.mainPhases.includes(this.gameState.phase)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
           this.boardData.eventBus.$emit("normal-summon", card);
-          GameLogic.removeCard(card, this.playerHand);
           this.summonData = {};
         } else if (parseInt(card.level) < 7) {
           this.summonData.card = card;

@@ -1,16 +1,46 @@
 <template lang="html">
-  <div class="monster-space-container">
+  <div class="monster-space-container" v-on:click="handleClick()">
     <div class="space-portrait">
-
+      <playing-card v-if="card && card.position === 'atk'" :card="card"></playing-card>
     </div>
     <div class="space-landscape">
-      
+      <playing-card v-if="card && card.position === 'def'" :card="card"></playing-card>
     </div>
   </div>
 </template>
 
 <script>
+import Card from '@/components/Card.vue';
+
 export default {
+  name: 'monster-card-space',
+  props: ['gameState', 'boardData'],
+  components: {
+    "playing-card": Card
+  },
+  data() {
+    return {
+      card: null,
+      temp: null,
+      canSummon: false
+    }
+  },
+  mounted() {
+    this.boardData.eventBus.$on("normal-summon", card => {
+      this.canSummon = true;
+      this.temp = card;
+    });
+  },
+  methods: {
+    handleClick() {
+      if (this.canSummon) {
+        this.canSummon = false;
+        this.card = this.temp;
+        this.temp = null;
+        this.boardData.eventBus.$emit("summon-success");
+      }
+    }
+  }
 }
 </script>
 
