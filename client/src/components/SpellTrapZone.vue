@@ -30,7 +30,7 @@ export default {
   border-style: solid;
   border-radius: 5px;
   height: 151px;
-  width: 575px;
+  width: 780px;
   display: flex;
   opacity: 0.7;
 }

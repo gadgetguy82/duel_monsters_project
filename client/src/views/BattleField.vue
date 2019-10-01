@@ -90,7 +90,7 @@ export default {
 <style lang="css" scoped>
 .middle-section {
   display: flex;
-  justify-content:space-evenly;
+  justify-content:space-around;
   align-items: center;
   background-color: rgba(250, 140, 110, 0.85);
 }

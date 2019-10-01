@@ -118,8 +118,8 @@ export default {
 }
 
 .player-one, .player-two {
-  width: 100px;
-  height: 170px;
+  width: 105px;
+  height: 175px;
   border: 1px solid #FFFFFF;
   border-radius: 5px;
   /* text-align:center; */

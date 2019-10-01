@@ -1,5 +1,10 @@
 <template lang="html">
-  <div class="monster-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
+  <div class="monster-zone-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
+    <monster-space></monster-space>
+    <monster-space></monster-space>
+    <monster-space></monster-space>
+    <monster-space></monster-space>
+    <monster-space></monster-space>
     <div class="monster-zone" v-for="(card,index) in monsterZone" :key="index">
       <playing-card :card="card" v-on:click.native="handleClick(card)"></playing-card>
       <div class="button-container">
@@ -7,10 +12,12 @@
         <button v-if="card" v-on:click="setDefence(card)" :class="{ 'selected' : card.position === 'def', 'unselected' : card.position === 'atk'}">defend</button>
       </div>
     </div>
+
   </div>
 </template>
 
 <script>
+import MonsterCardSpace from '@/components/MonsterCardSpace.vue';
 import Card from '@/components/Card';
 import GameLogic from '@/services/game_logic.js';
 
@@ -18,7 +25,8 @@ export default {
   name: 'monster-zone',
   props: ['gameState', 'boardData'],
   components: {
-    "playing-card" : Card
+    "playing-card" : Card,
+    "monster-space": MonsterCardSpace
   },
   data(){
     return {
@@ -116,14 +124,15 @@ export default {
   opacity: 1;
 }
 
-.monster-container {
+.monster-zone-container {
   background-size: cover;
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
   height: 180px;
-  width: 575px;
+  width: 780px;
   display: flex;
+  justify-content: space-around;
   opacity: 0.7;
 }
 

@@ -4,7 +4,7 @@
       <div class="top-row">
         <playing-hand :gameState="gameState" :boardData="boardData"></playing-hand>
       </div>
-      <div class="bottom-row">
+      <div class="bottom-row deck-container">
         <playing-deck :deck="deck" :gameState="gameState" :boardData="boardData"></playing-deck>
         <extra-deck></extra-deck>
         <side-deck></side-deck>
@@ -102,13 +102,19 @@ export default {
   justify-content: space-around;
 }
 
+.deck-container {
+  height: 180px;
+  display: flex;
+  justify-content: space-around;
+}
+
 .col {
   display: flex;
   flex-direction: column;
 }
 
 .first {
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .last, .player-board-container.bottom .last {
@@ -121,11 +127,11 @@ export default {
 
 .top-row, .bottom-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 .top-row > *, .bottom-row > * {
-  margin: 5px 20px;
+  margin: 5px 5px;
 }
 </style>
