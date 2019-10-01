@@ -18,7 +18,7 @@ export default {
     return {
       playerHand: [],
       monsterZone: "space",
-      summonData: {}
+      tribute: {}
     }
   },
   mounted() {
@@ -53,17 +53,17 @@ export default {
       if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
           this.boardData.eventBus.$emit("normal-summon", card);
-          this.summonData = {};
-        } else if (parseInt(card.level) < 7) {
-          this.summonData.card = card;
-          this.summonData.amount = 1;
-          this.boardData.eventBus.$emit("tribute-summon", this.summonData);
-          this.summonData = {};
+          this.tribute = {};
+        } else if (4 < parseInt(card.level) && parseInt(card.level) < 7) {
+          this.tribute.summoningCard = card;
+          this.tribute.amount = 1;
+          this.boardData.eventBus.$emit("tribute-summon", this.tribute);
+          this.tribute = {};
         } else if (parseInt(card.level) >= 7) {
-          this.summonData.card = card;
-          this.summonData.amount = 2;
-          this.boardData.eventBus.$emit("tribute-summon", this.summonData);
-          this.summonData = {};
+          this.tribute.summoningCard = card;
+          this.tribute.amount = 2;
+          this.boardData.eventBus.$emit("tribute-summon", this.tribute);
+          this.tribute = {};
         }
       }
     }

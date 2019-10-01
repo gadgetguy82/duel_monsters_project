@@ -5,6 +5,10 @@ const checkTurn = ({player}, {turn}) => {
 }
 
 export default {
+  isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  },
+
   changeTurn(turn) {
     if (turn === "one") {
       return "two";

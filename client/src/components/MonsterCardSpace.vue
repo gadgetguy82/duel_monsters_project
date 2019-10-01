@@ -22,19 +22,26 @@ export default {
   data() {
     return {
       card: {},
-      temp: {},
-      canSummon: false
+      summon: {},
+      canSummon: false,
+      canTribute: false,
+      tribute: {}
     }
   },
   mounted() {
     this.boardData.eventBus.$on("normal-summon", card => {
       this.canSummon = true;
-      this.temp = card;
+      this.summon = card;
+    });
+
+    this.boardData.eventBus.$on("tribute-summon", tribute => {
+      this.canTribute = true;
+      this.tribute = tribute;
     });
 
     this.boardData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
-      this.temp = {};
+      this.summon = {};
     });
 
     this.boardData.eventBus.$on("lose", result => {
@@ -44,9 +51,11 @@ export default {
   methods: {
     handleClick() {
       if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
-        if (this.card === {} && this.canSummon) {
-          this.card = this.temp;
+        if (GameLogic.isEmpty(this.card) && this.canSummon) {
+          this.card = this.summon;
           this.boardData.eventBus.$emit("summon-success", this.card);
+        } else if (!GameLogic.isEmpty(this.card) && this.canTribute) {
+
         } else {
           this.card.position = this.card.position === "atk" ? "def" : "atk"
         }
