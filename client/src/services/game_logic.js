@@ -1,5 +1,9 @@
 const mainPhases = ["First Main", "Second Main"];
 
+const checkTurn = ({player}, {turn}) => {
+  return player === turn;
+}
+
 export default {
   changeTurn(turn) {
     if (turn === "one") {

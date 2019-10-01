@@ -36,10 +36,6 @@ export default {
     }
   },
   mounted(){
-    this.boardData.eventBus.$on("lose", result => {
-      GameLogic.removeCard(result.card, this.monsterZone);
-    });
-
     this.boardData.eventBus.$on("tribute-summon", summonData => {
       this.summoningCard = summonData.card;
       this.tributeAmount = summonData.amount;
@@ -71,8 +67,6 @@ export default {
             this.summoningCard = null;
           }
         }
-      } else if (this.gameState.phase === "Battle") {
-        this.boardData.eventBus.$emit("battle-select-monster", card);
       }
     },
 

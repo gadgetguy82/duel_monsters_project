@@ -36,6 +36,10 @@ export default {
       this.canSummon = false;
       this.temp = null;
     });
+
+    this.boardData.eventBus.$on("lose", result => {
+      this.card = null;
+    });
   },
   methods: {
     handleClick() {

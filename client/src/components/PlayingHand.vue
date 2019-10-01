@@ -35,11 +35,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Draw") {
-        for (let card of this.playerHand) {
-          card.hidden = !card.hidden;
-        }
-      } else if (!GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Start") {
+      if ((GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Start")) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
