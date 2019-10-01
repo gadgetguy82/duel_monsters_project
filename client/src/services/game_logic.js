@@ -1,7 +1,6 @@
 const mainPhases = ["First Main", "Second Main"];
 
 export default {
-
   changeTurn(turn) {
     if (turn === "one") {
       return "two";
@@ -41,27 +40,27 @@ export default {
   },
 
   checkChangeTurn({player}, {turn}) {
-    return !checkTurn({player}, {turn} && phase === "Start")
+    return !checkTurn({player}, {turn}) && phase === "Start";
   },
 
   checkDrawPhase({player}, {turn, phase}) {
-    return checkTurn({player}, {turn} && phase === "Draw");
+    return checkTurn({player}, {turn}) && phase === "Draw";
   },
 
   checkStandbyPhase({player}, {turn, phase}) {
-    return checkTurn({player}, {turn} && phase === "Standby");
+    return checkTurn({player}, {turn}) && phase === "Standby";
   },
 
   checkMainPhase({player}, {turn, phase}) {
-    return checkTurn({player}, {turn} && mainPhases.includes(phase));
+    return checkTurn({player}, {turn}) && mainPhases.includes(phase);
   },
 
   checkBattlePhase({player}, {turn, phase}) {
-    return checkTurn({player}, {turn} && phase === "Battle");
+    return checkTurn({player}, {turn}) && phase === "Battle";
   },
 
   checkEndPhase({player}, {turn, phase}) {
-    return checkTurn({player}, {turn} && phase === "End");
+    return checkTurn({player}, {turn}) && phase === "End";
   },
 
   compareStats(card1, card2) {
