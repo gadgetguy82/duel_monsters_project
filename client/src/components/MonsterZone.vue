@@ -22,7 +22,6 @@ export default {
   },
   data(){
     return {
-      mainPhases: ["First Main", "Second Main"],
       monsterZone: [],
       noCard: {
         name: "null_card",

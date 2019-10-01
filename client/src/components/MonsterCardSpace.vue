@@ -21,7 +21,6 @@ export default {
   },
   data() {
     return {
-      mainPhases: ["First Main", "Second Main"],
       card: null,
       temp: null,
       canSummon: false

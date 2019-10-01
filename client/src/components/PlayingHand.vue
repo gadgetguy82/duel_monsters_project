@@ -16,7 +16,6 @@ export default {
   },
   data() {
     return {
-      mainPhases: ["First Main", "Second Main"],
       playerHand: [],
       monsterZone: "space",
       summonData: {}
