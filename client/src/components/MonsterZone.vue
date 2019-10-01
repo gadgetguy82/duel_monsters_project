@@ -72,13 +72,13 @@ export default {
           }
         }
       } else if (this.gameState.phase === "Battle") {
-        this.boardData.eventBus.$emit("select-monster-card", card);
+        this.boardData.eventBus.$emit("battle-select-monster", card);
       }
     },
 
     checkMonsterZone() {
       if (this.monsterZone.length === 0 ) {
-        this.boardData.eventBus.$emit("empty-monster-zone", this.noCard);
+        this.boardData.eventBus.$emit("battle-select-monster", this.noCard);
       }
     }
   }

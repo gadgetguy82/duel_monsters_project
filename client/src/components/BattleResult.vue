@@ -35,18 +35,12 @@ export default {
     }
   },
   mounted() {
-    eventBus1.$on('select-monster-card', card => {
+    eventBus1.$on('battle-select-monster', card => {
       this.playerOneCard = card;
     });
-    eventBus2.$on('select-monster-card', card => {
+    
+    eventBus2.$on('battle-select-monster', card => {
       this.playerTwoCard = card;
-    });
-
-    eventBus1.$on('empty-monster-zone', empty => {
-      this.playerOneCard = empty;
-    });
-    eventBus2.$on('empty-monster-zone', empty => {
-      this.playerTwoCard = empty;
     });
   },
   methods: {

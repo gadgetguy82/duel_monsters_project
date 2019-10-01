@@ -46,6 +46,8 @@ export default {
         } else {
           this.card.position = this.card.position === "atk" ? "def" : "atk"
         }
+      } else if (this.gameState.phase === "Battle") {
+        this.boardData.eventBus.$emit("battle-select-monster", this.card);
       }
     }
   }
