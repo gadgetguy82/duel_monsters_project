@@ -50,7 +50,9 @@ export default {
     });
 
     this.boardData.eventBus.$on("lose", () => {
-      this.monsterZone--;
+      if (this.monsterZone > 0) {
+        this.monsterZone--;
+      }
     });
   },
   watch: {

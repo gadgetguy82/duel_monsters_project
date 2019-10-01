@@ -86,7 +86,7 @@ export default {
           this.card.position = this.card.position === "atk" ? "def" : "atk";
           this.canChangePosition = false;
         }
-      } else if (this.gameState.phase === "Battle") {
+      } else if (this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
         this.boardData.eventBus.$emit("battle-select-monster", this.card);
       }
     }
