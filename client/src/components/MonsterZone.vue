@@ -40,9 +40,9 @@ export default {
       this.monsterZone++;
     });
 
-    this.boardData.eventBus.$on("tribute-summon", tribute => {
-      this.summoningCard = tribute.summoningCard;
-      this.tributeAmount = tribute.amount;
+    this.boardData.eventBus.$on("tribute-summon", tributeData => {
+      this.summoningCard = tributeData.summoningCard;
+      this.tributeAmount = tributeData.amount;
     });
 
     this.boardData.eventBus.$on("lose", () => {

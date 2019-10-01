@@ -25,7 +25,7 @@ export default {
       summon: {},
       canSummon: false,
       canTribute: false,
-      tribute: {}
+      tributeData: {}
     }
   },
   mounted() {
@@ -34,9 +34,14 @@ export default {
       this.summon = card;
     });
 
-    this.boardData.eventBus.$on("tribute-summon", tribute => {
+    this.boardData.eventBus.$on("tribute-summon", tributeData => {
       this.canTribute = true;
-      this.tribute = tribute;
+      this.tributeData = tributeData;
+    });
+
+    this.boardData.eventBus.$on("tributes-selected", tributeData => {
+      this.canTribute = false;
+      this.tributeData = {};
     });
 
     this.boardData.eventBus.$on("summon-success", () => {
@@ -55,7 +60,14 @@ export default {
           this.card = this.summon;
           this.boardData.eventBus.$emit("summon-success", this.card);
         } else if (!GameLogic.isEmpty(this.card) && this.canTribute) {
-
+          this.tributeData.tributes.push(this.card);
+          this.card = {};
+          this.canTribute = false;
+          if (this.tributeData.tributes.length === this.tributeData.amount) {
+            this.card = this.tributeData.summoningCard;
+            this.boardData.eventBus.$emit("summon-success", this.tributeData.summoningCard);
+            this.boardData.eventBus.$emit("tributes-selected", this.tributeData.tributes);
+          }
         } else {
           this.card.position = this.card.position === "atk" ? "def" : "atk"
         }
