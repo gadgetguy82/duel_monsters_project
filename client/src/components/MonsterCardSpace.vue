@@ -21,8 +21,8 @@ export default {
   },
   data() {
     return {
-      card: null,
-      temp: null,
+      card: {},
+      temp: {},
       canSummon: false
     }
   },
@@ -34,17 +34,17 @@ export default {
 
     this.boardData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
-      this.temp = null;
+      this.temp = {};
     });
 
     this.boardData.eventBus.$on("lose", result => {
-      this.card = null;
+      this.card = {};
     });
   },
   methods: {
     handleClick() {
       if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
-        if (this.canSummon) {
+        if (this.card === {} && this.canSummon) {
           this.card = this.temp;
           this.boardData.eventBus.$emit("summon-success", this.card);
         } else {

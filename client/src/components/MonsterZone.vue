@@ -22,7 +22,7 @@ export default {
   },
   data(){
     return {
-      monsterZone: [],
+      monsterZone: 0,
       noCard: {
         name: "null_card",
         atk: 0,
@@ -36,14 +36,22 @@ export default {
     }
   },
   mounted(){
+    this.boardData.eventBus.$on("summon-success", () => {
+      this.monsterZone++;
+    });
+
     this.boardData.eventBus.$on("tribute-summon", summonData => {
       this.summoningCard = summonData.card;
       this.tributeAmount = summonData.amount;
     });
+
+    this.boardData.eventBus.$on("lose", () => {
+      this.monsterZone--;
+    });
   },
   watch: {
     monsterZone() {
-      if (this.monsterZone.length === 5) {
+      if (this.monsterZone === 5) {
         this.boardData.eventBus.$emit("monster-zone", "full");
       } else {
         this.boardData.eventBus.$emit("monster-zone", "space");
