@@ -41,27 +41,27 @@ export default {
   },
 
   checkChangeTurn({player}, {turn}) {
-    return phase === "Start" && !checkTurn({player}, {turn})
+    return !checkTurn({player}, {turn} && phase === "Start")
   },
 
   checkDrawPhase({player}, {turn, phase}) {
-    return phase === "Draw" && checkTurn({player}, {turn});
+    return checkTurn({player}, {turn} && phase === "Draw");
   },
 
   checkStandbyPhase({player}, {turn, phase}) {
-    return phase === "Standby" && checkTurn({player}, {turn});
+    return checkTurn({player}, {turn} && phase === "Standby");
   },
 
   checkMainPhase({player}, {turn, phase}) {
-    return mainPhases.includes(phase) && checkTurn({player}, {turn});
+    return checkTurn({player}, {turn} && mainPhases.includes(phase));
   },
 
   checkBattlePhase({player}, {turn, phase}) {
-    return phase === "Battle" && checkTurn({player}, {turn});
+    return checkTurn({player}, {turn} && phase === "Battle");
   },
 
   checkEndPhase({player}, {turn, phase}) {
-    return phase === "End" && checkTurn({player}, {turn});
+    return checkTurn({player}, {turn} && phase === "End");
   },
 
   compareStats(card1, card2) {
