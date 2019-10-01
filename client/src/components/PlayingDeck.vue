@@ -1,31 +1,46 @@
 <template lang="html">
   <div class="playing-deck-container">
-    <div class="playing-deck" :class="{'last': lastCard}" v-on:click="addCardToPlayingHand">
+    <div class="playing-deck" :class="{'last': deck.length === 0}" v-on:click="drawCard">
       <h4>Main Deck</h4>
     </div>
   </div>
 </template>
 
 <script>
+import GameLogic from '@/services/game_logic.js';
+
 export default {
   name: 'playing-deck',
   props: ['deck', 'gameState', 'boardData'],
   data() {
     return {
-      lastCard: false
+      canDraw: true
+    }
+  },
+  mounted() {
+    this.boardData.eventBus.$on("draw-max", () => {
+      this.canDraw = false;
+      this.boardData.firstTurn = false;
+    });
+  },
+  watch: {
+    "gameState.phase"() {
+      if (this.gameState.phase === "Draw") {
+        this.canDraw = true;
+        if (GameLogic.checkTurn(this.boardData, this.gameState) && this.deck.length === 0) {
+          this.canDraw = false;
+          this.boardData.eventBus.$emit('defeat', this.boardData.player);
+        }
+      }
     }
   },
   methods: {
-    addCardToPlayingHand(){
-      const card = this.deck.pop();
-      if (GameLogic.checkTurn(boardData, gameState) && this.gameState.phase === "Draw") {
-        if (this.lastCard) {
-          this.boardData.eventBus.$emit('defeat', this.boardData.player);
-        } else if (this.deck.length === 0) {
-          this.lastCard = true;
-        }
-        if (this.deck.length > 0) {
-          this.boardData.eventBus.$emit('one-card', card);
+    drawCard() {
+      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.canDraw) {
+        const card = this.deck.pop();
+        this.boardData.eventBus.$emit('draw-card', card);
+        if (!this.boardData.firstTurn) {
+          this.canDraw = false;
         }
       }
     }

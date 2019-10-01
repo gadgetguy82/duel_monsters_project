@@ -62,10 +62,14 @@ export default {
       yellowPlayerData: {
         player: 'one',
         eventBus: eventBus1,
+        firstTurn: true,
+        firstDrawAmount: 5
       },
       bluePlayerData: {
         player: 'two',
         eventBus: eventBus2,
+        firstTurn: true,
+        firstDrawAmount: 6
       }
     }
   },
