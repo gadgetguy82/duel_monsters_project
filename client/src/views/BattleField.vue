@@ -16,7 +16,7 @@
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button-inverted v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="bluePlayerData"></phase-button-inverted>
+          <phase-button v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="bluePlayerData"></phase-button>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
@@ -36,7 +36,6 @@ import PlayerBoard from '@/components/PlayerBoard.vue';
 import BattleResult from '@/components/BattleResult.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
-import PhaseButtonInverted from '@/components/PhaseButtonInverted.vue';
 import InfoBox from '@/components/InfoBox.vue';
 import GameLogic from '@/services/game_logic.js';
 import { eventBus1, eventBus2 } from '@/main.js';
@@ -50,7 +49,6 @@ export default {
     "battle-result" : BattleResult,
     "win-lose": WinLose,
     "phase-button": PhaseButton,
-    "phase-button-inverted": PhaseButtonInverted,
     "info-box": InfoBox
   },
   data() {

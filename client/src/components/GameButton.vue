@@ -8,7 +8,7 @@ export default {
   props: ['text', 'colour'],
   methods: {
     handleClick(event){
-      event.preventDefault()
+      event.preventDefault();
     }
   }
 }
