@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="ai-board-container">
+  <div class="ai-board-container bottom">
     <div class="first col">
       <div class="top-row">
         <playing-hand :gameState="gameState" :playerData="playerData"></playing-hand>

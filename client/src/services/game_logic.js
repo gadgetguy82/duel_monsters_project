@@ -10,11 +10,7 @@ export default {
   },
 
   changeTurn(turn) {
-    if (turn === "one") {
-      return "two";
-    } else {
-      return "one";
-    }
+    return = turn === "one" ? "two" : "one";
   },
 
   changePhase(phase) {

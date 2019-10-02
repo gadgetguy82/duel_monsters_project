@@ -8,17 +8,24 @@ import GameLogic from '@/services/game_logic.js';
 export default {
   name: 'pretty-button',
   props: ['gameState', 'playerData'],
+  data() {
+    return {
+      canClick: true
+    }
+  },
+  mounted() {
+    this.playerData.eventBus.$on("hand-extra-cards", () => canClick = false);
+  },
   methods: {
     handleClick(event) {
       event.preventDefault();
     },
 
     changePhaseTurn() {
-      if (this.gameState.phase === "End") {
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
-        this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
-        this.gameState.eventBus.$emit("update-state", this.gameState);
-      } else {
+      if (canClick) {
+        if (this.gameState.phase === "End") {
+          this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
+        }
         this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
         this.gameState.eventBus.$emit("update-state", this.gameState);
       }
