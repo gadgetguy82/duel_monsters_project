@@ -6,8 +6,8 @@
         <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
       </div>
       <div class="battlefield-center">
-        <p>----Battle Field Area----</p>
-        <button v-if="playerOneCard && playerTwoCard" v-on:click="battleWinner">Fight!!!</button>
+        <p>----Battlefield Area----</p>
+        <game-button v-if="playerOneCard && playerTwoCard" v-on:click.native="battleWinner" :text="'Fight!!!'" :colour="'red'"></game-button>
       </div>
       <div class="player-two">
         <h4>Player Two</h4>
@@ -20,13 +20,15 @@
 <script>
 import { eventBus1, eventBus2 } from '@/main.js';
 import Card from '@/components/Card';
+import GameButton from '@/components/GameButton.vue';
 import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'battle-field',
   props: ['gameState'],
   components: {
-    "playing-card" : Card
+    "playing-card" : Card,
+    "game-button": GameButton
   },
   data(){
     return{
