@@ -30,7 +30,8 @@ export default {
       },
       canChangePosition: false,
       canAttack: false,
-      canBeTargetted: false
+      canBeTargetted: false,
+      spaceSelected: false
     }
   },
   mounted() {
@@ -112,9 +113,11 @@ export default {
       } else if (this.canAttack) {
         this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
         this.canAttack = false;
+        this.spaceSelected = true;
       } else if (this.canBeTargetted) {
         this.card.hidden = false;
         this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
+        this.spaceSelected = true;
       }
     }
   }

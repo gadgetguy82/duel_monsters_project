@@ -17,7 +17,7 @@ export default {
 <style lang="css" scoped>
 button {
   border: none;
-  color: white;
+  color: #FFFFFF;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -30,5 +30,10 @@ button {
 
 .red {
   background-color: #FF0000;
+}
+
+.green {
+  background-color: #00FF00;
+  color: #000000;
 }
 </style>
