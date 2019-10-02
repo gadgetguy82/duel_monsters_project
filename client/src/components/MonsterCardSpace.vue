@@ -36,14 +36,14 @@ export default {
   },
   mounted() {
     this.playerData.eventBus.$on("normal-summon", card => {
-      if (GameLogic.isEmpty(this.card)) {
+      if (GameLogic.isEmpty(this.card) && GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         this.canSummon = true;
         this.summonCard = card;
       }
     });
 
     this.playerData.eventBus.$on("tribute-summon", tributeData => {
-      if (!GameLogic.isEmpty(this.card)) {
+      if (!GameLogic.isEmpty(this.card) && GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         this.canTribute = true;
         this.tributeData = tributeData;
       }
@@ -104,29 +104,32 @@ export default {
   },
   methods: {
     handleClick() {
-      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
-        if (this.canSummon) {
-          this.summon();
-        } else if (this.canChangePosition){
-          this.changePosition();
-        }
-      } else {
-        this.battle();
+      if (this.canSummon) {
+        this.summon();
+      } else if (this.canTribute) {
+        this.tribute();
+      } else if (this.canChangePosition) {
+        this.changePosition();
+      } else if (this.canAttack) {
+        this.attack();
+      } else if (this.canBeTargetted) {
+        this.selectTarget();
       }
     },
 
     summon() {
       this.card = this.summonCard;
       this.playerData.eventBus.$emit("summon-success", this.card);
-      if (this.canTribute) {
-        this.tributeData.tributes.push(this.card);
-        this.playerData.eventBus.$emit("tribute-selected", this.card);
-        this.card = {};
-        this.canTribute = false;
-        if (this.tributeData.tributes.length === this.tributeData.amount) {
-          this.card = this.tributeData.summoningCard;
-          this.playerData.eventBus.$emit("summon-success", this.card);
-        }
+    },
+
+    tribute() {
+      this.tributeData.tributes.push(this.card);
+      this.playerData.eventBus.$emit("tribute-selected", this.card);
+      this.card = {};
+      this.canTribute = false;
+      if (this.tributeData.tributes.length === this.tributeData.amount) {
+        this.card = this.tributeData.summoningCard;
+        this.playerData.eventBus.$emit("summon-success", this.card);
       }
     },
 
@@ -138,18 +141,18 @@ export default {
       this.canChangePosition = false;
     },
 
-    battle() {
-      if (this.canAttack) {
-        this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
-        this.canAttack = false;
-        this.spaceSelected = true;
-        this.card = {};
-      } else if (this.canBeTargetted) {
-        this.card.hidden = false;
-        this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
-        this.spaceSelected = true;
-        this.card = {};
-      }
+    attack() {
+      this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
+      this.canAttack = false;
+      this.spaceSelected = true;
+      this.card = {};
+    },
+
+    selectTarget() {
+      this.card.hidden = false;
+      this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
+      this.spaceSelected = true;
+      this.card = {};
     }
   }
 }
