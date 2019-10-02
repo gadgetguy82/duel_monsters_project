@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       playerHand: [],
-      monsterZone: "space",
+      monsterZoneHasSpace: true,
       summoningCard: {},
       canChoosePosition: false,
       tributeData: {}
@@ -35,7 +35,7 @@ export default {
       this.playerHand.push(card);
     });
 
-    this.boardData.eventBus.$on("monster-zone", full => this.monsterZone = full);
+    this.boardData.eventBus.$on("monster-zone-spaces", spaces => this.monsterZoneHasSpace = spaces);
 
     this.boardData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
@@ -61,7 +61,7 @@ export default {
     summon(card) {
       if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
         this.summoningCard = card;
-        if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
+        if (this.monsterZoneHasSpace && parseInt(card.level) < 5) {
           this.canChoosePosition = true;
           this.boardData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
@@ -86,13 +86,11 @@ export default {
     setAttack(card) {
       card.position = "atk";
       card.hidden = false;
-      this.canChoosePosition = false;
     },
 
     setDefend(card) {
       card.position = "def";
       card.hidden = true;
-      this.canChoosePosition = false;
     }
   }
 }

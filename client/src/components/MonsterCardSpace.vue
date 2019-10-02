@@ -87,6 +87,7 @@ export default {
           this.canChangePosition = false;
         }
       } else if (this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
+        this.card.hidden = false;
         this.boardData.eventBus.$emit("battle-select-monster", this.card);
       }
     }

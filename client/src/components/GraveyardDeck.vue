@@ -29,6 +29,7 @@ export default {
 
     this.boardData.eventBus.$on('tributes-selected', tributes => {
       for (let card of tributes) {
+        card.hidden = false;
         this.cards.push(card);
       }
     });
