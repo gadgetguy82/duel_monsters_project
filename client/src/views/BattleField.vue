@@ -12,7 +12,7 @@
         </div>
         <h2 class="hide"></h2>
       </div>
-      <battle-result></battle-result>
+      <battle-result :gameState="gameState"></battle-result>
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">

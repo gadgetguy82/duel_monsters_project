@@ -55,9 +55,6 @@ export default {
         if (this.playerHand.length > 6) {
           this.playerData.eventBus.$emit("hand-extra-cards");
           this.canDiscard = true;
-        } else {
-          this.playerData.eventBus.$emit("hand-no-extra-cards");
-          this.canDiscard = false;
         }
       }
     },
@@ -65,6 +62,9 @@ export default {
     playerHand() {
       if (this.playerData.firstTurn && this.playerHand.length === this.playerData.firstDrawAmount) {
         this.playerData.eventBus.$emit("draw-max");
+      } else if (GameLogic.checkEndPhase(this.playerData, this.gameState) && this.playerHand.length < 7) {
+        this.playerData.eventBus.$emit("hand-no-extra-cards");
+        this.canDiscard = false;
       }
     }
   },

@@ -24,7 +24,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'battle-result',
-  props: ['emptyHand'],
+  props: ['gameState'],
   components: {
     "playing-card" : Card
   },

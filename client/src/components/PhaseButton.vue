@@ -6,7 +6,7 @@
 import GameLogic from '@/services/game_logic.js';
 
 export default {
-  name: 'pretty-button',
+  name: 'phase-button',
   props: ['gameState', 'playerData'],
   data() {
     return {
@@ -19,10 +19,6 @@ export default {
     this.playerData.eventBus.$on("hand-no-extra-cards", () => this.canClick = true);
   },
   methods: {
-    handleClick(event) {
-      event.preventDefault();
-    },
-
     changePhaseTurn() {
       if (this.canClick) {
         this.gameState = GameLogic.changePhase(this.gameState);
