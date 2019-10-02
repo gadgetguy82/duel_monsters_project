@@ -104,16 +104,22 @@ export default {
   },
   methods: {
     handleClick() {
-      if (this.canSummon) {
-        this.summon();
-      } else if (this.canTribute) {
-        this.tribute();
-      } else if (this.canChangePosition) {
-        this.changePosition();
-      } else if (this.canAttack) {
-        this.attack();
-      } else if (this.canBeTargetted) {
-        this.selectTarget();
+      switch(true) {
+        case this.canSummon:
+          this.summon();
+          break;
+        case this.canTribute:
+          this.tribute();
+          break;
+        case this.canChangePosition:
+          this.changePosition();
+          break;
+        case this.canAttack:
+          this.attack();
+          break;
+        case this.canBeTargetted:
+          this.selectTarget();
+          break;
       }
     },
 
