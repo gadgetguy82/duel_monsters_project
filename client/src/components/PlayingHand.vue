@@ -4,21 +4,23 @@
       <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
     </div>
     <div class="button-container">
-      <button v-if="canChoosePosition" v-on:click="setAttack(summoningCard)">Attack</button>
-      <button v-if="canChoosePosition" v-on:click="setDefend(summoningCard)">Defend</button>
+      <game-button v-if="canChoosePosition" v-on:click.native="setAttack(summoningCard)" :text="'Attack'" :colour="'red'"></game-button>
+      <game-button v-if="canChoosePosition" v-on:click.native="setDefend(summoningCard)" :text="'Defend'" :colour="'blue'"></game-button>
     </div>
   </div>
 </template>
 
 <script>
-import Card from '@/components/Card';
+import Card from '@/components/Card.vue';
+import Button from '@/components/Button.vue';
 import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-hand',
   props: ['gameState', 'playerData'],
   components: {
-    "playing-card": Card
+    "playing-card": Card,
+    "game-button": Button
   },
   data() {
     return {
