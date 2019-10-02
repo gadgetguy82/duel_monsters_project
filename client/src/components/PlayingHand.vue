@@ -28,7 +28,8 @@ export default {
       monsterZoneHasSpace: true,
       summoningCard: {},
       canChoosePosition: false,
-      tributeData: {}
+      tributeData: {},
+      canDiscard: false
     }
   },
   mounted() {
@@ -53,6 +54,10 @@ export default {
       } else if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "End") {
         if (this.playerHand.length > 6) {
           this.playerData.eventBus.$emit("hand-extra-cards");
+          this.canDiscard = true;
+        } else {
+          this.playerData.eventBus.$emit("hand-no-extra-cards");
+          this.canDiscard = false;
         }
       }
     },

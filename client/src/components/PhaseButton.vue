@@ -15,6 +15,8 @@ export default {
   },
   mounted() {
     this.playerData.eventBus.$on("hand-extra-cards", () => this.canClick = false);
+
+    this.playerData.eventBus.$on("hand-no-extra-cards", () => this.canClick = true);
   },
   methods: {
     handleClick(event) {
