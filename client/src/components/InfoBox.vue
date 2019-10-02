@@ -27,7 +27,7 @@ export default {
 .info-box-container {
   background-color: rgba(255, 255, 255, 0.5);
   width: 180px;
-  height: 240px;
+  height: 220px;
   z-index: 10;
 }
 

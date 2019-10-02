@@ -1,14 +1,14 @@
 <template lang="html">
   <div id="battlefield">
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :player="'one'" :turn="turn" :phase="phase" :eventBus="eventBus1"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
       <info-box></info-box>
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
-          <phase-button v-if="turn === 'one'" v-on:click.native="changePhase" :text="phase"></phase-button>
+          <phase-button v-if="gameState.turn === 'one'" v-on:click.native="changePhaseTurn" :text="gameState.phase"></phase-button>
         </div>
         <h2 class="hide"></h2>
       </div>
@@ -16,7 +16,7 @@
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button-inverted v-if="turn === 'two'" v-on:click.native="changePhase" :text="phase" class="player-2-button"></phase-button-inverted>
+          <phase-button-inverted v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :text="gameState.phase" class="player-2-button"></phase-button-inverted>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
@@ -25,7 +25,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :player="'two'" :turn="turn" :phase="phase" :eventBus="eventBus2"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="bluePlayerData"></player-board>
     </div>
   </div>
 </template>
@@ -55,19 +55,31 @@ export default {
   },
   data() {
     return {
-      turn: 'one',
-      phase: "Start",
-      eventBus1: eventBus1,
-      eventBus2: eventBus2,
+      gameState: {
+        turn: 'one',
+        phase: "Start",
+      },
+      yellowPlayerData: {
+        player: 'one',
+        eventBus: eventBus1,
+        firstTurn: true,
+        firstDrawAmount: 5
+      },
+      bluePlayerData: {
+        player: 'two',
+        eventBus: eventBus2,
+        firstTurn: true,
+        firstDrawAmount: 6
+      }
     }
   },
   methods: {
-    changePhase() {
-      if (this.phase === "End") {
-        this.phase = GameLogic.changePhase(this.phase);
-        this.turn = GameLogic.changeTurn(this.turn);
+    changePhaseTurn() {
+      if (this.gameState.phase === "End") {
+        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
+        this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
       } else {
-        this.phase = GameLogic.changePhase(this.phase);
+        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
       }
     }
   }
@@ -78,7 +90,7 @@ export default {
 <style lang="css" scoped>
 .middle-section {
   display: flex;
-  justify-content:space-evenly;
+  justify-content:space-around;
   align-items: center;
   background-color: rgba(250, 140, 110, 0.85);
 }

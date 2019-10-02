@@ -1,44 +1,46 @@
 <template lang="html">
   <div class="playing-deck-container">
-    <div class="playing-deck" :class="{'last': lastCard}" v-on:click="addCardToPlayingHand">
+    <div class="playing-deck" :class="{'last': deck.length === 0}" v-on:click="drawCard">
       <h4>Main Deck</h4>
     </div>
   </div>
 </template>
 
 <script>
-import { eventBus1, eventBus2 } from '@/main.js';
+import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-deck',
-  props: ['deck', 'player', 'phase', 'turn', 'eventBus'],
+  props: ['deck', 'gameState', 'boardData'],
   data() {
     return {
-      lastCard: false
+      canDraw: false
+    }
+  },
+  mounted() {
+    this.boardData.eventBus.$on("draw-max", () => {
+      this.canDraw = false;
+      this.boardData.firstTurn = false;
+    });
+  },
+  watch: {
+    "gameState.phase"() {
+      if (this.gameState.phase === "Draw") {
+        this.canDraw = true;
+        if (GameLogic.checkTurn(this.boardData, this.gameState) && this.deck.length === 0) {
+          this.canDraw = false;
+          this.boardData.eventBus.$emit('defeat', this.boardData.player);
+        }
+      }
     }
   },
   methods: {
-    addCardToPlayingHand(){
-      const card = this.deck.pop();
-      if (this.player === this.turn && this.player === "one" && this.phase === "Draw") {
-        if (this.lastCard) {
-          eventBus1.$emit('defeat', this.player);
-          eventBus2.$emit('winner', "two");
-        } else if (this.deck.length === 0) {
-          this.lastCard = true;
-        }
-        if (this.deck.length > 0) {
-          eventBus1.$emit('one-card', card);
-        }
-      } else if (this.player === this.turn && this.player === "two" && this.phase === "Draw"){
-        if (this.lastCard) {
-          eventBus2.$emit('defeat', this.player);
-          eventBus1.$emit('winner', "one");
-        } else if (this.deck.length === 0) {
-          this.lastCard = true;
-        }
-        if (this.deck.length > 0) {
-          eventBus2.$emit('one-card', card);
+    drawCard() {
+      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.canDraw) {
+        const card = this.deck.pop();
+        this.boardData.eventBus.$emit('draw-card', card);
+        if (!this.boardData.firstTurn) {
+          this.canDraw = false;
         }
       }
     }

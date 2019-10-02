@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import {eventBus1, eventBus2} from '@/main.js';
+import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
   name: 'win-lose',
@@ -18,8 +18,8 @@ export default {
     }
   },
   mounted(){
-    eventBus1.$on('winner', player => this.winner = player)
-    eventBus2.$on('winner', player => this.winner = player)
+    eventBus1.$on('defeat', player => this.winner = "two")
+    eventBus2.$on('defeat', player => this.winner = "one")
   }
 }
 </script>

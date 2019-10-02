@@ -35,18 +35,12 @@ export default {
     }
   },
   mounted() {
-    eventBus1.$on('select-monster-card', card => {
+    eventBus1.$on('battle-select-monster', card => {
       this.playerOneCard = card;
     });
-    eventBus2.$on('select-monster-card', card => {
-      this.playerTwoCard = card;
-    });
 
-    eventBus1.$on('empty-monster-zone', empty => {
-      this.playerOneCard = empty;
-    });
-    eventBus2.$on('empty-monster-zone', empty => {
-      this.playerTwoCard = empty;
+    eventBus2.$on('battle-select-monster', card => {
+      this.playerTwoCard = card;
     });
   },
   methods: {
@@ -60,7 +54,7 @@ export default {
               damage: result.damage
             });
           } else {
-            eventBus1.$emit('nowin', {
+            eventBus1.$emit('no-win', {
               card: result.cards[0],
               damage: result.damage
             });
@@ -72,7 +66,7 @@ export default {
               damage: result.damage
             });
           } else {
-            eventBus2.$emit('nowin', {
+            eventBus2.$emit('no-win', {
               card: result.cards[0],
               damage: result.damage
             });
@@ -99,7 +93,7 @@ export default {
 
 <style lang="css" scoped>
 .result {
-  margin: 30px 10px;
+  margin: 20px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
   background-position: center;
@@ -118,8 +112,8 @@ export default {
 }
 
 .player-one, .player-two {
-  width: 100px;
-  height: 170px;
+  width: 105px;
+  height: 175px;
   border: 1px solid #FFFFFF;
   border-radius: 5px;
   /* text-align:center; */

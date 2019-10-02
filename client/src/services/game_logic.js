@@ -1,4 +1,14 @@
+const mainPhases = ["First Main", "Second Main"];
+
+const checkTurn = ({player}, {turn}) => {
+  return player === turn;
+}
+
 export default {
+  isEmpty(obj) {
+    return Object.keys(obj).length === 0;
+  },
+
   changeTurn(turn) {
     if (turn === "one") {
       return "two";
@@ -33,6 +43,34 @@ export default {
     return phase;
   },
 
+  checkTurn({player}, {turn}) {
+    return player === turn;
+  },
+
+  checkChangeTurn({player}, {turn}) {
+    return !checkTurn({player}, {turn}) && phase === "Start";
+  },
+
+  checkDrawPhase({player}, {turn, phase}) {
+    return checkTurn({player}, {turn}) && phase === "Draw";
+  },
+
+  checkStandbyPhase({player}, {turn, phase}) {
+    return checkTurn({player}, {turn}) && phase === "Standby";
+  },
+
+  checkMainPhase({player}, {turn, phase}) {
+    return checkTurn({player}, {turn}) && mainPhases.includes(phase);
+  },
+
+  checkBattlePhase({player}, {turn, phase}) {
+    return phase === "Battle";
+  },
+
+  checkEndPhase({player}, {turn, phase}) {
+    return checkTurn({player}, {turn}) && phase === "End";
+  },
+
   compareStats(card1, card2) {
     if ((card1 !== null) && (card2 !== null)) {
       const card1BattleStat = card1.position === "atk" ? parseInt(card1.atk) : parseInt(card1.def)
@@ -65,8 +103,10 @@ export default {
     return result;
   },
 
-  removeCard(card, zone) {
-    const index = zone.findIndex(zoneCard => zoneCard === card);
-    zone.splice(index, 1);
+  removeCard(card, array) {
+    const index = array.findIndex(arrayCard => arrayCard === card);
+    if (index >= 0) {
+      array.splice(index, 1);
+    }
   }
 }

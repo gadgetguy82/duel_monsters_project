@@ -1,31 +1,31 @@
 <template lang="html">
-  <div class="player-board-container" :class="{'top': player === 'one', 'bottom': player === 'two'}">
+  <div class="player-board-container" :class="{'top': boardData.player === 'one', 'bottom': boardData.player === 'two'}">
     <div class="first col">
       <div class="top-row">
-        <playing-hand :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-hand>
+        <playing-hand :gameState="gameState" :boardData="boardData"></playing-hand>
       </div>
-      <div class="bottom-row">
-        <playing-deck :deck="deck" :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></playing-deck>
+      <div class="bottom-row deck-container">
+        <playing-deck :deck="deck" :gameState="gameState" :boardData="boardData"></playing-deck>
         <extra-deck></extra-deck>
         <side-deck></side-deck>
       </div>
     </div>
     <div class="second col">
       <div class="top-row">
-        <spell-trap-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></spell-trap-zone>
+        <spell-trap-zone :gameState="gameState" :boardData="boardData"></spell-trap-zone>
         <field-zone></field-zone>
       </div>
       <div class="bottom-row">
-        <monster-zone :player="player" :phase="phase" :turn="turn" :eventBus="eventBus"></monster-zone>
+        <monster-zone :gameState="gameState" :boardData="boardData"></monster-zone>
         <extra-monster-zone></extra-monster-zone>
       </div>
     </div>
     <div class="last col">
       <div class="top-row">
-        <life-points :player="player" :eventBus="eventBus"></life-points>
+        <life-points :boardData="boardData"></life-points>
       </div>
       <div class="bottom-row">
-        <graveyard-deck :player="player" :eventBus="eventBus"></graveyard-deck>
+        <graveyard-deck :boardData="boardData"></graveyard-deck>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@ import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'player-board',
-  props: ['normalCards', 'player', 'turn', 'phase', 'eventBus'],
+  props: ['normalCards', 'gameState', 'boardData'],
   components: {
     "playing-deck": PlayingDeck,
     "extra-deck": ExtraDeck,
@@ -102,13 +102,20 @@ export default {
   justify-content: space-around;
 }
 
+.deck-container {
+  height: 180px;
+  display: flex;
+  justify-content: space-around;
+}
+
 .col {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .first {
-  justify-content: space-evenly;
+  justify-content: space-around;
 }
 
 .last, .player-board-container.bottom .last {
@@ -121,11 +128,11 @@ export default {
 
 .top-row, .bottom-row {
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
 }
 
 .top-row > *, .bottom-row > * {
-  margin: 5px 20px;
+  margin: 5px 5px;
 }
 </style>
