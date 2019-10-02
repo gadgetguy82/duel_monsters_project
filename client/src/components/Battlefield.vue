@@ -37,7 +37,12 @@ export default {
         one: null,
         two: null
       },
-      battleOver: false
+      battleOver: false,
+      event: {
+        one: "",
+        two: ""
+      },
+      damage: 0
     }
   },
   mounted() {
@@ -52,50 +57,29 @@ export default {
   methods: {
     battleWinner() {
       const result = GameLogic.checkDamage(this.battleCards.one, this.battleCards.two);
+      this.damage = result.damage;
       if (result.cards.length < 2) {
         if (result.cards[0] === this.battleCards.one) {
-          if (this.battleCards.two.position === "atk") {
-            eventBus1.$emit('lose', {
-              card: result.cards[0],
-              damage: result.damage
-            });
-          } else {
-            eventBus1.$emit('no-win', {
-              card: result.cards[0],
-              damage: result.damage
-            });
-          }
+          this.event.one = this.battleCards.two.position === "atk" ? "lose" : "no-win";
+          this.event.two = "win";
         } else {
-          if (this.battleCards.one.position === "atk") {
-            eventBus2.$emit('lose', {
-              card: result.cards[0],
-              damage: result.damage
-            });
-          } else {
-            eventBus2.$emit('no-win', {
-              card: result.cards[0],
-              damage: result.damage
-            });
-          }
+          this.event.one = "win";
+          this.event.two = this.battleCards.one.position === "atk" ? "lose" : "no-win";
         }
       } else {
-        if (result.cards[0].position === "atk" && result.cards[1].position === "atk") {
-          eventBus1.$emit('lose', {
-            card: result.cards[0],
-            damage: result.damage
-          });
-          eventBus2.$emit('lose', {
-            card: result.cards[1],
-            damage: result.damage
-          });
-        }
+        this.event.one = "lose";
+        this.event.two = "lose";
       }
       this.battleOver = true;
     },
 
     resultCheck() {
+      eventBus1.$emit(this.event.one, {card: this.battleCards.one, damage: this.damage});
+      eventBus2.$emit(this.event.two, {card: this.battleCards.two, damage: this.damage});
       this.battleCards.one = null;
       this.battleCards.two = null;
+      this.event.one = "";
+      this.event.two = "";
       this.battleOver = false;
     }
   }
