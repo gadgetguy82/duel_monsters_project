@@ -13,7 +13,7 @@ export default {
     return Object.keys(obj).length === 0;
   },
 
-  changePhase(gameState, playerData) {
+  changePhase(gameState) {
     switch (gameState.phase) {
       case "Start":
       gameState.phase = "Draw";

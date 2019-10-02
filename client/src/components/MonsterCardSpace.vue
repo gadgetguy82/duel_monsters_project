@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       card: {},
-      summon: {},
+      summonCard: {},
       canSummon: false,
       canTribute: false,
       tributeData: {
@@ -38,7 +38,7 @@ export default {
     this.playerData.eventBus.$on("normal-summon", card => {
       if (GameLogic.isEmpty(this.card)) {
         this.canSummon = true;
-        this.summon = card;
+        this.summonCard = card;
       }
     });
 
@@ -51,7 +51,7 @@ export default {
 
     this.playerData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
-      this.summon = {};
+      this.summonCard = {};
       this.canTribute = false;
       this.tributeData = {
         tributes: []
@@ -106,22 +106,40 @@ export default {
     handleClick() {
       if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         if (this.canSummon) {
-          this.card = this.summon;
-          this.playerData.eventBus.$emit("summon-success", this.card);
-        } else if (this.canTribute) {
-          this.tributeData.tributes.push(this.card);
-          this.playerData.eventBus.$emit("tribute-selected", this.card);
-          this.card = {};
-          this.canTribute = false;
-          if (this.tributeData.tributes.length === this.tributeData.amount) {
-            this.card = this.tributeData.summoningCard;
-            this.playerData.eventBus.$emit("summon-success", this.card);
-          }
+          this.summon();
         } else if (this.canChangePosition){
-          this.card.position = this.card.position === "atk" ? "def" : "atk";
-          this.canChangePosition = false;
+          this.changePosition();
         }
-      } else if (this.canAttack) {
+      } else {
+        this.battle();
+      }
+    },
+
+    summon() {
+      this.card = this.summonCard;
+      this.playerData.eventBus.$emit("summon-success", this.card);
+      if (this.canTribute) {
+        this.tributeData.tributes.push(this.card);
+        this.playerData.eventBus.$emit("tribute-selected", this.card);
+        this.card = {};
+        this.canTribute = false;
+        if (this.tributeData.tributes.length === this.tributeData.amount) {
+          this.card = this.tributeData.summoningCard;
+          this.playerData.eventBus.$emit("summon-success", this.card);
+        }
+      }
+    },
+
+    changePosition() {
+      if (this.card.position === "def" && this.card.hidden) {
+        this.card.hidden = false;
+      }
+      this.card.position = this.card.position === "atk" ? "def" : "atk";
+      this.canChangePosition = false;
+    },
+
+    battle() {
+      if (this.canAttack) {
         this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
         this.canAttack = false;
         this.spaceSelected = true;

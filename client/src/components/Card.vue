@@ -24,6 +24,7 @@ export default {
     },
 
     cancel() {
+      window.clearTimeout(this.timer);
       this.eventBusInfo.$emit("cancel");
     }
   }
