@@ -14,12 +14,13 @@ export default {
   props: ['card'],
   data() {
     return {
-      eventBusInfo: eventBusInfo
+      eventBusInfo: eventBusInfo,
+      timer: {}
     }
   },
   methods: {
     display(card) {
-      this.eventBusInfo.$emit("display-card", card);
+      this.timer = window.setTimeout(() => {this.eventBusInfo.$emit("display-card", card)}, 3000);
     },
 
     cancel() {
