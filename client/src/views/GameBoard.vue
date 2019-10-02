@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id="battlefield">
+  <div id="game-board">
     <div class="board-container top-board">
       <player-board :normalCards="normalCards" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
@@ -40,7 +40,7 @@ import InfoBox from '@/components/InfoBox.vue';
 import { eventBus1, eventBus2, eventBusInfo } from '@/main.js';
 
 export default {
-  name: "battlefield",
+  name: "game-board",
   props: ['normalCards'],
   components: {
     "player-board": PlayerBoard,

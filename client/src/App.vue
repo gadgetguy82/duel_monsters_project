@@ -2,7 +2,7 @@
   <div id='app'>
     <nav>
       <router-link :to="{ name: 'home' }"> HOME </router-link>
-      <router-link :to="{ name: 'battlefield' }" v-if="normalMonsterCards.length > 0"> BATTLEFIELD </router-link>
+      <router-link :to="{ name: 'game-board' }" v-if="normalMonsterCards.length > 0"> BOARD </router-link>
       <router-link :to="{ name: 'store' }"> STORE </router-link>
     </nav>
     <div class="view">
