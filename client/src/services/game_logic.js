@@ -1,5 +1,9 @@
 const mainPhases = ["First Main", "Second Main"];
 
+const changeTurn = (turn) => {
+  return turn === "one" ? "two" : "one";
+}
+
 const checkTurn = ({player}, {turn}) => {
   return player === turn;
 }
@@ -9,34 +13,31 @@ export default {
     return Object.keys(obj).length === 0;
   },
 
-  changeTurn(turn) {
-    return = turn === "one" ? "two" : "one";
-  },
-
-  changePhase(phase) {
-    switch (phase) {
+  changePhase(gameState) {
+    switch (gameState.phase) {
       case "Start":
-      phase = "Draw";
+      gameState.phase = "Draw";
       break;
       case "Draw":
-      phase = "Standby";
+      gameState.phase = "Standby";
       break;
       case "Standby":
-      phase = "First Main";
+      gameState.phase = "First Main";
       break;
       case "First Main":
-      phase = "Battle";
+      gameState.phase = "Battle";
       break;
       case "Battle":
-      phase = "Second Main";
+      gameState.phase = "Second Main";
       break;
       case "Second Main":
-      phase = "End";
+      gameState.phase = "End";
       break;
       case "End":
-      phase = "Start"
+      gameState.turn = changeTurn(gameState.turn);
+      gameState.phase = "Start";
     }
-    return phase;
+    return gameState;
   },
 
   checkTurn({player}, {turn}) {

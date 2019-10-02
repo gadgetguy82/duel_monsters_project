@@ -14,7 +14,7 @@ export default {
     }
   },
   mounted() {
-    this.playerData.eventBus.$on("hand-extra-cards", () => canClick = false);
+    this.playerData.eventBus.$on("hand-extra-cards", () => this.canClick = false);
   },
   methods: {
     handleClick(event) {
@@ -22,11 +22,8 @@ export default {
     },
 
     changePhaseTurn() {
-      if (canClick) {
-        if (this.gameState.phase === "End") {
-          this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
-        }
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
+      if (this.canClick) {
+        this.gameState = GameLogic.changePhase(this.gameState);
         this.gameState.eventBus.$emit("update-state", this.gameState);
       }
     }
