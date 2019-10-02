@@ -49,13 +49,10 @@ export default {
       }
     });
 
-    this.playerData.eventBus.$on("tributes-selected", () => {
-      this.canTribute = false;
-    });
-
     this.playerData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
       this.summon = {};
+      this.canTribute = false;
       this.tributeData = {
         tributes: []
       };
@@ -113,12 +110,12 @@ export default {
           this.playerData.eventBus.$emit("summon-success", this.card);
         } else if (this.canTribute) {
           this.tributeData.tributes.push(this.card);
+          this.playerData.eventBus.$emit("tribute-selected", this.card);
           this.card = {};
           this.canTribute = false;
           if (this.tributeData.tributes.length === this.tributeData.amount) {
             this.card = this.tributeData.summoningCard;
-            this.playerData.eventBus.$emit("tributes-selected", this.tributeData.tributes);
-            this.playerData.eventBus.$emit("summon-success", this.tributeData.summoningCard);
+            this.playerData.eventBus.$emit("summon-success", this.card);
           }
         } else if (this.canChangePosition){
           this.card.position = this.card.position === "atk" ? "def" : "atk";

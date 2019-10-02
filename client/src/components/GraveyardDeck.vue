@@ -33,11 +33,9 @@ export default {
       this.cards.push(card);
     });
 
-    this.playerData.eventBus.$on('tributes-selected', tributes => {
-      for (let card of tributes) {
-        card.hidden = false;
-        this.cards.push(card);
-      }
+    this.playerData.eventBus.$on('tribute-selected', card => {
+      card.hidden = false;
+      this.cards.push(card);
     });
   }
 }
