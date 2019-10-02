@@ -1,9 +1,12 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)">
-    </playing-card>
-    <button v-if="canChoosePosition" v-on:click="setAttack(summoningCard)">Attack</button>
-    <button v-if="canChoosePosition" v-on:click="setDefend(summoningCard)">Defend</button>
+    <div class="playing-hand">
+      <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
+    </div>
+    <div class="button-container">
+      <button v-if="canChoosePosition" v-on:click="setAttack(summoningCard)">Attack</button>
+      <button v-if="canChoosePosition" v-on:click="setDefend(summoningCard)">Defend</button>
+    </div>
   </div>
 </template>
 
@@ -94,7 +97,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.playing-hand-container{
+.playing-hand-container {
   background-image: url('../../public/img/playinghand_background.jpg');
   background-size: contain;
   background-position: center;
@@ -104,6 +107,21 @@ export default {
   height: 180px;
   width: 510px;
   display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   opacity: 0.7;
+}
+
+.playing-hand {
+  display: flex;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+button {
+  width: 200px;
 }
 </style>
