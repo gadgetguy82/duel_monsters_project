@@ -20,7 +20,7 @@
         <li>Pass play to your opponent</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0"> BEGIN GAME!</router-link></button>
+      <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0"> Start Game!</router-link></button>
     </div>
   </div>
 </template>

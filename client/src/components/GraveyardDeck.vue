@@ -23,11 +23,13 @@ export default {
   mounted() {
     this.playerData.eventBus.$on('lose', result => {
       if (result.card.name !== "null_card") {
+        result.card.hidden = false;
         this.cards.push(result.card);
       }
     });
 
     this.playerData.eventBus.$on('discard', card => {
+      card.hidden = false;
       this.cards.push(card);
     });
 

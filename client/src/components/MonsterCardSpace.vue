@@ -113,6 +113,7 @@ export default {
         this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
         this.canAttack = false;
       } else if (this.canBeTargetted) {
+        this.card.hidden = false;
         this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
       }
     }
