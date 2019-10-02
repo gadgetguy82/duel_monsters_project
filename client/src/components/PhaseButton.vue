@@ -5,7 +5,7 @@
 <script>
 export default {
   name: 'pretty-button',
-  props: ['text', 'player'],
+  props: ['text'],
   methods: {
     handleClick(event){
       event.preventDefault()
