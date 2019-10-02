@@ -1,12 +1,12 @@
 <template lang="html">
-  <div class="result">
-    <div class="result-container">
+  <div class="battlefield-container">
+    <div class="battlefield">
       <div class="player-one">
         <h4>Player One</h4>
         <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
       </div>
-      <div class="result-center">
-        <p>----Battle Result Area----</p>
+      <div class="battlefield-center">
+        <p>----Battle Field Area----</p>
         <button v-if="playerOneCard && playerTwoCard" v-on:click="battleWinner">Fight!!!</button>
       </div>
       <div class="player-two">
@@ -23,7 +23,7 @@ import Card from '@/components/Card';
 import GameLogic from '@/services/game_logic.js';
 
 export default {
-  name: 'battle-result',
+  name: 'battle-field',
   props: ['gameState'],
   components: {
     "playing-card" : Card
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.result {
+.battlefield-container {
   margin: 20px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
@@ -105,7 +105,7 @@ export default {
   border-radius: 5px;
 }
 
-.result-container {
+.battlefield {
   display: flex;
   align-items: center;
   margin: 10px;
@@ -116,10 +116,9 @@ export default {
   height: 175px;
   border: 1px solid #FFFFFF;
   border-radius: 5px;
-  /* text-align:center; */
 }
 
-.result-center {
+.battlefield-center {
   display: flex;
   flex-direction: column;
   align-items: center;

@@ -12,7 +12,7 @@
         </div>
         <h2 class="hide"></h2>
       </div>
-      <battle-result :gameState="gameState"></battle-result>
+      <battle-field :gameState="gameState"></battle-field>
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
@@ -33,7 +33,7 @@
 <script>
 import AIBoard from '@/components/AiBoard.vue';
 import PlayerBoard from '@/components/PlayerBoard.vue';
-import BattleResult from '@/components/BattleResult.vue';
+import Battlefield from '@/components/Battlefield.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
 import InfoBox from '@/components/InfoBox.vue';
@@ -45,7 +45,7 @@ export default {
   components: {
     "player-board": PlayerBoard,
     "ai-board": AIBoard,
-    "battle-result" : BattleResult,
+    "battle-field" : Battlefield,
     "win-lose": WinLose,
     "phase-button": PhaseButton,
     "info-box": InfoBox
