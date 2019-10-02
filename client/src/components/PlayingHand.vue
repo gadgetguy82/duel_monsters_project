@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="playing-hand-container">
-    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
+    <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)">
+    </playing-card>
+    <button v-if="canChoosePosition" v-on:click="setAttack(summoningCard)">Attack</button>
+    <button v-if="canChoosePosition" v-on:click="setDefend(summoningCard)">Defend</button>
   </div>
 </template>
 
@@ -18,6 +21,8 @@ export default {
     return {
       playerHand: [],
       monsterZone: "space",
+      summoningCard: {},
+      canChoosePosition: false,
       tributeData: {}
     }
   },
@@ -31,6 +36,7 @@ export default {
 
     this.boardData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
+      this.canChoosePosition = false;
     });
   },
   watch: {
@@ -51,23 +57,37 @@ export default {
   methods: {
     summon(card) {
       if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
+        this.summoningCard = card;
         if (this.monsterZone !== "full" && parseInt(card.level) < 5) {
-          this.boardData.eventBus.$emit("normal-summon", card);
+          this.canChoosePosition = true;
+          this.boardData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
         } else if (4 < parseInt(card.level) && parseInt(card.level) < 7) {
-          this.tributeData.summoningCard = card;
+          this.canChoosePosition = true;
+          this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 1;
           this.tributeData.tributes = [];
           this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
         } else if (parseInt(card.level) >= 7) {
-          this.tributeData.summoningCard = card;
+          this.canChoosePosition = true;
+          this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 2;
           this.tributeData.tributes = [];
           this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
         }
       }
+    },
+
+    setAttack(card) {
+      card.position = "atk";
+      this.canChoosePosition = false;
+    },
+
+    setDefend(card) {
+      card.position = "def";
+      this.canChoosePosition = false;
     }
   }
 }
@@ -81,7 +101,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 151px;
+  height: 180px;
   width: 510px;
   display: flex;
   opacity: 0.7;

@@ -75,14 +75,6 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.selected {
-  background-color: green;
-}
-
-.unselected {
-  background-color: white;
-}
-
 .monster-zone {
   margin: 2px 6px;
   opacity: 1;
