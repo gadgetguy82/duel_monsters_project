@@ -25,11 +25,7 @@ export default {
       gameState.phase = "First Main";
       break;
       case "First Main":
-      if (playerData.firstTurn) {
-        gameState.phase = "Second Main"
-      } else {
-        gameState.phase = "Battle";
-      }
+      gameState.phase = "Battle";
       break;
       case "Battle":
       gameState.phase = "Second Main";
