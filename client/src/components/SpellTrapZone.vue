@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="magic-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }">
+  <div class="magic-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }">
     <div class="spell-trap-zone">
 
     </div>
@@ -11,7 +11,7 @@ import Card from '@/components/Card';
 
 export default {
   name: 'spell-trap-zone',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
     "playing-card" : Card
   }

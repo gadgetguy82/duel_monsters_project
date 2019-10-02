@@ -16,7 +16,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-hand',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
     "playing-card": Card
   },
@@ -30,21 +30,21 @@ export default {
     }
   },
   mounted() {
-    this.boardData.eventBus.$on("draw-card", card => {
+    this.playerData.eventBus.$on("draw-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
     });
 
-    this.boardData.eventBus.$on("monster-zone-spaces", spaces => this.monsterZoneHasSpace = spaces);
+    this.playerData.eventBus.$on("monster-zone-spaces", spaces => this.monsterZoneHasSpace = spaces);
 
-    this.boardData.eventBus.$on("summon-success", card => {
+    this.playerData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
       this.canChoosePosition = false;
     });
   },
   watch: {
     "gameState.phase"() {
-      if ((GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Start")) {
+      if ((GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Start")) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
@@ -52,32 +52,32 @@ export default {
     },
 
     playerHand() {
-      if (this.boardData.firstTurn && this.playerHand.length === this.boardData.firstDrawAmount) {
-        this.boardData.eventBus.$emit("draw-max");
+      if (this.playerData.firstTurn && this.playerHand.length === this.playerData.firstDrawAmount) {
+        this.playerData.eventBus.$emit("draw-max");
       }
     }
   },
   methods: {
     summon(card) {
-      if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
+      if (GameLogic.checkMainPhase(this.playerData, this.gameState)) {
         this.summoningCard = card;
         if (this.monsterZoneHasSpace && parseInt(card.level) < 5) {
           this.canChoosePosition = true;
-          this.boardData.eventBus.$emit("normal-summon", this.summoningCard);
+          this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
         } else if (4 < parseInt(card.level) && parseInt(card.level) < 7) {
           this.canChoosePosition = true;
           this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 1;
           this.tributeData.tributes = [];
-          this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
+          this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
         } else if (parseInt(card.level) >= 7) {
           this.canChoosePosition = true;
           this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 2;
           this.tributeData.tributes = [];
-          this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
+          this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
         }
       }

@@ -10,7 +10,7 @@ import socketio from 'socket.io-client';
 
 export default {
   name: 'life_points',
-  props: ['boardData'],
+  props: ['playerData'],
   data() {
     return {
       points: 8000,
@@ -18,13 +18,13 @@ export default {
     }
   },
   mounted() {
-    this.boardData.eventBus.$on('lose', result => this.points += result.damage);
-    this.boardData.eventBus.$on('no-win', result => this.points += result.damage);
+    this.playerData.eventBus.$on('lose', result => this.points += result.damage);
+    this.playerData.eventBus.$on('no-win', result => this.points += result.damage);
   },
   watch: {
     points() {
       if (this.points <= 0) {
-        this.boardData.eventBus.$emit('defeat', this.boardData.player);
+        this.playerData.eventBus.$emit('defeat', this.playerData.player);
       }
     }
   },

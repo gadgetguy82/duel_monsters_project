@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="battlefield">
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="yellowPlayerData"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
       <info-box></info-box>
@@ -25,7 +25,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="bluePlayerData"></player-board>
+      <player-board :normalCards="normalCards" :gameState="gameState" :playerData="bluePlayerData"></player-board>
     </div>
   </div>
 </template>

@@ -15,7 +15,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-card-space',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
     "playing-card": Card
   },
@@ -30,31 +30,31 @@ export default {
     }
   },
   mounted() {
-    this.boardData.eventBus.$on("normal-summon", card => {
+    this.playerData.eventBus.$on("normal-summon", card => {
       if (GameLogic.isEmpty(this.card)) {
         this.canSummon = true;
         this.summon = card;
       }
     });
 
-    this.boardData.eventBus.$on("tribute-summon", tributeData => {
+    this.playerData.eventBus.$on("tribute-summon", tributeData => {
       if (!GameLogic.isEmpty(this.card)) {
         this.canTribute = true;
         this.tributeData = tributeData;
       }
     });
 
-    this.boardData.eventBus.$on("tributes-selected", () => {
+    this.playerData.eventBus.$on("tributes-selected", () => {
       this.canTribute = false;
     });
 
-    this.boardData.eventBus.$on("summon-success", () => {
+    this.playerData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
       this.summon = {};
       this.tributeData = {};
     });
 
-    this.boardData.eventBus.$on("lose", result => {
+    this.playerData.eventBus.$on("lose", result => {
       if (this.card === result.card) {
         this.card = {};
       }
@@ -62,25 +62,25 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
+      if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
         this.canChangePosition = true;
       }
     }
   },
   methods: {
     handleClick() {
-      if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
+      if (GameLogic.checkMainPhase(this.playerData, this.gameState)) {
         if (this.canSummon) {
           this.card = this.summon;
-          this.boardData.eventBus.$emit("summon-success", this.card);
+          this.playerData.eventBus.$emit("summon-success", this.card);
         } else if (this.canTribute) {
           this.tributeData.tributes.push(this.card);
           this.card = {};
           this.canTribute = false;
           if (this.tributeData.tributes.length === this.tributeData.amount) {
             this.card = this.tributeData.summoningCard;
-            this.boardData.eventBus.$emit("tributes-selected", this.tributeData.tributes);
-            this.boardData.eventBus.$emit("summon-success", this.tributeData.summoningCard);
+            this.playerData.eventBus.$emit("tributes-selected", this.tributeData.tributes);
+            this.playerData.eventBus.$emit("summon-success", this.tributeData.summoningCard);
           }
         } else if (this.canChangePosition){
           this.card.position = this.card.position === "atk" ? "def" : "atk";
@@ -88,7 +88,7 @@ export default {
         }
       } else if (this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
         this.card.hidden = false;
-        this.boardData.eventBus.$emit("battle-select-monster", this.card);
+        this.playerData.eventBus.$emit("battle-select-monster", this.card);
       }
     }
   }

@@ -11,7 +11,7 @@ import Card from '@/components/Card';
 
 export default {
   name: 'graveyard-deck',
-  props: ['boardData'],
+  props: ['playerData'],
   components: {
     "playing-card" : Card
   },
@@ -21,13 +21,13 @@ export default {
     }
   },
   mounted() {
-    this.boardData.eventBus.$on('lose', result => {
+    this.playerData.eventBus.$on('lose', result => {
       if (result.card.name !== "null_card") {
         this.cards.push(result.card);
       }
     });
 
-    this.boardData.eventBus.$on('tributes-selected', tributes => {
+    this.playerData.eventBus.$on('tributes-selected', tributes => {
       for (let card of tributes) {
         card.hidden = false;
         this.cards.push(card);

@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="monster-zone-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+  <div class="monster-zone-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }" v-on:click="checkMonsterZone">
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'monster-zone',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
     "playing-card" : Card,
     "monster-space": MonsterCardSpace
@@ -36,20 +36,20 @@ export default {
     }
   },
   mounted(){
-    this.boardData.eventBus.$on("summon-success", () => {
+    this.playerData.eventBus.$on("summon-success", () => {
       this.monsterZoneSpaces--;
     });
 
-    this.boardData.eventBus.$on("tribute-summon", tributeData => {
+    this.playerData.eventBus.$on("tribute-summon", tributeData => {
       this.summoningCard = tributeData.summoningCard;
       this.tributeAmount = tributeData.amount;
     });
 
-    this.boardData.eventBus.$on("tributes-selected", tributes => {
+    this.playerData.eventBus.$on("tributes-selected", tributes => {
       this.monsterZoneSpaces += tributes.length;
     });
 
-    this.boardData.eventBus.$on("lose", () => {
+    this.playerData.eventBus.$on("lose", () => {
       if (this.monsterZoneSpaces < 5) {
         this.monsterZoneSpaces++;
       }
@@ -57,13 +57,13 @@ export default {
   },
   watch: {
     monsterZoneSpaces() {
-      this.boardData.eventBus.$emit("monster-zone-spaces", this.monsterZoneSpaces > 0);
+      this.playerData.eventBus.$emit("monster-zone-spaces", this.monsterZoneSpaces > 0);
     }
   },
   methods: {
     checkMonsterZone() {
-      if (GameLogic.checkBattlePhase(this.boardData, this.gameState) && this.monsterZoneSpaces === 5 ) {
-        this.boardData.eventBus.$emit("battle-select-monster", this.noCard);
+      if (GameLogic.checkBattlePhase(this.playerData, this.gameState) && this.monsterZoneSpaces === 5 ) {
+        this.playerData.eventBus.$emit("battle-select-monster", this.noCard);
       }
     }
   }
