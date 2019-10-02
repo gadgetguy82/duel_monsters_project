@@ -85,11 +85,13 @@ export default {
 
     setAttack(card) {
       card.position = "atk";
+      card.hidden = false;
       this.canChoosePosition = false;
     },
 
     setDefend(card) {
       card.position = "def";
+      card.hidden = true;
       this.canChoosePosition = false;
     }
   }
