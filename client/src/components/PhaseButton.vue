@@ -1,14 +1,27 @@
 <template lang="html">
-  <button type="button" :class="{'yellow': playerData.player === 'one', 'blue': playerData.player === 'two'}">{{ gameState.phase }}</button>
+  <button type="button" :class="{'yellow': playerData.player === 'one', 'blue': playerData.player === 'two'}" v-on:click="changePhaseTurn" >{{ gameState.phase }}</button>
 </template>
 
 <script>
+import GameLogic from '@/services/game_logic.js';
+
 export default {
   name: 'pretty-button',
   props: ['gameState', 'playerData'],
   methods: {
-    handleClick(event){
+    handleClick(event) {
       event.preventDefault();
+    },
+
+    changePhaseTurn() {
+      if (this.gameState.phase === "End") {
+        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
+        this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
+        this.gameState.eventBus.$emit("update-state", this.gameState);
+      } else {
+        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
+        this.gameState.eventBus.$emit("update-state", this.gameState);
+      }
     }
   }
 }

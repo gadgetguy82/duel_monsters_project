@@ -8,7 +8,7 @@
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
-          <phase-button v-if="gameState.turn === 'one'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="yellowPlayerData"></phase-button>
+          <phase-button v-if="gameState.turn === 'one'" :gameState="gameState" :playerData="yellowPlayerData"></phase-button>
         </div>
         <h2 class="hide"></h2>
       </div>
@@ -16,7 +16,7 @@
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="bluePlayerData"></phase-button>
+          <phase-button v-if="gameState.turn === 'two'" :gameState="gameState" :playerData="bluePlayerData"></phase-button>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
@@ -37,8 +37,7 @@ import BattleResult from '@/components/BattleResult.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
 import InfoBox from '@/components/InfoBox.vue';
-import GameLogic from '@/services/game_logic.js';
-import { eventBus1, eventBus2 } from '@/main.js';
+import { eventBus1, eventBus2, eventBusInfo } from '@/main.js';
 
 export default {
   name: "battlefield",
@@ -56,6 +55,7 @@ export default {
       gameState: {
         turn: 'one',
         phase: "Start",
+        eventBus: eventBusInfo
       },
       yellowPlayerData: {
         player: 'one',
@@ -71,15 +71,8 @@ export default {
       }
     }
   },
-  methods: {
-    changePhaseTurn() {
-      if (this.gameState.phase === "End") {
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
-        this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
-      } else {
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
-      }
-    }
+  mounted() {
+    this.gameState.eventBus.$on("update-state", state => this.gameState = state);
   }
 }
 

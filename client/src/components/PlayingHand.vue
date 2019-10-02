@@ -50,6 +50,10 @@ export default {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
+      } else if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "End") {
+        if (this.playerHand.length > 6) {
+          this.playerData.eventBus.$emit("hand-extra-cards");
+        }
       }
     },
 

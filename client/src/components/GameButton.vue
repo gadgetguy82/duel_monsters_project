@@ -7,7 +7,7 @@ export default {
   name: 'game-button',
   props: ['text', 'colour'],
   methods: {
-    handleClick(event){
+    handleClick(event) {
       event.preventDefault();
     }
   }
