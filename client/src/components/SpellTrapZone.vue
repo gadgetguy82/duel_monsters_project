@@ -29,7 +29,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 155px;
+  height: 170px;
   width: 780px;
   display: flex;
   justify-content: space-around;

@@ -111,6 +111,7 @@ export default {
 .col {
   display: flex;
   flex-direction: column;
+  justify-content: space-around;
 }
 
 .first {

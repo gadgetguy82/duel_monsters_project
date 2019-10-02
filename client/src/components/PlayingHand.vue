@@ -106,7 +106,7 @@ export default {
   border-width: 1px;
   border-style: solid;
   border-radius: 5px;
-  height: 180px;
+  height: 170px;
   width: 510px;
   display: flex;
   flex-direction: column;

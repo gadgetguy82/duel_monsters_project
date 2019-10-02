@@ -38,7 +38,7 @@ export default {
     eventBus1.$on('battle-select-monster', card => {
       this.playerOneCard = card;
     });
-    
+
     eventBus2.$on('battle-select-monster', card => {
       this.playerTwoCard = card;
     });
@@ -93,7 +93,7 @@ export default {
 
 <style lang="css" scoped>
 .result {
-  margin: 30px 10px;
+  margin: 20px 10px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
   background-position: center;
