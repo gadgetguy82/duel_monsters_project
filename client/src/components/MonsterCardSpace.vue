@@ -71,6 +71,20 @@ export default {
       this.canBeTargetted = false;
     });
 
+    this.playerData.eventBus.$on("win", result => {
+      if (this.spaceSelected) {
+        this.card = result.card;
+        this.spaceSelected = false;
+      }
+    });
+
+    this.playerData.eventBus.$on("no-win", result => {
+      if (this.spaceSelected) {
+        this.card = result.card;
+        this.spaceSelected = false;
+      }
+    });
+
     this.playerData.eventBus.$on("lose", result => {
       if (this.card === result.card) {
         this.card = {};
@@ -114,10 +128,12 @@ export default {
         this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
         this.canAttack = false;
         this.spaceSelected = true;
+        this.card = {};
       } else if (this.canBeTargetted) {
         this.card.hidden = false;
         this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
         this.spaceSelected = true;
+        this.card = {};
       }
     }
   }

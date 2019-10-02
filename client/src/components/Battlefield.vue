@@ -8,7 +8,7 @@
       <div class="battlefield-center">
         <p>----Battlefield Area----</p>
         <game-button v-if="battleCards.one && battleCards.two" v-on:click.native="battleWinner" :text="'Fight!!!'" :colour="'red'"></game-button>
-        <game-button v-if="battleOver" v-on:click.native="resultCheck" :text="'Ok'" :colour="'green'"></game-button>
+        <game-button v-if="battleOver" v-on:click.native="resultCheck" :text="'Continue'" :colour="'green'"></game-button>
       </div>
       <div class="player-two">
         <h4>Player Two</h4>
