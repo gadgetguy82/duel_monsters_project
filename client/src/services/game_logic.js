@@ -9,6 +9,10 @@ const checkTurn = ({player}, {turn}) => {
 }
 
 export default {
+  getOpponent(player) {
+    return player === "one" ? "two" : "one";
+  },
+
   isEmpty(obj) {
     return Object.keys(obj).length === 0;
   },

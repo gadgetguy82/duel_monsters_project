@@ -37,13 +37,25 @@ export default {
     }
   },
   mounted() {
-    eventBus1.$on('battle-select-monster', card => {
-      this.playerOneCard = card;
+    this.gameState.eventBus.$on('battle-select-monster', battleData => {
+      if (battleData.player === "one") {
+        this.playerOneCard = battleData.card;
+      } else {
+        this.playerTwoCard = battleData.card;
+      }
     });
 
-    eventBus2.$on('battle-select-monster', card => {
-      this.playerTwoCard = card;
+    this.gameState.eventBus.$on('battle-select-target', battleData => {
+      if (battleData.player === "one") {
+        this.playerOneCard = battleData.card;
+      } else {
+        this.playerTwoCard = battleData.card;
+      }
     });
+
+    // eventBus2.$on('battle-select-monster', card => {
+    //   this.playerTwoCard = card;
+    // });
   },
   methods: {
     battleWinner() {

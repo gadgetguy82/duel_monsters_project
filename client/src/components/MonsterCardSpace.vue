@@ -26,7 +26,9 @@ export default {
       canSummon: false,
       canTribute: false,
       tributeData: {},
-      canChangePosition: false
+      canChangePosition: false,
+      canAttack: false,
+      canBeTargetted: false
     }
   },
   mounted() {
@@ -54,6 +56,16 @@ export default {
       this.tributeData = {};
     });
 
+    this.gameState.eventBus.$on("battle-select-monster", () => {
+      if (!GameLogic.checkTurn(this.playerData, this.gameState) && !GameLogic.isEmpty(this.card)) {
+        this.canBeTargetted = true;
+      }
+    });
+
+    this.gameState.eventBus.$on("battle-select-target", () => {
+      this.canBeTargetted = false;
+    });
+
     this.playerData.eventBus.$on("lose", result => {
       if (this.card === result.card) {
         this.card = {};
@@ -64,6 +76,13 @@ export default {
     "gameState.phase"() {
       if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
         this.canChangePosition = true;
+      } else if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
+        if (this.card.position === "atk") {
+          this.canAttack = true;
+        }
+      } else if (this.gameState.phase === "Second Main" && !GameLogic.isEmpty(this.card)) {
+        this.canAttack = false;
+        this.canBeTargetted = false;
       }
     }
   },
@@ -86,9 +105,12 @@ export default {
           this.card.position = this.card.position === "atk" ? "def" : "atk";
           this.canChangePosition = false;
         }
-      } else if (this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
-        this.card.hidden = false;
-        this.playerData.eventBus.$emit("battle-select-monster", this.card);
+      } else if (this.canAttack) {
+        // this.playerData.eventBus.$emit("battle-select-monster", this.card);
+        this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
+        this.canAttack = false;
+      } else if (this.canBeTargetted) {
+        this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: GameLogic.getOpponent(this.playerData.player)});
       }
     }
   }
