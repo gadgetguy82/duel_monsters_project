@@ -70,9 +70,6 @@ export default {
         firstDrawAmount: 6
       }
     }
-  },
-  mounted() {
-    this.gameState.eventBus.$on("update-state", state => this.gameState = state);
   }
 }
 

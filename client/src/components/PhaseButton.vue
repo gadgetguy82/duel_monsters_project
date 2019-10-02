@@ -24,7 +24,6 @@ export default {
     changePhaseTurn() {
       if (this.canClick) {
         this.gameState = GameLogic.changePhase(this.gameState);
-        this.gameState.eventBus.$emit("update-state", this.gameState);
       }
     }
   }
