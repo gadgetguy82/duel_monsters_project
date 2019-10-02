@@ -61,7 +61,7 @@ export default {
     });
 
     this.gameState.eventBus.$on("battle-select-monster", () => {
-      if (!GameLogic.checkTurn(this.playerData, this.gameState) && !GameLogic.isEmpty(this.card)) {
+      if (!GameLogic.checkTurn(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
         this.canBeTargetted = true;
       }
     });
@@ -78,9 +78,9 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
+      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
         this.canChangePosition = true;
-      } else if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
+      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
         if (this.card.position === "atk") {
           this.canAttack = true;
         }
@@ -92,7 +92,7 @@ export default {
   },
   methods: {
     handleClick() {
-      if (GameLogic.checkMainPhase(this.playerData, this.gameState)) {
+      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         if (this.canSummon) {
           this.card = this.summon;
           this.playerData.eventBus.$emit("summon-success", this.card);

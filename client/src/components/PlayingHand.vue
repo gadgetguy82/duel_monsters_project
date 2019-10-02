@@ -47,11 +47,11 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if ((GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "Start")) {
+      if ((GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start")) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
-      } else if (GameLogic.checkTurn(this.playerData, this.gameState) && this.gameState.phase === "End") {
+      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "End") {
         if (this.playerHand.length > 6) {
           this.playerData.eventBus.$emit("hand-extra-cards");
           this.canDiscard = true;
@@ -62,7 +62,7 @@ export default {
     playerHand() {
       if (this.playerData.firstTurn && this.playerHand.length === this.playerData.firstDrawAmount) {
         this.playerData.eventBus.$emit("draw-max");
-      } else if (GameLogic.checkEndPhase(this.playerData, this.gameState) && this.playerHand.length < 7) {
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData) && this.playerHand.length < 7) {
         this.playerData.eventBus.$emit("hand-no-extra-cards");
         this.canDiscard = false;
       }
@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     summonOrDiscard(card) {
-      if (GameLogic.checkMainPhase(this.playerData, this.gameState)) {
+      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         this.summoningCard = card;
         if (this.monsterZoneHasSpace && parseInt(card.level) < 5) {
           this.canChoosePosition = true;
@@ -91,7 +91,7 @@ export default {
           this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
         }
-      } else if (GameLogic.checkEndPhase(this.playerData, this.gameState)) {
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
         if (this.playerHand.length > 6) {
           this.playerData.eventBus.$emit("discard", card);
           GameLogic.removeCard(card, this.playerHand);

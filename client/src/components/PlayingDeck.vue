@@ -27,7 +27,7 @@ export default {
     "gameState.phase"() {
       if (this.gameState.phase === "Draw") {
         this.canDraw = true;
-        if (GameLogic.checkTurn(this.playerData, this.gameState) && this.deck.length === 0) {
+        if (GameLogic.checkTurn(this.gameState, this.playerData) && this.deck.length === 0) {
           this.canDraw = false;
           this.playerData.eventBus.$emit('defeat', this.playerData.player);
         }
@@ -36,7 +36,7 @@ export default {
   },
   methods: {
     drawCard() {
-      if (GameLogic.checkTurn(this.playerData, this.gameState) && this.canDraw) {
+      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.canDraw) {
         const card = this.deck.pop();
         this.playerData.eventBus.$emit('draw-card', card);
         if (!this.playerData.firstTurn) {

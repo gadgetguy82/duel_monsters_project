@@ -13,7 +13,7 @@ export default {
     return Object.keys(obj).length === 0;
   },
 
-  changePhase(gameState) {
+  changePhase(gameState, playerData) {
     switch (gameState.phase) {
       case "Start":
       gameState.phase = "Draw";
@@ -25,7 +25,11 @@ export default {
       gameState.phase = "First Main";
       break;
       case "First Main":
-      gameState.phase = "Battle";
+      if (playerData.firstTurn) {
+        gameState.phase = "Second Main"
+      } else {
+        gameState.phase = "Battle";
+      }
       break;
       case "Battle":
       gameState.phase = "Second Main";
@@ -40,31 +44,31 @@ export default {
     return gameState;
   },
 
-  checkTurn({player}, {turn}) {
+  checkTurn({turn}, {player}) {
     return player === turn;
   },
 
-  checkChangeTurn({player}, {turn}) {
+  checkChangeTurn({turn}, {player}) {
     return !checkTurn({player}, {turn}) && phase === "Start";
   },
 
-  checkDrawPhase({player}, {turn, phase}) {
+  checkDrawPhase({turn, phase}, {player}) {
     return checkTurn({player}, {turn}) && phase === "Draw";
   },
 
-  checkStandbyPhase({player}, {turn, phase}) {
+  checkStandbyPhase({turn, phase}, {player}) {
     return checkTurn({player}, {turn}) && phase === "Standby";
   },
 
-  checkMainPhase({player}, {turn, phase}) {
+  checkMainPhase({turn, phase}, {player}) {
     return checkTurn({player}, {turn}) && mainPhases.includes(phase);
   },
 
-  checkBattlePhase({player}, {turn, phase}) {
+  checkBattlePhase({turn, phase}, {player}) {
     return phase === "Battle";
   },
 
-  checkEndPhase({player}, {turn, phase}) {
+  checkEndPhase({turn, phase}, {player}) {
     return checkTurn({player}, {turn}) && phase === "End";
   },
 
