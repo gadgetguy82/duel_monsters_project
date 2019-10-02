@@ -3,15 +3,15 @@
     <div class="battlefield">
       <div class="player-one">
         <h4>Player One</h4>
-        <playing-card v-if="playerOneCard" :card="playerOneCard"></playing-card>
+        <playing-card v-if="battleCards.one" :card="battleCards.one"></playing-card>
       </div>
       <div class="battlefield-center">
         <p>----Battlefield Area----</p>
-        <game-button v-if="playerOneCard && playerTwoCard" v-on:click.native="battleWinner" :text="'Fight!!!'" :colour="'red'"></game-button>
+        <game-button v-if="battleCards.one && battleCards.two" v-on:click.native="battleWinner" :text="'Fight!!!'" :colour="'red'"></game-button>
       </div>
       <div class="player-two">
         <h4>Player Two</h4>
-        <playing-card v-if="playerTwoCard" :card="playerTwoCard"></playing-card>
+        <playing-card v-if="battleCards.two" :card="battleCards.two"></playing-card>
       </div>
     </div>
   </div>
@@ -32,37 +32,27 @@ export default {
   },
   data(){
     return{
-      playerOneCard: null,
-      playerTwoCard: null,
+      battleCards: {
+        one: null,
+        two: null
+      }
     }
   },
   mounted() {
     this.gameState.eventBus.$on('battle-select-monster', battleData => {
-      if (battleData.player === "one") {
-        this.playerOneCard = battleData.card;
-      } else {
-        this.playerTwoCard = battleData.card;
-      }
+      this.battleCards[battleData.player] = battleData.card;
     });
 
     this.gameState.eventBus.$on('battle-select-target', battleData => {
-      if (battleData.player === "one") {
-        this.playerOneCard = battleData.card;
-      } else {
-        this.playerTwoCard = battleData.card;
-      }
+      this.battleCards[battleData.player] = battleData.card;
     });
-
-    // eventBus2.$on('battle-select-monster', card => {
-    //   this.playerTwoCard = card;
-    // });
   },
   methods: {
     battleWinner() {
-      const result = GameLogic.checkDamage(this.playerOneCard, this.playerTwoCard);
+      const result = GameLogic.checkDamage(this.battleCards.one, this.battleCards.two);
       if (result.cards.length < 2) {
-        if (result.cards[0] === this.playerOneCard) {
-          if (this.playerTwoCard.position === "atk") {
+        if (result.cards[0] === this.battleCards.one) {
+          if (this.battleCards.two.position === "atk") {
             eventBus1.$emit('lose', {
               card: result.cards[0],
               damage: result.damage
@@ -74,7 +64,7 @@ export default {
             });
           }
         } else {
-          if (this.playerOneCard.position === "atk") {
+          if (this.battleCards.one.position === "atk") {
             eventBus2.$emit('lose', {
               card: result.cards[0],
               damage: result.damage
@@ -98,8 +88,8 @@ export default {
           });
         }
       }
-      this.playerOneCard = null;
-      this.playerTwoCard = null;
+      this.battleCards.one = null;
+      this.battleCards.two = null;
     }
   }
 }

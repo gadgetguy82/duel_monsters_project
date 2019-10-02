@@ -25,7 +25,9 @@ export default {
       summon: {},
       canSummon: false,
       canTribute: false,
-      tributeData: {},
+      tributeData: {
+        tributes: []
+      },
       canChangePosition: false,
       canAttack: false,
       canBeTargetted: false
@@ -53,7 +55,9 @@ export default {
     this.playerData.eventBus.$on("summon-success", () => {
       this.canSummon = false;
       this.summon = {};
-      this.tributeData = {};
+      this.tributeData = {
+        tributes: []
+      };
     });
 
     this.gameState.eventBus.$on("battle-select-monster", () => {
@@ -106,11 +110,10 @@ export default {
           this.canChangePosition = false;
         }
       } else if (this.canAttack) {
-        // this.playerData.eventBus.$emit("battle-select-monster", this.card);
         this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
         this.canAttack = false;
       } else if (this.canBeTargetted) {
-        this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: GameLogic.getOpponent(this.playerData.player)});
+        this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
       }
     }
   }
