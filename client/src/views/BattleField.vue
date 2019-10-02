@@ -8,7 +8,7 @@
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
-          <phase-button v-if="gameState.turn === 'one'" v-on:click.native="changePhaseTurn" :text="gameState.phase"></phase-button>
+          <phase-button v-if="gameState.turn === 'one'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="yellowPlayerData"></phase-button>
         </div>
         <h2 class="hide"></h2>
       </div>
@@ -16,7 +16,7 @@
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button-inverted v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :text="gameState.phase" class="player-2-button"></phase-button-inverted>
+          <phase-button-inverted v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :gameState="gameState" :playerData="bluePlayerData"></phase-button-inverted>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>

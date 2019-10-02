@@ -1,11 +1,11 @@
 <template lang="html">
-  <button type="button">{{ text }}</button>
+  <button type="button">{{ gameState.phase }}</button>
 </template>
 
 <script>
 export default {
   name: 'pretty-button-inverted',
-  props: ['text'],
+  props: ['gameState', 'playerData'],
   methods: {
     handleClick(event){
       event.preventDefault()

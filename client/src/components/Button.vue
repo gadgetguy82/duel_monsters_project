@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'pretty-button',
+  name: 'regular-button',
   methods: {
     handleClick(event){
       event.preventDefault()
