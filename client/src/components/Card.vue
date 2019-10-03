@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="card" :class="{'show': !card.hidden, 'hidden': card.hidden}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
+  <div class="card" :class="{'show': !card.hidden, 'hidden': card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.change}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
     <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
     <img v-if="card.hidden" src="../../public/img/card_back.png">
     <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
@@ -47,6 +47,8 @@ export default {
   width: 100px;
   height: 150px;
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .card:last-child {
@@ -75,5 +77,31 @@ img {
   position: absolute;
   width: 90px;
   text-align: center;
+}
+
+.monster-space-container .card.atk.change {
+  animation: rotate-portrait 0.5s ease;
+}
+
+.monster-space-container .card.def.change {
+  animation: rotate-landscape 0.5s ease;
+}
+
+@keyframes rotate-landscape {
+  0% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
+}
+
+@keyframes rotate-portrait {
+  0% {
+    transform: rotate(-90deg);
+  }
+  100% {
+    transform: rotate(0);
+  }
 }
 </style>

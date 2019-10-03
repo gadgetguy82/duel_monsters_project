@@ -159,6 +159,7 @@ export default {
           this.card.hidden = false;
         }
         this.card.position = this.card.position === "atk" ? "def" : "atk";
+        this.card.change = true;
         this.canChangePosition = false;
       }
     },
