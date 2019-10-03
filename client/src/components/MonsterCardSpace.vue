@@ -64,10 +64,6 @@ export default {
       }
     });
 
-    this.gameState.eventBus.$on("battle-select-target", () => {
-      this.canBeTargetted = false;
-    });
-
     this.playerData.eventBus.$on("win", result => {
       if (this.spaceSelected) {
         this.card = result.card;
@@ -90,6 +86,11 @@ export default {
 
     this.playerData.eventBus.$on("battle-cancelled", card => {
       if (this.spaceSelected) {
+        if (GameLogic.checkBattlePhase(this.gameState, this.playerData)) {
+          this.canAttack = true;
+        } else if (this.gameState.phase === "Battle") {
+          this.canBeTargetted = true;
+        }
         this.card = card;
         this.spaceSelected = false;
       }
@@ -149,11 +150,13 @@ export default {
     },
 
     changePosition() {
-      if (this.card.position === "def" && this.card.hidden) {
-        this.card.hidden = false;
+      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+        if (this.card.position === "def" && this.card.hidden) {
+          this.card.hidden = false;
+        }
+        this.card.position = this.card.position === "atk" ? "def" : "atk";
+        this.canChangePosition = false;
       }
-      this.card.position = this.card.position === "atk" ? "def" : "atk";
-      this.canChangePosition = false;
     },
 
     attack() {
@@ -165,6 +168,7 @@ export default {
 
     selectTarget() {
       this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
+      this.canBeTargetted = false;
       this.spaceSelected = true;
       this.card = {};
     }
