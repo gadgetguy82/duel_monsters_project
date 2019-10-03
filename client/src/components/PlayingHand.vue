@@ -14,6 +14,7 @@
 import Card from '@/components/Card.vue';
 import GameButton from '@/components/GameButton.vue';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'playing-hand',
@@ -26,8 +27,8 @@ export default {
     return {
       playerHand: [],
       monsterZone: {
-        spaces: 5,
-        tributes: 5
+        spaces: Constants.MAX_SPACES,
+        tributes: Constants.MAX_SPACES
       },
       canNormalSummon: false,
       summoningCard: {},
@@ -64,7 +65,7 @@ export default {
       } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
         this.canChoosePosition = false;
         this.resetHand();
-        if (this.playerHand.length > 6) {
+        if (this.playerHand.length > Constants.MAX_CARDS) {
           this.playerData.eventBus.$emit("hand-extra-cards");
           this.canDiscard = true;
         }
@@ -89,17 +90,15 @@ export default {
             this.canChoosePosition = true;
             this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
             this.tributeData = {};
-          } else if (5 - this.monsterZone.tributes > 0 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
+          } else if (Constants.MAX_SPACES - this.monsterZone.tributes > 0 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
             this.tributeSummon(1);
-          } else if (5 - this.monsterZone.tributes > 1 && parseInt(card.level) >= 7) {
+          } else if (Constants.MAX_SPACES - this.monsterZone.tributes > 1 && parseInt(card.level) > 6) {
             this.tributeSummon(2);
           }
-        } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
-          if (this.playerHand.length > 6) {
-            this.playerData.eventBus.$emit("discard", card);
-            GameLogic.removeCard(card, this.playerHand);
-          }
         }
+      } else if (this.canDiscard) {
+        this.playerData.eventBus.$emit("discard", card);
+        GameLogic.removeCard(card, this.playerHand);
       }
     },
 
@@ -113,12 +112,12 @@ export default {
     },
 
     setAttack(card) {
-      card.position = "atk";
+      card.position = Constants.ATTACK;
       card.hidden = false;
     },
 
     setDefend(card) {
-      card.position = "def";
+      card.position = Constants.DEFEND;
       card.hidden = true;
     },
 

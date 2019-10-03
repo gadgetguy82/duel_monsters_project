@@ -12,6 +12,7 @@
 <script>
 import Card from '@/components/Card.vue';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'monster-card-space',
@@ -65,21 +66,11 @@ export default {
     });
 
     this.playerData.eventBus.$on("win", result => {
-      if (this.spaceSelected) {
-        result.card.change = false;
-        this.card = result.card;
-        this.canBeTargetted = false;
-        this.spaceSelected = false;
-      }
+      this.returnCard(result.card);
     });
 
     this.playerData.eventBus.$on("no-win", result => {
-      if (this.spaceSelected) {
-        result.card.change = false;
-        this.card = result.card;
-        this.canBeTargetted = false;
-        this.spaceSelected = false;
-      }
+      this.returnCard(result.card);
     });
 
     this.playerData.eventBus.$on("lose", () => {
@@ -91,30 +82,27 @@ export default {
 
     this.playerData.eventBus.$on("battle-cancelled", card => {
       if (this.spaceSelected) {
+        this.returnCard(card);
         if (GameLogic.checkBattlePhase(this.gameState, this.playerData)) {
           this.canAttack = true;
-        } else if (this.gameState.phase === "Battle") {
+        } else if (this.gameState.phase === Constants.BATTLE) {
           this.canBeTargetted = true;
         }
-        card.change = false;
-        this.card = card;
-        this.spaceSelected = false;
       }
     });
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
         this.canChangePosition = true;
-      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
-        if (!(this.playerData.player === "one" && this.playerData.firstTurn) && this.card.position === "atk") {
+        this.card.initial = false;
+      } else if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
+        if (!(this.playerData.player === "one" && this.playerData.firstTurn) && this.card.position === Constants.ATTACK) {
           this.canAttack = true;
         }
-      } else if (this.gameState.phase === "Second Main" && !GameLogic.isEmpty(this.card)) {
+      } else if (GameLogic.checkMainPhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
         this.canAttack = false;
         this.canBeTargetted = false;
-      } else if (this.gameState.phase === "End" && !GameLogic.isEmpty(this.card)) {
-        this.card.initial = false;
       }
     }
   },
@@ -161,7 +149,7 @@ export default {
         if (this.card.position === "def" && this.card.hidden) {
           this.card.hidden = false;
         }
-        this.card.position = this.card.position === "atk" ? "def" : "atk";
+        this.card.position = this.card.position === Constants.ATTACK ? "def" : Constants.ATTACK;
         this.card.change = true;
         this.canChangePosition = false;
       }
@@ -179,6 +167,14 @@ export default {
       this.canBeTargetted = false;
       this.spaceSelected = true;
       this.card = {};
+    },
+
+    returnCard(card) {
+      if (this.spaceSelected) {
+        card.change = false;
+        this.card = card;
+        this.spaceSelected = false;
+      }
     }
   }
 }

@@ -12,4 +12,7 @@ export const DEFEND = "def";
 export const ONE = "one";
 export const TWO = "two";
 
+export const MAX_SPACES = 5;
+export const MAX_CARDS = 6;
+
 export const MAIN_PHASES = [FIRST_MAIN, SECOND_MAIN];

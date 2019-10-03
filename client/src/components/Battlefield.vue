@@ -23,6 +23,7 @@ import { eventBus1, eventBus2 } from '@/main.js';
 import Card from '@/components/Card';
 import GameButton from '@/components/GameButton.vue';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'battle-field',
@@ -64,7 +65,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === "Second Main") {
+      if (this.gameState.phase === Constants.SECOND_MAIN) {
         if (this.battleOver) {
           this.resultCheck();
         } else {
