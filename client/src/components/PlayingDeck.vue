@@ -31,6 +31,14 @@ export default {
           this.canDraw = false;
           this.playerData.eventBus.$emit('defeat', this.playerData.player);
         }
+
+        if (this.playerData.firstTurn) {
+          for (let count = 0; count < this.playerData.firstDrawAmount; count++) {
+            this.drawCard();
+          }
+        } else {
+          this.drawCard();
+        }
       } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Standby") {
         this.canDraw = false;
       }
