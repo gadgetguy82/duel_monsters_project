@@ -25,12 +25,14 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === "Draw") {
+      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Draw") {
         this.canDraw = true;
-        if (GameLogic.checkTurn(this.gameState, this.playerData) && this.deck.length === 0) {
+        if (this.deck.length === 0) {
           this.canDraw = false;
           this.playerData.eventBus.$emit('defeat', this.playerData.player);
         }
+      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Standby") {
+        this.canDraw = false;
       }
     }
   },

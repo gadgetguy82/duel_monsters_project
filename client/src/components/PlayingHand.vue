@@ -124,7 +124,7 @@ export default {
 
     resetHand() {
       for (let card of this.playerHand) {
-        card.position = "atk";
+        this.setAttack(card);
       }
     }
   }
