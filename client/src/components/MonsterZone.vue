@@ -59,7 +59,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "End") {
+      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start") {
         this.notForTribute = 0;
       }
     },

@@ -47,16 +47,12 @@ export default {
   },
   mounted() {
     this.gameState.eventBus.$on('battle-select-monster', battleData => {
-      if (this.battleCards.one) {
-        eventBus1.$emit("battle-cancelled", this.battleCards.one);
-      }
+      this.cancelBattle(battleData.player);
       this.battleCards[battleData.player] = battleData.card;
     });
 
     this.gameState.eventBus.$on('battle-select-target', battleData => {
-      if (this.battleCards.two) {
-        eventBus2.$emit("battle-cancelled", this.battleCards.two);
-      }
+      this.cancelBattle(battleData.player);
       this.battleCards[battleData.player] = battleData.card;
     });
   },
@@ -64,7 +60,7 @@ export default {
     "gameState.phase"() {
       if (this.gameState.phase === "Second Main") {
         if (this.battleOver) {
-          resultCheck();
+          this.resultCheck();
         } else {
           eventBus1.$emit("battle-cancelled", this.battleCards.one);
           eventBus2.$emit("battle-cancelled", this.battleCards.two);
@@ -103,6 +99,14 @@ export default {
       this.event.one = "";
       this.event.two = "";
       this.battleOver = false;
+    },
+
+    cancelBattle(player) {
+      if (this.battleCards.one && player === "one") {
+        eventBus1.$emit("battle-cancelled", this.battleCards.one);
+      } else if (this.battleCards.two && player === "two") {
+        eventBus2.$emit("battle-cancelled", this.battleCards.two);
+      }
     }
   }
 }

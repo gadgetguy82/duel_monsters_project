@@ -61,7 +61,7 @@ export default {
   },
 
   checkBattlePhase({turn, phase}, {player}) {
-    return phase === "Battle";
+    return checkTurn({player}, {turn}) && phase === "Battle";
   },
 
   checkEndPhase({turn, phase}, {player}) {
