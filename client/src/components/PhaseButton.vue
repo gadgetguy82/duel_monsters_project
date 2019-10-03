@@ -22,7 +22,7 @@ export default {
     changePhaseTurn() {
       if (this.canClick) {
         this.gameState = GameLogic.changePhase(this.gameState);
-        if (GameLogic.checkEndPhase(this.gameState, this.playerData) && this.playerData.firstTurn) {
+        if (this.playerData.firstTurn && GameLogic.checkEndPhase(this.gameState, this.playerData)) {
           this.playerData.firstTurn = false;
         }
       }

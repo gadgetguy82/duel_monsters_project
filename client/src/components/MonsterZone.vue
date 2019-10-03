@@ -22,7 +22,8 @@ export default {
   },
   data(){
     return {
-      monsterZoneSpaces: 5,
+      spaces: 5,
+      notForTribute: 0,
       noCard: {
         name: "null_card",
         atk: 0,
@@ -37,7 +38,8 @@ export default {
   },
   mounted(){
     this.playerData.eventBus.$on("summon-success", () => {
-      this.monsterZoneSpaces--;
+      this.spaces--;
+      this.notForTribute++;
     });
 
     this.playerData.eventBus.$on("tribute-summon", tributeData => {
@@ -46,23 +48,29 @@ export default {
     });
 
     this.playerData.eventBus.$on("tributes-selected", tributes => {
-      this.monsterZoneSpaces += tributes.length;
+      this.spaces += tributes.length;
     });
 
     this.playerData.eventBus.$on("lose", () => {
-      if (this.monsterZoneSpaces < 5) {
-        this.monsterZoneSpaces++;
+      if (this.spaces < 5) {
+        this.spaces++;
       }
     });
   },
   watch: {
-    monsterZoneSpaces() {
-      this.playerData.eventBus.$emit("monster-zone-spaces", this.monsterZoneSpaces > 0);
+    "gameState.phase"() {
+      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "End") {
+        this.notForTribute = 0;
+      }
+    },
+
+    spaces() {
+      this.playerData.eventBus.$emit("monster-zone-spaces", {spaces: this.spaces, tributes: this.spaces + this.notForTribute});
     }
   },
   methods: {
     checkMonsterZone() {
-      if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && this.monsterZoneSpaces === 5 ) {
+      if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && this.spaces === 5 ) {
         this.gameState.eventBus.$emit("battle-select-target", {card: this.noCard, player: this.playerData.player});
       }
     }

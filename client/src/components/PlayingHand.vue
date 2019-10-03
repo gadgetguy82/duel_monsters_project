@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       playerHand: [],
-      monsterZoneHasSpace: true,
+      monsterZone: {},
       summoningCard: {},
       canChoosePosition: false,
       tributeData: {},
@@ -38,7 +38,7 @@ export default {
       this.playerHand.push(card);
     });
 
-    this.playerData.eventBus.$on("monster-zone-spaces", spaces => this.monsterZoneHasSpace = spaces);
+    this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
 
     this.playerData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
@@ -72,18 +72,18 @@ export default {
     summonOrDiscard(card) {
       if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
         this.summoningCard = card;
-        if (this.monsterZoneHasSpace && parseInt(card.level) < 5) {
+        if (this.monsterZone.spaces > 0 && parseInt(card.level) < 5) {
           this.canChoosePosition = true;
           this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
-        } else if (4 < parseInt(card.level) && parseInt(card.level) < 7) {
+        } else if (this.monsterZone.tributes < 5 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
           this.canChoosePosition = true;
           this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 1;
           this.tributeData.tributes = [];
           this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
           this.tributeData = {};
-        } else if (parseInt(card.level) >= 7) {
+        } else if (this.monsterZone.tributes < 4 && parseInt(card.level) >= 7) {
           this.canChoosePosition = true;
           this.tributeData.summoningCard = this.summoningCard;
           this.tributeData.amount = 2;
