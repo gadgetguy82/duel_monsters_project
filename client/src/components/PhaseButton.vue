@@ -14,8 +14,10 @@ export default {
     }
   },
   mounted() {
-    this.playerData.eventBus.$on("hand-extra-cards", () => this.canClick = false);
+    this.playerData.eventBus.$on("tribute-selected", () => this.canClick = false);
+    this.playerData.eventBus.$on("summon-success", () => this.canClick = true);
 
+    this.playerData.eventBus.$on("hand-extra-cards", () => this.canClick = false);
     this.playerData.eventBus.$on("hand-no-extra-cards", () => this.canClick = true);
   },
   methods: {

@@ -143,6 +143,7 @@ export default {
       this.playerData.eventBus.$emit("tribute-selected", this.card);
       this.card = {};
       this.canTribute = false;
+      this.canChangePosition = false;
       if (this.tributeData.tributes.length === this.tributeData.amount) {
         this.card = this.tributeData.summoningCard;
         this.playerData.eventBus.$emit("summon-success", this.card);
