@@ -82,9 +82,9 @@ export default {
           this.canChoosePosition = true;
           this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
-        } else if (this.monsterZone.tributes < 5 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
+        } else if (5 - this.monsterZone.tributes > 1 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
           this.tributeSummon(1);
-        } else if (this.monsterZone.tributes < 4 && parseInt(card.level) >= 7) {
+        } else if (5 - this.monsterZone.tributes > 2 && parseInt(card.level) >= 7) {
           this.tributeSummon(2);
         }
       } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {

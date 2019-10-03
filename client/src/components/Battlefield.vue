@@ -47,11 +47,17 @@ export default {
   },
   mounted() {
     this.gameState.eventBus.$on('battle-select-monster', battleData => {
+      if (this.battleOver) {
+        this.resultCheck();
+      }
       this.cancelBattle(battleData.player);
       this.battleCards[battleData.player] = battleData.card;
     });
 
     this.gameState.eventBus.$on('battle-select-target', battleData => {
+      if (this.battleOver) {
+        this.resultCheck();
+      }
       this.cancelBattle(battleData.player);
       this.battleCards[battleData.player] = battleData.card;
     });
