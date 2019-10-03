@@ -15,17 +15,25 @@ export default {
   data() {
     return {
       eventBusInfo: eventBusInfo,
-      timer: {}
+      timer: null,
+      displayed: false
     }
   },
   methods: {
     display(card) {
-      this.timer = window.setTimeout(() => {this.eventBusInfo.$emit("display-card", card)}, 3000);
+      this.timer = window.setTimeout(() => {
+        this.eventBusInfo.$emit("display-card", card);
+        this.displayed = true;
+      }, 3000);
     },
 
     cancel() {
-      window.clearTimeout(this.timer);
-      this.eventBusInfo.$emit("cancel");
+      if (this.timer) {
+        window.clearTimeout(this.timer);
+      }
+      if (this.displayed) {
+        this.eventBusInfo.$emit("cancel");
+      }
     }
   }
 }

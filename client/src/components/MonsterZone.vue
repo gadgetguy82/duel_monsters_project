@@ -20,7 +20,10 @@ export default {
     "playing-card" : Card,
     "monster-space": MonsterCardSpace
   },
-  data(){
+  computed: {
+
+  },
+  data() {
     return {
       spaces: 5,
       notForTribute: 0,
@@ -33,7 +36,7 @@ export default {
       }
     }
   },
-  mounted(){
+  mounted() {
     this.playerData.eventBus.$on("summon-success", () => {
       this.spaces--;
       this.notForTribute++;
@@ -53,11 +56,18 @@ export default {
     "gameState.phase"() {
       if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start") {
         this.notForTribute = 0;
+        this.playerData.eventBus.$emit("monster-zone-spaces", {
+          spaces: this.spaces,
+          tributes: this.spaces + this.notForTribute
+        });
       }
     },
 
     spaces() {
-      this.playerData.eventBus.$emit("monster-zone-spaces", {spaces: this.spaces, tributes: this.spaces + this.notForTribute});
+      this.playerData.eventBus.$emit("monster-zone-spaces", {
+        spaces: this.spaces,
+        tributes: this.spaces + this.notForTribute
+      });
     }
   },
   methods: {
