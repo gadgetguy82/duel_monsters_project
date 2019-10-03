@@ -67,6 +67,7 @@ export default {
     this.playerData.eventBus.$on("win", result => {
       if (this.spaceSelected) {
         this.card = result.card;
+        this.canBeTargetted = false;
         this.spaceSelected = false;
       }
     });
@@ -74,12 +75,14 @@ export default {
     this.playerData.eventBus.$on("no-win", result => {
       if (this.spaceSelected) {
         this.card = result.card;
+        this.canBeTargetted = false;
         this.spaceSelected = false;
       }
     });
 
     this.playerData.eventBus.$on("lose", () => {
       if (this.spaceSelected) {
+        this.canBeTargetted = false;
         this.spaceSelected = false;
       }
     });

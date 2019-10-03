@@ -30,10 +30,7 @@ export default {
         def: 0,
         card_images: [{ img_url_small: "" }],
         position: "atk"
-      },
-      summoningCard: null,
-      tributeAmount: 0,
-      tributes: []
+      }
     }
   },
   mounted(){
@@ -42,13 +39,8 @@ export default {
       this.notForTribute++;
     });
 
-    this.playerData.eventBus.$on("tribute-summon", tributeData => {
-      this.summoningCard = tributeData.summoningCard;
-      this.tributeAmount = tributeData.amount;
-    });
-
-    this.playerData.eventBus.$on("tributes-selected", tributes => {
-      this.spaces += tributes.length;
+    this.playerData.eventBus.$on("tribute-selected", () => {
+      this.spaces++;
     });
 
     this.playerData.eventBus.$on("lose", () => {
