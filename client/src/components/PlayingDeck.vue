@@ -20,7 +20,6 @@ export default {
   mounted() {
     this.playerData.eventBus.$on("draw-max", () => {
       this.canDraw = false;
-      this.playerData.firstTurn = false;
     });
   },
   watch: {

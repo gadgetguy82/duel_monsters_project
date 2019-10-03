@@ -107,7 +107,7 @@ export default {
       if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start" && !GameLogic.isEmpty(this.card)) {
         this.canChangePosition = true;
       } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle" && !GameLogic.isEmpty(this.card)) {
-        if (this.card.position === "atk") {
+        if (!(this.playerData.player === "one" && this.playerData.firstTurn) && this.card.position === "atk") {
           this.canAttack = true;
         }
       } else if (this.gameState.phase === "Second Main" && !GameLogic.isEmpty(this.card)) {
