@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="card-container" :class="{'shown': !card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.change}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
     <div class="card">
-      <img class="show hover" :class="{'show': !card.hidden, 'hide': card.hidden}" :src="card.card_images[0].image_url_small"/>
+      <img class="hover" :class="{'show': !card.hidden, 'hide': card.hidden}" :src="card.card_images[0].image_url_small"/>
       <img :class="{'hide': !card.hidden, 'show': card.hidden}" src="../../public/img/card_back.png">
       <p class="hide text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
     </div>
@@ -120,15 +120,6 @@ img {
 }
 
 @keyframes rotate-portrait {
-  0% {
-    transform: rotate(-90deg);
-  }
-  100% {
-    transform: rotate(0);
-  }
-}
-
-@keyframes rotate-flip-portrait {
   0% {
     transform: rotate(-90deg);
   }

@@ -66,6 +66,7 @@ export default {
 
     this.playerData.eventBus.$on("win", result => {
       if (this.spaceSelected) {
+        result.card.change = false;
         this.card = result.card;
         this.canBeTargetted = false;
         this.spaceSelected = false;
@@ -74,6 +75,7 @@ export default {
 
     this.playerData.eventBus.$on("no-win", result => {
       if (this.spaceSelected) {
+        result.card.change = false;
         this.card = result.card;
         this.canBeTargetted = false;
         this.spaceSelected = false;
@@ -94,6 +96,7 @@ export default {
         } else if (this.gameState.phase === "Battle") {
           this.canBeTargetted = true;
         }
+        card.change = false;
         this.card = card;
         this.spaceSelected = false;
       }
