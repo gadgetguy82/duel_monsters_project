@@ -63,7 +63,7 @@ export default {
   methods: {
     checkMonsterZone() {
       if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && this.monsterZoneSpaces === 5 ) {
-        this.playerData.eventBus.$emit("battle-select-monster", this.noCard);
+        this.gameState.eventBus.$emit("battle-select-target", {card: this.noCard, player: this.playerData.player});
       }
     }
   }

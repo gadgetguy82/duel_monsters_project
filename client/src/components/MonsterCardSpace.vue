@@ -43,7 +43,7 @@ export default {
     });
 
     this.playerData.eventBus.$on("tribute-summon", tributeData => {
-      if (!GameLogic.isEmpty(this.card) && GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+      if (!GameLogic.isEmpty(this.card) && GameLogic.checkMainPhase(this.gameState, this.playerData) && !this.card.initial) {
         this.canTribute = true;
         this.tributeData = tributeData;
       }
@@ -82,9 +82,9 @@ export default {
       }
     });
 
-    this.playerData.eventBus.$on("lose", result => {
-      if (this.card === result.card) {
-        this.card = {};
+    this.playerData.eventBus.$on("lose", () => {
+      if (this.spaceSelected) {
+        this.spaceSelected = false;
       }
     });
   },
@@ -99,6 +99,8 @@ export default {
       } else if (this.gameState.phase === "Second Main" && !GameLogic.isEmpty(this.card)) {
         this.canAttack = false;
         this.canBeTargetted = false;
+      } else if (this.gameState.phase === "End" && !GameLogic.isEmpty(this.card)) {
+        this.card.initial = false;
       }
     }
   },
@@ -111,14 +113,14 @@ export default {
         case this.canTribute:
           this.tribute();
           break;
-        case this.canChangePosition:
-          this.changePosition();
-          break;
         case this.canAttack:
           this.attack();
           break;
         case this.canBeTargetted:
           this.selectTarget();
+          break;
+        case this.canChangePosition:
+          this.changePosition();
           break;
       }
     },

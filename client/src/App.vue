@@ -29,6 +29,7 @@ export default {
         if (card.type === "Normal Monster") {
           this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");
+          this.$set(card, "initial", true);
           this.normalMonsterCards.push(card);
         }
       });
