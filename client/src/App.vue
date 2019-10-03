@@ -30,6 +30,7 @@ export default {
           this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");
           this.$set(card, "initial", true);
+          this.$set(card, "player", "");
           this.normalMonsterCards.push(card);
         }
       });

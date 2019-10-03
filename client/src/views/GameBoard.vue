@@ -4,7 +4,7 @@
       <player-board :normalCards="normalCards" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
-      <info-box></info-box>
+      <info-box :gameState="gameState"></info-box>
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">

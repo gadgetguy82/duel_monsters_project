@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="card" v-on:mouseover="display(card)" v-on:mouseout="cancel">
+  <div class="card" :class="{'show': !card.hidden, 'hidden': card.hidden}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
     <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
     <img v-if="card.hidden" src="../../public/img/card_back.png">
     <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
@@ -24,7 +24,7 @@ export default {
       this.timer = window.setTimeout(() => {
         this.eventBusInfo.$emit("display-card", card);
         this.displayed = true;
-      }, 3000);
+      }, 2000);
     },
 
     cancel() {
@@ -53,7 +53,7 @@ export default {
   flex: 0 0 auto;
 }
 
-.card:hover .text{
+.card.show:hover .text{
   visibility: visible;
 }
 

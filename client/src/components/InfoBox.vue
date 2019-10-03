@@ -9,6 +9,7 @@ import { eventBusInfo } from '@/main.js';
 
 export default {
   name: 'info-box',
+  props: ['gameState'],
   data() {
     return {
       eventBusInfo: eventBusInfo,
@@ -16,7 +17,11 @@ export default {
     }
   },
   mounted() {
-    this.eventBusInfo.$on("display-card", card => this.source = card.card_images[0].image_url);
+    this.eventBusInfo.$on("display-card", card => {
+      if (this.gameState.turn === card.player) {
+        this.source = card.card_images[0].image_url;
+      }
+    });
 
     this.eventBusInfo.$on("cancel", () => this.source = "");
   }

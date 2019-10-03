@@ -71,6 +71,7 @@ export default {
       for (let i = 0; i < 40; i++) {
         const index = Math.floor(Math.random() * this.normalCards.length);
         const chosenCardCopy = Object.assign({}, this.normalCards[index]);
+        chosenCardCopy.player = this.playerData.player;
         this.deck.push(chosenCardCopy);
       }
     }
