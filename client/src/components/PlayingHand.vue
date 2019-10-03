@@ -83,19 +83,9 @@ export default {
           this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
           this.tributeData = {};
         } else if (this.monsterZone.tributes < 5 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
-          this.canChoosePosition = true;
-          this.tributeData.summoningCard = this.summoningCard;
-          this.tributeData.amount = 1;
-          this.tributeData.tributes = [];
-          this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
-          this.tributeData = {};
+          this.tributeSummon(1);
         } else if (this.monsterZone.tributes < 4 && parseInt(card.level) >= 7) {
-          this.canChoosePosition = true;
-          this.tributeData.summoningCard = this.summoningCard;
-          this.tributeData.amount = 2;
-          this.tributeData.tributes = [];
-          this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
-          this.tributeData = {};
+          this.tributeSummon(2);
         }
       } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
         if (this.playerHand.length > 6) {
@@ -103,6 +93,15 @@ export default {
           GameLogic.removeCard(card, this.playerHand);
         }
       }
+    },
+
+    tributeSummon(numberOfTributes) {
+      this.canChoosePosition = true;
+      this.tributeData.summoningCard = this.summoningCard;
+      this.tributeData.amount = numberOfTributes;
+      this.tributeData.tributes = [];
+      this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
+      this.tributeData = {};
     },
 
     setAttack(card) {
