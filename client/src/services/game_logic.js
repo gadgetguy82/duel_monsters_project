@@ -9,27 +9,27 @@ class GameLogic {
 
   static changePhase(gameState) {
     switch (gameState.phase) {
-      case "Start":
+      case constants.START:
       gameState.phase = constants.DRAW;
       break;
-      case "Draw":
-      gameState.phase = "Standby";
+      case constants.DRAW:
+      gameState.phase = constants.STANDBY;
       break;
-      case "Standby":
-      gameState.phase = "First Main";
+      case constants.STANDBY:
+      gameState.phase = constants.FIRST_MAIN;
       break;
-      case "First Main":
-      gameState.phase = "Battle";
+      case constants.FIRST_MAIN:
+      gameState.phase = constants.BATTLE;
       break;
-      case "Battle":
-      gameState.phase = "Second Main";
+      case constants.BATTLE:
+      gameState.phase = constants.SECOND_MAIN;
       break;
-      case "Second Main":
-      gameState.phase = "End";
+      case constants.SECOND_MAIN:
+      gameState.phase = constants.END;
       break;
-      case "End":
+      case constants.END:
       gameState.turn = helpers.changeTurn(gameState.turn);
-      gameState.phase = "Start";
+      gameState.phase = constants.START;
     }
     return gameState;
   }
@@ -39,19 +39,19 @@ class GameLogic {
   }
 
   static checkChangeTurn({turn, phase}, {player}) {
-    return !helpers.checkTurn({turn}, {player}) && phase === "Start";
+    return !helpers.checkTurn({turn}, {player}) && phase === constants.START;
   }
 
   static checkStartPhase({turn, phase}, {player}) {
-    return helpers.checkTurn({turn}, {player}) && phase === "Start";
+    return helpers.checkTurn({turn}, {player}) && phase === constants.START;
   }
 
   static checkDrawPhase({turn, phase}, {player}) {
-    return helpers.checkTurn({turn}, {player}) && phase === "Draw";
+    return helpers.checkTurn({turn}, {player}) && phase === constants.DRAW;
   }
 
   static checkStandbyPhase({turn, phase}, {player}) {
-    return helpers.checkTurn({turn}, {player}) && phase === "Standby";
+    return helpers.checkTurn({turn}, {player}) && phase === constants.STANDBY;
   }
 
   static checkMainPhase({turn, phase}, {player}) {
@@ -59,17 +59,17 @@ class GameLogic {
   }
 
   static checkBattlePhase({turn, phase}, {player}) {
-    return helpers.checkTurn({turn}, {player}) && phase === "Battle";
+    return helpers.checkTurn({turn}, {player}) && phase === constants.BATTLE;
   }
 
   static checkEndPhase({turn, phase}, {player}) {
-    return helpers.checkTurn({turn}, {player}) && phase === "End";
+    return helpers.checkTurn({turn}, {player}) && phase === constants.END;
   }
 
   static compareStats(card1, card2) {
     if ((card1 !== null) && (card2 !== null)) {
-      const card1BattleStat = card1.position === "atk" ? parseInt(card1.atk) : parseInt(card1.def)
-      const card2BattleStat = card2.position === "atk" ? parseInt(card2.atk) : parseInt(card2.def)
+      const card1BattleStat = card1.position === constants.ATTACK ? parseInt(card1.atk) : parseInt(card1.def)
+      const card2BattleStat = card2.position === constants.ATTACK ? parseInt(card2.atk) : parseInt(card2.def)
       let damage = 0;
       let losingCards = [];
 
@@ -92,7 +92,7 @@ class GameLogic {
 
   static checkDamage(card1, card2) {
     const result = this.compareStats(card1, card2);
-    if (result.cards[0].position === "def") {
+    if (result.cards[0].position === constants.DEFEND) {
       result.damage = 0;
     }
     return result;

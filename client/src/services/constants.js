@@ -12,4 +12,4 @@ export const DEFEND = "def";
 export const ONE = "one";
 export const TWO = "two";
 
-export const MAIN_PHASES = ["First Main", "Second Main"];
+export const MAIN_PHASES = [FIRST_MAIN, SECOND_MAIN];
