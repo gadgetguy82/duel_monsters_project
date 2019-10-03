@@ -7,7 +7,7 @@
       <h2>--How to Play--</h2>
       <ul>
         <li>Click the update database button above to store a local copy of the cards</li>
-        <li>Player one starts first, click on the Start button to begin player one's turn</li>
+        <li>Player one starts first, click on the Start button to begin</li>
         <li>Clicking the button changes the phases during your turn</li>
         <li>In the draw phase player one can start drawing cards from their playing deck</li>
         <li>You can skip the standby phase for now as effects/spells/traps are not in game yet</li>
@@ -18,6 +18,7 @@
         <li>In the second main phase you can summon more monsters out to the monster zone</li>
         <li>Click the end phase to end your turn</li>
         <li>Pass play to your opponent</li>
+        <li>Play until someone loses. Once a player’s Life Points reach zero, they lose the duel.</li>
         <li>Click begin game below to start a match</li>
       </ul>
       <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0"> Start Game!</router-link></button>
