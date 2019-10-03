@@ -87,6 +87,13 @@ export default {
         this.spaceSelected = false;
       }
     });
+
+    this.gameState.eventBus.$on("battle-cancelled", card => {
+      if (this.spaceSelected) {
+        this.spaceSelected = false;
+        this.card = card;
+      }
+    });
   },
   watch: {
     "gameState.phase"() {
@@ -157,7 +164,6 @@ export default {
     },
 
     selectTarget() {
-      this.card.hidden = false;
       this.gameState.eventBus.$emit("battle-select-target", {card: this.card, player: this.playerData.player});
       this.spaceSelected = true;
       this.card = {};

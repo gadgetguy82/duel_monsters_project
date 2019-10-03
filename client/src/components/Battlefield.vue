@@ -54,8 +54,24 @@ export default {
       this.battleCards[battleData.player] = battleData.card;
     });
   },
+  watch: {
+    "gameState.phase"() {
+      if (this.gameState.phase === "Second Main") {
+        if (this.battleOver) {
+          resultCheck();
+        } else {
+          eventBus1.$emit("battle-cancelled", this.battleCards.one);
+          eventBus2.$emit("battle-cancelled", this.battleCards.two);
+          this.battleCards.one = null;
+          this.battleCards.two = null;
+        }
+      }
+    }
+  },
   methods: {
     battleWinner() {
+      this.battleCards.one.hidden = false;
+      this.battleCards.two.hidden = false;
       const result = GameLogic.checkDamage(this.battleCards.one, this.battleCards.two);
       this.damage = result.damage;
       if (result.cards.length < 2) {
