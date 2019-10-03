@@ -1,8 +1,10 @@
 <template lang="html">
-  <div class="card" :class="{'show': !card.hidden, 'hidden': card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.change}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
-    <img v-if="!card.hidden" :src="card.card_images[0].image_url_small" class="hover"/>
-    <img v-if="card.hidden" src="../../public/img/card_back.png">
-    <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
+  <div class="card-container" :class="{'shown': !card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.change}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
+    <div class="card">
+      <img class="show hover" v-if="!card.hidden" :src="card.card_images[0].image_url_small"/>
+      <img class="hide" v-if="card.hidden" src="../../public/img/card_back.png">
+      <p class="text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
+    </div>
   </div>
 </template>
 
@@ -40,7 +42,7 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.card {
+.card-container {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;
@@ -51,19 +53,23 @@ export default {
   align-items: center;
 }
 
-.card:last-child {
+.card-container:last-child {
   flex: 0 0 auto;
 }
 
-.card.show:hover .text{
+.card-container.shown:hover .text{
   visibility: visible;
+}
+
+.card {
+  position: absolute;
+  display: flex;
 }
 
 img {
   height: 150px;
   border-radius: 5px;
   z-index: 1;
-  position: absolute;
 }
 
 .text {
@@ -79,11 +85,11 @@ img {
   text-align: center;
 }
 
-.monster-space-container .card.atk.change {
+.monster-space-container .card-container.atk.change {
   animation: rotate-portrait 0.5s ease;
 }
 
-.monster-space-container .card.def.change {
+.monster-space-container .card-container.def.change {
   animation: rotate-landscape 0.5s ease;
 }
 

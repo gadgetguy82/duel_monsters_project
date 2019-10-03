@@ -40,7 +40,6 @@ export default {
     this.playerData.eventBus.$on("draw-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
-      this.canNormalSummon = true;
     });
 
     this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
@@ -48,6 +47,7 @@ export default {
     this.playerData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
       this.canChoosePosition = false;
+      this.resetHand();
       this.canNormalSummon = false
     });
   },
@@ -57,11 +57,14 @@ export default {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
+        this.canNormalSummon = true;
       } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle") {
         this.canChoosePosition = false;
+        this.resetHand();
       } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "End") {
+        this.canChoosePosition = false;
+        this.resetHand();
         if (this.playerHand.length > 6) {
-          this.canChoosePosition = false;
           this.playerData.eventBus.$emit("hand-extra-cards");
           this.canDiscard = true;
         }
@@ -117,6 +120,12 @@ export default {
     setDefend(card) {
       card.position = "def";
       card.hidden = true;
+    },
+
+    resetHand() {
+      for (let card of this.playerHand) {
+        card.position = "atk";
+      }
     }
   }
 }
