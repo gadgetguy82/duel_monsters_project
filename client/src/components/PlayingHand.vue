@@ -25,7 +25,10 @@ export default {
   data() {
     return {
       playerHand: [],
-      monsterZone: {},
+      monsterZone: {
+        spaces: 5,
+        tributes: 5
+      },
       summoningCard: {},
       canChoosePosition: false,
       tributeData: {},

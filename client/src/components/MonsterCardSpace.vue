@@ -88,10 +88,10 @@ export default {
       }
     });
 
-    this.gameState.eventBus.$on("battle-cancelled", card => {
+    this.playerData.eventBus.$on("battle-cancelled", card => {
       if (this.spaceSelected) {
-        this.spaceSelected = false;
         this.card = card;
+        this.spaceSelected = false;
       }
     });
   },
