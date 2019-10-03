@@ -97,7 +97,7 @@ export default {
         this.canChangePosition = true;
         this.card.initial = false;
       } else if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
-        if (!(this.playerData.player === "one" && this.playerData.firstTurn) && this.card.position === Constants.ATTACK) {
+        if (!(this.playerData.player === Constants.ONE && this.playerData.firstTurn) && this.card.position === Constants.ATTACK) {
           this.canAttack = true;
         }
       } else if (GameLogic.checkMainPhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
@@ -146,10 +146,10 @@ export default {
 
     changePosition() {
       if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
-        if (this.card.position === "def" && this.card.hidden) {
+        if (this.card.position === Constants.DEFEND && this.card.hidden) {
           this.card.hidden = false;
         }
-        this.card.position = this.card.position === Constants.ATTACK ? "def" : Constants.ATTACK;
+        this.card.position = this.card.position === Constants.ATTACK ? Constants.DEFEND : Constants.ATTACK;
         this.card.change = true;
         this.canChangePosition = false;
       }

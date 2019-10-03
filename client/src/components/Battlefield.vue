@@ -85,11 +85,11 @@ export default {
       this.damage = result.damage;
       if (result.cards.length < 2) {
         if (result.cards[0] === this.battleCards.one) {
-          this.event.one = this.battleCards.two.position === "atk" ? "lose" : "no-win";
+          this.event.one = this.battleCards.two.position === Constants.ATTACK ? "lose" : "no-win";
           this.event.two = "win";
         } else {
           this.event.one = "win";
-          this.event.two = this.battleCards.one.position === "atk" ? "lose" : "no-win";
+          this.event.two = this.battleCards.one.position === Constants.ATTACK ? "lose" : "no-win";
         }
       } else {
         this.event.one = "lose";
@@ -109,9 +109,9 @@ export default {
     },
 
     cancelBattle(player) {
-      if (this.battleCards.one && player === "one") {
+      if (this.battleCards.one && player === Constants.ONE) {
         eventBus1.$emit("battle-cancelled", this.battleCards.one);
-      } else if (this.battleCards.two && player === "two") {
+      } else if (this.battleCards.two && player === Constants.TWO) {
         eventBus2.$emit("battle-cancelled", this.battleCards.two);
       }
     }

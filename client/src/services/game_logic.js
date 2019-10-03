@@ -62,6 +62,10 @@ class GameLogic {
     return helpers.checkTurn({turn}, {player}) && phase === constants.BATTLE;
   }
 
+  static checkTarget({turn, phase}, {player}) {
+    return !helpers.checkTurn({turn}, {player}) && phase === constants.BATTLE;
+  }
+
   static checkEndPhase({turn, phase}, {player}) {
     return helpers.checkTurn({turn}, {player}) && phase === constants.END;
   }

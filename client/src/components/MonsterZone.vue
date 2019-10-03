@@ -12,6 +12,7 @@
 import MonsterCardSpace from '@/components/MonsterCardSpace.vue';
 import Card from '@/components/Card';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'monster-zone',
@@ -25,14 +26,14 @@ export default {
   },
   data() {
     return {
-      spaces: 5,
+      spaces: Constants.MAX_SPACES,
       notForTribute: 0,
       noCard: {
         name: "null_card",
         atk: 0,
         def: 0,
         card_images: [{ img_url_small: "" }],
-        position: "atk"
+        position: Constants.ATTACK
       }
     }
   },
@@ -47,7 +48,7 @@ export default {
     });
 
     this.playerData.eventBus.$on("lose", () => {
-      if (this.spaces < 5) {
+      if (this.spaces < Constants.MAX_SPACES) {
         this.spaces++;
       }
     });
@@ -72,7 +73,7 @@ export default {
   },
   methods: {
     checkMonsterZone() {
-      if (!GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle" && this.spaces === 5 ) {
+      if (GameLogic.checkTarget(this.gameState, this.playerData) && this.spaces === Constants.MAX_SPACES) {
         this.gameState.eventBus.$emit("battle-select-target", {card: this.noCard, player: this.playerData.player});
       }
     }
