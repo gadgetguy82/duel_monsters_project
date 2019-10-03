@@ -53,15 +53,15 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if ((GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start")) {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData) || GameLogic.checkChangeTurn(this.gameState, this.playerData)) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
         }
         this.canNormalSummon = true;
-      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Battle") {
+      } else if (GameLogic.checkBattlePhase(this.gameState, this.playerData)) {
         this.canChoosePosition = false;
         this.resetHand();
-      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "End") {
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
         this.canChoosePosition = false;
         this.resetHand();
         if (this.playerHand.length > 6) {

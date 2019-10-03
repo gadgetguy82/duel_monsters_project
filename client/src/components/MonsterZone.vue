@@ -54,7 +54,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Start") {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData)) {
         this.notForTribute = 0;
         this.playerData.eventBus.$emit("monster-zone-spaces", {
           spaces: this.spaces,

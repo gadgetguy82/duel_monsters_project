@@ -24,7 +24,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Draw") {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData)) {
         this.canDraw = true;
         if (this.deck.length === 0) {
           this.canDraw = false;
@@ -38,14 +38,14 @@ export default {
         } else {
           this.drawCard();
         }
-      } else if (GameLogic.checkTurn(this.gameState, this.playerData) && this.gameState.phase === "Standby") {
+      } else if (GameLogic.checkStandbyPhase(this.gameState, this.playerData)) {
         this.canDraw = false;
       }
     }
   },
   methods: {
     drawCard() {
-      if (GameLogic.checkTurn(this.gameState, this.playerData) && this.canDraw) {
+      if (this.canDraw) {
         const card = this.deck.pop();
         this.playerData.eventBus.$emit('draw-card', card);
         if (!this.playerData.firstTurn) {

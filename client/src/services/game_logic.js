@@ -1,22 +1,16 @@
-const mainPhases = ["First Main", "Second Main"];
+import * as constants from './constants.js';
+import * as helpers from './helpers.js'
 
-const changeTurn = (turn) => {
-  return turn === "one" ? "two" : "one";
-}
+class GameLogic {
 
-const checkTurn = ({player}, {turn}) => {
-  return player === turn;
-}
-
-export default {
-  isEmpty(obj) {
+  static isEmpty(obj) {
     return Object.keys(obj).length === 0;
-  },
+  }
 
-  changePhase(gameState) {
+  static changePhase(gameState) {
     switch (gameState.phase) {
       case "Start":
-      gameState.phase = "Draw";
+      gameState.phase = constants.DRAW;
       break;
       case "Draw":
       gameState.phase = "Standby";
@@ -34,41 +28,45 @@ export default {
       gameState.phase = "End";
       break;
       case "End":
-      gameState.turn = changeTurn(gameState.turn);
+      gameState.turn = helpers.changeTurn(gameState.turn);
       gameState.phase = "Start";
     }
     return gameState;
-  },
+  }
 
-  checkTurn({turn}, {player}) {
-    return player === turn;
-  },
+  static checkTurn({turn}, {player}) {
+    return helpers.checkTurn({turn}, {player});
+  }
 
-  checkChangeTurn({turn}, {player}) {
-    return !checkTurn({player}, {turn}) && phase === "Start";
-  },
+  static checkChangeTurn({turn, phase}, {player}) {
+    return !helpers.checkTurn({turn}, {player}) && phase === "Start";
+  }
 
-  checkDrawPhase({turn, phase}, {player}) {
-    return checkTurn({player}, {turn}) && phase === "Draw";
-  },
+  static checkStartPhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && phase === "Start";
+  }
 
-  checkStandbyPhase({turn, phase}, {player}) {
-    return checkTurn({player}, {turn}) && phase === "Standby";
-  },
+  static checkDrawPhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && phase === "Draw";
+  }
 
-  checkMainPhase({turn, phase}, {player}) {
-    return checkTurn({player}, {turn}) && mainPhases.includes(phase);
-  },
+  static checkStandbyPhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && phase === "Standby";
+  }
 
-  checkBattlePhase({turn, phase}, {player}) {
-    return checkTurn({player}, {turn}) && phase === "Battle";
-  },
+  static checkMainPhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && constants.MAIN_PHASES.includes(phase);
+  }
 
-  checkEndPhase({turn, phase}, {player}) {
-    return checkTurn({player}, {turn}) && phase === "End";
-  },
+  static checkBattlePhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && phase === "Battle";
+  }
 
-  compareStats(card1, card2) {
+  static checkEndPhase({turn, phase}, {player}) {
+    return helpers.checkTurn({turn}, {player}) && phase === "End";
+  }
+
+  static compareStats(card1, card2) {
     if ((card1 !== null) && (card2 !== null)) {
       const card1BattleStat = card1.position === "atk" ? parseInt(card1.atk) : parseInt(card1.def)
       const card2BattleStat = card2.position === "atk" ? parseInt(card2.atk) : parseInt(card2.def)
@@ -90,20 +88,22 @@ export default {
         damage: damage
       }
     }
-  },
+  }
 
-  checkDamage(card1, card2) {
+  static checkDamage(card1, card2) {
     const result = this.compareStats(card1, card2);
     if (result.cards[0].position === "def") {
       result.damage = 0;
     }
     return result;
-  },
+  }
 
-  removeCard(card, array) {
+  static removeCard(card, array) {
     const index = array.findIndex(arrayCard => arrayCard === card);
     if (index >= 0) {
       array.splice(index, 1);
     }
   }
 }
+
+export default GameLogic;
