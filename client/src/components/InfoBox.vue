@@ -1,11 +1,14 @@
 <template lang="html">
   <div class="info-box-container">
     <img v-if="source !== ''" :src="source"/>
+    <p>{{ text }}</p>
   </div>
 </template>
 
 <script>
 import { eventBusInfo } from '@/main.js';
+import * as Constants from '@/services/constants.js';
+import * as Tooltips from '@/services/tooltips.js';
 
 export default {
   name: 'info-box',
@@ -13,7 +16,8 @@ export default {
   data() {
     return {
       eventBusInfo: eventBusInfo,
-      source: ""
+      source: "",
+      text: ""
     }
   },
   mounted() {
@@ -24,6 +28,13 @@ export default {
     });
 
     this.eventBusInfo.$on("cancel", () => this.source = "");
+  },
+  watch: {
+    "gameState.phase"() {
+      if (this.gameState.phase === Constants.DRAW) {
+        this.text = Tooltips.tips.draw;
+      }
+    }
   }
 }
 </script>
