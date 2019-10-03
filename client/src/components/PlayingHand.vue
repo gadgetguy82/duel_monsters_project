@@ -29,6 +29,7 @@ export default {
         spaces: 5,
         tributes: 5
       },
+      canNormalSummon: false,
       summoningCard: {},
       canChoosePosition: false,
       tributeData: {},
@@ -39,6 +40,7 @@ export default {
     this.playerData.eventBus.$on("draw-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
+      this.canNormalSummon = true;
     });
 
     this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
@@ -46,6 +48,7 @@ export default {
     this.playerData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
       this.canChoosePosition = false;
+      this.canNormalSummon = false
     });
   },
   watch: {
@@ -76,21 +79,23 @@ export default {
   },
   methods: {
     summonOrDiscard(card) {
-      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
-        this.summoningCard = card;
-        if (this.monsterZone.spaces > 0 && parseInt(card.level) < 5) {
-          this.canChoosePosition = true;
-          this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
-          this.tributeData = {};
-        } else if (5 - this.monsterZone.tributes > 0 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
-          this.tributeSummon(1);
-        } else if (5 - this.monsterZone.tributes > 1 && parseInt(card.level) >= 7) {
-          this.tributeSummon(2);
-        }
-      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
-        if (this.playerHand.length > 6) {
-          this.playerData.eventBus.$emit("discard", card);
-          GameLogic.removeCard(card, this.playerHand);
+      if (this.canNormalSummon) {
+        if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+          this.summoningCard = card;
+          if (this.monsterZone.spaces > 0 && parseInt(card.level) < 5) {
+            this.canChoosePosition = true;
+            this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
+            this.tributeData = {};
+          } else if (5 - this.monsterZone.tributes > 0 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
+            this.tributeSummon(1);
+          } else if (5 - this.monsterZone.tributes > 1 && parseInt(card.level) >= 7) {
+            this.tributeSummon(2);
+          }
+        } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
+          if (this.playerHand.length > 6) {
+            this.playerData.eventBus.$emit("discard", card);
+            GameLogic.removeCard(card, this.playerHand);
+          }
         }
       }
     },

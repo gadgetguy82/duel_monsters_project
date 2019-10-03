@@ -18,7 +18,7 @@ export default {
   },
   mounted() {
     this.eventBusInfo.$on("display-card", card => {
-      if (this.gameState.turn === card.player) {
+      if (this.gameState.turn === card.player || !card.hidden) {
         this.source = card.card_images[0].image_url;
       }
     });
