@@ -16,7 +16,6 @@ const io = socketIO(server);
 app.set('port', 5000);
 app.use(express.static('../client/public'));
 
-// Starts the server.
 server.listen(5000, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
@@ -66,7 +65,11 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
   const cardsRouter = createRouter(cardsCollection);
   app.use('/api/duel_monsters_game', cardsRouter);
 
-  const playerDeckCollection = db.collection('player_deck');
+  const developCardsCollection = db.collection('develop_cards');
+  const developRouter = createRouter(developCardsCollection);
+  app.use('/api/duel_monsters_game', developRouter);
+
+  const playerDeckCollection = db.collection('player_decks');
   const playerRouter = createRouter(playerDeckCollection);
   app.use('/api/duel_monsters_game', playerRouter);
 

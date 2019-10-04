@@ -24,6 +24,9 @@ button {
   display: inline-block;
   font-size: 16px;
   box-shadow: 2px 2px;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 .blue {

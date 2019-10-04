@@ -21,7 +21,7 @@
         <li>Play until someone loses. Once a player’s Life Points reach zero, they lose the duel.</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0">Start Game!</router-link></button>
+      <button v-if="normalCards.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
     </div>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
       fetch('https://db.ygoprodeck.com/api/v5/cardinfo.php')
       .then(res => res.json()).then(cardData => {
         this.allCards = cardData;
-        DBService.postCards(this.allCards);
+        DBService.postCards(this.allCards, "all");
       });
     }
   }
@@ -76,8 +76,9 @@ p, li {
 
 a {
   text-decoration: none;
-  color: #000000;
-  text-shadow: 0 0 3px #FF0000;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 button {
@@ -89,5 +90,7 @@ button {
   display: inline-block;
   font-size: 16px;
   box-shadow: 2px 2px;
+  background-color: #FF0000;
+  padding-top: 2px;
 }
 </style>
