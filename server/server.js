@@ -69,6 +69,26 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
   const normalMonsterCardsRouter = createRouter(normalMonsterCardsCollection);
   app.use('/api/duel_monsters_game/normal_monster_cards', normalMonsterCardsRouter);
 
+  const effectMonsterCardsCollection = db.collection('effect_monster_cards');
+  const effectMonsterCardsRouter = createRouter(effectMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/effect_monster_cards', effectMonsterCardsRouter);
+
+  const flipEffectMonsterCardsCollection = db.collection('flip_effect_monster_cards');
+  const flipEffectMonsterCardsRouter = createRouter(flipEffectMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/flip_effect_monster_cards', flipEffectMonsterCardsRouter);
+
+  const fusionMonsterCardsCollection = db.collection('fusion_monster_cards');
+  const fusionMonsterCardsRouter = createRouter(fusionMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/fusion_monster_cards', fusionMonsterCardsRouter);
+
+  const ritualMonsterCardsCollection = db.collection('ritual_monster_cards');
+  const ritualMonsterCardsRouter = createRouter(ritualMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/ritual_monster_cards', ritualMonsterCardsRouter);
+
+  const ritualEffectMonsterCardsCollection = db.collection('ritual_effect_monster_cards');
+  const ritualEffectMonsterCardsRouter = createRouter(ritualEffectMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/ritual_effect_monster_cards', ritualEffectMonsterCardsRouter);
+
   const spellCardsCollection = db.collection('spell_cards');
   const spellCardsRouter = createRouter(spellCardsCollection);
   app.use('/api/duel_monsters_game/spell_cards', spellCardsRouter);
@@ -76,10 +96,6 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
   const trapCardsCollection = db.collection('trap_cards');
   const trapCardsRouter = createRouter(trapCardsCollection);
   app.use('/api/duel_monsters_game/trap_cards', trapCardsRouter);
-
-  const storeCardsCollection = db.collection('store_cards');
-  const storeRouter = createRouter(storeCardsCollection);
-  app.use('/api/duel_monsters_game/store_cards', storeRouter);
 });
 
 app.listen(3000, function() {

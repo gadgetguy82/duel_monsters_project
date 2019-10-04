@@ -10,7 +10,7 @@
       </div>
     </nav>
     <div class="view">
-      <router-view id='view' :normalCards="normalMonsterCards"></router-view>
+      <router-view id='view' :allCards="allDatabaseCards" :normalCards="normalMonsterCards"></router-view>
     </div>
   </div>
 </template>
