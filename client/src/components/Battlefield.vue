@@ -95,6 +95,7 @@ export default {
         this.event.one = "lose";
         this.event.two = "lose";
       }
+      this.gameState.skipBattle = false;
       this.battleOver = true;
     },
 

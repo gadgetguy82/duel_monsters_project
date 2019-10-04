@@ -55,7 +55,8 @@ export default {
       gameState: {
         turn: 'one',
         phase: "Start",
-        eventBus: eventBusInfo
+        eventBus: eventBusInfo,
+        skipBattle: true
       },
       yellowPlayerData: {
         player: 'one',

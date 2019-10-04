@@ -24,8 +24,11 @@ export default {
     changePhaseTurn() {
       if (this.canClick) {
         this.gameState = GameLogic.changePhase(this.gameState);
-        if (this.playerData.firstTurn && GameLogic.checkEndPhase(this.gameState, this.playerData)) {
-          this.playerData.firstTurn = false;
+        if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
+          if (this.playerData.firstTurn) {
+            this.playerData.firstTurn = false;
+          }
+          this.gameState.skipBattle = true;
         }
       }
     }
