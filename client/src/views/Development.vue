@@ -2,14 +2,7 @@
   <div id="development">
     <div class="development-container">
       <div class="button-container">
-        <game-button :text="'Update Normal Monster Cards'" :colour="'yellow'" v-on:click.native="updateNormalMonsterCards"></game-button>
-        <game-button :text="'Update Effect Monster Cards'" :colour="'orange'" v-on:click.native="updateEffectMonsterCards"></game-button>
-        <game-button :text="'Update Flip Effect Monster Cards'" :colour="'orange'" v-on:click.native="updateFlipEffectMonsterCards"></game-button>
-        <game-button :text="'Update Fusion Monster Cards'" :colour="'violet'" v-on:click.native="updateFusionMonsterCards"></game-button>
-        <game-button :text="'Update Ritual Monster Cards'" :colour="'light-blue'" v-on:click.native="updateRitualMonsterCards"></game-button>
-        <game-button :text="'Update Ritual Effect Monster Cards'" :colour="'light-blue'" v-on:click.native="updateRitualEffectMonsterCards"></game-button>
-        <game-button :text="'Update Spell Cards'" :colour="'green'" v-on:click.native="updateSpellCards"></game-button>
-        <game-button :text="'Update Trap Cards'" :colour="'purple'" v-on:click.native="updateTrapCards"></game-button>
+        <game-button :text="'Update All Card Types'" :colour="'brown'" v-on:click.native="updateAllCards"></game-button>
       </div>
     </div>
   </div>
@@ -28,49 +21,56 @@ export default {
   data() {
     return {
       totalCards: this.allCards.length,
-      normalMonsterCards: this.normalCards, // Normal Monster: 647
-      effectMonsterCards: [], // Effect Monster: 3755
-      flipEffectMonsterCards: [], // Flip Effect Monster: 164
-      fusionMonsterCards: [], // Fusion Monster: 328
-      ritualMonsterCards: [], // Ritual Monster: 15
-      ritualEffectMonsterCards: [], // Ritual Effect Monster: 79
+      normalMonsters: this.normalCards, // Normal Monster: 647
+      effectMonsters: [], // Effect Monster: 3919
+      fusionMonsters: [], // Fusion Monster: 328
+      geminiMonsters: [], // Gemini Monster: 43
+      linkMonsters: [], // Link Monster: 259
+      pendulumMonsters: [], // Pendulum Monster: 251
+      ritualMonsters: [], // Ritual Monster: 94
+      spiritMonsters: [], // Spirit Monster: 30
+      synchroMonsters: [], // Synchro Monster: 325
+      toonMonsters: [], // Toon Monster: 15
+      tunerMonsters: [], // Tuner Monster: 336
+      unionMonsters: [], // Union Effect Monster: 32
+      xyzMonsters: [], // XYZ Monster: 395
+      tokenCards: [], // Token: 107
+      skillCards: [], // Skill Card: 37
       spellCards: [], // Spell Card: 1872
       trapCards: [], // Trap Card: 1509
       typeCount: {}
-
-      // Gemini Monster: 43
-      // Link Monster: 259
-      // Normal Tuner Monster: 10
-      // Pendulum Effect Fusion Monster: 4
-      // Pendulum Effect Monster: 205
-      // Pendulum Flip Effect Monster: 1
-      // Pendulum Normal Monster: 35
-      // Pendulum Tuner Effect Monster: 6
-      // Skill Card: 37
-      // Spirit Monster: 30
-      // Synchro Monster: 304
-      // Synchro Pendulum Effect Monster: 4
-      // Synchro Tuner Monster: 17
-      // Token: 107
-      // Toon Monster: 15
-      // Tuner Monster: 326
-      // Union Effect Monster: 32
-      // XYZ Monster: 390
-      // XYZ Pendulum Effect Monster: 5
     }
   },
   mounted() {
     this.allCards.forEach(card => {
-      if (card.type === "Effect Monster") {
-        this.effectMonsterCards.push(card);
-      } else if (card.type === "Flip Effect Monster") {
-        this.flipEffectMonsterCards.push(card);
-      } else if (card.type === "Fusion Monster") {
-        this.fusionMonsterCards.push(card);
-      } else if (card.type === "Ritual Monster") {
-        this.ritualMonsterCards.push(card);
-      } else if (card.type === "Ritual Effect Monster") {
-        this.ritualEffectMonsterCards.push(card);
+      if (card.type === "Effect Monster" || card.type === "Flip Effect Monster") {
+        this.effectMonsters.push(card);
+      } else if (card.type.includes("Fusion Monster")) {
+        this.fusionMonsters.push(card);
+      } else if (card.type.includes("Gemini")) {
+        this.geminiMonsters.push(card);
+      } else if (card.type.includes("Link")) {
+        this.linkMonsters.push(card);
+      } else if (card.type.includes("Pendulum")) {
+        this.pendulumMonsters.push(card);
+      } else if (card.type.includes("Ritual")) {
+        this.ritualMonsters.push(card);
+      } else if (card.type.includes("Spirit")) {
+        this.spiritMonsters.push(card);
+      } else if (card.type.includes("Synchro")) {
+        this.synchroMonsters.push(card);
+      } else if (card.type.includes("Toon")) {
+        this.toonMonsters.push(card);
+      } else if (card.type.includes("Tuner")) {
+        this.tunerMonsters.push(card);
+      } else if (card.type.includes("Union")) {
+        this.unionMonsters.push(card);
+      } else if (card.type.includes("XYZ")) {
+        this.xyzMonsters.push(card);
+      } else if (card.type.includes("Token")) {
+        this.tokenMonsters.push(card);
+      } else if (card.type === "Skill Card") {
+        this.skillCards.push(card);
       } else if (card.type === "Spell Card") {
         this.spellCards.push(card);
       } else if (card.type === "Trap Card") {
@@ -88,36 +88,92 @@ export default {
     console.log(this.typeCount);
   },
   methods: {
+    updateAllCards() {
+      this.updateNormalMonsterCards();
+      this.updateEffectMonsterCards();
+      this.updateFusionMonsterCards();
+      this.updateGeminiMonsterCards();
+      this.updateLinkMonsterCards();
+      this.updatePendulumMonsterCards();
+      this.updateRitualMonsterCards();
+      this.updateSpiritMonsterCards();
+      this.updateSynchroMonsterCards();
+      this.updateToonMonsterCards();
+      this.updateTunerMonsterCards();
+      this.updateUnionMonsterCards();
+      this.updateXyzMonsterCards();
+      this.updateTokenCards();
+      this.updateSkillCards();
+      this.updateSpellCards();
+      this.updateTrapCards();
+    },
+
     updateNormalMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "normal_monster_cards/all");
+      DBService.postCards(this.normalMonsters, "normal_monsters/all");
     },
 
     updateEffectMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "effect_monster_cards/all");
-    },
-
-    updateFlipEffectMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "flip_effect_monster_cards/all");
+      DBService.postCards(this.effectMonsters, "effect_monsters/all");
     },
 
     updateFusionMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "fusion_monster_cards/all");
+      DBService.postCards(this.fusionMonsters, "fusion_monsters/all");
+    },
+
+    updateGeminiMonsterCards() {
+      DBService.postCards(this.geminiMonsters, "gemini_monsters/all");
+    },
+
+    updateLinkMonsterCards() {
+      DBService.postCards(this.linkMonsters, "link_monsters/all");
+    },
+
+    updatePendulumMonsterCards() {
+      DBService.postCards(this.pendulumMonsters, "pendulum_monsters/all");
     },
 
     updateRitualMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "ritual_monster_cards/all");
+      DBService.postCards(this.ritualMonsters, "ritual_monsters/all");
     },
 
-    updateRitualEffectMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "ritual_effect_monster_cards/all");
+    updateSpiritMonsterCards() {
+      DBService.postCards(this.spiritMonsters, "spirit_monsters/all");
+    },
+
+    updateSynchroMonsterCards() {
+      DBService.postCards(this.synchroMonsters, "synchro_monsters/all");
+    },
+
+    updateToonMonsterCards() {
+      DBService.postCards(this.toonMonsters, "toon_monsters/all");
+    },
+
+    updateTunerMonsterCards() {
+      DBService.postCards(this.tunerMonsters, "tuner_monsters/all");
+    },
+
+    updateUnionMonsterCards() {
+      DBService.postCards(this.unionMonsters, "union_monsters/all");
+    },
+
+    updateXyzMonsterCards() {
+      DBService.postCards(this.xyzMonsters, "xyz_monsters/all");
+    },
+
+    updateTokenCards() {
+      DBService.postCards(this.tokenCards, "token_cards/all");
+    },
+
+    updateSkillCards() {
+      DBService.postCards(this.skillCards, "skill_cards/all");
     },
 
     updateSpellCards() {
-      DBService.postCards(this.normalMonsterCards, "spell_cards/all");
+      DBService.postCards(this.spellCards, "spell_cards/all");
     },
 
     updateTrapCards() {
-      DBService.postCards(this.normalMonsterCards, "trap_cards/all");
+      DBService.postCards(this.trapCards, "trap_cards/all");
     },
   }
 }

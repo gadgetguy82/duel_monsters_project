@@ -29,6 +29,10 @@ button {
   text-shadow: 0 0 3px #FF0000;
 }
 
+.development-container button {
+  margin: 5px;
+}
+
 .blue {
   background-color: #0000FF;
   color: #FFFFFF;
@@ -43,6 +47,12 @@ button {
 
 .green {
   background-color: #00FF00;
+}
+
+.brown {
+  background-color: #654321;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
 }
 
 .yellow {
