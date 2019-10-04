@@ -26,7 +26,7 @@ button {
   box-shadow: 2px 2px;
   background-color: #FF0000;
   color: #000000;
-  text-shadow: 2px 2px 4px #000000;
+  text-shadow: 0 0 3px #FF0000;
 }
 
 .blue {
@@ -43,11 +43,29 @@ button {
 
 .green {
   background-color: #00FF00;
-  text-shadow: 0 0 3px #FF0000;
 }
 
 .yellow {
   background-color: #FFFF00;
-  text-shadow: 0 0 3px #FF0000;
+}
+
+.orange {
+  background-color: #FFA500;
+}
+
+.violet {
+  background-color: #8A2BE2;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.light-blue {
+  background-color: #ADD8E6;
+}
+
+.purple {
+  background-color: #551A8B;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
 }
 </style>

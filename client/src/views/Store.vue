@@ -26,15 +26,6 @@ export default {
     }
   },
   mounted() {
-    // DBService.getAllCards("cards")
-    // .then(cards => {
-    //   this.allStoreCards = cards
-    //   this.allStoreCards.forEach((card) => {
-    //     if ((card.type === "Normal Monster") && (this.normalStoreCards.length < 100)) {
-    //       this.normalStoreCards.push(card)
-    //     }
-    //   });
-    // });
     this.normalStoreCards = this.normalCards.slice(0, 108);
   }
 }
