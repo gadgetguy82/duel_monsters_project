@@ -2,7 +2,10 @@
   <div id="development">
     <div class="development-container">
       <div class="button-container">
-        <game-button :text="'Update All Card Types'" :colour="'brown'" v-on:click.native="updateAllCards"></game-button>
+        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateFirstSetOfCards"></game-button>
+        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
+        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
+        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
       </div>
     </div>
   </div>
@@ -21,23 +24,23 @@ export default {
   data() {
     return {
       totalCards: this.allCards.length,
-      normalMonsters: this.normalCards, // Normal Monster: 647
-      effectMonsters: [], // Effect Monster: 3919
-      fusionMonsters: [], // Fusion Monster: 328
-      geminiMonsters: [], // Gemini Monster: 43
-      linkMonsters: [], // Link Monster: 259
-      pendulumMonsters: [], // Pendulum Monster: 251
-      ritualMonsters: [], // Ritual Monster: 94
-      spiritMonsters: [], // Spirit Monster: 30
-      synchroMonsters: [], // Synchro Monster: 325
-      toonMonsters: [], // Toon Monster: 15
-      tunerMonsters: [], // Tuner Monster: 336
-      unionMonsters: [], // Union Effect Monster: 32
-      xyzMonsters: [], // XYZ Monster: 395
-      tokenCards: [], // Token: 107
-      skillCards: [], // Skill Card: 37
-      spellCards: [], // Spell Card: 1872
-      trapCards: [], // Trap Card: 1509
+      normalMonsters: this.normalCards, // Normal Monster: 647 - 647
+      effectMonsters: [], // Effect Monster: 3919 - 3919
+      fusionMonsters: [], // Fusion Monster: 328 - 332
+      geminiMonsters: [], // Gemini Monster: 43 - 43
+      linkMonsters: [], // Link Monster: 259 - 259
+      pendulumMonsters: [], // Pendulum Monster: 251 - 256
+      ritualMonsters: [], // Ritual Monster: 94 - 94
+      spiritMonsters: [], // Spirit Monster: 30 - 30
+      synchroMonsters: [], // Synchro Monster: 325 - 321
+      toonMonsters: [], // Toon Monster: 15 - 15
+      tunerMonsters: [], // Tuner Monster: 336 - 336
+      unionMonsters: [], // Union Effect Monster: 32 - 32
+      xyzMonsters: [], // XYZ Monster: 395 - 390
+      tokenCards: [], // Token: 107 - 107
+      skillCards: [], // Skill Card: 37 - 37
+      spellCards: [], // Spell Card: 1872 - 1872
+      trapCards: [], // Trap Card: 1509 - 1509
       typeCount: {}
     }
   },
@@ -68,7 +71,7 @@ export default {
       } else if (card.type.includes("XYZ")) {
         this.xyzMonsters.push(card);
       } else if (card.type.includes("Token")) {
-        this.tokenMonsters.push(card);
+        this.tokenCards.push(card);
       } else if (card.type === "Skill Card") {
         this.skillCards.push(card);
       } else if (card.type === "Spell Card") {
@@ -88,20 +91,29 @@ export default {
     console.log(this.typeCount);
   },
   methods: {
-    updateAllCards() {
-      this.updateNormalMonsterCards();
+    updateFirstSetOfCards() {
       this.updateEffectMonsterCards();
+    },
+
+    updateSecondSetOfCards() {
+      this.updateNormalMonsterCards();
       this.updateFusionMonsterCards();
       this.updateGeminiMonsterCards();
       this.updateLinkMonsterCards();
       this.updatePendulumMonsterCards();
       this.updateRitualMonsterCards();
+    },
+
+    updateThirdSetOfCards() {
       this.updateSpiritMonsterCards();
       this.updateSynchroMonsterCards();
       this.updateToonMonsterCards();
       this.updateTunerMonsterCards();
       this.updateUnionMonsterCards();
       this.updateXyzMonsterCards();
+    },
+
+    updateFourthSetOfCards() {
       this.updateTokenCards();
       this.updateSkillCards();
       this.updateSpellCards();
