@@ -3,10 +3,10 @@
     <nav id="nav-bar">
       <router-link :to="{ name: 'home' }"> HOME </router-link>
       <router-link :to="{ name: 'game-board' }" v-if="normalMonsterCards.length > 0"> BOARD </router-link>
-      <router-link :to="{ name: 'store' }" :normalCards="normalMonsterCards"> STORE </router-link>
+      <router-link :to="{ name: 'store' }"> STORE </router-link>
       <router-link :to="{ name: 'about' }"> ABOUT </router-link>
       <div class="right">
-        <router-link :to="{ name: 'develop' }" :allCards="allDatabaseCards"> DEVELOPMENT </router-link>
+        <router-link :to="{ name: 'develop' }"> DEVELOPMENT </router-link>
       </div>
     </nav>
     <div class="view">
@@ -27,7 +27,7 @@ export default {
     }
   },
   mounted() {
-    DBService.getAllCards()
+    DBService.getAllCards("cards")
     .then(cards => { this.allDatabaseCards = cards
       this.allDatabaseCards.forEach((card) => {
         if (card.type === "Normal Monster") {

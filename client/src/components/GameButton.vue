@@ -25,7 +25,7 @@ button {
   font-size: 16px;
   box-shadow: 2px 2px;
   background-color: #FF0000;
-  color: #FFFFFF;
+  color: #000000;
   text-shadow: 2px 2px 4px #000000;
 }
 

@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    // DBService.getAllCards()
+    // DBService.getAllCards("cards")
     // .then(cards => {
     //   this.allStoreCards = cards
     //   this.allStoreCards.forEach((card) => {

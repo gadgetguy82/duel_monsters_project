@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     updateNormalMonsterCards() {
-      DBService.postCards(this.normalMonsterCards, "normal");
+      DBService.postCards(this.normalMonsterCards, "normal_monster_cards/all");
     }
   }
 }

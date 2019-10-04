@@ -63,19 +63,23 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
 
   const cardsCollection = db.collection('cards');
   const cardsRouter = createRouter(cardsCollection);
-  app.use('/api/duel_monsters_game', cardsRouter);
+  app.use('/api/duel_monsters_game/cards', cardsRouter);
 
-  const developCardsCollection = db.collection('develop_cards');
-  const developRouter = createRouter(developCardsCollection);
-  app.use('/api/duel_monsters_game', developRouter);
+  const normalMonsterCardsCollection = db.collection('normal_monster_cards');
+  const normalMonsterCardsRouter = createRouter(normalMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/normal_monster_cards', normalMonsterCardsRouter);
 
-  const playerDeckCollection = db.collection('player_decks');
-  const playerRouter = createRouter(playerDeckCollection);
-  app.use('/api/duel_monsters_game', playerRouter);
+  const spellCardsCollection = db.collection('spell_cards');
+  const spellCardsRouter = createRouter(spellCardsCollection);
+  app.use('/api/duel_monsters_game/spell_cards', spellCardsRouter);
+
+  const trapCardsCollection = db.collection('trap_cards');
+  const trapCardsRouter = createRouter(trapCardsCollection);
+  app.use('/api/duel_monsters_game/trap_cards', trapCardsRouter);
 
   const storeCardsCollection = db.collection('store_cards');
   const storeRouter = createRouter(storeCardsCollection);
-  app.use('/api/duel_monsters_game', storeRouter);
+  app.use('/api/duel_monsters_game/store_cards', storeRouter);
 });
 
 app.listen(3000, function() {
