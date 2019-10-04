@@ -1,9 +1,13 @@
 <template lang="html">
-  <div id='app'>
-    <nav>
+  <div id="app">
+    <nav id="nav-bar">
       <router-link :to="{ name: 'home' }"> HOME </router-link>
       <router-link :to="{ name: 'game-board' }" v-if="normalMonsterCards.length > 0"> BOARD </router-link>
       <router-link :to="{ name: 'store' }"> STORE </router-link>
+      <router-link :to="{ name: 'about' }"> ABOUT </router-link>
+      <div class="right">
+        <router-link :to="{ name: 'develop' }"> DEVELOPMENT </router-link>
+      </div>
     </nav>
     <div class="view">
       <router-view id='view' :normalCards="normalMonsterCards"></router-view>
@@ -49,9 +53,11 @@ export default {
   background-position: center;
 }
 
-nav {
+.nav-bar {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 a {
@@ -60,5 +66,9 @@ a {
   text-decoration: none;
   color: rgb(100, 250, 140);
   font-weight: bold;
+}
+
+.right {
+  float: right;
 }
 </style>

@@ -38,9 +38,10 @@ export default {
 </script>
 
 <style lang="css" scoped>
-/* #store-container {
-  height: 809px;
-} */
+h1 {
+  margin-top: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+}
 
 .store-cards-container {
  display: flex;
