@@ -3,7 +3,7 @@
     <div id="background">
       <h1>Duel Monsters Card Game</h1>
       <p>Select 'update database' for the most current card collection</p>
-      <button v-on:click='fetchData'>Update Database</button>
+      <game-button :text="'Update Database'" :colour="'blue'" v-on:click.native='fetchData'></game-button>
       <h2>--How to Play--</h2>
       <ul>
         <li>Click the update database button above to store a local copy of the cards</li>
@@ -21,17 +21,21 @@
         <li>Play until someone loses. Once a player’s Life Points reach zero, they lose the duel.</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0"> Start Game!</router-link></button>
+      <button><router-link :to="{ name: 'game-board'}" v-if="normalCards.length > 0">Start Game!</router-link></button>
     </div>
   </div>
 </template>
 
 <script>
+import GameButton from '@/components/GameButton.vue';
 import DBService from '@/services/db_service';
 
 export default {
   name: 'home',
   props: ['normalCards'],
+  components: {
+    "game-button": GameButton
+  },
   data() {
     return {
       allCards: []
@@ -70,10 +74,20 @@ p, li {
   list-style-type: decimal;
 }
 
-button {
-  margin: 5px;
-  font-size: 16px;
-  border-radius: 5px;
+a {
   text-decoration: none;
+  color: #000000;
+  text-shadow: 0 0 3px #FF0000;
+}
+
+button {
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 2px 2px;
 }
 </style>

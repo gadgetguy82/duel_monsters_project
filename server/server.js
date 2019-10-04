@@ -61,10 +61,15 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
     console.log(error);
   }
   const db = client.db('duel_monsters_game');
+
   const cardsCollection = db.collection('cards');
-  const playerDeckCollection = db.collection('player_deck');
   const cardsRouter = createRouter(cardsCollection);
   app.use('/api/duel_monsters_game', cardsRouter);
+
+  const playerDeckCollection = db.collection('player_deck');
+  const playerRouter = createRouter(playerDeckCollection);
+  app.use('/api/duel_monsters_game', playerRouter);
+
   const storeCardsCollection = db.collection('store_cards');
   const storeRouter = createRouter(storeCardsCollection);
   app.use('/api/duel_monsters_game', storeRouter);
