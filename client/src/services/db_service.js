@@ -1,13 +1,9 @@
 const baseURL = 'http://localhost:3000/api/duel_monsters_game/';
 
 export default {
-  getAllCards() {
-    return fetch(baseURL)
-    .then(res => res.json());
-  },
-  
-  getAllStoreCards(){
-    return fetch(baseURL)
+  getAllCards(route) {
+    const path = route ? baseURL + route : baseURL
+    return fetch(path)
     .then(res => res.json());
   },
 
@@ -16,7 +12,7 @@ export default {
       method: 'POST',
       body: JSON.stringify(body),
       headers: {'Content-Type': 'application/json'}
-    }).then(res => res.json())
+    }).then(res => res.json());
   },
 
   postCards(list) {
@@ -24,6 +20,12 @@ export default {
       method: 'POST',
       body: JSON.stringify(list),
       headers: {'Content-Type': 'application/json'}
-    }).then(res => res.json())
+    }).then(res => res.json());
+  },
+
+  deleteCard(id) {
+    return fetch(baseURL + id, {
+      method: 'DELETE'
+    }).then(res => res.json());
   }
 }

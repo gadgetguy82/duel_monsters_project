@@ -1,5 +1,5 @@
 <template lang="html">
-  <div id='home'>
+  <div id="home">
     <div id="background">
       <h1>Duel Monsters Card Game</h1>
       <p>Select 'update database' for the most current card collection</p>
