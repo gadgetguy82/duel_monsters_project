@@ -27,6 +27,7 @@ button {
   background-color: #FF0000;
   color: #000000;
   text-shadow: 0 0 3px #FF0000;
+  cursor: pointer;
 }
 
 .development-container button {
