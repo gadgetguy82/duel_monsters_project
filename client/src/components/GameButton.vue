@@ -73,9 +73,29 @@ button {
   background-color: #ADD8E6;
 }
 
+.dark-blue {
+  background-color: #000080;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
+}
+
 .purple {
   background-color: #551A8B;
   color: #FFFFFF;
   text-shadow: 2px 2px 4px #000000;
+}
+
+.white {
+  background-color: #FFFFFF;
+}
+
+.black {
+  background-color: #000000;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+.gray {
+  background-color: #D3D3D3;
 }
 </style>

@@ -1,11 +1,29 @@
 <template lang="html">
   <div id="development">
     <div class="development-container">
-      <div class="button-container">
+      <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateFirstSetOfCards"></game-button>
         <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
         <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
         <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
+      </div>
+      <div class="button-container">
+        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native=""></game-button>
+        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native=""></game-button>
+        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native=""></game-button>
+        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native=""></game-button>
+        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native=""></game-button>
+        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'Union'" :colour="'orange'" v-on:click.native=""></game-button>
+        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native=""></game-button>
+        <game-button :text="'Token'" :colour="'gray'" v-on:click.native=""></game-button>
+        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native=""></game-button>
+        <game-button :text="'Spell'" :colour="'green'" v-on:click.native=""></game-button>
+        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native=""></game-button>
       </div>
     </div>
   </div>
@@ -24,24 +42,25 @@ export default {
   data() {
     return {
       totalCards: this.allCards.length,
-      normalMonsters: this.normalCards, // Normal Monster: 647 - 647
-      effectMonsters: [], // Effect Monster: 3919 - 3919
-      fusionMonsters: [], // Fusion Monster: 328 - 332
-      geminiMonsters: [], // Gemini Monster: 43 - 43
-      linkMonsters: [], // Link Monster: 259 - 259
-      pendulumMonsters: [], // Pendulum Monster: 251 - 256
-      ritualMonsters: [], // Ritual Monster: 94 - 94
-      spiritMonsters: [], // Spirit Monster: 30 - 30
-      synchroMonsters: [], // Synchro Monster: 325 - 321
-      toonMonsters: [], // Toon Monster: 15 - 15
-      tunerMonsters: [], // Tuner Monster: 336 - 336
-      unionMonsters: [], // Union Effect Monster: 32 - 32
-      xyzMonsters: [], // XYZ Monster: 395 - 390
-      tokenCards: [], // Token: 107 - 107
-      skillCards: [], // Skill Card: 37 - 37
-      spellCards: [], // Spell Card: 1872 - 1872
-      trapCards: [], // Trap Card: 1509 - 1509
-      typeCount: {}
+      normalMonsters: this.normalCards, // Normal Monster: 647 - 647 yellow/black
+      effectMonsters: [], // Effect Monster: 3919 - 3919 orange/black
+      fusionMonsters: [], // Fusion Monster: 328 - 332 violet/black
+      geminiMonsters: [], // Gemini Monster: 43 - 43 orange/black
+      linkMonsters: [], // Link Monster: 259 - 259 dark-blue/white
+      pendulumMonsters: [], // Pendulum Monster: 251 - 256 green/black
+      ritualMonsters: [], // Ritual Monster: 94 - 94 light-blue/black
+      spiritMonsters: [], // Spirit Monster: 30 - 30 orange/black
+      synchroMonsters: [], // Synchro Monster: 325 - 321 white/black
+      toonMonsters: [], // Toon Monster: 15 - 15 orange/black
+      tunerMonsters: [], // Tuner Monster: 336 - 336 orange/black
+      unionMonsters: [], // Union Effect Monster: 32 - 32 orange/black
+      xyzMonsters: [], // XYZ Monster: 395 - 390 black/white
+      tokenCards: [], // Token: 107 - 107 gray/black
+      skillCards: [], // Skill Card: 37 - 37 light-blue/black
+      spellCards: [], // Spell Card: 1872 - 1872 green/white
+      trapCards: [], // Trap Card: 1509 - 1509 purple/white
+      typeCount: {},
+      spellTypeCount: {}
     }
   },
   mounted() {
@@ -76,6 +95,11 @@ export default {
         this.skillCards.push(card);
       } else if (card.type === "Spell Card") {
         this.spellCards.push(card);
+        if (this.spellTypeCount.hasOwnProperty(card.race)) {
+          this.spellTypeCount[card.race]++;
+        } else {
+          this.spellTypeCount[card.race] = 1;
+        }
       } else if (card.type === "Trap Card") {
         this.trapCards.push(card);
       }
@@ -89,6 +113,7 @@ export default {
 
     console.log(this.totalCards);
     console.log(this.typeCount);
+    console.log(this.spellTypeCount);
   },
   methods: {
     updateFirstSetOfCards() {
@@ -192,9 +217,8 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.button-container {
+.button-update-container {
   display: flex;
-  flex-direction: column;
-  width: 200px;
+  flex-direction: row;
 }
 </style>
