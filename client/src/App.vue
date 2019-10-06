@@ -28,7 +28,8 @@ export default {
   },
   mounted() {
     DBService.getAllCards("cards")
-    .then(cards => { this.allDatabaseCards = cards
+    .then(cards => {
+      this.allDatabaseCards = cards;
       this.allDatabaseCards.forEach((card) => {
         if (card.type === "Normal Monster") {
           this.$set(card, "hidden", true);

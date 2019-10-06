@@ -27,18 +27,20 @@
       </div>
       <div class="development-card-container">
         <div class="card-container" v-if="source !== ''">
+          <h2>Working on current card</h2>
           <img :src="source">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="index = selectPrev(currentSet, index)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, index)">Card Implemented</button>
+            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, index)">Add Card</button>
             <button type="button" class="develop-button" v-on:click="index = selectNext(currentSet, index)">&#8594;</button>
           </div>
         </div>
         <div class="developed-card-container" v-if="source !== ''">
-          <img :src="source">
+          <h2>Cards added to game</h2>
+          <img :src="devSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromDB(devSet, devIndex)">Card Implemented</button>
+            <button type="button" class="develop-button" v-on:click="deleteFromDB(devSet, devIndex)">Remove Card</button>
             <button type="button" class="develop-button" v-on:click="devIndex = selectNext(devSet, devIndex)">&#8594;</button>
           </div>
         </div>
@@ -83,11 +85,14 @@ export default {
       currentSet: [],
       index: 0,
       card: {},
+      devSource: "",
       devSet: [],
       devIndex: 0
     }
   },
   mounted() {
+    this.getDBCards();
+
     this.allCards.forEach(card => {
       if (card.type === "Effect Monster" || card.type === "Flip Effect Monster") {
         this.effectMonsters.push(card);
@@ -141,7 +146,11 @@ export default {
   },
   watch: {
     index() {
-      this.source = this.effectMonsters[this.index].card_images[0].image_url;
+      this.source = this.currentSet[this.index].card_images[0].image_url;
+    },
+
+    devIndex() {
+      this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
     }
   },
   methods: {
@@ -162,19 +171,29 @@ export default {
     addToDB(set, index) {
       this.card = this.currentSet[this.index];
       DBService.postCard(this.card, "add_cards");
+      this.getDBCards();
     },
 
     deleteFromDB(set, index) {
       this.card = set[index];
       DBService.deleteCard(this.card._id, "add_cards");
+      this.getDBCards();
+    },
+
+    getDBCards() {
+      DBService.getAllCards("add_cards")
+      .then(cards => {
+        this.devSet = cards;
+        this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
+      });
     },
 
     updateFirstSetOfCards() {
       this.updateEffectMonsterCards();
+      this.updateNormalMonsterCards();
     },
 
     updateSecondSetOfCards() {
-      this.updateNormalMonsterCards();
       this.updateFusionMonsterCards();
       this.updateGeminiMonsterCards();
       this.updateLinkMonsterCards();
@@ -200,7 +219,7 @@ export default {
 
     updateNormalMonsterCards() {
       DBService.postCards(this.normalMonsters, "normal_monsters/all");
-      DBService.postCards(this.normalMonsters, "add_cards/all");
+      // DBService.postCards(this.normalMonsters, "add_cards/all"); // Only use this once to initialise developer db
     },
 
     updateEffectMonsterCards() {
@@ -300,8 +319,13 @@ export default {
   box-shadow: 2px 2px;
   background-color: #00FF00;
   color: #000000;
-  margin-top: 5px;
-  width: 200px;
+  margin: 5px;
+  flex-grow: 1;
   cursor: pointer;
+}
+
+h2 {
+  background-color: rgba(255, 255, 255, 0.7);
+  text-align: center;
 }
 </style>
