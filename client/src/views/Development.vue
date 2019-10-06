@@ -6,6 +6,7 @@
         <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
         <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
         <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
+        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
       </div>
       <div class="button-type-container">
         <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="selectEffect"></game-button>
@@ -25,18 +26,20 @@
         <game-button :text="'Spell'" :colour="'green'" v-on:click.native=""></game-button>
         <game-button :text="'Trap'" :colour="'purple'" v-on:click.native=""></game-button>
       </div>
-      <div class="development-card-container">
-        <div class="card-container" v-if="source !== ''">
+      <div class="development-card-container" v-if="currentSource !== ''">
+        <div class="card-container">
           <h2>Working on current card</h2>
-          <img :src="source">
+          <input class="search" type="text" placeholder="Enter name of card..." v-model="cardName">
+          <img :src="currentSource">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="index = selectPrev(currentSet, index)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, index)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="index = selectNext(currentSet, index)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, currentIndex)">Add Card</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex)">&#8594;</button>
           </div>
         </div>
-        <div class="developed-card-container" v-if="source !== ''">
+        <div class="developed-card-container">
           <h2>Cards added to game</h2>
+          <input class="search" type="text" placeholder="Enter name of card..." v-model="devCardName">
           <img :src="devSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
@@ -79,15 +82,20 @@ export default {
       skillCards: [], // Skill Card: 37 - 37 light-blue/black
       spellCards: [], // Spell Card: 1872 - 1872 green/white
       trapCards: [], // Trap Card: 1509 - 1509 purple/white
+
       typeCount: {},
       spellTypeCount: {},
-      source: "",
-      currentSet: [],
-      index: 0,
       card: {},
+
+      currentSource: "",
+      currentSet: [],
+      currentIndex: 0,
+      cardName: "",
+
       devSource: "",
       devSet: [],
-      devIndex: 0
+      devIndex: 0,
+      devCardName: ""
     }
   },
   mounted() {
@@ -145,8 +153,8 @@ export default {
     console.log(this.spellTypeCount);
   },
   watch: {
-    index() {
-      this.source = this.currentSet[this.index].card_images[0].image_url;
+    currentIndex() {
+      this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
     },
 
     devIndex() {
@@ -156,8 +164,8 @@ export default {
   methods: {
     selectEffect() {
       this.currentSet = this.effectMonsters;
-      this.index = 0;
-      this.source = this.effectMonsters[this.index].card_images[0].image_url;
+      this.currentIndex = 0;
+      this.currentSource = this.effectMonsters[this.currentIndex].card_images[0].image_url;
     },
 
     selectNext(set, index) {
@@ -169,7 +177,7 @@ export default {
     },
 
     addToDB(set, index) {
-      this.card = this.currentSet[this.index];
+      this.card = set[index];
       DBService.postCard(this.card, "add_cards");
       this.getDBCards();
     },
@@ -197,20 +205,23 @@ export default {
       this.updateFusionMonsterCards();
       this.updateGeminiMonsterCards();
       this.updateLinkMonsterCards();
-      this.updatePendulumMonsterCards();
-      this.updateRitualMonsterCards();
     },
 
     updateThirdSetOfCards() {
+      this.updatePendulumMonsterCards();
+      this.updateRitualMonsterCards();
       this.updateSpiritMonsterCards();
       this.updateSynchroMonsterCards();
+    },
+
+    updateFourthSetOfCards() {
       this.updateToonMonsterCards();
       this.updateTunerMonsterCards();
       this.updateUnionMonsterCards();
       this.updateXyzMonsterCards();
     },
 
-    updateFourthSetOfCards() {
+    updateFifthSetOfCards() {
       this.updateTokenCards();
       this.updateSkillCards();
       this.updateSpellCards();
@@ -327,5 +338,11 @@ export default {
 h2 {
   background-color: rgba(255, 255, 255, 0.7);
   text-align: center;
+  margin: 5px 0;
+}
+
+.search {
+  font-size: 16px;
+  margin: 5px 0;
 }
 </style>
