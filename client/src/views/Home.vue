@@ -85,11 +85,12 @@ button {
   border: solid;
   border-width: 1px;
   border-radius: 5px;
+  border-color: #FFFFFF;
   text-align: center;
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  box-shadow: 2px 2px;
+  box-shadow: 2px 2px #FFFFFF;
   background-color: #FF0000;
   padding-top: 2px;
 }

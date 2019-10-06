@@ -7,8 +7,8 @@
         <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
         <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
       </div>
-      <div class="button-container">
-        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native=""></game-button>
+      <div class="button-type-container">
+        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="selectEffect"></game-button>
         <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native=""></game-button>
         <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native=""></game-button>
         <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native=""></game-button>
@@ -24,6 +24,24 @@
         <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native=""></game-button>
         <game-button :text="'Spell'" :colour="'green'" v-on:click.native=""></game-button>
         <game-button :text="'Trap'" :colour="'purple'" v-on:click.native=""></game-button>
+      </div>
+      <div class="development-card-container">
+        <div class="card-container" v-if="source !== ''">
+          <img :src="source">
+          <div class="button-select-container">
+            <button type="button" class="develop-button" v-on:click="index = selectPrev(currentSet, index)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, index)">Card Implemented</button>
+            <button type="button" class="develop-button" v-on:click="index = selectNext(currentSet, index)">&#8594;</button>
+          </div>
+        </div>
+        <div class="developed-card-container" v-if="source !== ''">
+          <img :src="source">
+          <div class="button-select-container">
+            <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="deleteFromDB(devSet, devIndex)">Card Implemented</button>
+            <button type="button" class="develop-button" v-on:click="devIndex = selectNext(devSet, devIndex)">&#8594;</button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -60,7 +78,13 @@ export default {
       spellCards: [], // Spell Card: 1872 - 1872 green/white
       trapCards: [], // Trap Card: 1509 - 1509 purple/white
       typeCount: {},
-      spellTypeCount: {}
+      spellTypeCount: {},
+      source: "",
+      currentSet: [],
+      index: 0,
+      card: {},
+      devSet: [],
+      devIndex: 0
     }
   },
   mounted() {
@@ -115,7 +139,36 @@ export default {
     console.log(this.typeCount);
     console.log(this.spellTypeCount);
   },
+  watch: {
+    index() {
+      this.source = this.effectMonsters[this.index].card_images[0].image_url;
+    }
+  },
   methods: {
+    selectEffect() {
+      this.currentSet = this.effectMonsters;
+      this.index = 0;
+      this.source = this.effectMonsters[this.index].card_images[0].image_url;
+    },
+
+    selectNext(set, index) {
+      return index = index === set.length - 1 ? 0 : index + 1;
+    },
+
+    selectPrev(set, index) {
+      return index = index === 0 ? set.length - 1 : index - 1;
+    },
+
+    addToDB(set, index) {
+      this.card = this.currentSet[this.index];
+      DBService.postCard(this.card, "add_cards");
+    },
+
+    deleteFromDB(set, index) {
+      this.card = set[index];
+      DBService.deleteCard(this.card._id, "add_cards");
+    },
+
     updateFirstSetOfCards() {
       this.updateEffectMonsterCards();
     },
@@ -147,6 +200,7 @@ export default {
 
     updateNormalMonsterCards() {
       DBService.postCards(this.normalMonsters, "normal_monsters/all");
+      DBService.postCards(this.normalMonsters, "add_cards/all");
     },
 
     updateEffectMonsterCards() {
@@ -220,5 +274,34 @@ export default {
 .button-update-container {
   display: flex;
   flex-direction: row;
+}
+
+.card-container, .developed-card-container {
+  display: flex;
+  width: 420px;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.button-select-container, .development-card-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.develop-button {
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+  box-shadow: 2px 2px;
+  background-color: #00FF00;
+  color: #000000;
+  margin-top: 5px;
+  width: 200px;
+  cursor: pointer;
 }
 </style>

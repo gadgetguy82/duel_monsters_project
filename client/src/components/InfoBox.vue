@@ -1,6 +1,6 @@
 <template lang="html">
   <div class="info-box-container">
-    <img class="image" v-if="source !== ''" :src="source"/>
+    <img v-if="source !== ''" :src="source"/>
     <div class="text-container">
       <p class="text">{{ text }}</p>
     </div>
