@@ -199,8 +199,16 @@ export default {
     setCurrentCard(set) {
       this.currentSet = set;
       this.currentIndex = 0;
-      this.currentCard = this.currentSet[this.currentIndex];
-      this.currentSource = this.currentCard.card_images[0].image_url;
+      while (this.gameSet.some(card => card.id === this.currentSet[this.currentIndex].id)) {
+        this.currentIndex++;
+      }
+      if (this.currentIndex === this.currentSet.length) {
+        this.currentCard = {};
+        this.currentSource = "";
+      } else {
+        this.currentCard = this.currentSet[this.currentIndex];
+        this.currentSource = this.currentCard.card_images[0].image_url;
+      }
       this.searchCurrentCardName = "";
     },
 
