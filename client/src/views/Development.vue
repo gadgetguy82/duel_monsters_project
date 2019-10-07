@@ -194,11 +194,11 @@ export default {
     },
 
     findCard(set, searchTerm) {
-      return set.findIndex(card => card.name.includes(searchTerm));
+      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
     findCards(set, searchTerm) {
-      return set.filter(card => card.name.includes(searchTerm));
+      return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
     selectNext(set, index, searchTerm) {
@@ -259,7 +259,7 @@ export default {
       const card = set[index];
       DBService.deleteCard(card._id, "game_cards/");
       this.gameSet.splice(this.gameIndex, 1);
-      this.gameIndex = this.selectPrev(this.gameSet, this.gameIndex);
+      this.gameIndex = this.selectPrev(this.gameSet, this.gameIndex, this.searchGameCardName);
       this.gameCard = this.gameSet[this.gameIndex];
       this.gameSource = this.gameCard.card_images[0].image_url;
     },
