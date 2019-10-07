@@ -1,13 +1,6 @@
 <template lang="html">
   <div id="development">
     <div class="development-container">
-      <div class="button-update-container">
-        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateFirstSetOfCards"></game-button>
-        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
-        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
-        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
-        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
-      </div>
       <select class="card-type" name="cardType" v-model="selected">
         <option disabled :value="null">Select card type...</option>
         <option :value="effectMonsters">Effect Monsters</option>
@@ -66,6 +59,13 @@
             <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex, searchGameCardName)">&#8594;</button>
           </div>
         </div>
+      </div>
+      <div class="button-update-container">
+        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateFirstSetOfCards"></game-button>
+        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
+        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
+        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
+        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
       </div>
     </div>
   </div>
@@ -390,14 +390,26 @@ export default {
 </script>
 
 <style lang="css" scoped>
+.development-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .button-update-container {
   display: flex;
   flex-direction: row;
+  justify-content: space-evenly;
+  border: 5px solid #000000;
+  width: 92%;
+  transform: translate(60px, 25px);
+  background-color: rgba(0, 255, 255, 0.7);
 }
 
 .card-type {
   font-size: 16px;
   margin: 10px;
+  width: 200px;
+  transform: translateX(180px);
 }
 
 .type-count, .spell-type-count {
