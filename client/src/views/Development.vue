@@ -8,6 +8,9 @@
         <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
         <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
       </div>
+      <select class="" name="">
+
+      </select>
       <div class="button-type-container">
         <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="setCurrentCard(effectMonsters)"></game-button>
         <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native="setCurrentCard(fusionMonsters)"></game-button>
@@ -39,22 +42,22 @@
         </div>
         <div class="card-info-container">
           <h2>Cards added database info</h2>
-          <div class="card-added-container">
-            <p>Card count in database for game: {{ devSet.length }}</p>
+          <div class="game-card-container">
+            <p>Card count in database for game: {{ gameSet.length }}</p>
           </div>
           <h2>Card info of the current card being worked on</h2>
           <div class="current-card-container">
             <p>Description: {{  }}</p>
           </div>
         </div>
-        <div class="developed-card-container">
+        <div class="card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchDevCardName">
-          <img :src="devSource">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName">
+          <img :src="gameSource">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromDB(devSet, devIndex)">Remove Card</button>
-            <button type="button" class="develop-button" v-on:click="devIndex = selectNext(devSet, devIndex)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="deleteFromDB(gameSet, gameIndex)">Remove Card</button>
+            <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex)">&#8594;</button>
           </div>
         </div>
       </div>
@@ -95,19 +98,18 @@ export default {
 
       typeCount: {},
       spellTypeCount: {},
-      card: {},
 
-      currentSource: "",
       currentSet: [],
       currentIndex: 0,
       currentCard: {},
+      currentSource: "",
       searchCurrentCardName: "",
 
-      devSource: "",
-      devSet: [],
-      devIndex: 0,
-      devCard: {},
-      searchDevCardName: ""
+      gameSet: [],
+      gameIndex: 0,
+      gameCard: {},
+      gameSource: "",
+      searchGameCardName: ""
     }
   },
   mounted() {
@@ -141,16 +143,16 @@ export default {
         this.xyzMonsters.push(card);
       } else if (card.type.includes("Token")) {
         this.tokenCards.push(card);
-      } else if (card.type === "Skill Card") {
+      } else if (card.type.includes("Skill Card")) {
         this.skillCards.push(card);
-      } else if (card.type === "Spell Card") {
+      } else if (card.type.includes("Spell Card")) {
         this.spellCards.push(card);
         if (this.spellTypeCount.hasOwnProperty(card.race)) {
           this.spellTypeCount[card.race]++;
         } else {
           this.spellTypeCount[card.race] = 1;
         }
-      } else if (card.type === "Trap Card") {
+      } else if (card.type.includes("Trap Card")) {
         this.trapCards.push(card);
       }
 
@@ -161,7 +163,7 @@ export default {
       }
     });
 
-    eventBusInfo.$on("card-added", card => this.devSet.push(card));
+    eventBusInfo.$on("card-added", card => this.gameSet.push(card));
 
     console.log(this.totalCards);
     console.log(this.typeCount);
@@ -173,9 +175,9 @@ export default {
       this.currentSource = this.currentCard.card_images[0].image_url;
     },
 
-    devIndex() {
-      this.devCard = this.devSet[this.devIndex]
-      this.devSource = this.devCard.card_images[0].image_url;
+    gameIndex() {
+      this.gameCard = this.gameSet[this.gameIndex]
+      this.gameSource = this.gameCard.card_images[0].image_url;
     }
   },
   methods: {
@@ -195,31 +197,31 @@ export default {
     },
 
     addToDB(set, index) {
-      this.card = set[index];
-      DBService.postCard(this.card, "add_cards")
+      const card = set[index];
+      DBService.postCard(card, "game_cards")
       .then(res => eventBusInfo.$emit("card-added", res));
     },
 
     deleteFromDB(set, index) {
-      this.card = set[index];
-      DBService.deleteCard(this.card._id, "add_cards/");
-      this.devSet.splice(this.devIndex, 1);
-      this.devIndex = this.selectPrev(this.devSet, this.devIndex);
+      const card = set[index];
+      DBService.deleteCard(card._id, "game_cards/");
+      this.gameSet.splice(this.gameIndex, 1);
+      this.gameIndex = this.selectPrev(this.gameSet, this.gameIndex);
     },
 
     getAddDBCards() {
-      DBService.getAllCards("add_cards")
+      DBService.getAllCards("game_cards")
       .then(cards => {
-        this.devSet = cards;
-        this.devCard = this.devSet[this.devIndex];
-        this.devSource = this.devCard.card_images[0].image_url;
+        this.gameSet = cards;
+        this.gameCard = this.gameSet[this.gameIndex];
+        this.gameSource = this.gameCard.card_images[0].image_url;
       });
     },
 
     updateFirstSetOfCards() {
-      this.updateEffectMonsterCards();
+      this.updateGameCards(); // Only use this once to initialise developer db
       this.updateNormalMonsterCards();
-      this.updateAddCards(); // Only use this once to initialise developer db
+      this.updateEffectMonsterCards();
     },
 
     updateSecondSetOfCards() {
@@ -249,8 +251,8 @@ export default {
       this.updateTrapCards();
     },
 
-    updateAddCards() {
-      DBService.postCards(this.normalMonsters, "add_cards/all");
+    updateGameCards() {
+      DBService.postCards(this.normalMonsters, "game_cards/all");
     },
 
     updateNormalMonsterCards() {
@@ -330,7 +332,7 @@ export default {
   flex-direction: row;
 }
 
-.card-container, .developed-card-container {
+.card-container {
   display: flex;
   width: 420px;
   flex-direction: column;
@@ -342,7 +344,7 @@ export default {
   margin: 10px;
 }
 
-.card-added-container, .current-card-container {
+.game-card-container, .current-card-container {
   background-color: rgba(255, 255, 255, 0.7);
 }
 

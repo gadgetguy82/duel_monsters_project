@@ -133,9 +133,9 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
   const trapCardsRouter = createRouter(trapCardsCollection);
   app.use('/api/duel_monsters_game/trap_cards', trapCardsRouter);
 
-  const addCardsCollection = db.collection('add_cards');
-  const addCardsRouter = createRouter(addCardsCollection);
-  app.use('/api/duel_monsters_game/add_cards', addCardsRouter);
+  const gameCardsCollection = db.collection('game_cards');
+  const gameCardsRouter = createRouter(gameCardsCollection);
+  app.use('/api/duel_monsters_game/game_cards', gameCardsRouter);
 });
 
 app.listen(3000, function() {
