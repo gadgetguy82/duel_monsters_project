@@ -33,9 +33,9 @@
           <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
           <img :src="currentSource">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
             <button type="button" class="develop-button" v-on:click="addToGameDB(currentSet, currentIndex)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex, searchCurrentCardName)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentNext(currentSet, currentIndex, searchCurrentCardName)">&#8594;</button>
           </div>
         </div>
         <div class="card-info-container">
@@ -53,9 +53,9 @@
           <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName" v-on:input="gameIndex = findCard(gameSet, searchGameCardName)">
           <img :src="gameSource">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex, searchGameCardName)">&#8592;</button>
             <button type="button" class="develop-button" v-on:click="deleteFromGameDB(gameSet, gameIndex)">Remove Card</button>
-            <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex, searchGameCardName)">&#8594;</button>
           </div>
         </div>
       </div>
@@ -204,15 +204,40 @@ export default {
     selectNext(set, index, searchTerm) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.currentSubIndex = this.currentSubIndex === subSet.length - 1 ? 0 : this.currentSubIndex + 1;
-        const subSetCard = subSet[this.currentSubIndex];
+        this.gameSubIndex = this.gameSubIndex === subSet.length - 1 ? 0 : this.gameSubIndex + 1;
+        const subSetCard = subSet[this.gameSubIndex];
         return set.findIndex(card => card === subSetCard);
       } else {
+        this.gameSubIndex = 0;
         return index = index === set.length - 1 ? 0 : index + 1;
       }
     },
 
     selectPrev(set, index, searchTerm) {
+      if (searchTerm) {
+        const subSet = this.findCards(set, searchTerm);
+        this.gameSubIndex = this.gameSubIndex === 0 ? subSet.length - 1 : this.gameSubIndex - 1;
+        const subSetCard = subSet[this.gameSubIndex];
+        return set.findIndex(card => card === subSetCard);
+      } else {
+        this.gameSubIndex = 0;
+        return index = index === 0 ? set.length - 1 : index - 1;
+      }
+    },
+
+    selectCurrentNext(set, index, searchTerm) {
+      if (searchTerm) {
+        const subSet = this.findCards(set, searchTerm);
+        this.currentSubIndex = this.currentSubIndex === subSet.length - 1 ? 0 : this.currentSubIndex + 1;
+        const subSetCard = subSet[this.currentSubIndex];
+        return set.findIndex(card => card === subSetCard);
+      } else {
+        this.currentSubIndex = 0;
+        return index = index === set.length - 1 ? 0 : index + 1;
+      }
+    },
+
+    selectCurrentPrev(set, index, searchTerm) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
         this.currentSubIndex = this.currentSubIndex === 0 ? subSet.length - 1 : this.currentSubIndex - 1;
