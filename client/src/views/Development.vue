@@ -1,25 +1,36 @@
 <template lang="html">
   <div id="development">
     <div class="development-container">
-      <select class="card-type" name="cardType" v-model="selected">
-        <option disabled :value="null">Select card type...</option>
-        <option :value="effectMonsters">Effect Monsters</option>
-        <option :value="fusionMonsters">Fusion Monsters</option>
-        <option :value="geminiMonsters">Gemini Monsters</option>
-        <option :value="linkMonsters">Link Monsters</option>
-        <option :value="pendulumMonsters">Pendulum Monsters</option>
-        <option :value="ritualMonsters">Ritual Monsters</option>
-        <option :value="spiritMonsters">Spirit Monsters</option>
-        <option :value="synchroMonsters">Synchro Monsters</option>
-        <option :value="toonMonsters">Toon Monsters</option>
-        <option :value="tunerMonsters">Tuner Monsters</option>
-        <option :value="unionMonsters">Union Monsters</option>
-        <option :value="xyzMonsters">XYZ Monsters</option>
-        <option :value="tokenCards">Tokens</option>
-        <option :value="skillCards">Skill Cards</option>
-        <option :value="spellCards">Spell Cards</option>
-        <option :value="trapCards">Trap Cards</option>
-      </select>
+      <div class="select-container">
+        <select class="card-type" name="cardType" v-model="selectedType">
+          <option disabled :value="null">Select card type...</option>
+          <option :value="effectMonsters">Effect Monsters</option>
+          <option :value="fusionMonsters">Fusion Monsters</option>
+          <option :value="geminiMonsters">Gemini Monsters</option>
+          <option :value="linkMonsters">Link Monsters</option>
+          <option :value="pendulumMonsters">Pendulum Monsters</option>
+          <option :value="ritualMonsters">Ritual Monsters</option>
+          <option :value="spiritMonsters">Spirit Monsters</option>
+          <option :value="synchroMonsters">Synchro Monsters</option>
+          <option :value="toonMonsters">Toon Monsters</option>
+          <option :value="tunerMonsters">Tuner Monsters</option>
+          <option :value="unionMonsters">Union Monsters</option>
+          <option :value="xyzMonsters">XYZ Monsters</option>
+          <option :value="tokenCards">Tokens</option>
+          <option :value="skillCards">Skill Cards</option>
+          <option :value="spellCards">Spell Cards</option>
+          <option :value="trapCards">Trap Cards</option>
+        </select>
+        <select class="race-type" name="raceType" v-if="spells" v-model="selectedRace">
+          <option disabled value="null">Select spell type...</option>
+          <option :value="'Continuous'">Continuous</option>
+          <option :value="'Equip'">Equip</option>
+          <option :value="'Field'">Field</option>
+          <option :value="'Normal'">Normal</option>
+          <option :value="'Quick-Play'">Quick-Play</option>
+          <option :value="'Ritual'">Ritual</option>
+        </select>
+      </div>
       <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
@@ -81,15 +92,23 @@ export default {
   name: 'development',
   props: ['allCards', 'normalMonsters'],
   computed: {
-    selected: {
-      get () {
+    selectedType: {
+      get() {
         return null;
       },
-      set (optionValue) {
+      set(optionValue) {
+        this.spells = this.spellCards === optionValue;
         this.setCurrentCard(optionValue);
-      },
+      }
     },
-
+    selectedRace: {
+      get() {
+        return null;
+      },
+      set(optionValue) {
+        this.setCurrentCard(this.spellCards.filter(card => card.race === optionValue));
+      }
+    }
   },
   components: {
     "game-button": GameButton
@@ -118,6 +137,7 @@ export default {
       typeCountArray: [],
       spellTypeCount: {},
       spellTypeCountArray: [],
+      spells: false,
 
       currentSet: [],
       currentIndex: 0,
@@ -440,11 +460,15 @@ export default {
   background-color: rgba(0, 255, 255, 0.7);
 }
 
-.card-type {
+.select-container {
+  display: flex;
+}
+
+.card-type, .race-type {
   font-size: 16px;
   margin: 10px;
   width: 200px;
-  transform: translateX(180px);
+  transform: translateX(50px);
 }
 
 .type-count, .spell-type-count {
