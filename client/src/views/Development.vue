@@ -56,6 +56,7 @@
           </div>
           <h2>Card info of the current card being worked on</h2>
           <div class="current-card-container" v-if="currentCard">
+            <p>Card count of the current set: {{ currentSet.length }}</p>
             <h4>Description:</h4>
             <p>{{ currentCard.desc }}</p>
           </div>
