@@ -241,14 +241,19 @@ export default {
         const subSet = this.findCards(set, searchTerm);
         this.currentSubIndex = this.currentSubIndex === subSet.length - 1 ? 0 : this.currentSubIndex + 1;
         const subSetCard = subSet[this.currentSubIndex];
-        return set.findIndex(card => card === subSetCard);
+        index = set.findIndex(card => card === subSetCard);
+        if (this.gameSet.some(card => card.id === subSetCard.id)) {
+          return this.selectCurrentNext(set, index, searchTerm);
+        } else {
+          return index;
+        }
       } else {
         this.currentSubIndex = 0;
         index = index === set.length - 1 ? 0 : index + 1;
-        if (!this.gameSet.some(card => card.id === set[index].id)) {
-          return index;
-        } else {
+        if (this.gameSet.some(card => card.id === set[index].id)) {
           return this.selectCurrentNext(set, index, searchTerm);
+        } else {
+          return index;
         }
       }
     },
@@ -258,14 +263,19 @@ export default {
         const subSet = this.findCards(set, searchTerm);
         this.currentSubIndex = this.currentSubIndex === 0 ? subSet.length - 1 : this.currentSubIndex - 1;
         const subSetCard = subSet[this.currentSubIndex];
-        return set.findIndex(card => card === subSetCard);
+        index = set.findIndex(card => card === subSetCard);
+        if (this.gameSet.some(card => card.id === subSetCard.id)) {
+          return this.selectCurrentPrev(set, index, searchTerm);
+        } else {
+          return index;
+        }
       } else {
         this.currentSubIndex = 0;
         index = index === 0 ? set.length - 1 : index - 1;
-        if (!this.gameSet.some(card => card.id === set[index].id)) {
-          return index;
-        } else {
+        if (this.gameSet.some(card => card.id === set[index].id)) {
           return this.selectCurrentPrev(set, index, searchTerm);
+        } else {
+          return index;
         }
       }
     },
