@@ -50,7 +50,7 @@
         </div>
         <div class="card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName" v-on:input="gameIndex = findIndex(gameSet, searchGameCardName)">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName" v-on:input="gameIndex = findCard(gameSet, searchGameCardName)">
           <img :src="gameSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex)">&#8592;</button>
