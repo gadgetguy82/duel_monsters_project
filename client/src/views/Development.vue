@@ -30,7 +30,7 @@
       <div class="development-card-container" v-if="currentSource !== ''">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
           <img :src="currentSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
@@ -50,7 +50,7 @@
         </div>
         <div class="card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName" v-on:input="gameIndex = findIndex(gameSet, searchGameCardName)">
           <img :src="gameSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex)">&#8592;</button>
@@ -189,6 +189,10 @@ export default {
       this.currentCard = this.currentSet[this.currentIndex];
       this.currentSource = this.currentCard.card_images[0].image_url;
       this.searchCurrentCardName = "";
+    },
+
+    findCard(set, searchTerm) {
+      return set.findIndex(card => card.name.includes(searchTerm));
     },
 
     selectNext(set, index) {
