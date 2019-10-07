@@ -45,7 +45,7 @@
           </div>
           <h2>Card info of the current card being worked on</h2>
           <div class="current-card-container">
-            <p>Description: {{  }}</p>
+            <p>Description: {{ currentCard.desc }}</p>
           </div>
         </div>
         <div class="card-container">
@@ -81,6 +81,7 @@ export default {
         this.setCurrentCard(optionValue);
       },
     },
+
   },
   components: {
     "game-button": GameButton
@@ -187,6 +188,7 @@ export default {
       this.currentIndex = 0;
       this.currentCard = this.currentSet[this.currentIndex];
       this.currentSource = this.currentCard.card_images[0].image_url;
+      this.searchCurrentCardName = "";
     },
 
     selectNext(set, index) {
@@ -335,19 +337,29 @@ export default {
   flex-direction: row;
 }
 
+.card-type {
+  font-size: 16px;
+  margin: 10px;
+}
+
 .card-container {
+  background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   width: 420px;
   flex-direction: column;
   margin: 10px;
+  padding: 5px;
+  border: 5px solid #000000;
 }
 
 .card-info-container {
   width: 420px;
   margin: 10px;
+  padding: 5px;
+  border: 5px solid #000000;
 }
 
-.game-card-container, .current-card-container {
+.card-info-container {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -374,7 +386,6 @@ export default {
 }
 
 h2 {
-  background-color: rgba(255, 255, 255, 0.7);
   text-align: center;
   margin: 5px 0;
 }
