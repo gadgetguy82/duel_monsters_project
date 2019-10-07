@@ -10,7 +10,7 @@
       </div>
     </nav>
     <div class="view">
-      <router-view id='view' :allCards="allDatabaseCards" :normalCards="normalMonsterCards"></router-view>
+      <router-view id='view' :allCards="allDatabaseCards" :normalMonsters="normalMonsterCards"></router-view>
     </div>
   </div>
 </template>
@@ -32,6 +32,7 @@ export default {
       this.allDatabaseCards = cards;
       this.allDatabaseCards.forEach((card) => {
         if (card.type === "Normal Monster") {
+          delete card._id;
           this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");
           this.$set(card, "initial", true);

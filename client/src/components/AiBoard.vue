@@ -45,7 +45,7 @@ import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'ai-board',
-  props: ['normalCards', 'gameState', 'playerData'],
+  props: ['normalMonsters', 'gameState', 'playerData'],
   components: {
     "playing-deck": PlayingDeck,
     "extra-deck": ExtraDeck,
@@ -69,8 +69,8 @@ export default {
   methods: {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
-        const index = Math.floor(Math.random() * this.normalCards.length);
-        const chosenCardCopy = Object.assign({}, this.normalCards[index]);
+        const index = Math.floor(Math.random() * this.normalMonsters.length);
+        const chosenCardCopy = Object.assign({}, this.normalMonsters[index]);
         this.deck.push(chosenCardCopy);
       }
     }

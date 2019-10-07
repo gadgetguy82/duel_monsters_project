@@ -29,7 +29,7 @@
       <div class="development-card-container" v-if="currentSource !== ''">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" placeholder="Enter name of card..." v-model="cardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="cardName">
           <img :src="currentSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
@@ -39,7 +39,7 @@
         </div>
         <div class="developed-card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" placeholder="Enter name of card..." v-model="devCardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="devCardName">
           <img :src="devSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
@@ -58,14 +58,13 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'development',
-  props: ['allCards', 'normalCards'],
+  props: ['allCards', 'normalMonsters'],
   components: {
     "game-button": GameButton
   },
   data() {
     return {
       totalCards: this.allCards.length,
-      normalMonsters: this.normalCards, // Normal Monster: 647 - 647 yellow/black
       effectMonsters: [], // Effect Monster: 3919 - 3919 orange/black
       fusionMonsters: [], // Fusion Monster: 328 - 332 violet/black
       geminiMonsters: [], // Gemini Monster: 43 - 43 orange/black
@@ -102,6 +101,7 @@ export default {
     this.getDBCards();
 
     this.allCards.forEach(card => {
+      delete card._id;
       if (card.type === "Effect Monster" || card.type === "Flip Effect Monster") {
         this.effectMonsters.push(card);
       } else if (card.type.includes("Fusion Monster")) {
@@ -157,7 +157,15 @@ export default {
       this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
     },
 
+    currentSet() {
+      this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
+    },
+
     devIndex() {
+      this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
+    },
+
+    devSet() {
       this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
     }
   },
@@ -184,7 +192,7 @@ export default {
 
     deleteFromDB(set, index) {
       this.card = set[index];
-      DBService.deleteCard(this.card._id, "add_cards");
+      DBService.deleteCard(this.card._id, "add_cards/");
       this.getDBCards();
     },
 
@@ -199,6 +207,7 @@ export default {
     updateFirstSetOfCards() {
       this.updateEffectMonsterCards();
       this.updateNormalMonsterCards();
+      this.updateAddCards(); // Only use this once to initialise developer db
     },
 
     updateSecondSetOfCards() {
@@ -228,9 +237,12 @@ export default {
       this.updateTrapCards();
     },
 
+    updateAddCards() {
+      DBService.postCards(this.normalMonsters, "add_cards/all");
+    },
+
     updateNormalMonsterCards() {
       DBService.postCards(this.normalMonsters, "normal_monsters/all");
-      // DBService.postCards(this.normalMonsters, "add_cards/all"); // Only use this once to initialise developer db
     },
 
     updateEffectMonsterCards() {

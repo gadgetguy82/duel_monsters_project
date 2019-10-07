@@ -18,7 +18,7 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'store',
-  props: ['normalCards'],
+  props: ['normalMonsters'],
   data() {
     return {
       allStoreCards: [],
@@ -26,7 +26,7 @@ export default {
     }
   },
   mounted() {
-    this.normalStoreCards = this.normalCards.slice(0, 108);
+    this.normalStoreCards = this.normalMonsters.slice(0, 108);
   }
 }
 </script>
