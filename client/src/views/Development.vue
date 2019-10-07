@@ -179,16 +179,19 @@ export default {
       this.spellTypeCountArray = Helpers.objToArray(this.spellTypeCount);
     });
 
-    eventBusInfo.$on("card-added", card => this.gameSet.push(card));
+    eventBusInfo.$on("card-added", card => {
+      this.gameSet.push(card);
+      this.currentIndex = this.selectCurrentNext(this.currentSet, this.currentIndex, this.searchCurrentCardName);
+    });
   },
   watch: {
     currentIndex() {
-      this.currentCard = this.currentSet[this.currentIndex]
+      this.currentCard = this.currentSet[this.currentIndex];
       this.currentSource = this.currentCard ? this.currentCard.card_images[0].image_url : "";
     },
 
     gameIndex() {
-      this.gameCard = this.gameSet[this.gameIndex]
+      this.gameCard = this.gameSet[this.gameIndex];
       this.gameSource = this.gameCard ? this.gameCard.card_images[0].image_url : "";
     }
   },
@@ -241,7 +244,12 @@ export default {
         return set.findIndex(card => card === subSetCard);
       } else {
         this.currentSubIndex = 0;
-        return index = index === set.length - 1 ? 0 : index + 1;
+        index = index === set.length - 1 ? 0 : index + 1;
+        if (!this.gameSet.some(card => card.id === set[index].id)) {
+          return index;
+        } else {
+          return this.selectCurrentNext(set, index, searchTerm);
+        }
       }
     },
 
@@ -253,7 +261,12 @@ export default {
         return set.findIndex(card => card === subSetCard);
       } else {
         this.currentSubIndex = 0;
-        return index = index === 0 ? set.length - 1 : index - 1;
+        index = index === 0 ? set.length - 1 : index - 1;
+        if (!this.gameSet.some(card => card.id === set[index].id)) {
+          return index;
+        } else {
+          return this.selectCurrentPrev(set, index, searchTerm);
+        }
       }
     },
 
