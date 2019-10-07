@@ -30,7 +30,7 @@
       <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="currentSource" v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
           <img :src="currentSource">
           <div class="button-select-container" v-if="currentSource">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
@@ -40,11 +40,14 @@
         </div>
         <div class="card-info-container">
           <h2>Cards added database info</h2>
-          <div class="game-card-container">
+          <div class="game-info-container">
             <p>Card count of all cards: {{ totalCards }}</p>
             <p>Card count in database for game: {{ gameSet.length }}</p>
             <ul class="type-count">
               <li v-for="pair in typeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
+            </ul>
+            <ul class="spell-type-count">
+              <li v-for="pair in spellTypeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
             </ul>
           </div>
           <h2>Card info of the current card being worked on</h2>
@@ -113,6 +116,7 @@ export default {
       typeCount: {},
       typeCountArray: [],
       spellTypeCount: {},
+      spellTypeCountArray: [],
 
       currentSet: [],
       currentIndex: 0,
@@ -171,6 +175,7 @@ export default {
 
       this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
       this.typeCountArray = Helpers.objToArray(this.typeCount);
+      this.spellTypeCountArray = Helpers.objToArray(this.spellTypeCount);
     });
 
     eventBusInfo.$on("card-added", card => this.gameSet.push(card));
@@ -394,7 +399,7 @@ export default {
   margin: 10px;
 }
 
-.type-count {
+.type-count, .spell-type-count {
   border: 1px solid #000000;
   height: 50px;
   overflow: scroll;
@@ -416,9 +421,6 @@ export default {
   margin: 10px;
   padding: 5px;
   border: 5px solid #000000;
-}
-
-.card-info-container {
   background-color: rgba(255, 255, 255, 0.7);
 }
 
