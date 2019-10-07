@@ -27,15 +27,15 @@
         <option :value="spellCards">Spell Cards</option>
         <option :value="trapCards">Trap Cards</option>
       </select>
-      <div class="development-card-container" v-if="currentSource !== ''">
+      <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
           <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
           <img :src="currentSource">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
             <button type="button" class="develop-button" v-on:click="addToGameDB(currentSet, currentIndex)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex, searchCurrentCardName)">&#8594;</button>
           </div>
         </div>
         <div class="card-info-container">
@@ -45,7 +45,7 @@
           </div>
           <h2>Card info of the current card being worked on</h2>
           <div class="current-card-container">
-            <p>Description: {{ currentCard.desc }}</p>
+            <p v-if="currentCard">Description: {{ currentCard.desc }}</p>
           </div>
         </div>
         <div class="card-container">
@@ -111,12 +111,14 @@ export default {
 
       currentSet: [],
       currentIndex: 0,
+      currentSubIndex: 0,
       currentCard: {},
       currentSource: "",
       searchCurrentCardName: "",
 
       gameSet: [],
       gameIndex: 0,
+      gameSubIndex: 0,
       gameCard: {},
       gameSource: "",
       searchGameCardName: ""
@@ -174,12 +176,12 @@ export default {
   watch: {
     currentIndex() {
       this.currentCard = this.currentSet[this.currentIndex]
-      this.currentSource = this.currentCard.card_images[0].image_url;
+      this.currentSource = this.currentCard ? this.currentCard.card_images[0].image_url : "";
     },
 
     gameIndex() {
       this.gameCard = this.gameSet[this.gameIndex]
-      this.gameSource = this.gameCard.card_images[0].image_url;
+      this.gameSource = this.gameCard ? this.gameCard.card_images[0].image_url : "";
     }
   },
   methods: {
@@ -195,12 +197,31 @@ export default {
       return set.findIndex(card => card.name.includes(searchTerm));
     },
 
-    selectNext(set, index) {
-      return index = index === set.length - 1 ? 0 : index + 1;
+    findCards(set, searchTerm) {
+      return set.filter(card => card.name.includes(searchTerm));
     },
 
-    selectPrev(set, index) {
-      return index = index === 0 ? set.length - 1 : index - 1;
+    selectNext(set, index, searchTerm) {
+      if (searchTerm) {
+        const subSet = this.findCards(set, searchTerm);
+        this.currentSubIndex = this.currentSubIndex === subSet.length - 1 ? 0 : this.currentSubIndex + 1;
+        const subSetCard = subSet[this.currentSubIndex];
+        return set.findIndex(card => card === subSetCard);
+      } else {
+        return index = index === set.length - 1 ? 0 : index + 1;
+      }
+    },
+
+    selectPrev(set, index, searchTerm) {
+      if (searchTerm) {
+        const subSet = this.findCards(set, searchTerm);
+        this.currentSubIndex = this.currentSubIndex === 0 ? subSet.length - 1 : this.currentSubIndex - 1;
+        const subSetCard = subSet[this.currentSubIndex];
+        return set.findIndex(card => card === subSetCard);
+      } else {
+        this.currentSubIndex = 0;
+        return index = index === 0 ? set.length - 1 : index - 1;
+      }
     },
 
     addToGameDB(set, index) {
