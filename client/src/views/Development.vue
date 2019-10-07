@@ -8,27 +8,25 @@
         <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
         <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
       </div>
-      <select class="" name="">
-
+      <select class="card-type" name="cardType" v-model="selected">
+        <option disabled :value="null">Select card type...</option>
+        <option :value="effectMonsters">Effect Monsters</option>
+        <option :value="fusionMonsters">Fusion Monsters</option>
+        <option :value="geminiMonsters">Gemini Monsters</option>
+        <option :value="linkMonsters">Link Monsters</option>
+        <option :value="pendulumMonsters">Pendulum Monsters</option>
+        <option :value="ritualMonsters">Ritual Monsters</option>
+        <option :value="spiritMonsters">Spirit Monsters</option>
+        <option :value="synchroMonsters">Synchro Monsters</option>
+        <option :value="toonMonsters">Toon Monsters</option>
+        <option :value="tunerMonsters">Tuner Monsters</option>
+        <option :value="unionMonsters">Union Monsters</option>
+        <option :value="xyzMonsters">XYZ Monsters</option>
+        <option :value="tokenCards">Tokens</option>
+        <option :value="skillCards">Skill Cards</option>
+        <option :value="spellCards">Spell Cards</option>
+        <option :value="trapCards">Trap Cards</option>
       </select>
-      <div class="button-type-container">
-        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="setCurrentCard(effectMonsters)"></game-button>
-        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native="setCurrentCard(fusionMonsters)"></game-button>
-        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native="setCurrentCard(geminiMonsters)"></game-button>
-        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native="setCurrentCard(linkMonsters)"></game-button>
-        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native="setCurrentCard(pendulumMonsters)"></game-button>
-        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native="setCurrentCard(ritualMonsters)"></game-button>
-        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native="setCurrentCard(spiritMonsters)"></game-button>
-        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native="setCurrentCard(synchroMonsters)"></game-button>
-        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native="setCurrentCard(toonMonsters)"></game-button>
-        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native="setCurrentCard(tunerMonsters)"></game-button>
-        <game-button :text="'Union'" :colour="'orange'" v-on:click.native="setCurrentCard(unionMonsters)"></game-button>
-        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native="setCurrentCard(xyzMonsters)"></game-button>
-        <game-button :text="'Token'" :colour="'gray'" v-on:click.native="setCurrentCard(tokenCards)"></game-button>
-        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native="setCurrentCard(skillCards)"></game-button>
-        <game-button :text="'Spell'" :colour="'green'" v-on:click.native="setCurrentCard(spellCards)"></game-button>
-        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native="setCurrentCard(trapCards)"></game-button>
-      </div>
       <div class="development-card-container" v-if="currentSource !== ''">
         <div class="card-container">
           <h2>Working on current card</h2>
@@ -74,6 +72,16 @@ import * as Helpers from '@/services/helpers.js';
 export default {
   name: 'development',
   props: ['allCards', 'normalMonsters'],
+  computed: {
+    selected: {
+      get () {
+        return null;
+      },
+      set (optionValue) {
+        this.setCurrentCard(optionValue);
+      },
+    },
+  },
   components: {
     "game-button": GameButton
   },
