@@ -9,27 +9,27 @@
         <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
       </div>
       <div class="button-type-container">
-        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="selectEffect"></game-button>
-        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native="selectFusion"></game-button>
-        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native="selectGemini"></game-button>
-        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native="selectLink"></game-button>
-        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native="selectPendulum"></game-button>
-        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native="selectRitual"></game-button>
-        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native="selectSpirit"></game-button>
-        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native="selectSynchro"></game-button>
-        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native="selectToon"></game-button>
-        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native="selectTuner"></game-button>
-        <game-button :text="'Union'" :colour="'orange'" v-on:click.native="selectUnion"></game-button>
-        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native="selectXyz"></game-button>
-        <game-button :text="'Token'" :colour="'gray'" v-on:click.native="selectToken"></game-button>
-        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native="selectSkill"></game-button>
-        <game-button :text="'Spell'" :colour="'green'" v-on:click.native="selectSpell"></game-button>
-        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native="selectTrap"></game-button>
+        <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="setCurrentCard(effectMonsters)"></game-button>
+        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native="setCurrentCard(fusionMonsters)"></game-button>
+        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native="setCurrentCard(geminiMonsters)"></game-button>
+        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native="setCurrentCard(linkMonsters)"></game-button>
+        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native="setCurrentCard(pendulumMonsters)"></game-button>
+        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native="setCurrentCard(ritualMonsters)"></game-button>
+        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native="setCurrentCard(spiritMonsters)"></game-button>
+        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native="setCurrentCard(synchroMonsters)"></game-button>
+        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native="setCurrentCard(toonMonsters)"></game-button>
+        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native="setCurrentCard(tunerMonsters)"></game-button>
+        <game-button :text="'Union'" :colour="'orange'" v-on:click.native="setCurrentCard(unionMonsters)"></game-button>
+        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native="setCurrentCard(xyzMonsters)"></game-button>
+        <game-button :text="'Token'" :colour="'gray'" v-on:click.native="setCurrentCard(tokenCards)"></game-button>
+        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native="setCurrentCard(skillCards)"></game-button>
+        <game-button :text="'Spell'" :colour="'green'" v-on:click.native="setCurrentCard(spellCards)"></game-button>
+        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native="setCurrentCard(trapCards)"></game-button>
       </div>
       <div class="development-card-container" v-if="currentSource !== ''">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="cardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchCurrentCardName">
           <img :src="currentSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
@@ -37,9 +37,19 @@
             <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex)">&#8594;</button>
           </div>
         </div>
+        <div class="card-info-container">
+          <h2>Cards added database info</h2>
+          <div class="card-added-container">
+            <p>Card count in database for game: {{ devSet.length }}</p>
+          </div>
+          <h2>Card info of the current card being worked on</h2>
+          <div class="current-card-container">
+            <p>Description: {{  }}</p>
+          </div>
+        </div>
         <div class="developed-card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="devCardName">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchDevCardName">
           <img :src="devSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="devIndex = selectPrev(devSet, devIndex)">&#8592;</button>
@@ -90,12 +100,14 @@ export default {
       currentSource: "",
       currentSet: [],
       currentIndex: 0,
-      cardName: "",
+      currentCard: {},
+      searchCurrentCardName: "",
 
       devSource: "",
       devSet: [],
       devIndex: 0,
-      devCardName: ""
+      devCard: {},
+      searchDevCardName: ""
     }
   },
   mounted() {
@@ -157,108 +169,21 @@ export default {
   },
   watch: {
     currentIndex() {
-      this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
+      this.currentCard = this.currentSet[this.currentIndex]
+      this.currentSource = this.currentCard.card_images[0].image_url;
     },
 
     devIndex() {
-      this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
+      this.devCard = this.devSet[this.devIndex]
+      this.devSource = this.devCard.card_images[0].image_url;
     }
   },
   methods: {
-    selectEffect() {
-      this.currentSet = this.effectMonsters;
+    setCurrentCard(set) {
+      this.currentSet = set;
       this.currentIndex = 0;
-      this.currentSource = this.effectMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectFusion() {
-      this.currentSet = this.fusionMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.fusionMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectGemini() {
-      this.currentSet = this.geminiMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.geminiMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectLink() {
-      this.currentSet = this.linkMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.linkMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectPendulum() {
-      this.currentSet = this.pendulumMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.pendulumMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectRitual() {
-      this.currentSet = this.ritualMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.ritualMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectSpirit() {
-      this.currentSet = this.spiritMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.spiritMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectSynchro() {
-      this.currentSet = this.synchroMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.synchroMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectToon() {
-      this.currentSet = this.toonMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.toonMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectTuner() {
-      this.currentSet = this.tunerMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.tunerMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectUnion() {
-      this.currentSet = this.unionMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.unionMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectXyz() {
-      this.currentSet = this.xyzMonsters;
-      this.currentIndex = 0;
-      this.currentSource = this.xyzMonsters[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectToken() {
-      this.currentSet = this.tokenCards;
-      this.currentIndex = 0;
-      this.currentSource = this.tokenCards[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectSkill() {
-      this.currentSet = this.skillCards;
-      this.currentIndex = 0;
-      this.currentSource = this.skillCards[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectSpell() {
-      this.currentSet = this.spellCards;
-      this.currentIndex = 0;
-      this.currentSource = this.spellCards[this.currentIndex].card_images[0].image_url;
-    },
-
-    selectTrap() {
-      this.currentSet = this.trapCards;
-      this.currentIndex = 0;
-      this.currentSource = this.trapCards[this.currentIndex].card_images[0].image_url;
+      this.currentCard = this.currentSet[this.currentIndex];
+      this.currentSource = this.currentCard.card_images[0].image_url;
     },
 
     selectNext(set, index) {
@@ -286,7 +211,8 @@ export default {
       DBService.getAllCards("add_cards")
       .then(cards => {
         this.devSet = cards;
-        this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
+        this.devCard = this.devSet[this.devIndex];
+        this.devSource = this.devCard.card_images[0].image_url;
       });
     },
 
@@ -409,6 +335,15 @@ export default {
   width: 420px;
   flex-direction: column;
   margin: 10px;
+}
+
+.card-info-container {
+  width: 420px;
+  margin: 10px;
+}
+
+.card-added-container, .current-card-container {
+  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .button-select-container, .development-card-container {
