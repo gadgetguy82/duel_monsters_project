@@ -10,21 +10,21 @@
       </div>
       <div class="button-type-container">
         <game-button :text="'Effect'" :colour="'orange'" v-on:click.native="selectEffect"></game-button>
-        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native=""></game-button>
-        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native=""></game-button>
-        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native=""></game-button>
-        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native=""></game-button>
-        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native=""></game-button>
-        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native=""></game-button>
-        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native=""></game-button>
-        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native=""></game-button>
-        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native=""></game-button>
-        <game-button :text="'Union'" :colour="'orange'" v-on:click.native=""></game-button>
-        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native=""></game-button>
-        <game-button :text="'Token'" :colour="'gray'" v-on:click.native=""></game-button>
-        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native=""></game-button>
-        <game-button :text="'Spell'" :colour="'green'" v-on:click.native=""></game-button>
-        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native=""></game-button>
+        <game-button :text="'Fusion'" :colour="'violet'" v-on:click.native="selectFusion"></game-button>
+        <game-button :text="'Gemini'" :colour="'orange'" v-on:click.native="selectGemini"></game-button>
+        <game-button :text="'Link'" :colour="'dark-blue'" v-on:click.native="selectLink"></game-button>
+        <game-button :text="'Pendulum'" :colour="'green'" v-on:click.native="selectPendulum"></game-button>
+        <game-button :text="'Ritual'" :colour="'light-blue'" v-on:click.native="selectRitual"></game-button>
+        <game-button :text="'Spirit'" :colour="'orange'" v-on:click.native="selectSpirit"></game-button>
+        <game-button :text="'Synchro'" :colour="'white'" v-on:click.native="selectSynchro"></game-button>
+        <game-button :text="'Toon'" :colour="'orange'" v-on:click.native="selectToon"></game-button>
+        <game-button :text="'Tuner'" :colour="'orange'" v-on:click.native="selectTuner"></game-button>
+        <game-button :text="'Union'" :colour="'orange'" v-on:click.native="selectUnion"></game-button>
+        <game-button :text="'XYZ'" :colour="'black'" v-on:click.native="selectXyz"></game-button>
+        <game-button :text="'Token'" :colour="'gray'" v-on:click.native="selectToken"></game-button>
+        <game-button :text="'Skill'" :colour="'light-blue'" v-on:click.native="selectSkill"></game-button>
+        <game-button :text="'Spell'" :colour="'green'" v-on:click.native="selectSpell"></game-button>
+        <game-button :text="'Trap'" :colour="'purple'" v-on:click.native="selectTrap"></game-button>
       </div>
       <div class="development-card-container" v-if="currentSource !== ''">
         <div class="card-container">
@@ -169,6 +169,96 @@ export default {
       this.currentSet = this.effectMonsters;
       this.currentIndex = 0;
       this.currentSource = this.effectMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectFusion() {
+      this.currentSet = this.fusionMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.fusionMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectGemini() {
+      this.currentSet = this.geminiMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.geminiMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectLink() {
+      this.currentSet = this.linkMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.linkMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectPendulum() {
+      this.currentSet = this.pendulumMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.pendulumMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectRitual() {
+      this.currentSet = this.ritualMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.ritualMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectSpirit() {
+      this.currentSet = this.spiritMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.spiritMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectSynchro() {
+      this.currentSet = this.synchroMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.synchroMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectToon() {
+      this.currentSet = this.toonMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.toonMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectTuner() {
+      this.currentSet = this.tunerMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.tunerMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectUnion() {
+      this.currentSet = this.unionMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.unionMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectXyz() {
+      this.currentSet = this.xyzMonsters;
+      this.currentIndex = 0;
+      this.currentSource = this.xyzMonsters[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectToken() {
+      this.currentSet = this.tokenCards;
+      this.currentIndex = 0;
+      this.currentSource = this.tokenCards[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectSkill() {
+      this.currentSet = this.skillCards;
+      this.currentIndex = 0;
+      this.currentSource = this.skillCards[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectSpell() {
+      this.currentSet = this.spellCards;
+      this.currentIndex = 0;
+      this.currentSource = this.spellCards[this.currentIndex].card_images[0].image_url;
+    },
+
+    selectTrap() {
+      this.currentSet = this.trapCards;
+      this.currentIndex = 0;
+      this.currentSource = this.trapCards[this.currentIndex].card_images[0].image_url;
     },
 
     selectNext(set, index) {
