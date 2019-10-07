@@ -36,7 +36,7 @@
           <img :src="currentSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectPrev(currentSet, currentIndex)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToDB(currentSet, currentIndex)">Add Card</button>
+            <button type="button" class="develop-button" v-on:click="addToGameDB(currentSet, currentIndex)">Add Card</button>
             <button type="button" class="develop-button" v-on:click="currentIndex = selectNext(currentSet, currentIndex)">&#8594;</button>
           </div>
         </div>
@@ -56,7 +56,7 @@
           <img :src="gameSource">
           <div class="button-select-container">
             <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromDB(gameSet, gameIndex)">Remove Card</button>
+            <button type="button" class="develop-button" v-on:click="deleteFromGameDB(gameSet, gameIndex)">Remove Card</button>
             <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex)">&#8594;</button>
           </div>
         </div>
@@ -69,6 +69,7 @@
 import GameButton from '@/components/GameButton.vue';
 import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
+import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'development',
@@ -113,7 +114,7 @@ export default {
     }
   },
   mounted() {
-    this.getAddDBCards();
+    this.getGameCards();
 
     this.allCards.forEach(card => {
       delete card._id;
@@ -147,20 +148,12 @@ export default {
         this.skillCards.push(card);
       } else if (card.type.includes("Spell Card")) {
         this.spellCards.push(card);
-        if (this.spellTypeCount.hasOwnProperty(card.race)) {
-          this.spellTypeCount[card.race]++;
-        } else {
-          this.spellTypeCount[card.race] = 1;
-        }
+        this.spellTypeCount = Helpers.trackUniqueProperty(this.spellTypeCount, card.race);
       } else if (card.type.includes("Trap Card")) {
         this.trapCards.push(card);
       }
 
-      if (this.typeCount.hasOwnProperty(card.type)) {
-        this.typeCount[card.type]++;
-      } else {
-        this.typeCount[card.type] = 1;
-      }
+      this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
     });
 
     eventBusInfo.$on("card-added", card => this.gameSet.push(card));
@@ -196,20 +189,22 @@ export default {
       return index = index === 0 ? set.length - 1 : index - 1;
     },
 
-    addToDB(set, index) {
+    addToGameDB(set, index) {
       const card = set[index];
       DBService.postCard(card, "game_cards")
       .then(res => eventBusInfo.$emit("card-added", res));
     },
 
-    deleteFromDB(set, index) {
+    deleteFromGameDB(set, index) {
       const card = set[index];
       DBService.deleteCard(card._id, "game_cards/");
       this.gameSet.splice(this.gameIndex, 1);
       this.gameIndex = this.selectPrev(this.gameSet, this.gameIndex);
+      this.gameCard = this.gameSet[this.gameIndex];
+      this.gameSource = this.gameCard.card_images[0].image_url;
     },
 
-    getAddDBCards() {
+    getGameCards() {
       DBService.getAllCards("game_cards")
       .then(cards => {
         this.gameSet = cards;
