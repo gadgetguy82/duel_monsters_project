@@ -98,7 +98,7 @@ export default {
     }
   },
   mounted() {
-    this.getDBCards();
+    this.getDBCards(this.devIndex);
 
     this.allCards.forEach(card => {
       delete card._id;
@@ -157,15 +157,7 @@ export default {
       this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
     },
 
-    currentSet() {
-      this.currentSource = this.currentSet[this.currentIndex].card_images[0].image_url;
-    },
-
     devIndex() {
-      this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
-    },
-
-    devSet() {
       this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
     }
   },
@@ -187,19 +179,20 @@ export default {
     addToDB(set, index) {
       this.card = set[index];
       DBService.postCard(this.card, "add_cards");
-      this.getDBCards();
+      this.getDBCards(this.devIndex);
     },
 
     deleteFromDB(set, index) {
       this.card = set[index];
       DBService.deleteCard(this.card._id, "add_cards/");
-      this.getDBCards();
+      this.getDBCards(this.selectPrev(this.devSet, this.devIndex));
     },
 
-    getDBCards() {
+    getDBCards(index) {
       DBService.getAllCards("add_cards")
       .then(cards => {
         this.devSet = cards;
+        this.devIndex = index;
         this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
       });
     },
