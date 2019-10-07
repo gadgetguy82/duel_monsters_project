@@ -23,7 +23,7 @@
       <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="currentSource" v-model="searchCurrentCardName" v-on:input="currentIndex = findCard(currentSet, searchCurrentCardName)">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="currentSource" v-model="searchCurrentCardName" v-on:input="currentIndex = findCurrentCard(currentSet, searchCurrentCardName)">
           <img :src="currentSource">
           <div class="button-select-container" v-if="currentSource">
             <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
@@ -214,6 +214,10 @@ export default {
 
     findCard(set, searchTerm) {
       return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    },
+
+    findCurrentCard(set, searchTerm) {
+      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id));
     },
 
     findCards(set, searchTerm) {
