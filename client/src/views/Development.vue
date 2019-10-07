@@ -54,6 +54,7 @@
 
 <script>
 import GameButton from '@/components/GameButton.vue';
+import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
 
 export default {
@@ -98,7 +99,7 @@ export default {
     }
   },
   mounted() {
-    this.getDBCards(this.devIndex);
+    this.getAddDBCards();
 
     this.allCards.forEach(card => {
       delete card._id;
@@ -148,6 +149,8 @@ export default {
       }
     });
 
+    eventBusInfo.$on("card-added", card => this.devSet.push(card));
+
     console.log(this.totalCards);
     console.log(this.typeCount);
     console.log(this.spellTypeCount);
@@ -178,21 +181,21 @@ export default {
 
     addToDB(set, index) {
       this.card = set[index];
-      DBService.postCard(this.card, "add_cards");
-      this.getDBCards(this.devIndex);
+      DBService.postCard(this.card, "add_cards")
+      .then(res => eventBusInfo.$emit("card-added", res));
     },
 
     deleteFromDB(set, index) {
       this.card = set[index];
       DBService.deleteCard(this.card._id, "add_cards/");
-      this.getDBCards(this.selectPrev(this.devSet, this.devIndex));
+      this.devSet.splice(this.devIndex, 1);
+      this.devIndex = this.selectPrev(this.devSet, this.devIndex);
     },
 
-    getDBCards(index) {
+    getAddDBCards() {
       DBService.getAllCards("add_cards")
       .then(cards => {
         this.devSet = cards;
-        this.devIndex = index;
         this.devSource = this.devSet[this.devIndex].card_images[0].image_url;
       });
     },
