@@ -51,8 +51,9 @@
             </ul>
           </div>
           <h2>Card info of the current card being worked on</h2>
-          <div class="current-card-container">
-            <p v-if="currentCard">Description: {{ currentCard.desc }}</p>
+          <div class="current-card-container" v-if="currentCard">
+            <h4>Description:</h4>
+            <p>{{ currentCard.desc }}</p>
           </div>
         </div>
         <div class="card-container">
@@ -449,6 +450,10 @@ export default {
 h2 {
   text-align: center;
   margin: 5px 0;
+}
+
+h4, p {
+  margin: 2px;
 }
 
 .search {
