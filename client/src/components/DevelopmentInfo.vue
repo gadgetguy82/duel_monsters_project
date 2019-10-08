@@ -23,40 +23,27 @@
     <div class="game-info-container">
       <p>Total cards in game collection: {{ game.set.length }}</p>
     </div>
-    <div class="existing-container">
-      <h4>Card attribute:</h4>
-      <input type="text" value="" v-model="gameAttribute">
-      <h4>Attribute value</h4>
-      <input type="text" value="" v-model="gameValue">
-    </div>
+    <attribute-box></attribute-box>
     <hr>
     <h2>Cards not in game collection</h2>
     <div class="current-info-container" v-if="current.card">
       <p>Current set is {{ current.card.type }}</p>
       <p>Total cards in current set collection: {{ current.set.length }}</p>
-      <h4>Description:</h4>
-      <p>{{ current.card.desc }}</p>
     </div>
-    <div class="development-container">
-      <h4>Card attribute to add:</h4>
-      <input type="text" value="" v-model="currentAttribute">
-      <h4>Attribute value/effect to add:</h4>
-      <input type="text" value="" v-model="currentValue">
-    </div>
+    <attribute-box></attribute-box>
+    <h4>Description:</h4>
+    <p>{{ current.card.desc }}</p>
   </div>
 </template>
 
 <script>
+import AttributeBox from '@/components/AttributeBox.vue';
+
 export default {
   name: 'development-info',
   props: ['eventBus', 'type', 'current', 'game'],
-  data() {
-    return {
-      gameAttribute: "",
-      gameValue: "",
-      currentAttribute: "",
-      currentValue: ""
-    }
+  components: {
+    "attribute-box": AttributeBox
   }
 }
 </script>
