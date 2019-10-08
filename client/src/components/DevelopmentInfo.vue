@@ -4,18 +4,8 @@
     <div class="db-info-container">
       <p>Total of all cards: {{ type.totalCards }} - Check total: {{ type.checkTotal }}</p>
       <div class="list-container">
-        <div class="card-type">
-          <h4>Card types</h4>
-          <ul class="type-count list">
-            <li v-for="pair in type.allArray">{{ pair[0] }}: {{ pair[1] }}</li>
-          </ul>
-        </div>
-        <div class="spell-type">
-          <h4>Spell types</h4>
-          <ul class="spell-count list">
-            <li v-for="pair in type.spellArray">{{ pair[0] }}: {{ pair[1] }}</li>
-          </ul>
-        </div>
+        <list-box :text="'Card types'" :array="type.allArray"></list-box>
+        <list-box :text="'Spell types'" :array="type.spellArray"></list-box>
       </div>
     </div>
     <hr>
@@ -38,12 +28,14 @@
 
 <script>
 import AttributeBox from '@/components/AttributeBox.vue';
+import ListBox from '@/components/ListBox.vue';
 
 export default {
   name: 'development-info',
   props: ['eventBus', 'type', 'current', 'game'],
   components: {
-    "attribute-box": AttributeBox
+    "attribute-box": AttributeBox,
+    "list-box": ListBox
   }
 }
 </script>
@@ -61,19 +53,8 @@ export default {
   display: flex;
 }
 
-.list {
-  border: 1px solid #000000;
-  height: 50px;
-  overflow: scroll;
-  padding: 5px;
-}
-
 .card-type, .spell-type {
   flex-grow: 1;
-}
-
-ul {
-  margin: 0;
 }
 
 h2 {
