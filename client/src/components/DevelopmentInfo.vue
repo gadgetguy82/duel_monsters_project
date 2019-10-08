@@ -17,6 +17,9 @@
       <h4>Description:</h4>
       <p>{{ current.card.desc }}</p>
     </div>
+    <div class="console-container">
+      <h4>Console:</h4>
+    </div>
   </div>
 </template>
 

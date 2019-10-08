@@ -1,30 +1,34 @@
 <template lang="html">
-  <div class="game-card-container">
-    <h2>Cards added to game</h2>
-    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
-    <img :src="game.source">
-    <div class="button-select-container" v-if="game.source">
-      <button class="develop-button" type="button"  v-on:click="game.index = selectPrev(game)">&#8592;</button>
-      <button class="develop-button" type="button" v-on:click="deleteFromGameDB(game)">Remove Card</button>
-      <button class="develop-button" type="button" v-on:click="game.index = selectNext(game)">&#8594;</button>
+  <div class="card-display-container">
+    <h2>{{ display.title }}</h2>
+    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="display.index = findCard">
+    <img :src="display.source">
+    <div class="button-select-container" v-if="display.source">
+      <button class="develop-button" type="button" v-on:click="display.index = selectPrev(display)">&#8592;</button>
+      <button class="develop-button" type="button" v-on:click="interactWithDB">{{ display.buttonText }}</button>
+      <button class="develop-button" type="button" v-on:click="display.index = selectNext(display)">&#8594;</button>
     </div>
   </div>
 </template>
 
 <script>
-import DBService from '@/services/db_service';
-
 export default {
   name: 'game-card-display',
-  props: ['eventBus', 'game'],
+  props: ['eventBus', 'display', 'gameSet'],
   mounted() {
-    this.eventBus.$on("card-added", card => {
-
+    this.eventBus.$on("select-prev", display => {
+      this.display.index = this.selectPrev(display);
     });
   },
+  watch: {
+    "display.index"() {
+      this.display.card = this.display.set[this.display.index];
+      this.display.source = this.display.card ? this.display.card.card_images[0].image_url : "";
+    }
+  },
   methods: {
-    findCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    findCard() {
+      return this.display.set.findIndex(card => card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()));
     },
 
     findCards(set, searchTerm) {
@@ -34,11 +38,11 @@ export default {
     selectNext({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === subSet.length - 1 ? 0 : this.game.subIndex + 1;
-        const subSetCard = subSet[this.game.subIndex];
+        this.display.subIndex = this.display.subIndex === subSet.length - 1 ? 0 : this.display.subIndex + 1;
+        const subSetCard = subSet[this.display.subIndex];
         return set.findIndex(card => card === subSetCard);
       } else {
-        this.game.subIndex = 0;
+        this.display.subIndex = 0;
         return index = index === set.length - 1 ? 0 : index + 1;
       }
     },
@@ -46,29 +50,28 @@ export default {
     selectPrev({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === 0 ? subSet.length - 1 : this.game.subIndex - 1;
-        const subSetCard = subSet[this.game.subIndex];
+        this.display.subIndex = this.display.subIndex === 0 ? subSet.length - 1 : this.display.subIndex - 1;
+        const subSetCard = subSet[this.display.subIndex];
         return set.findIndex(card => card === subSetCard);
       } else {
-        this.game.subIndex = 0;
+        this.display.subIndex = 0;
         return index = index === 0 ? set.length - 1 : index - 1;
       }
     },
 
-    deleteFromGameDB({set, index}) {
-      const card = set[index];
-      DBService.deleteCard(card._id, "game_cards/");
-      this.game.set.splice(this.game.index, 1);
-      this.game.index = this.selectPrev(this.game);
-      this.game.card = this.game.set[this.game.index];
-      this.game.source = this.game.card.card_images[0].image_url;
+    interactWithDB() {
+      if (this.display.current) {
+        this.eventBus.$emit("add-card", this.display);
+      } else {
+        this.eventBus.$emit("delete-card", this.display);
+      }
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-.game-card-container {
+.card-display-container {
   background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   width: 420px;

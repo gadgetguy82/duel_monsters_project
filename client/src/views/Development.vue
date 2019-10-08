@@ -17,9 +17,9 @@
         </select>
       </div>
       <div class="development-card-container">
-        <current-card-display :eventBus="eventBus" :current="current"></current-card-display>
+        <current-card-display :eventBus="eventBus" :display="current" :gameSet="game.set"></current-card-display>
         <development-info :type="type" :current="current" :game="game"></development-info>
-        <game-card-display :eventBus="eventBus" :game="game"></game-card-display>
+        <game-card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></game-card-display>
       </div>
       <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
@@ -43,7 +43,7 @@ import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'development',
-  props: ['allCards', 'normalMonsters'],
+  props: ['allCards'],
   components: {
     "current-card-display": CurrentCardDisplay,
     "development-info": DevelopmentInfo,
@@ -202,11 +202,14 @@ export default {
         allArray: [],
         spellCount: {},
         spellArray: [],
+        spell: "Spell Card",
         isSpell: false,
         spellIndex: 15
       },
 
       current: {
+        title: "Working on current card",
+        buttonText: "Add Card",
         set: [],
         index: 0,
         subIndex: 0,
@@ -217,6 +220,8 @@ export default {
       },
 
       game: {
+        title: "Cards added to game",
+        buttonText: "Remove Card",
         set: [],
         index: 0,
         subIndex: 0,
@@ -229,52 +234,41 @@ export default {
   },
   mounted() {
     this.getGameCards();
+    this.getCardTypes();
 
-    this.allCards.forEach(card => {
-      delete card._id;
-      let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
-      if (index >= 0) {
-        this.cardTypes[index].array.push(card);
-      }
+    this.eventBus.$on("add-card", display => {
+      this.addToGameDB(display);
+    });
 
-      this.type.allCount = Helpers.trackUniqueProperty(this.type.allCount, card.type);
-      this.type.allArray = Helpers.objToArray(this.type.allCount);
-      if (card.type === "Spell Card") {
-        this.type.spellCount = Helpers.trackUniqueProperty(this.type.spellCount, card.race);
-      }
-      this.type.spellArray = Helpers.objToArray(this.type.spellCount);
+    this.eventBus.$on("delete-card", display => {
+      this.deleteFromGameDB(display);
     });
 
     this.eventBus.$on("card-added", card => {
       this.game.set.push(card);
       this.game.index = this.game.set.length - 1;
-      this.current.index = this.selectCurrentNext(this.current);
+      this.eventBus.$emit("select-next", this.current);
     });
-  },
-  watch: {
-    "current.index"() {
-      this.current.card = this.current.set[this.current.index];
-      this.current.source = this.current.card ? this.current.card.card_images[0].image_url : "";
-    },
 
-    "game.index"() {
-      this.game.card = this.game.set[this.game.index];
-      this.game.source = this.game.card ? this.game.card.card_images[0].image_url : "";
-    }
+    this.eventBus.$on("card-deleted", () => {
+      this.game.set.splice(this.game.index, 1);
+      this.eventBus.$emit("select-prev", this.game);
+    });
   },
   methods: {
     setCurrentCard(set) {
       this.current.set = set;
       this.current.index = 0;
+      this.current.card = this.current.set[this.current.index];
+      this.current.source = this.current.card.card_images[0].image_url;
       while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
         this.current.index++;
+        this.current.card = this.current.set[this.current.index];
+        this.current.source = this.current.card.card_images[0].image_url;
         if (this.current.index === this.current.set.length) {
           this.current.card = {};
           this.current.source = "";
           break;
-        } else {
-          this.current.card = this.current.set[this.current.index];
-          this.current.source = this.current.card.card_images[0].image_url;
         }
       }
       this.current.searchTerm = "";
@@ -289,12 +283,40 @@ export default {
       });
     },
 
+    getCardTypes() {
+      this.allCards.forEach(card => {
+        delete card._id;
+        let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
+        if (index >= 0) {
+          this.cardTypes[index].array.push(card);
+        }
+        this.type.allCount = Helpers.trackUniqueProperty(this.type.allCount, card.type);
+        this.type.allArray = Helpers.objToArray(this.type.allCount);
+        if (card.type === this.type.spell) {
+          this.type.spellCount = Helpers.trackUniqueProperty(this.type.spellCount, card.race);
+        }
+        this.type.spellArray = Helpers.objToArray(this.type.spellCount);
+      });
+    },
+
     updateSetsOfCards(start, end) {
       const subArray = this.cardTypes.slice(start, end);
       subArray.forEach(cardType => {
         DBService.postCards(cardType.array, cardType.route);
       });
       // DBService.postCards(cardTypes[0].array, cardTypes[0].altRoute); // Only use this once to initialise developer db
+    },
+
+    addToGameDB({set, index}) {
+      const card = set[index];
+      DBService.postCard(card, "game_cards")
+      .then(res => this.eventBus.$emit("card-added", res));
+    },
+
+    deleteFromGameDB({set, index}) {
+      const card = set[index];
+      DBService.deleteCard(card._id, "game_cards/")
+      .then(res => this.eventBus.$emit("card-deleted", res));
     }
   }
 }

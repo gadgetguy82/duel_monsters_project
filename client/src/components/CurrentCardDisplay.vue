@@ -1,86 +1,97 @@
 <template lang="html">
-  <div class="current-card-container">
-    <h2>Working on current card</h2>
-    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
-    <img :src="current.source">
-    <div class="button-select-container" v-if="current.source">
-      <button class="develop-button" type="button" v-on:click="current.index = selectCurrentPrev(current)">&#8592;</button>
-      <button class="develop-button" type="button" v-on:click="addToGameDB(current)">Add Card</button>
-      <button class="develop-button" type="button" v-on:click="current.index = selectCurrentNext(current)">&#8594;</button>
+  <div class="card-display-container">
+    <h2>{{ display.title }}</h2>
+    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="display.index = findCard">
+    <img :src="display.source">
+    <div class="button-select-container" v-if="display.source">
+      <button class="develop-button" type="button" v-on:click="display.index = selectPrev(display)">&#8592;</button>
+      <button class="develop-button" type="button" v-on:click="interactWithDB">{{ display.buttonText }}</button>
+      <button class="develop-button" type="button" v-on:click="display.index = selectNext(display)">&#8594;</button>
     </div>
   </div>
 </template>
 
 <script>
-import DBService from '@/services/db_service';
-
 export default {
   name: 'current-card-display',
-  props: ['eventBus', 'current'],
+  props: ['eventBus', 'display', 'gameSet'],
+  mounted() {
+    this.eventBus.$on("select-next", display => {
+      this.display.index = this.selectNext(display);
+    });
+  },
+  watch: {
+    "display.index"() {
+      this.display.card = this.display.set[this.display.index];
+      this.display.source = this.display.card ? this.display.card.card_images[0].image_url : "";
+    },
+  },
   methods: {
-    findCurrentCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.game.set.some(gameCard => card.id === gameCard.id));
+    findCard() {
+      return this.display.set.findIndex(card => card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id));
     },
 
     findCards(set, searchTerm) {
       return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
-    selectCurrentNext({set, index, searchTerm}) {
+    selectNext({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === subSet.length - 1 ? 0 : this.current.subIndex + 1;
-        const subSetCard = subSet[this.current.subIndex];
+        this.display.subIndex = this.display.subIndex === subSet.length - 1 ? 0 : this.display.subIndex + 1;
+        const subSetCard = subSet[this.display.subIndex];
         index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
+        if (this.gameSet.some(card => card.id === subSetCard.id)) {
+          return this.selectNext({set, index, searchTerm});
         } else {
           return index;
         }
       } else {
-        this.current.subIndex = 0;
+        this.display.subIndex = 0;
         index = index === set.length - 1 ? 0 : index + 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
+        if (this.gameSet.some(card => card.id === set[index].id)) {
+          return this.selectNext({set, index, searchTerm});
         } else {
           return index;
         }
       }
     },
 
-    selectCurrentPrev({set, index, searchTerm}) {
+    selectPrev({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === 0 ? subSet.length - 1 : this.current.subIndex - 1;
-        const subSetCard = subSet[this.current.subIndex];
+        this.display.subIndex = this.display.subIndex === 0 ? subSet.length - 1 : this.display.subIndex - 1;
+        const subSetCard = subSet[this.display.subIndex];
         index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
+        if (this.gameSet.some(card => card.id === subSetCard.id)) {
+          return this.selectPrev({set, index, searchTerm});
         } else {
           return index;
         }
       } else {
-        this.current.subIndex = 0;
+        this.display.subIndex = 0;
         index = index === 0 ? set.length - 1 : index - 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
+        if (this.gameSet.some(card => card.id === set[index].id)) {
+          return this.selectPrev({set, index, searchTerm});
         } else {
           return index;
         }
       }
     },
 
-    addToGameDB({set, index}) {
-      const card = set[index];
-      DBService.postCard(card, "game_cards")
-      .then(res => this.eventBus.$emit("card-added", res));
+    interactWithDB() {
+      if (this.display.current) {
+        this.eventBus.$emit("add-card", this.display);
+      } else {
+        this.eventBus.$emit("delete-card", this.display);
+      }
     }
   }
 }
 </script>
 
 <style lang="css" scoped>
-.current-card-container {
+.card-display-container {
   background-color: rgba(255, 255, 255, 0.7);
   display: flex;
   width: 420px;
