@@ -18,7 +18,7 @@
       </div>
       <div class="development-card-container">
         <card-display :eventBus="eventBus" :display="current" :gameSet="game.set"></card-display>
-        <development-info :type="type" :current="current" :game="game"></development-info>
+        <development-info :eventBus="eventBus" :type="type" :current="current" :game="game"></development-info>
         <card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></card-display>
       </div>
       <div class="button-update-container">
@@ -195,6 +195,7 @@ export default {
 
       type: {
         totalCards: this.allCards.length,
+        checkTotal: 0,
         allCount: {},
         allArray: [],
         spellCount: {},
@@ -233,6 +234,8 @@ export default {
     this.getGameCards();
     this.getCardTypes();
 
+    this.type.checkTotal = this.checkSubTotals();
+
     this.eventBus.$on("add-card", display => {
       this.addToGameDB(display);
     });
@@ -252,6 +255,12 @@ export default {
     });
   },
   methods: {
+    checkSubTotals() {
+      let total = 0;
+      this.cardTypes.forEach(cardType => total += cardType.array.length);
+      return total;
+    },
+
     setCurrentCard(set) {
       this.current.set = set;
       this.current.index = 0;
