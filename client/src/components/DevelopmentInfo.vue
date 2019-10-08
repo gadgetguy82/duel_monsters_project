@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="development-info-container">
-    <h2>Cards added in game database</h2>
-    <div class="game-info-container">
+    <h2>Cards info from whole database</h2>
+    <div class="db-info-container">
       <p>Total of all cards: {{ type.totalCards }} - Check total: {{ type.checkTotal }}</p>
       <div class="list-container">
         <div class="card-type">
@@ -17,19 +17,23 @@
           </ul>
         </div>
       </div>
-      <p>Total cards in game database: {{ game.set.length }}</p>
-      <div class="existing-container">
-        <h4>Card attribute:</h4>
-        <input type="text" value="" v-model="gameAttribute">
-        <h4>Attribute value</h4>
-        <input type="text" value="" v-model="gameValue">
-      </div>
     </div>
     <hr>
-    <h2>Cards not in game database</h2>
+    <h2>Cards added in game collection</h2>
+    <div class="game-info-container">
+      <p>Total cards in game collection: {{ game.set.length }}</p>
+    </div>
+    <div class="existing-container">
+      <h4>Card attribute:</h4>
+      <input type="text" value="" v-model="gameAttribute">
+      <h4>Attribute value</h4>
+      <input type="text" value="" v-model="gameValue">
+    </div>
+    <hr>
+    <h2>Cards not in game collection</h2>
     <div class="current-info-container" v-if="current.card">
       <p>Current set is {{ current.card.type }}</p>
-      <p>Total cards in current set database: {{ current.set.length }}</p>
+      <p>Total cards in current set collection: {{ current.set.length }}</p>
       <h4>Description:</h4>
       <p>{{ current.card.desc }}</p>
     </div>
