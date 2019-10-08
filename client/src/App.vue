@@ -1,12 +1,16 @@
 <template lang="html">
-  <div id='app'>
-    <nav>
+  <div id="app">
+    <nav id="nav-bar">
       <router-link :to="{ name: 'home' }"> HOME </router-link>
-      <router-link :to="{ name: 'battlefield' }" v-if="normalMonsterCards.length > 0"> BATTLEFIELD </router-link>
+      <router-link :to="{ name: 'game-board' }" v-if="normalMonsterCards.length > 0"> BOARD </router-link>
       <router-link :to="{ name: 'store' }"> STORE </router-link>
+      <router-link :to="{ name: 'about' }"> ABOUT </router-link>
+      <div class="right">
+        <router-link :to="{ name: 'develop' }"> DEVELOPMENT </router-link>
+      </div>
     </nav>
     <div class="view">
-      <router-view id='view' :normalCards="normalMonsterCards"></router-view>
+      <router-view id='view' :allCards="allDatabaseCards" :normalMonsters="normalMonsterCards"></router-view>
     </div>
   </div>
 </template>
@@ -23,13 +27,17 @@ export default {
     }
   },
   mounted() {
-    DBService.getAllCards()
-    .then(cards => { this.allDatabaseCards = cards
+    DBService.getAllCards("cards")
+    .then(cards => {
+      this.allDatabaseCards = cards;
       this.allDatabaseCards.forEach((card) => {
         if (card.type === "Normal Monster") {
+          delete card._id;
           this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");
           this.$set(card, "initial", true);
+          this.$set(card, "player", "");
+          this.$set(card, "change", false);
           this.normalMonsterCards.push(card);
         }
       });
@@ -47,9 +55,11 @@ export default {
   background-position: center;
 }
 
-nav {
+.nav-bar {
   margin: 0;
   padding: 0;
+  display: flex;
+  flex-direction: row;
 }
 
 a {
@@ -58,5 +68,9 @@ a {
   text-decoration: none;
   color: rgb(100, 250, 140);
   font-weight: bold;
+}
+
+.right {
+  float: right;
 }
 </style>

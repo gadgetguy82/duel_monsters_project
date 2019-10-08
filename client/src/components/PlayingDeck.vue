@@ -11,35 +11,44 @@ import GameLogic from '@/services/game_logic.js';
 
 export default {
   name: 'playing-deck',
-  props: ['deck', 'gameState', 'boardData'],
+  props: ['deck', 'gameState', 'playerData'],
   data() {
     return {
       canDraw: false
     }
   },
   mounted() {
-    this.boardData.eventBus.$on("draw-max", () => {
+    this.playerData.eventBus.$on("draw-max", () => {
       this.canDraw = false;
-      this.boardData.firstTurn = false;
     });
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === "Draw") {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData)) {
         this.canDraw = true;
-        if (GameLogic.checkTurn(this.boardData, this.gameState) && this.deck.length === 0) {
+        if (this.deck.length === 0) {
           this.canDraw = false;
-          this.boardData.eventBus.$emit('defeat', this.boardData.player);
+          this.playerData.eventBus.$emit('defeat', this.playerData.player);
         }
+
+        if (this.playerData.firstTurn) {
+          for (let count = 0; count < this.playerData.firstDrawAmount; count++) {
+            this.drawCard();
+          }
+        } else {
+          this.drawCard();
+        }
+      } else if (GameLogic.checkStandbyPhase(this.gameState, this.playerData)) {
+        this.canDraw = false;
       }
     }
   },
   methods: {
     drawCard() {
-      if (GameLogic.checkTurn(this.boardData, this.gameState) && this.canDraw) {
+      if (this.canDraw) {
         const card = this.deck.pop();
-        this.boardData.eventBus.$emit('draw-card', card);
-        if (!this.boardData.firstTurn) {
+        this.playerData.eventBus.$emit('draw-card', card);
+        if (!this.playerData.firstTurn) {
           this.canDraw = false;
         }
       }

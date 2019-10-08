@@ -16,7 +16,6 @@ const io = socketIO(server);
 app.set('port', 5000);
 app.use(express.static('../client/public'));
 
-// Starts the server.
 server.listen(5000, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
@@ -61,13 +60,82 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
     console.log(error);
   }
   const db = client.db('duel_monsters_game');
+
   const cardsCollection = db.collection('cards');
-  const playerDeckCollection = db.collection('player_deck');
   const cardsRouter = createRouter(cardsCollection);
-  app.use('/api/duel_monsters_game', cardsRouter);
-  const storeCardsCollection = db.collection('store_cards');
-  const storeRouter = createRouter(storeCardsCollection);
-  app.use('/api/duel_monsters_game', storeRouter);
+  app.use('/api/duel_monsters_game/cards', cardsRouter);
+
+  const normalMonsterCardsCollection = db.collection('normal_monsters');
+  const normalMonsterCardsRouter = createRouter(normalMonsterCardsCollection);
+  app.use('/api/duel_monsters_game/normal_monsters', normalMonsterCardsRouter);
+
+  const effectMonstersCollection = db.collection('effect_monsters');
+  const effectMonstersRouter = createRouter(effectMonstersCollection);
+  app.use('/api/duel_monsters_game/effect_monsters', effectMonstersRouter);
+
+  const fusionMonstersCollection = db.collection('fusion_monsters');
+  const fusionMonstersRouter = createRouter(fusionMonstersCollection);
+  app.use('/api/duel_monsters_game/fusion_monsters', fusionMonstersRouter);
+
+  const geminiMonstersCollection = db.collection('gemini_monsters');
+  const geminiMonstersRouter = createRouter(geminiMonstersCollection);
+  app.use('/api/duel_monsters_game/gemini_monsters', geminiMonstersRouter);
+
+  const linkMonstersCollection = db.collection('link_monsters');
+  const linkMonstersRouter = createRouter(linkMonstersCollection);
+  app.use('/api/duel_monsters_game/link_monsters', linkMonstersRouter);
+
+  const pendulumMonstersCollection = db.collection('pendulum_monsters');
+  const pendulumMonstersRouter = createRouter(pendulumMonstersCollection);
+  app.use('/api/duel_monsters_game/pendulum_monsters', pendulumMonstersRouter);
+
+  const ritualMonstersCollection = db.collection('ritual_monsters');
+  const ritualMonstersRouter = createRouter(ritualMonstersCollection);
+  app.use('/api/duel_monsters_game/ritual_monsters', ritualMonstersRouter);
+
+  const spiritMonstersCollection = db.collection('spirit_monsters');
+  const spiritMonstersRouter = createRouter(spiritMonstersCollection);
+  app.use('/api/duel_monsters_game/spirit_monsters', spiritMonstersRouter);
+
+  const synchroMonstersCollection = db.collection('synchro_monsters');
+  const synchroMonstersRouter = createRouter(synchroMonstersCollection);
+  app.use('/api/duel_monsters_game/synchro_monsters', synchroMonstersRouter);
+
+  const toonMonstersCollection = db.collection('toon_monsters');
+  const toonMonstersRouter = createRouter(toonMonstersCollection);
+  app.use('/api/duel_monsters_game/toon_monsters', toonMonstersRouter);
+
+  const tunerMonstersCollection = db.collection('tuner_monsters');
+  const tunerMonstersRouter = createRouter(tunerMonstersCollection);
+  app.use('/api/duel_monsters_game/tuner_monsters', tunerMonstersRouter);
+
+  const unionMonstersCollection = db.collection('union_monsters');
+  const unionMonstersRouter = createRouter(unionMonstersCollection);
+  app.use('/api/duel_monsters_game/union_monsters', unionMonstersRouter);
+
+  const xyzMonstersCollection = db.collection('xyz_monsters');
+  const xyzMonstersRouter = createRouter(xyzMonstersCollection);
+  app.use('/api/duel_monsters_game/xyz_monsters', xyzMonstersRouter);
+
+  const tokenCardsCollection = db.collection('token_cards');
+  const tokenCardsRouter = createRouter(tokenCardsCollection);
+  app.use('/api/duel_monsters_game/token_cards', tokenCardsRouter);
+
+  const skillCardsCollection = db.collection('skill_cards');
+  const skillCardsRouter = createRouter(skillCardsCollection);
+  app.use('/api/duel_monsters_game/skill_cards', skillCardsRouter);
+
+  const spellCardsCollection = db.collection('spell_cards');
+  const spellCardsRouter = createRouter(spellCardsCollection);
+  app.use('/api/duel_monsters_game/spell_cards', spellCardsRouter);
+
+  const trapCardsCollection = db.collection('trap_cards');
+  const trapCardsRouter = createRouter(trapCardsCollection);
+  app.use('/api/duel_monsters_game/trap_cards', trapCardsRouter);
+
+  const gameCardsCollection = db.collection('game_cards');
+  const gameCardsRouter = createRouter(gameCardsCollection);
+  app.use('/api/duel_monsters_game/game_cards', gameCardsRouter);
 });
 
 let port = process.env.PORT;

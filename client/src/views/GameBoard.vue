@@ -1,22 +1,22 @@
 <template lang="html">
-  <div id="battlefield">
+  <div id="game-board">
     <div class="board-container top-board">
-      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="yellowPlayerData"></player-board>
+      <player-board :normalMonsters="normalMonsters" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
-      <info-box></info-box>
+      <info-box :gameState="gameState"></info-box>
       <div class="button-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
         <div class="btn">
-          <phase-button v-if="gameState.turn === 'one'" v-on:click.native="changePhaseTurn" :text="gameState.phase"></phase-button>
+          <phase-button v-if="gameState.turn === 'one'" :gameState="gameState" :playerData="yellowPlayerData"></phase-button>
         </div>
         <h2 class="hide"></h2>
       </div>
-      <battle-result></battle-result>
+      <battle-field :gameState="gameState"></battle-field>
       <div class="button-container">
         <h2 class="hide"></h2>
         <div class="btn">
-          <phase-button-inverted v-if="gameState.turn === 'two'" v-on:click.native="changePhaseTurn" :text="gameState.phase" class="player-2-button"></phase-button-inverted>
+          <phase-button v-if="gameState.turn === 'two'" :gameState="gameState" :playerData="bluePlayerData"></phase-button>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
@@ -25,7 +25,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalCards="normalCards" :gameState="gameState" :boardData="bluePlayerData"></player-board>
+      <player-board :normalMonsters="normalMonsters" :gameState="gameState" :playerData="bluePlayerData"></player-board>
     </div>
   </div>
 </template>
@@ -33,24 +33,21 @@
 <script>
 import AIBoard from '@/components/AiBoard.vue';
 import PlayerBoard from '@/components/PlayerBoard.vue';
-import BattleResult from '@/components/BattleResult.vue';
+import Battlefield from '@/components/Battlefield.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
-import PhaseButtonInverted from '@/components/PhaseButtonInverted.vue';
 import InfoBox from '@/components/InfoBox.vue';
-import GameLogic from '@/services/game_logic.js';
-import { eventBus1, eventBus2 } from '@/main.js';
+import { eventBus1, eventBus2, eventBusInfo } from '@/main.js';
 
 export default {
-  name: "battlefield",
-  props: ['normalCards'],
+  name: "game-board",
+  props: ['normalMonsters'],
   components: {
     "player-board": PlayerBoard,
     "ai-board": AIBoard,
-    "battle-result" : BattleResult,
+    "battle-field" : Battlefield,
     "win-lose": WinLose,
     "phase-button": PhaseButton,
-    "phase-button-inverted": PhaseButtonInverted,
     "info-box": InfoBox
   },
   data() {
@@ -58,6 +55,8 @@ export default {
       gameState: {
         turn: 'one',
         phase: "Start",
+        eventBus: eventBusInfo,
+        skipBattle: true
       },
       yellowPlayerData: {
         player: 'one',
@@ -70,16 +69,6 @@ export default {
         eventBus: eventBus2,
         firstTurn: true,
         firstDrawAmount: 6
-      }
-    }
-  },
-  methods: {
-    changePhaseTurn() {
-      if (this.gameState.phase === "End") {
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
-        this.gameState.turn = GameLogic.changeTurn(this.gameState.turn);
-      } else {
-        this.gameState.phase = GameLogic.changePhase(this.gameState.phase);
       }
     }
   }

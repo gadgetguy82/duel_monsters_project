@@ -1,13 +1,13 @@
 <template lang="html">
-  <div id='home'>
+  <div id="home">
     <div id="background">
       <h1>Duel Monsters Card Game</h1>
       <p>Select 'update database' for the most current card collection</p>
-      <button v-on:click='fetchData'>Update Database</button>
+      <game-button :text="'Update Database'" :colour="'blue'" v-on:click.native='fetchData'></game-button>
       <h2>--How to Play--</h2>
       <ul>
         <li>Click the update database button above to store a local copy of the cards</li>
-        <li>Player one starts first, click on the Start button to begin player one's turn</li>
+        <li>Player one starts first, click on the Start button to begin</li>
         <li>Clicking the button changes the phases during your turn</li>
         <li>In the draw phase player one can start drawing cards from their playing deck</li>
         <li>You can skip the standby phase for now as effects/spells/traps are not in game yet</li>
@@ -18,19 +18,24 @@
         <li>In the second main phase you can summon more monsters out to the monster zone</li>
         <li>Click the end phase to end your turn</li>
         <li>Pass play to your opponent</li>
+        <li>Play until someone loses. Once a player’s Life Points reach zero, they lose the duel.</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button><router-link :to="{ name: 'battlefield'}" v-if="normalCards.length > 0"> BEGIN GAME!</router-link></button>
+      <button v-if="normalMonsters.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
     </div>
   </div>
 </template>
 
 <script>
+import GameButton from '@/components/GameButton.vue';
 import DBService from '@/services/db_service';
 
 export default {
   name: 'home',
-  props: ['normalCards'],
+  props: ['normalMonsters'],
+  components: {
+    "game-button": GameButton
+  },
   data() {
     return {
       allCards: []
@@ -41,7 +46,7 @@ export default {
       fetch('https://db.ygoprodeck.com/api/v5/cardinfo.php')
       .then(res => res.json()).then(cardData => {
         this.allCards = cardData;
-        DBService.postCards(this.allCards);
+        DBService.postCards(this.allCards, "cards/");
       });
     }
   }
@@ -69,10 +74,24 @@ p, li {
   list-style-type: decimal;
 }
 
-button {
-  margin: 5px;
-  font-size: 16px;
-  border-radius: 5px;
+a {
   text-decoration: none;
+  background-color: #FF0000;
+  color: #FFFFFF;
+  text-shadow: 2px 2px 4px #000000;
+}
+
+button {
+  border: solid;
+  border-width: 1px;
+  border-radius: 5px;
+  border-color: #FFFFFF;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  box-shadow: 2px 2px #FFFFFF;
+  background-color: #FF0000;
+  padding-top: 2px;
 }
 </style>

@@ -1,31 +1,31 @@
 <template lang="html">
-  <div class="player-board-container" :class="{'top': boardData.player === 'one', 'bottom': boardData.player === 'two'}">
+  <div class="player-board-container" :class="{'top': playerData.player === 'one', 'bottom': playerData.player === 'two'}">
     <div class="first col">
       <div class="top-row">
-        <playing-hand :gameState="gameState" :boardData="boardData"></playing-hand>
+        <playing-hand :gameState="gameState" :playerData="playerData"></playing-hand>
       </div>
       <div class="bottom-row deck-container">
-        <playing-deck :deck="deck" :gameState="gameState" :boardData="boardData"></playing-deck>
+        <playing-deck :deck="deck" :gameState="gameState" :playerData="playerData"></playing-deck>
         <extra-deck></extra-deck>
         <side-deck></side-deck>
       </div>
     </div>
     <div class="second col">
       <div class="top-row">
-        <spell-trap-zone :gameState="gameState" :boardData="boardData"></spell-trap-zone>
+        <spell-trap-zone :gameState="gameState" :playerData="playerData"></spell-trap-zone>
         <field-zone></field-zone>
       </div>
       <div class="bottom-row">
-        <monster-zone :gameState="gameState" :boardData="boardData"></monster-zone>
+        <monster-zone :gameState="gameState" :playerData="playerData"></monster-zone>
         <extra-monster-zone></extra-monster-zone>
       </div>
     </div>
     <div class="last col">
       <div class="top-row">
-        <life-points :boardData="boardData"></life-points>
+        <life-points :playerData="playerData"></life-points>
       </div>
       <div class="bottom-row">
-        <graveyard-deck :boardData="boardData"></graveyard-deck>
+        <graveyard-deck :playerData="playerData"></graveyard-deck>
       </div>
     </div>
   </div>
@@ -45,7 +45,7 @@ import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'player-board',
-  props: ['normalCards', 'gameState', 'boardData'],
+  props: ['normalMonsters', 'gameState', 'playerData'],
   components: {
     "playing-deck": PlayingDeck,
     "extra-deck": ExtraDeck,
@@ -69,8 +69,9 @@ export default {
   methods: {
     randomizeCards() {
       for (let i = 0; i < 40; i++) {
-        const index = Math.floor(Math.random() * this.normalCards.length);
-        const chosenCardCopy = Object.assign({}, this.normalCards[index]);
+        const index = Math.floor(Math.random() * this.normalMonsters.length);
+        const chosenCardCopy = Object.assign({}, this.normalMonsters[index]);
+        chosenCardCopy.player = this.playerData.player;
         this.deck.push(chosenCardCopy);
       }
     }

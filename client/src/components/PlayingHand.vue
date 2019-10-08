@@ -1,96 +1,130 @@
 <template lang="html">
   <div class="playing-hand-container">
     <div class="playing-hand">
-      <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summon(card)"></playing-card>
+      <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summonOrDiscard(card)"></playing-card>
     </div>
     <div class="button-container">
-      <button v-if="canChoosePosition" v-on:click="setAttack(summoningCard)">Attack</button>
-      <button v-if="canChoosePosition" v-on:click="setDefend(summoningCard)">Defend</button>
+      <game-button v-if="canChoosePosition" v-on:click.native="setAttack(summoningCard)" :text="'Attack'" :colour="'red'"></game-button>
+      <game-button v-if="canChoosePosition" v-on:click.native="setDefend(summoningCard)" :text="'Defend'" :colour="'blue'"></game-button>
     </div>
   </div>
 </template>
 
 <script>
-import Card from '@/components/Card';
+import Card from '@/components/Card.vue';
+import GameButton from '@/components/GameButton.vue';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'playing-hand',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
-    "playing-card": Card
+    "playing-card": Card,
+    "game-button": GameButton
   },
   data() {
     return {
       playerHand: [],
-      monsterZoneHasSpace: true,
+      monsterZone: {
+        spaces: Constants.MAX_SPACES,
+        tributes: Constants.MAX_SPACES
+      },
+      canNormalSummon: false,
       summoningCard: {},
       canChoosePosition: false,
-      tributeData: {}
+      tributeData: {},
+      canDiscard: false
     }
   },
   mounted() {
-    this.boardData.eventBus.$on("draw-card", card => {
+    this.playerData.eventBus.$on("draw-card", card => {
       card.hidden = false;
       this.playerHand.push(card);
     });
 
-    this.boardData.eventBus.$on("monster-zone-spaces", spaces => this.monsterZoneHasSpace = spaces);
+    this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
 
-    this.boardData.eventBus.$on("summon-success", card => {
+    this.playerData.eventBus.$on("summon-success", card => {
       GameLogic.removeCard(card, this.playerHand);
       this.canChoosePosition = false;
+      this.resetHand();
+      this.canNormalSummon = false
     });
   },
   watch: {
     "gameState.phase"() {
-      if ((GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Draw") || (!GameLogic.checkTurn(this.boardData, this.gameState) && this.gameState.phase === "Start")) {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData) || GameLogic.checkChangeTurn(this.gameState, this.playerData)) {
         for (let card of this.playerHand) {
           card.hidden = !card.hidden;
+        }
+        this.canNormalSummon = true;
+      } else if (GameLogic.checkBattlePhase(this.gameState, this.playerData)) {
+        this.canChoosePosition = false;
+        this.resetHand();
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
+        this.canChoosePosition = false;
+        this.resetHand();
+        if (this.playerHand.length > Constants.MAX_CARDS) {
+          this.playerData.eventBus.$emit("hand-extra-cards");
+          this.canDiscard = true;
         }
       }
     },
 
     playerHand() {
-      if (this.boardData.firstTurn && this.playerHand.length === this.boardData.firstDrawAmount) {
-        this.boardData.eventBus.$emit("draw-max");
+      if (this.playerData.firstTurn && this.playerHand.length === this.playerData.firstDrawAmount) {
+        this.playerData.eventBus.$emit("draw-max");
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData) && this.playerHand.length < 7) {
+        this.playerData.eventBus.$emit("hand-no-extra-cards");
+        this.canDiscard = false;
       }
     }
   },
   methods: {
-    summon(card) {
-      if (GameLogic.checkMainPhase(this.boardData, this.gameState)) {
-        this.summoningCard = card;
-        if (this.monsterZoneHasSpace && parseInt(card.level) < 5) {
-          this.canChoosePosition = true;
-          this.boardData.eventBus.$emit("normal-summon", this.summoningCard);
-          this.tributeData = {};
-        } else if (4 < parseInt(card.level) && parseInt(card.level) < 7) {
-          this.canChoosePosition = true;
-          this.tributeData.summoningCard = this.summoningCard;
-          this.tributeData.amount = 1;
-          this.tributeData.tributes = [];
-          this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
-          this.tributeData = {};
-        } else if (parseInt(card.level) >= 7) {
-          this.canChoosePosition = true;
-          this.tributeData.summoningCard = this.summoningCard;
-          this.tributeData.amount = 2;
-          this.tributeData.tributes = [];
-          this.boardData.eventBus.$emit("tribute-summon", this.tributeData);
-          this.tributeData = {};
+    summonOrDiscard(card) {
+      if (this.canNormalSummon) {
+        if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+          this.summoningCard = card;
+          if (this.monsterZone.spaces > 0 && parseInt(card.level) < 5) {
+            this.canChoosePosition = true;
+            this.playerData.eventBus.$emit("normal-summon", this.summoningCard);
+            this.tributeData = {};
+          } else if (Constants.MAX_SPACES - this.monsterZone.tributes > 0 && 4 < parseInt(card.level) && parseInt(card.level) < 7) {
+            this.tributeSummon(1);
+          } else if (Constants.MAX_SPACES - this.monsterZone.tributes > 1 && parseInt(card.level) > 6) {
+            this.tributeSummon(2);
+          }
         }
+      } else if (this.canDiscard) {
+        this.playerData.eventBus.$emit("discard", card);
+        GameLogic.removeCard(card, this.playerHand);
       }
     },
 
+    tributeSummon(numberOfTributes) {
+      this.canChoosePosition = true;
+      this.tributeData.summoningCard = this.summoningCard;
+      this.tributeData.amount = numberOfTributes;
+      this.tributeData.tributes = [];
+      this.playerData.eventBus.$emit("tribute-summon", this.tributeData);
+      this.tributeData = {};
+    },
+
     setAttack(card) {
-      card.position = "atk";
+      card.position = Constants.ATTACK;
       card.hidden = false;
     },
 
     setDefend(card) {
-      card.position = "def";
+      card.position = Constants.DEFEND;
       card.hidden = true;
+    },
+
+    resetHand() {
+      for (let card of this.playerHand) {
+        this.setAttack(card);
+      }
     }
   }
 }

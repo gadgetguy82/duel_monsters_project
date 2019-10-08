@@ -1,10 +1,10 @@
 <template lang="html">
-  <div class="monster-zone-container" :class= "{ 'yellow' : boardData.player === 'one', 'blue' : boardData.player === 'two' }" v-on:click="checkMonsterZone">
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
-    <monster-space :gameState="gameState" :boardData="boardData"></monster-space>
+  <div class="monster-zone-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }" v-on:click="checkMonsterZone">
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
+    <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
   </div>
 </template>
 
@@ -12,58 +12,69 @@
 import MonsterCardSpace from '@/components/MonsterCardSpace.vue';
 import Card from '@/components/Card';
 import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
 
 export default {
   name: 'monster-zone',
-  props: ['gameState', 'boardData'],
+  props: ['gameState', 'playerData'],
   components: {
     "playing-card" : Card,
     "monster-space": MonsterCardSpace
   },
-  data(){
+  computed: {
+
+  },
+  data() {
     return {
-      monsterZoneSpaces: 5,
+      spaces: Constants.MAX_SPACES,
+      notForTribute: 0,
       noCard: {
         name: "null_card",
         atk: 0,
         def: 0,
         card_images: [{ img_url_small: "" }],
-        position: "atk"
-      },
-      summoningCard: null,
-      tributeAmount: 0,
-      tributes: []
+        position: Constants.ATTACK
+      }
     }
   },
-  mounted(){
-    this.boardData.eventBus.$on("summon-success", () => {
-      this.monsterZoneSpaces--;
+  mounted() {
+    this.playerData.eventBus.$on("summon-success", () => {
+      this.spaces--;
+      this.notForTribute++;
     });
 
-    this.boardData.eventBus.$on("tribute-summon", tributeData => {
-      this.summoningCard = tributeData.summoningCard;
-      this.tributeAmount = tributeData.amount;
+    this.playerData.eventBus.$on("tribute-selected", () => {
+      this.spaces++;
     });
 
-    this.boardData.eventBus.$on("tributes-selected", tributes => {
-      this.monsterZoneSpaces += tributes.length;
-    });
-
-    this.boardData.eventBus.$on("lose", () => {
-      if (this.monsterZoneSpaces < 5) {
-        this.monsterZoneSpaces++;
+    this.playerData.eventBus.$on("lose", () => {
+      if (this.spaces < Constants.MAX_SPACES) {
+        this.spaces++;
       }
     });
   },
   watch: {
-    monsterZoneSpaces() {
-      this.boardData.eventBus.$emit("monster-zone-spaces", this.monsterZoneSpaces > 0);
+    "gameState.phase"() {
+      if (GameLogic.checkDrawPhase(this.gameState, this.playerData)) {
+        this.notForTribute = 0;
+        this.playerData.eventBus.$emit("monster-zone-spaces", {
+          spaces: this.spaces,
+          tributes: this.spaces + this.notForTribute
+        });
+      }
+    },
+
+    spaces() {
+      this.playerData.eventBus.$emit("monster-zone-spaces", {
+        spaces: this.spaces,
+        tributes: this.spaces + this.notForTribute
+      });
     }
   },
   methods: {
     checkMonsterZone() {
-      if (GameLogic.checkBattlePhase(this.boardData, this.gameState) && this.monsterZoneSpaces === 5 ) {
-        this.boardData.eventBus.$emit("battle-select-monster", this.noCard);
+      if (GameLogic.checkTarget(this.gameState, this.playerData) && this.spaces === Constants.MAX_SPACES) {
+        this.gameState.eventBus.$emit("battle-select-target", {card: this.noCard, player: this.playerData.player});
       }
     }
   }

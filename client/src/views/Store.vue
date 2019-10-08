@@ -18,6 +18,7 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'store',
+  props: ['normalMonsters'],
   data() {
     return {
       allStoreCards: [],
@@ -25,22 +26,16 @@ export default {
     }
   },
   mounted() {
-    DBService.getAllCards()
-    .then(cards => { this.allStoreCards = cards
-      this.allStoreCards.forEach((card) => {
-        if ((card.type === "Normal Monster") && (this.normalStoreCards.length < 100)) {
-          this.normalStoreCards.push(card)
-        }
-      });
-    });
+    this.normalStoreCards = this.normalMonsters.slice(0, 108);
   }
 }
 </script>
 
 <style lang="css" scoped>
-/* #store-container {
-  height: 809px;
-} */
+h1 {
+  margin-top: 0;
+  background-color: rgba(255, 255, 255, 0.7);
+}
 
 .store-cards-container {
  display: flex;
