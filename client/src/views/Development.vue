@@ -58,11 +58,11 @@
         </div>
       </div>
       <div class="button-update-container">
-        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateFirstSetOfCards"></game-button>
-        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSecondSetOfCards"></game-button>
-        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateThirdSetOfCards"></game-button>
-        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateFourthSetOfCards"></game-button>
-        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateFifthSetOfCards"></game-button>
+        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
+        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(2, 5)"></game-button>
+        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 9)"></game-button>
+        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(9, 13)"></game-button>
+        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(13, 17)"></game-button>
       </div>
     </div>
   </div>
@@ -83,7 +83,7 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.spells = this.cardTypes[14].array === optionValue;
+        this.spells = this.cardTypes[this.spellCardIndex].array === optionValue;
         this.setCurrentCard(optionValue);
       }
     },
@@ -92,7 +92,7 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.setCurrentCard(this.cardTypes[14].array.filter(card => card.race === optionValue));
+        this.setCurrentCard(this.cardTypes[this.spellCardIndex].array.filter(card => card.race === optionValue));
       }
     }
   },
@@ -103,6 +103,14 @@ export default {
     return {
       totalCards: this.allCards.length,
       cardTypes: [
+        {
+          name: "normalMonsters",
+          array: [],
+          type: "Normal Monsters",
+          cardTypesList: ["Normal Monster"],
+          route: "normal_monsters/",
+          altRoute: "game_cards/"
+        },
         {
           name: "effectMonsters",
           array: [],
@@ -206,7 +214,8 @@ export default {
           array: [],
           type: "Spell Cards",
           cardTypesList: ["Spell Card"],
-          route: "spell_cards/"
+          route: "spell_cards/",
+          spellTypes: ["Continuous", "Equip", "Field", "Normal", "Quick-Play", "Ritual"]
         },
         {
           name: "trapCards",
@@ -222,6 +231,7 @@ export default {
       spellTypeCount: {},
       spellTypeCountArray: [],
       spells: false,
+      spellCardIndex: 15,
 
       current: {
         set: [],
@@ -249,7 +259,7 @@ export default {
       delete card._id;
       let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
       if (index >= 0) {
-        this.cardTypes[index].array.push(card)
+        this.cardTypes[index].array.push(card);
       }
 
       this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
@@ -397,114 +407,15 @@ export default {
       });
     },
 
-    updateFirstSetOfCards() {
-      this.updateGameCards(); // Only use this once to initialise developer db
-      this.updateNormalMonsterCards();
-      this.updateEffectMonsterCards();
-    },
-
-    updateSecondSetOfCards() {
-      this.updateFusionMonsterCards();
-      this.updateGeminiMonsterCards();
-      this.updateLinkMonsterCards();
-    },
-
-    updateThirdSetOfCards() {
-      this.updatePendulumMonsterCards();
-      this.updateRitualMonsterCards();
-      this.updateSpiritMonsterCards();
-      this.updateSynchroMonsterCards();
-    },
-
-    updateFourthSetOfCards() {
-      this.updateToonMonsterCards();
-      this.updateTunerMonsterCards();
-      this.updateUnionMonsterCards();
-      this.updateXyzMonsterCards();
-    },
-
-    updateFifthSetOfCards() {
-      this.updateTokenCards();
-      this.updateSkillCards();
-      this.updateSpellCards();
-      this.updateTrapCards();
+    updateSetsOfCards(start, end) {
+      const subArray = this.cardTypes.slice(start, end);
+      subArray.forEach(cardType => this.updateCards(cardType));
+      // this.updateCards({cardTypes[0].array, cardTypes[0].altRoute}); // Only use this once to initialise developer db
     },
 
     updateCards(cardSet) {
       DBService.postCards(cardSet.array, cardSet.route);
-    },
-
-    updateGameCards() {
-      DBService.postCards(this.normalMonsters, "game_cards/all");
-    },
-
-    updateNormalMonsterCards() {
-      DBService.postCards(this.normalMonsters, "normal_monsters/all");
-    },
-
-    updateEffectMonsterCards() {
-      DBService.postCards(this.effectMonsters, "effect_monsters/all");
-    },
-
-    updateFusionMonsterCards() {
-      DBService.postCards(this.fusionMonsters, "fusion_monsters/all");
-    },
-
-    updateGeminiMonsterCards() {
-      DBService.postCards(this.geminiMonsters, "gemini_monsters/all");
-    },
-
-    updateLinkMonsterCards() {
-      DBService.postCards(this.linkMonsters, "link_monsters/all");
-    },
-
-    updatePendulumMonsterCards() {
-      DBService.postCards(this.pendulumMonsters, "pendulum_monsters/all");
-    },
-
-    updateRitualMonsterCards() {
-      DBService.postCards(this.ritualMonsters, "ritual_monsters/all");
-    },
-
-    updateSpiritMonsterCards() {
-      DBService.postCards(this.spiritMonsters, "spirit_monsters/all");
-    },
-
-    updateSynchroMonsterCards() {
-      DBService.postCards(this.synchroMonsters, "synchro_monsters/all");
-    },
-
-    updateToonMonsterCards() {
-      DBService.postCards(this.toonMonsters, "toon_monsters/all");
-    },
-
-    updateTunerMonsterCards() {
-      DBService.postCards(this.tunerMonsters, "tuner_monsters/all");
-    },
-
-    updateUnionMonsterCards() {
-      DBService.postCards(this.unionMonsters, "union_monsters/all");
-    },
-
-    updateXyzMonsterCards() {
-      DBService.postCards(this.xyzMonsters, "xyz_monsters/all");
-    },
-
-    updateTokenCards() {
-      DBService.postCards(this.tokenCards, "token_cards/all");
-    },
-
-    updateSkillCards() {
-      DBService.postCards(this.skillCards, "skill_cards/all");
-    },
-
-    updateSpellCards() {
-      DBService.postCards(this.spellCards, "spell_cards/all");
-    },
-
-    updateTrapCards() {
-      DBService.postCards(this.trapCards, "trap_cards/all");
-    },
+    }
   }
 }
 </script>
