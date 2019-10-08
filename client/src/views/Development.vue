@@ -37,13 +37,12 @@
 import CardDisplay from '@/components/CardDisplay.vue';
 import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
 import GameButton from '@/components/GameButton.vue';
-import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
 import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'development',
-  props: ['allCards'],
+  props: ['allCards', 'eventBus'],
   components: {
     "card-display": CardDisplay,
     "development-info": DevelopmentInfo,
@@ -70,7 +69,6 @@ export default {
   },
   data() {
     return {
-      eventBus: eventBusInfo,
       cardTypes: [
         {
           name: "normalMonsters",

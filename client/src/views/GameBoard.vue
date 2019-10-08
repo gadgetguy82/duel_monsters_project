@@ -37,11 +37,11 @@ import Battlefield from '@/components/Battlefield.vue';
 import WinLose from '@/components/WinLose.vue';
 import PhaseButton from '@/components/PhaseButton.vue';
 import InfoBox from '@/components/InfoBox.vue';
-import { eventBus1, eventBus2, eventBusInfo } from '@/main.js';
+import { eventBus1, eventBus2 } from '@/main.js';
 
 export default {
   name: "game-board",
-  props: ['gameCards'],
+  props: ['gameCards', 'eventBus'],
   components: {
     "player-board": PlayerBoard,
     "ai-board": AIBoard,
@@ -55,7 +55,7 @@ export default {
       gameState: {
         turn: 'one',
         phase: "Start",
-        eventBus: eventBusInfo,
+        eventBus: this.eventBus,
         skipBattle: true
       },
       yellowPlayerData: {

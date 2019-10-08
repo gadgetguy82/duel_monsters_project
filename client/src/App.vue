@@ -10,44 +10,56 @@
       </div>
     </nav>
     <div class="view">
-      <router-view id='view' :allCards="allCards" :gameCards="gameCards" :normalMonsters="normalMonsters"></router-view>
+      <router-view id='view' :allCards="allCards" :gameCards="gameCards" :normalMonsters="normalMonsters" :eventBus="eventBus"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import DBService from '@/services/db_service'
+import { eventBusInfo } from '@/main.js';
+import DBService from '@/services/db_service';
 
 export default {
   name: 'app',
   data(){
     return {
+      eventBus: eventBusInfo,
       allCards: [],
       gameCards: [],
       normalMonsters: []
     }
   },
   mounted() {
-    DBService.getAllCards("cards/")
-    .then(cards => {
-      this.allCards = cards;
-      this.allCards.forEach((card) => {
-        this.$set(card, "hidden", true);
-        this.$set(card, "initial", true);
-        this.$set(card, "player", "");
-        if (card.type.includes("Monster")) {
-          delete card._id;
-          this.$set(card, "position", "atk");
-          this.$set(card, "change", false);
-          if (card.type.includes("Normal Monster")) {
-            this.normalMonsters.push(card);
-          }
-        }
-      });
-    });
+    this.loadAllCards();
+    this.loadGameCards();
 
-    DBService.getAllCards("game_cards/")
-    .then(cards => this.gameCards = cards);
+    this.eventBus.$on("reload-game-cards", () => this.loadGameCards());
+  },
+  methods: {
+    loadAllCards() {
+      DBService.getAllCards("cards/")
+      .then(cards => {
+        this.allCards = cards;
+        this.allCards.forEach((card) => {
+          this.$set(card, "hidden", true);
+          this.$set(card, "initial", true);
+          this.$set(card, "player", "");
+          if (card.type.includes("Monster")) {
+            delete card._id;
+            this.$set(card, "position", "atk");
+            this.$set(card, "change", false);
+            if (card.type.includes("Normal Monster")) {
+              this.normalMonsters.push(card);
+            }
+          }
+        });
+      });
+    },
+
+    loadGameCards() {
+      DBService.getAllCards("game_cards/")
+      .then(cards => this.gameCards = cards);
+    }
   }
 }
 </script>
