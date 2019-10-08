@@ -3,7 +3,7 @@
     <div id="store-container">
       <h1>Duel Monsters Store</h1>
       <div class="store-cards-container">
-        <div class="store-card" v-for="(card) in normalStoreCards">
+        <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
           <img :src="card.card_images[0].image_url_small">
           <button>Buy!</button>
@@ -18,15 +18,14 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'store',
-  props: ['normalMonsters'],
+  props: ['allCards'],
   data() {
     return {
-      allStoreCards: [],
-      normalStoreCards: []
+      storeCards: []
     }
   },
   mounted() {
-    this.normalStoreCards = this.normalMonsters.slice(0, 108);
+    this.storeCards = this.allCards.slice(0, 120);
   }
 }
 </script>
