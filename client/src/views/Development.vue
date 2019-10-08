@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import CurrentCardDisplay from '@/components/CurrentCardDisplay.vue';
 import CardDisplay from '@/components/CardDisplay.vue';
 import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
 import GameButton from '@/components/GameButton.vue';
@@ -45,7 +44,6 @@ export default {
   name: 'development',
   props: ['allCards'],
   components: {
-    "current-card-display": CurrentCardDisplay,
     "card-display": CardDisplay,
     "development-info": DevelopmentInfo,
     "game-button": GameButton
@@ -303,7 +301,7 @@ export default {
       subArray.forEach(cardType => {
         DBService.postCards(cardType.array, cardType.route);
       });
-      // DBService.postCards(cardTypes[0].array, cardTypes[0].altRoute); // Only use this once to initialise developer db
+      // DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute); // Only use this once to initialise developer db
     },
 
     addToGameDB({set, index}) {

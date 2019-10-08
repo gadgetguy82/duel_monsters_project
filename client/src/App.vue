@@ -31,7 +31,7 @@ export default {
     .then(cards => {
       this.allDatabaseCards = cards;
       this.allDatabaseCards.forEach((card) => {
-        if (card.type === "Normal Monster") {
+        if (card.type.includes("Monster")) {
           delete card._id;
           this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");

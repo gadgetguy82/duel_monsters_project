@@ -2,7 +2,7 @@
   <div class="card-display-container">
     <h2>{{ display.title }}</h2>
     <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="findCard">
-    <img :src="display.source">
+    <img :src="display.source" v-on:click="displayInfo">
     <div class="button-select-container" v-if="display.source">
       <button class="develop-button" type="button" v-on:click="display.index = selectPrev(display)">&#8592;</button>
       <button class="develop-button" type="button" v-on:click="interactWithDB">{{ display.buttonText }}</button>
@@ -37,6 +37,10 @@ export default {
     }
   },
   methods: {
+    displayInfo() {
+      console.log(this.display.card);
+    },
+
     checkName(card) {
       if (this.display.current) {
         return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id);
