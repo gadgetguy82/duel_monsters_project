@@ -20,7 +20,7 @@ export default {
   },
 
   postCards(list, route) {
-    const path = route ? baseURL + route : baseURL;
+    const path = route ? baseURL + route + 'all' : baseURL;
     return fetch(path, jsonData(list)).then(res => res.json());
   },
 

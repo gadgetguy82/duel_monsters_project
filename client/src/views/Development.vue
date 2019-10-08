@@ -2,24 +2,9 @@
   <div id="development">
     <div class="development-container">
       <div class="select-container">
-        <select class="card-type" name="cardType" v-model="selectedType">
+        <select class="card-type" name="cardTypes" v-model="selectedType">
           <option disabled :value="null">Select card type...</option>
-          <option :value="effectMonsters">Effect Monsters</option>
-          <option :value="fusionMonsters">Fusion Monsters</option>
-          <option :value="geminiMonsters">Gemini Monsters</option>
-          <option :value="linkMonsters">Link Monsters</option>
-          <option :value="pendulumMonsters">Pendulum Monsters</option>
-          <option :value="ritualMonsters">Ritual Monsters</option>
-          <option :value="spiritMonsters">Spirit Monsters</option>
-          <option :value="synchroMonsters">Synchro Monsters</option>
-          <option :value="toonMonsters">Toon Monsters</option>
-          <option :value="tunerMonsters">Tuner Monsters</option>
-          <option :value="unionMonsters">Union Monsters</option>
-          <option :value="xyzMonsters">XYZ Monsters</option>
-          <option :value="tokenCards">Tokens</option>
-          <option :value="skillCards">Skill Cards</option>
-          <option :value="spellCards">Spell Cards</option>
-          <option :value="trapCards">Trap Cards</option>
+          <option v-for="cardType of cardTypes" :value="cardType.array">{{ cardType.type }}</option>
         </select>
         <select class="race-type" name="raceType" v-if="spells" v-model="selectedRace">
           <option disabled value="null">Select spell type...</option>
@@ -34,19 +19,19 @@
       <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="currentSource" v-model="searchCurrentCardName" v-on:input="currentIndex = findCurrentCard(currentSet, searchCurrentCardName)">
-          <img :src="currentSource">
-          <div class="button-select-container" v-if="currentSource">
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentPrev(currentSet, currentIndex, searchCurrentCardName)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToGameDB(currentSet, currentIndex)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="currentIndex = selectCurrentNext(currentSet, currentIndex, searchCurrentCardName)">&#8594;</button>
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="current.source" v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
+          <img :src="current.source">
+          <div class="button-select-container" v-if="current.source">
+            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentPrev(current)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="addToGameDB(current)">Add Card</button>
+            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentNext(current)">&#8594;</button>
           </div>
         </div>
         <div class="card-info-container">
           <h2>Cards added database info</h2>
           <div class="game-info-container">
             <p>Card count of all cards: {{ totalCards }}</p>
-            <p>Card count in database for game: {{ gameSet.length }}</p>
+            <p>Card count in database for game: {{ game.set.length }}</p>
             <ul class="type-count">
               <li v-for="pair in typeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
             </ul>
@@ -55,20 +40,20 @@
             </ul>
           </div>
           <h2>Card info of the current card being worked on</h2>
-          <div class="current-card-container" v-if="currentCard">
-            <p>Card count of the current set: {{ currentSet.length }}</p>
+          <div class="current-card-container" v-if="current.card">
+            <p>Card count of the current set: {{ current.set.length }}</p>
             <h4>Description:</h4>
-            <p>{{ currentCard.desc }}</p>
+            <p>{{ current.card.desc }}</p>
           </div>
         </div>
         <div class="card-container">
           <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="searchGameCardName" v-on:input="gameIndex = findCard(gameSet, searchGameCardName)">
-          <img :src="gameSource">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
+          <img :src="game.source">
           <div class="button-select-container">
-            <button type="button" class="develop-button" v-on:click="gameIndex = selectPrev(gameSet, gameIndex, searchGameCardName)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromGameDB(gameSet, gameIndex)">Remove Card</button>
-            <button type="button" class="develop-button" v-on:click="gameIndex = selectNext(gameSet, gameIndex, searchGameCardName)">&#8594;</button>
+            <button type="button" class="develop-button" v-on:click="game.index = selectPrev(game)">&#8592;</button>
+            <button type="button" class="develop-button" v-on:click="deleteFromGameDB(game)">Remove Card</button>
+            <button type="button" class="develop-button" v-on:click="game.index = selectNext(game)">&#8594;</button>
           </div>
         </div>
       </div>
@@ -98,7 +83,7 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.spells = this.spellCards === optionValue;
+        this.spells = this.cardTypes[14].array === optionValue;
         this.setCurrentCard(optionValue);
       }
     },
@@ -107,7 +92,7 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.setCurrentCard(this.spellCards.filter(card => card.race === optionValue));
+        this.setCurrentCard(this.cardTypes[14].array.filter(card => card.race === optionValue));
       }
     }
   },
@@ -117,22 +102,120 @@ export default {
   data() {
     return {
       totalCards: this.allCards.length,
-      effectMonsters: [], // Effect Monster: 3919 - 3919 orange/black
-      fusionMonsters: [], // Fusion Monster: 328 - 332 violet/black
-      geminiMonsters: [], // Gemini Monster: 43 - 43 orange/black
-      linkMonsters: [], // Link Monster: 259 - 259 dark-blue/white
-      pendulumMonsters: [], // Pendulum Monster: 251 - 256 green/black
-      ritualMonsters: [], // Ritual Monster: 94 - 94 light-blue/black
-      spiritMonsters: [], // Spirit Monster: 30 - 30 orange/black
-      synchroMonsters: [], // Synchro Monster: 325 - 321 white/black
-      toonMonsters: [], // Toon Monster: 15 - 15 orange/black
-      tunerMonsters: [], // Tuner Monster: 336 - 336 orange/black
-      unionMonsters: [], // Union Effect Monster: 32 - 32 orange/black
-      xyzMonsters: [], // XYZ Monster: 395 - 390 black/white
-      tokenCards: [], // Token: 107 - 107 gray/black
-      skillCards: [], // Skill Card: 37 - 37 light-blue/black
-      spellCards: [], // Spell Card: 1872 - 1872 green/white
-      trapCards: [], // Trap Card: 1509 - 1509 purple/white
+      cardTypes: [
+        {
+          name: "effectMonsters",
+          array: [],
+          type: "Effect Monsters",
+          cardTypesList: ["Effect Monster", "Flip Effect Monster"],
+          route: "effect_monsters/"
+        },
+        {
+          name: "fusionMonsters",
+          array: [],
+          type: "Fusion Monsters",
+          cardTypesList: ["Fusion Monster"],
+          route: "fusion_monsters/"
+        },
+        {
+          name: "geminiMonsters",
+          array: [],
+          type: "Gemini Monsters",
+          cardTypesList: ["Gemini Monster"],
+          route: "gemini_monsters/"
+        },
+        {
+          name: "linkMonsters",
+          array: [],
+          type: "Link Monsters",
+          cardTypesList: ["Link Monster"],
+          route: "link_monsters/"
+        },
+        {
+          name: "pendulumMonsters",
+          array: [],
+          type: "Pendulum Monsters",
+          cardTypesList: ["Pendulum Effect Fusion Monster", "Pendulum Effect Monster", "Pendulum Flip Effect Monster", "Pendulum Normal Monster", "Pendulum Tuner Effect Monster"],
+          route: "pendulum_monsters/"
+        },
+        {
+          name: "ritualMonsters",
+          array: [],
+          type: "Ritual Monsters",
+          cardTypesList: ["Ritual Effect Monster", "Ritual Monster"],
+          route: "ritual_monsters/"
+        },
+        {
+          name: "spiritMonsters",
+          array: [],
+          type: "Spirit Monsters",
+          cardTypesList: ["Spirit Monster"],
+          route: "spirit_monsters/"
+        },
+        {
+          name: "synchroMonsters",
+          array: [],
+          type: "Synchro Monsters",
+          cardTypesList: ["Synchro Monster", "Synchro Pendulum Effect Monster", "Synchro Tuner Monster"],
+          route: "synchro_monsters/"
+        },
+        {
+          name: "toonMonsters",
+          array: [],
+          type: "Toon Monsters",
+          cardTypesList: ["Toon Monster"],
+          route: "toon_monsters/"
+        },
+        {
+          name: "tunerMonsters",
+          array: [],
+          type: "Tuner Monsters",
+          cardTypesList: ["Tuner Monster", "Normal Tuner Monster"],
+          route: "tuner_monsters/"
+        },
+        {
+          name: "unionMonsters",
+          array: [],
+          type: "Union Monsters",
+          cardTypesList: ["Union Effect Monster"],
+          route: "union_monsters/"
+        },
+        {
+          name: "xyzMonsters",
+          array: [],
+          type: "XYZ Monsters",
+          cardTypesList: ["XYZ Monster", "XYZ Pendulum Effect Monster"],
+          route: "xyz_monsters/"
+        },
+        {
+          name: "tokenCards",
+          array: [],
+          type: "Tokens",
+          cardTypesList: ["Token"],
+          route: "token_cards/"
+        },
+        {
+          name: "skillCards",
+          array: [],
+          type: "Skill Cards",
+          cardTypesList: ["Skill Card"],
+          route: "skill_cards/"
+        },
+        {
+          name: "spellCards",
+          array: [],
+          type: "Spell Cards",
+          cardTypesList: ["Spell Card"],
+          route: "spell_cards/"
+        },
+        {
+          name: "trapCards",
+          array: [],
+          type: "Trap Cards",
+          cardTypesList: ["Trap Card"],
+          route: "trap_cards/"
+        },
+      ],
 
       typeCount: {},
       typeCountArray: [],
@@ -140,19 +223,23 @@ export default {
       spellTypeCountArray: [],
       spells: false,
 
-      currentSet: [],
-      currentIndex: 0,
-      currentSubIndex: 0,
-      currentCard: {},
-      currentSource: "",
-      searchCurrentCardName: "",
+      current: {
+        set: [],
+        index: 0,
+        subIndex: 0,
+        card: {},
+        source: "",
+        searchTerm: ""
+      },
 
-      gameSet: [],
-      gameIndex: 0,
-      gameSubIndex: 0,
-      gameCard: {},
-      gameSource: "",
-      searchGameCardName: ""
+      game: {
+        set: [],
+        index: 0,
+        subIndex: 0,
+        card: {},
+        source: "",
+        searchTerm: ""
+      }
     }
   },
   mounted() {
@@ -160,180 +247,153 @@ export default {
 
     this.allCards.forEach(card => {
       delete card._id;
-      if (card.type === "Effect Monster" || card.type === "Flip Effect Monster") {
-        this.effectMonsters.push(card);
-      } else if (card.type.includes("Fusion Monster")) {
-        this.fusionMonsters.push(card);
-      } else if (card.type.includes("Gemini")) {
-        this.geminiMonsters.push(card);
-      } else if (card.type.includes("Link")) {
-        this.linkMonsters.push(card);
-      } else if (card.type.includes("Pendulum")) {
-        this.pendulumMonsters.push(card);
-      } else if (card.type.includes("Ritual")) {
-        this.ritualMonsters.push(card);
-      } else if (card.type.includes("Spirit")) {
-        this.spiritMonsters.push(card);
-      } else if (card.type.includes("Synchro")) {
-        this.synchroMonsters.push(card);
-      } else if (card.type.includes("Toon")) {
-        this.toonMonsters.push(card);
-      } else if (card.type.includes("Tuner")) {
-        this.tunerMonsters.push(card);
-      } else if (card.type.includes("Union")) {
-        this.unionMonsters.push(card);
-      } else if (card.type.includes("XYZ")) {
-        this.xyzMonsters.push(card);
-      } else if (card.type.includes("Token")) {
-        this.tokenCards.push(card);
-      } else if (card.type.includes("Skill Card")) {
-        this.skillCards.push(card);
-      } else if (card.type.includes("Spell Card")) {
-        this.spellCards.push(card);
-        this.spellTypeCount = Helpers.trackUniqueProperty(this.spellTypeCount, card.race);
-      } else if (card.type.includes("Trap Card")) {
-        this.trapCards.push(card);
+      let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
+      if (index >= 0) {
+        this.cardTypes[index].array.push(card)
       }
 
       this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
       this.typeCountArray = Helpers.objToArray(this.typeCount);
+      if (card.type === "Spell Card") {
+        this.spellTypeCount = Helpers.trackUniqueProperty(this.spellTypeCount, card.race);
+      }
       this.spellTypeCountArray = Helpers.objToArray(this.spellTypeCount);
     });
 
     eventBusInfo.$on("card-added", card => {
-      this.gameSet.push(card);
-      this.currentIndex = this.selectCurrentNext(this.currentSet, this.currentIndex, this.searchCurrentCardName);
+      this.game.set.push(card);
+      this.current.index = this.selectCurrentNext(this.current);
     });
   },
   watch: {
-    currentIndex() {
-      this.currentCard = this.currentSet[this.currentIndex];
-      this.currentSource = this.currentCard ? this.currentCard.card_images[0].image_url : "";
+    "current.index"() {
+      this.current.card = this.current.set[this.current.index];
+      this.current.source = this.current.card ? this.current.card.card_images[0].image_url : "";
     },
 
-    gameIndex() {
-      this.gameCard = this.gameSet[this.gameIndex];
-      this.gameSource = this.gameCard ? this.gameCard.card_images[0].image_url : "";
+    "game.index"() {
+      this.game.card = this.game.set[this.game.index];
+      this.game.source = this.game.card ? this.game.card.card_images[0].image_url : "";
     }
   },
   methods: {
     setCurrentCard(set) {
-      this.currentSet = set;
-      this.currentIndex = 0;
-      while (this.gameSet.some(card => card.id === this.currentSet[this.currentIndex].id)) {
-        this.currentIndex++;
+      this.current.set = set;
+      this.current.index = 0;
+      while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
+        this.current.index++;
       }
-      if (this.currentIndex === this.currentSet.length) {
-        this.currentCard = {};
-        this.currentSource = "";
+      if (this.current.index === this.current.set.length) {
+        this.current.card = {};
+        this.current.source = "";
       } else {
-        this.currentCard = this.currentSet[this.currentIndex];
-        this.currentSource = this.currentCard.card_images[0].image_url;
+        this.current.card = this.current.set[this.current.index];
+        this.current.source = this.current.card.card_images[0].image_url;
       }
-      this.searchCurrentCardName = "";
+      this.current.searchTerm = "";
     },
 
-    findCard(set, searchTerm) {
+    findCard({set, searchTerm}) {
       return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
-    findCurrentCard(set, searchTerm) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id));
+    findCurrentCard({set, searchTerm}) {
+      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.game.set.some(gameCard => card.id === gameCard.id));
     },
 
     findCards(set, searchTerm) {
       return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
-    selectNext(set, index, searchTerm) {
+    selectNext({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.gameSubIndex = this.gameSubIndex === subSet.length - 1 ? 0 : this.gameSubIndex + 1;
-        const subSetCard = subSet[this.gameSubIndex];
+        this.game.subIndex = this.game.subIndex === subSet.length - 1 ? 0 : this.game.subIndex + 1;
+        const subSetCard = subSet[this.game.subIndex];
         return set.findIndex(card => card === subSetCard);
       } else {
-        this.gameSubIndex = 0;
+        this.game.subIndex = 0;
         return index = index === set.length - 1 ? 0 : index + 1;
       }
     },
 
-    selectPrev(set, index, searchTerm) {
+    selectPrev({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.gameSubIndex = this.gameSubIndex === 0 ? subSet.length - 1 : this.gameSubIndex - 1;
-        const subSetCard = subSet[this.gameSubIndex];
+        this.game.subIndex = this.game.subIndex === 0 ? subSet.length - 1 : this.game.subIndex - 1;
+        const subSetCard = subSet[this.game.subIndex];
         return set.findIndex(card => card === subSetCard);
       } else {
-        this.gameSubIndex = 0;
+        this.game.subIndex = 0;
         return index = index === 0 ? set.length - 1 : index - 1;
       }
     },
 
-    selectCurrentNext(set, index, searchTerm) {
+    selectCurrentNext({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.currentSubIndex = this.currentSubIndex === subSet.length - 1 ? 0 : this.currentSubIndex + 1;
-        const subSetCard = subSet[this.currentSubIndex];
+        this.current.subIndex = this.current.subIndex === subSet.length - 1 ? 0 : this.current.subIndex + 1;
+        const subSetCard = subSet[this.current.subIndex];
         index = set.findIndex(card => card === subSetCard);
-        if (this.gameSet.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentNext(set, index, searchTerm);
+        if (this.game.set.some(card => card.id === subSetCard.id)) {
+          return this.selectCurrentNext({set, index, searchTerm});
         } else {
           return index;
         }
       } else {
-        this.currentSubIndex = 0;
+        this.current.subIndex = 0;
         index = index === set.length - 1 ? 0 : index + 1;
-        if (this.gameSet.some(card => card.id === set[index].id)) {
-          return this.selectCurrentNext(set, index, searchTerm);
+        if (this.game.set.some(card => card.id === set[index].id)) {
+          return this.selectCurrentNext({set, index, searchTerm});
         } else {
           return index;
         }
       }
     },
 
-    selectCurrentPrev(set, index, searchTerm) {
+    selectCurrentPrev({set, index, searchTerm}) {
       if (searchTerm) {
         const subSet = this.findCards(set, searchTerm);
-        this.currentSubIndex = this.currentSubIndex === 0 ? subSet.length - 1 : this.currentSubIndex - 1;
-        const subSetCard = subSet[this.currentSubIndex];
+        this.current.subIndex = this.current.subIndex === 0 ? subSet.length - 1 : this.current.subIndex - 1;
+        const subSetCard = subSet[this.current.subIndex];
         index = set.findIndex(card => card === subSetCard);
-        if (this.gameSet.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentPrev(set, index, searchTerm);
+        if (this.game.set.some(card => card.id === subSetCard.id)) {
+          return this.selectCurrentPrev({set, index, searchTerm});
         } else {
           return index;
         }
       } else {
-        this.currentSubIndex = 0;
+        this.current.subIndex = 0;
         index = index === 0 ? set.length - 1 : index - 1;
-        if (this.gameSet.some(card => card.id === set[index].id)) {
-          return this.selectCurrentPrev(set, index, searchTerm);
+        if (this.game.set.some(card => card.id === set[index].id)) {
+          return this.selectCurrentPrev({set, index, searchTerm});
         } else {
           return index;
         }
       }
     },
 
-    addToGameDB(set, index) {
+    addToGameDB({set, index}) {
       const card = set[index];
       DBService.postCard(card, "game_cards")
       .then(res => eventBusInfo.$emit("card-added", res));
     },
 
-    deleteFromGameDB(set, index) {
+    deleteFromGameDB({set, index}) {
       const card = set[index];
       DBService.deleteCard(card._id, "game_cards/");
-      this.gameSet.splice(this.gameIndex, 1);
-      this.gameIndex = this.selectPrev(this.gameSet, this.gameIndex, this.searchGameCardName);
-      this.gameCard = this.gameSet[this.gameIndex];
-      this.gameSource = this.gameCard.card_images[0].image_url;
+      this.game.set.splice(this.game.index, 1);
+      this.game.index = this.selectPrev(this.game);
+      this.game.card = this.game.set[this.game.index];
+      this.game.source = this.game.card.card_images[0].image_url;
     },
 
     getGameCards() {
       DBService.getAllCards("game_cards")
       .then(cards => {
-        this.gameSet = cards;
-        this.gameCard = this.gameSet[this.gameIndex];
-        this.gameSource = this.gameCard.card_images[0].image_url;
+        this.game.set = cards;
+        this.game.card = this.game.set[this.game.index];
+        this.game.source = this.game.card.card_images[0].image_url;
       });
     },
 
@@ -368,6 +428,10 @@ export default {
       this.updateSkillCards();
       this.updateSpellCards();
       this.updateTrapCards();
+    },
+
+    updateCards(cardSet) {
+      DBService.postCards(cardSet.array, cardSet.route);
     },
 
     updateGameCards() {

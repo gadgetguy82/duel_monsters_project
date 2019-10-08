@@ -46,7 +46,7 @@ export default {
       fetch('https://db.ygoprodeck.com/api/v5/cardinfo.php')
       .then(res => res.json()).then(cardData => {
         this.allCards = cardData;
-        DBService.postCards(this.allCards, "cards/all");
+        DBService.postCards(this.allCards, "cards/");
       });
     }
   }
