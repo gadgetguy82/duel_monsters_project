@@ -246,13 +246,12 @@ export default {
 
     this.eventBus.$on("card-added", card => {
       this.game.set.push(card);
-      this.game.index = this.game.set.length - 1;
-      this.eventBus.$emit("select-next", this.current);
+      this.eventBus.$emit("select-next-current", this.current);
     });
 
     this.eventBus.$on("card-deleted", () => {
       this.game.set.splice(this.game.index, 1);
-      this.eventBus.$emit("select-prev", this.game);
+      this.eventBus.$emit("select-prev-game", this.game);
     });
   },
   methods: {

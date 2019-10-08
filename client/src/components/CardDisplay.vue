@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="card-display-container">
     <h2>{{ display.title }}</h2>
-    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="display.index = findCard">
+    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="findCard">
     <img :src="display.source">
     <div class="button-select-container" v-if="display.source">
       <button class="develop-button" type="button" v-on:click="display.index = selectPrev(display)">&#8592;</button>
@@ -16,8 +16,18 @@ export default {
   name: 'card-display',
   props: ['eventBus', 'display', 'gameSet'],
   mounted() {
-    this.eventBus.$on("select-prev", display => {
-      this.display.index = this.selectPrev(display);
+    this.eventBus.$on("select-next-current", display => {
+      if (this.display.current) {
+        this.display.index = this.selectNext(display);
+      } else {
+        this.display.index = this.display.set.length - 1;
+      }
+    });
+
+    this.eventBus.$on("select-prev-game", display => {
+      if (!this.display.current) {
+        this.display.index = this.selectPrev(display);
+      }
     });
   },
   watch: {
@@ -27,14 +37,16 @@ export default {
     }
   },
   methods: {
+    checkName(card) {
+      if (this.display.current) {
+        return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id);
+      } else {
+        return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase());
+      }
+    },
+
     findCard() {
-      return this.display.set.findIndex(card => {
-        if (this.display.current) {
-          card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id);
-        } else {
-          card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase());
-        }
-      });
+      this.display.index = this.display.set.findIndex(this.checkName);
     },
 
     findCards(set, searchTerm) {
