@@ -6,7 +6,7 @@
           <option disabled :value="null">Select card type...</option>
           <option v-for="cardType of cardTypes" :value="cardType.array">{{ cardType.type }}</option>
         </select>
-        <select class="race-type" name="raceType" v-if="spells" v-model="selectedRace">
+        <select class="race-type" name="raceType" v-if="type.isSpell" v-model="selectedRace">
           <option disabled value="null">Select spell type...</option>
           <option :value="'Continuous'">Continuous</option>
           <option :value="'Equip'">Equip</option>
@@ -27,25 +27,7 @@
             <button type="button" class="develop-button" v-on:click="current.index = selectCurrentNext(current)">&#8594;</button>
           </div>
         </div>
-        <div class="card-info-container">
-          <h2>Cards added database info</h2>
-          <div class="game-info-container">
-            <p>Card count of all cards: {{ totalCards }}</p>
-            <p>Card count in database for game: {{ game.set.length }}</p>
-            <ul class="type-count">
-              <li v-for="pair in typeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
-            </ul>
-            <ul class="spell-type-count">
-              <li v-for="pair in spellTypeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
-            </ul>
-          </div>
-          <h2>Card info of the current card being worked on</h2>
-          <div class="current-card-container" v-if="current.card">
-            <p>Card count of the current set: {{ current.set.length }}</p>
-            <h4>Description:</h4>
-            <p>{{ current.card.desc }}</p>
-          </div>
-        </div>
+        <development-info :type="type" :current="current" :game="game"></development-info>
         <div class="card-container">
           <h2>Cards added to game</h2>
           <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
@@ -69,6 +51,7 @@
 </template>
 
 <script>
+import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
 import GameButton from '@/components/GameButton.vue';
 import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
@@ -77,13 +60,17 @@ import * as Helpers from '@/services/helpers.js';
 export default {
   name: 'development',
   props: ['allCards', 'normalMonsters'],
+  components: {
+    "development-info": DevelopmentInfo,
+    "game-button": GameButton
+  },
   computed: {
     selectedType: {
       get() {
         return null;
       },
       set(optionValue) {
-        this.spells = this.cardTypes[this.spellCardIndex].array === optionValue;
+        this.type.isSpell = this.cardTypes[this.type.spellIndex].array === optionValue;
         this.setCurrentCard(optionValue);
       }
     },
@@ -92,16 +79,12 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.setCurrentCard(this.cardTypes[this.spellCardIndex].array.filter(card => card.race === optionValue));
+        this.setCurrentCard(this.cardTypes[this.type.spellIndex].array.filter(card => card.race === optionValue));
       }
     }
   },
-  components: {
-    "game-button": GameButton
-  },
   data() {
     return {
-      totalCards: this.allCards.length,
       cardTypes: [
         {
           name: "normalMonsters",
@@ -226,12 +209,15 @@ export default {
         },
       ],
 
-      typeCount: {},
-      typeCountArray: [],
-      spellTypeCount: {},
-      spellTypeCountArray: [],
-      spells: false,
-      spellCardIndex: 15,
+      type: {
+        totalCards: this.allCards.length,
+        allCount: {},
+        allArray: [],
+        spellCount: {},
+        spellArray: [],
+        isSpell: false,
+        spellIndex: 15
+      },
 
       current: {
         set: [],
@@ -262,12 +248,12 @@ export default {
         this.cardTypes[index].array.push(card);
       }
 
-      this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
-      this.typeCountArray = Helpers.objToArray(this.typeCount);
+      this.type.allCount = Helpers.trackUniqueProperty(this.type.allCount, card.type);
+      this.type.allArray = Helpers.objToArray(this.type.allCount);
       if (card.type === "Spell Card") {
-        this.spellTypeCount = Helpers.trackUniqueProperty(this.spellTypeCount, card.race);
+        this.type.spellCount = Helpers.trackUniqueProperty(this.type.spellCount, card.race);
       }
-      this.spellTypeCountArray = Helpers.objToArray(this.spellTypeCount);
+      this.type.spellArray = Helpers.objToArray(this.type.spellCount);
     });
 
     eventBusInfo.$on("card-added", card => {
@@ -447,13 +433,6 @@ export default {
   transform: translateX(50px);
 }
 
-.type-count, .spell-type-count {
-  border: 1px solid #000000;
-  height: 50px;
-  overflow: scroll;
-  padding: 5px;
-}
-
 .card-container {
   background-color: rgba(255, 255, 255, 0.7);
   display: flex;
@@ -462,14 +441,6 @@ export default {
   margin: 10px;
   padding: 5px;
   border: 5px solid #000000;
-}
-
-.card-info-container {
-  width: 420px;
-  margin: 10px;
-  padding: 5px;
-  border: 5px solid #000000;
-  background-color: rgba(255, 255, 255, 0.7);
 }
 
 .button-select-container, .development-card-container {
