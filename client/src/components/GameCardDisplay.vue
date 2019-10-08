@@ -15,16 +15,20 @@
 import DBService from '@/services/db_service';
 
 export default {
-  name: "game-card-display",
-  props: ['game'],
+  name: 'game-card-display',
+  props: ['eventBus', 'game'],
   mounted() {
-    eventBusInfo.$on("card-added", card => {
-      
+    this.eventBus.$on("card-added", card => {
+
     });
   },
   methods: {
     findCard({set, searchTerm}) {
       return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    },
+
+    findCards(set, searchTerm) {
+      return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
     selectNext({set, index, searchTerm}) {
@@ -58,7 +62,7 @@ export default {
       this.game.index = this.selectPrev(this.game);
       this.game.card = this.game.set[this.game.index];
       this.game.source = this.game.card.card_images[0].image_url;
-    },
+    }
   }
 }
 </script>

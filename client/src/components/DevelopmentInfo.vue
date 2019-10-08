@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: "development-info",
+  name: 'development-info',
   props: ['type', 'current', 'game']
 }
 </script>

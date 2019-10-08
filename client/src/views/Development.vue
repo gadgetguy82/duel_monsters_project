@@ -17,18 +17,9 @@
         </select>
       </div>
       <div class="development-card-container">
-        <div class="card-container">
-          <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
-          <img :src="current.source">
-          <div class="button-select-container" v-if="current.source">
-            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentPrev(current)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToGameDB(current)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentNext(current)">&#8594;</button>
-          </div>
-        </div>
+        <current-card-display :eventBus="eventBus" :current="current"></current-card-display>
         <development-info :type="type" :current="current" :game="game"></development-info>
-        <game-card-display :game="game"></game-card-display>
+        <game-card-display :eventBus="eventBus" :game="game"></game-card-display>
       </div>
       <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
@@ -42,6 +33,7 @@
 </template>
 
 <script>
+import CurrentCardDisplay from '@/components/CurrentCardDisplay.vue';
 import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
 import GameCardDisplay from '@/components/GameCardDisplay.vue';
 import GameButton from '@/components/GameButton.vue';
@@ -53,6 +45,7 @@ export default {
   name: 'development',
   props: ['allCards', 'normalMonsters'],
   components: {
+    "current-card-display": CurrentCardDisplay,
     "development-info": DevelopmentInfo,
     "game-card-display": GameCardDisplay,
     "game-button": GameButton
@@ -78,6 +71,7 @@ export default {
   },
   data() {
     return {
+      eventBus: eventBusInfo,
       cardTypes: [
         {
           name: "normalMonsters",
@@ -249,7 +243,7 @@ export default {
       this.type.spellArray = Helpers.objToArray(this.type.spellCount);
     });
 
-    eventBusInfo.$on("card-added", card => {
+    this.eventBus.$on("card-added", card => {
       this.game.set.push(card);
       this.game.index = this.game.set.length - 1;
       this.current.index = this.selectCurrentNext(this.current);
@@ -283,64 +277,6 @@ export default {
       this.current.searchTerm = "";
     },
 
-    findCurrentCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.game.set.some(gameCard => card.id === gameCard.id));
-    },
-
-    findCards(set, searchTerm) {
-      return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    },
-
-    selectCurrentNext({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === subSet.length - 1 ? 0 : this.current.subIndex + 1;
-        const subSetCard = subSet[this.current.subIndex];
-        index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      } else {
-        this.current.subIndex = 0;
-        index = index === set.length - 1 ? 0 : index + 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      }
-    },
-
-    selectCurrentPrev({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === 0 ? subSet.length - 1 : this.current.subIndex - 1;
-        const subSetCard = subSet[this.current.subIndex];
-        index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      } else {
-        this.current.subIndex = 0;
-        index = index === 0 ? set.length - 1 : index - 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      }
-    },
-
-    addToGameDB({set, index}) {
-      const card = set[index];
-      DBService.postCard(card, "game_cards")
-      .then(res => eventBusInfo.$emit("card-added", res));
-    },
-
     getGameCards() {
       DBService.getAllCards("game_cards")
       .then(cards => {
@@ -369,18 +305,13 @@ export default {
   flex-direction: column;
 }
 
-.button-update-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  border: 5px solid #000000;
-  width: 92%;
-  transform: translate(60px, 25px);
-  background-color: rgba(0, 255, 255, 0.7);
-}
-
 .select-container {
   display: flex;
+}
+
+.development-card-container {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .card-type, .race-type {
@@ -390,45 +321,13 @@ export default {
   transform: translateX(50px);
 }
 
-.card-container {
-  background-color: rgba(255, 255, 255, 0.7);
+.button-update-container {
   display: flex;
-  width: 420px;
-  flex-direction: column;
-  margin: 10px;
-  padding: 5px;
-  border: 5px solid #000000;
-}
-
-.button-select-container, .development-card-container {
-  display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
-}
-
-.develop-button {
-  border: solid;
-  border-width: 1px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 2px 2px;
-  background-color: #00FF00;
-  color: #000000;
-  margin: 5px;
-  flex-grow: 1;
-  cursor: pointer;
-}
-
-.search {
-  font-size: 16px;
-  margin: 5px 0;
-}
-
-h2 {
-  text-align: center;
-  margin: 5px 0;
+  border: 5px solid #000000;
+  width: 92%;
+  transform: translate(60px, 25px);
+  background-color: rgba(0, 255, 255, 0.7);
 }
 </style>
