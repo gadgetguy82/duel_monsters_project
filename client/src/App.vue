@@ -32,12 +32,12 @@ export default {
     .then(cards => {
       this.allCards = cards;
       this.allCards.forEach((card) => {
+        this.$set(card, "hidden", true);
+        this.$set(card, "initial", true);
+        this.$set(card, "player", "");
         if (card.type.includes("Monster")) {
           delete card._id;
-          this.$set(card, "hidden", true);
           this.$set(card, "position", "atk");
-          this.$set(card, "initial", true);
-          this.$set(card, "player", "");
           this.$set(card, "change", false);
           if (card.type.includes("Normal Monster")) {
             this.normalMonsters.push(card);

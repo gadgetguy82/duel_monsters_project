@@ -24,9 +24,10 @@
       <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
         <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(2, 5)"></game-button>
-        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 9)"></game-button>
-        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(9, 13)"></game-button>
-        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(13, 17)"></game-button>
+        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 8)"></game-button>
+        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(8, 11)"></game-button>
+        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(11, 14)"></game-button>
+        <game-button :text="'Update sixth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(14, 17)"></game-button>
       </div>
     </div>
   </div>
