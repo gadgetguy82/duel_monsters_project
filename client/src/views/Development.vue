@@ -258,17 +258,18 @@ export default {
       this.current.index = 0;
       this.current.card = this.current.set[this.current.index];
       this.current.source = this.current.card.card_images[0].image_url;
+      this.current.searchTerm = "";
       while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
         this.current.index++;
-        this.current.card = this.current.set[this.current.index];
-        this.current.source = this.current.card.card_images[0].image_url;
-        if (this.current.index === this.current.set.length) {
+        if (this.current.index < this.current.set.length) {
+          this.current.card = this.current.set[this.current.index];
+          this.current.source = this.current.card.card_images[0].image_url;
+        } else {
           this.current.card = {};
           this.current.source = "";
           break;
         }
       }
-      this.current.searchTerm = "";
     },
 
     getGameCards() {
