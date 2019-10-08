@@ -336,6 +336,12 @@ export default {
       const card = set[index];
       DBService.deleteCard(card._id, "game_cards/")
       .then(res => this.eventBus.$emit("card-deleted", res));
+    },
+
+    updateInGameDB({set, index}) {
+      const card = set[index];
+      DBService.deleteCard(card, "game_cards/")
+      .then(res => this.eventBus.$emit("card-updated", res));
     }
   }
 }

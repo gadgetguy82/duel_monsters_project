@@ -3,7 +3,6 @@
     <h2>Cards added in game database</h2>
     <div class="game-info-container">
       <p>Total of all cards: {{ type.totalCards }} - Check total: {{ type.checkTotal }}</p>
-      <p>Total cards in game database: {{ game.set.length }}</p>
       <div class="list-container">
         <div class="card-type">
           <h4>Card types</h4>
@@ -18,19 +17,27 @@
           </ul>
         </div>
       </div>
+      <p>Total cards in game database: {{ game.set.length }}</p>
+      <div class="existing-container">
+        <h4>Card attribute:</h4>
+        <input type="text" value="" v-model="gameAttribute">
+        <h4>Attribute value</h4>
+        <input type="text" value="" v-model="gameValue">
+      </div>
     </div>
     <hr>
     <h2>Cards not in game database</h2>
     <div class="current-info-container" v-if="current.card">
-      <p>Card count of the current set: {{ current.set.length }}</p>
+      <p>Current set is {{ current.card.type }}</p>
+      <p>Total cards in current set database: {{ current.set.length }}</p>
       <h4>Description:</h4>
       <p>{{ current.card.desc }}</p>
     </div>
     <div class="development-container">
       <h4>Card attribute to add:</h4>
-      <input type="text" name="attribute" value="">
+      <input type="text" value="" v-model="currentAttribute">
       <h4>Attribute value/effect to add:</h4>
-      <input type="text" name="valueEffect" value="">
+      <input type="text" value="" v-model="currentValue">
     </div>
   </div>
 </template>
@@ -38,7 +45,15 @@
 <script>
 export default {
   name: 'development-info',
-  props: ['eventBus', 'type', 'current', 'game']
+  props: ['eventBus', 'type', 'current', 'game'],
+  data() {
+    return {
+      gameAttribute: "",
+      gameValue: "",
+      currentAttribute: "",
+      currentValue: ""
+    }
+  }
 }
 </script>
 

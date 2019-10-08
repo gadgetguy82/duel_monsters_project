@@ -29,5 +29,14 @@ export default {
     return fetch(path + id, {
       method: 'DELETE'
     }).then(res => res.json());
+  },
+
+  updateCard(body, route) {
+    const path = route ? baseURL + route : baseURL;
+    return fetch(path + body._id, {
+      method: 'PUT',
+      body: JSON.stringify(body),
+      headers: {'Content-Type': 'application/json'}
+    }).then(res => res.json());
   }
 }
