@@ -42,4 +42,13 @@ export default {
   overflow: scroll;
   padding: 5px;
 }
+
+h2 {
+  text-align: center;
+  margin: 5px 0;
+}
+
+h4, p {
+  margin: 2px;
+}
 </style>

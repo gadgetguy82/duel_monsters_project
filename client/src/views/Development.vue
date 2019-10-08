@@ -28,16 +28,7 @@
           </div>
         </div>
         <development-info :type="type" :current="current" :game="game"></development-info>
-        <div class="card-container">
-          <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
-          <img :src="game.source">
-          <div class="button-select-container" v-if="game.source">
-            <button type="button" class="develop-button" v-on:click="game.index = selectPrev(game)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromGameDB(game)">Remove Card</button>
-            <button type="button" class="develop-button" v-on:click="game.index = selectNext(game)">&#8594;</button>
-          </div>
-        </div>
+        <game-card-display :game="game"></game-card-display>
       </div>
       <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
@@ -52,6 +43,7 @@
 
 <script>
 import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
+import GameCardDisplay from '@/components/GameCardDisplay.vue';
 import GameButton from '@/components/GameButton.vue';
 import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
@@ -62,6 +54,7 @@ export default {
   props: ['allCards', 'normalMonsters'],
   components: {
     "development-info": DevelopmentInfo,
+    "game-card-display": GameCardDisplay,
     "game-button": GameButton
   },
   computed: {
@@ -258,6 +251,7 @@ export default {
 
     eventBusInfo.$on("card-added", card => {
       this.game.set.push(card);
+      this.game.index = this.game.set.length - 1;
       this.current.index = this.selectCurrentNext(this.current);
     });
   },
@@ -289,40 +283,12 @@ export default {
       this.current.searchTerm = "";
     },
 
-    findCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    },
-
     findCurrentCard({set, searchTerm}) {
       return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.game.set.some(gameCard => card.id === gameCard.id));
     },
 
     findCards(set, searchTerm) {
       return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    },
-
-    selectNext({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === subSet.length - 1 ? 0 : this.game.subIndex + 1;
-        const subSetCard = subSet[this.game.subIndex];
-        return set.findIndex(card => card === subSetCard);
-      } else {
-        this.game.subIndex = 0;
-        return index = index === set.length - 1 ? 0 : index + 1;
-      }
-    },
-
-    selectPrev({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === 0 ? subSet.length - 1 : this.game.subIndex - 1;
-        const subSetCard = subSet[this.game.subIndex];
-        return set.findIndex(card => card === subSetCard);
-      } else {
-        this.game.subIndex = 0;
-        return index = index === 0 ? set.length - 1 : index - 1;
-      }
     },
 
     selectCurrentNext({set, index, searchTerm}) {
@@ -373,15 +339,6 @@ export default {
       const card = set[index];
       DBService.postCard(card, "game_cards")
       .then(res => eventBusInfo.$emit("card-added", res));
-    },
-
-    deleteFromGameDB({set, index}) {
-      const card = set[index];
-      DBService.deleteCard(card._id, "game_cards/");
-      this.game.set.splice(this.game.index, 1);
-      this.game.index = this.selectPrev(this.game);
-      this.game.card = this.game.set[this.game.index];
-      this.game.source = this.game.card.card_images[0].image_url;
     },
 
     getGameCards() {
@@ -465,17 +422,13 @@ export default {
   cursor: pointer;
 }
 
-h2 {
-  text-align: center;
+.search {
+  font-size: 16px;
   margin: 5px 0;
 }
 
-h4, p {
-  margin: 2px;
-}
-
-.search {
-  font-size: 16px;
+h2 {
+  text-align: center;
   margin: 5px 0;
 }
 </style>
