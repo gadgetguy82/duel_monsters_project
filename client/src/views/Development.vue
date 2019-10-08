@@ -212,7 +212,8 @@ export default {
         subIndex: 0,
         card: {},
         source: "",
-        searchTerm: ""
+        searchTerm: "",
+        current: true
       },
 
       game: {
@@ -221,7 +222,8 @@ export default {
         subIndex: 0,
         card: {},
         source: "",
-        searchTerm: ""
+        searchTerm: "",
+        current: false
       }
     }
   },
@@ -266,13 +268,14 @@ export default {
       this.current.index = 0;
       while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
         this.current.index++;
-      }
-      if (this.current.index === this.current.set.length) {
-        this.current.card = {};
-        this.current.source = "";
-      } else {
-        this.current.card = this.current.set[this.current.index];
-        this.current.source = this.current.card.card_images[0].image_url;
+        if (this.current.index === this.current.set.length) {
+          this.current.card = {};
+          this.current.source = "";
+          break;
+        } else {
+          this.current.card = this.current.set[this.current.index];
+          this.current.source = this.current.card.card_images[0].image_url;
+        }
       }
       this.current.searchTerm = "";
     },
@@ -288,12 +291,10 @@ export default {
 
     updateSetsOfCards(start, end) {
       const subArray = this.cardTypes.slice(start, end);
-      subArray.forEach(cardType => this.updateCards(cardType));
-      // this.updateCards({cardTypes[0].array, cardTypes[0].altRoute}); // Only use this once to initialise developer db
-    },
-
-    updateCards(cardSet) {
-      DBService.postCards(cardSet.array, cardSet.route);
+      subArray.forEach(cardType => {
+        DBService.postCards(cardType.array, cardType.route);
+      });
+      // DBService.postCards(cardTypes[0].array, cardTypes[0].altRoute); // Only use this once to initialise developer db
     }
   }
 }
