@@ -13,7 +13,7 @@
     <div class="second col">
       <div class="top-row">
         <spell-trap-zone :gameState="gameState" :playerData="playerData"></spell-trap-zone>
-        <field-zone></field-zone>
+        <field-zone :gameState="gameState" :playerData="playerData"></field-zone>
       </div>
       <div class="bottom-row">
         <monster-zone :gameState="gameState" :playerData="playerData"></monster-zone>

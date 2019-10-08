@@ -4,13 +4,29 @@
       <div class="layer">
         <h4>Field Zone</h4>
       </div>
+      <playing-card v-if="card.name" :card="card"></playing-card>
     </div>
   </div>
 </template>
 
 <script>
+import Card from '@/components/Card.vue';
+import GameLogic from '@/services/game_logic.js';
+
 export default {
   name: 'field-zone',
+  props: ['gameState', 'playerData'],
+  components: {
+    "playing-card": Card
+  },
+  data() {
+    return {
+      card: {}
+    }
+  },
+  mounted() {
+    this.playerData.eventBus.$on("place-field", card => this.card = card)
+  }
 }
 </script>
 

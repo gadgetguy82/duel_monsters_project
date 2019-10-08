@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="playing-hand-container">
     <div class="playing-hand">
-      <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="summonOrDiscard(card)"></playing-card>
+      <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="placeOrDiscard(card)"></playing-card>
     </div>
     <div class="button-container">
       <game-button v-if="canChoosePosition" v-on:click.native="setAttack(summoningCard)" :text="'Attack'" :colour="'red'"></game-button>
@@ -82,7 +82,7 @@ export default {
     }
   },
   methods: {
-    summonOrDiscard(card) {
+    placeOrDiscard(card) {
       if (this.canNormalSummon) {
         if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
           this.summoningCard = card;
@@ -99,6 +99,12 @@ export default {
       } else if (this.canDiscard) {
         this.playerData.eventBus.$emit("discard", card);
         GameLogic.removeCard(card, this.playerHand);
+      }
+
+      if (card.type === "Spell Card") {
+        if (card.race === "Field Card") {
+          this.playerData.eventBus.$emit("place-field", card);
+        }
       }
     },
 
