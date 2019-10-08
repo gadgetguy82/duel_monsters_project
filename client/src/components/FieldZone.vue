@@ -1,7 +1,7 @@
 <template lang="html">
-  <div class="field-zone-container">
+  <div class="field-zone-container" v-on:click="placeFieldCard">
     <div class="field-zone">
-      <div class="layer">
+      <div class="layer" v-if="!card.name">
         <h4>Field Zone</h4>
       </div>
       <playing-card v-if="card.name" :card="card"></playing-card>
@@ -21,11 +21,24 @@ export default {
   },
   data() {
     return {
-      card: {}
+      card: {},
+      fieldCard: {},
+      canPlace: false
     }
   },
   mounted() {
-    this.playerData.eventBus.$on("place-field", card => this.card = card)
+    this.playerData.eventBus.$on("place-field", card => {
+      this.canPlace = true;
+      this.fieldCard = card;
+    });
+  },
+  methods: {
+    placeFieldCard() {
+      if (this.canPlace) {
+        this.card = this.fieldCard;
+        this.playerData.eventBus.$emit("field-placed", this.card);
+      }
+    }
   }
 }
 </script>

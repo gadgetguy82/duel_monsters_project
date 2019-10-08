@@ -51,6 +51,10 @@ export default {
       this.resetHand();
       this.canNormalSummon = false
     });
+
+    this.playerData.eventBus.$on("field-placed", card => {
+      GameLogic.removeCard(card, this.playerHand);
+    });
   },
   watch: {
     "gameState.phase"() {
@@ -83,8 +87,8 @@ export default {
   },
   methods: {
     placeOrDiscard(card) {
-      if (this.canNormalSummon) {
-        if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+      if (GameLogic.checkMainPhase(this.gameState, this.playerData)) {
+        if (this.canNormalSummon) {
           this.summoningCard = card;
           if (this.monsterZone.spaces > 0 && parseInt(card.level) < 5) {
             this.canChoosePosition = true;
@@ -96,14 +100,15 @@ export default {
             this.tributeSummon(2);
           }
         }
-      } else if (this.canDiscard) {
-        this.playerData.eventBus.$emit("discard", card);
-        GameLogic.removeCard(card, this.playerHand);
-      }
-
-      if (card.type === "Spell Card") {
-        if (card.race === "Field Card") {
-          this.playerData.eventBus.$emit("place-field", card);
+        if (card.type === "Spell Card") {
+          if (card.race === "Field") {
+            this.playerData.eventBus.$emit("place-field", card);
+          }
+        }
+      } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
+        if (this.canDiscard) {
+          this.playerData.eventBus.$emit("discard", card);
+          GameLogic.removeCard(card, this.playerHand);
         }
       }
     },
