@@ -19,7 +19,7 @@
       <div class="development-card-container">
         <div class="card-container">
           <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-if="current.source" v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
+          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
           <img :src="current.source">
           <div class="button-select-container" v-if="current.source">
             <button type="button" class="develop-button" v-on:click="current.index = selectCurrentPrev(current)">&#8592;</button>
@@ -50,7 +50,7 @@
           <h2>Cards added to game</h2>
           <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
           <img :src="game.source">
-          <div class="button-select-container">
+          <div class="button-select-container" v-if="game.source">
             <button type="button" class="develop-button" v-on:click="game.index = selectPrev(game)">&#8592;</button>
             <button type="button" class="develop-button" v-on:click="deleteFromGameDB(game)">Remove Card</button>
             <button type="button" class="develop-button" v-on:click="game.index = selectNext(game)">&#8594;</button>
