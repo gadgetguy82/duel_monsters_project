@@ -1,7 +1,7 @@
 <template lang="html">
   <div id="game-board">
     <div class="board-container top-board">
-      <player-board :normalMonsters="normalMonsters" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
+      <player-board :gameCards="gameCards" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
       <info-box :gameState="gameState"></info-box>
@@ -25,7 +25,7 @@
       <win-lose></win-lose>
     </div>
     <div class="board-container bottom-board">
-      <player-board :normalMonsters="normalMonsters" :gameState="gameState" :playerData="bluePlayerData"></player-board>
+      <player-board :gameCards="gameCards" :gameState="gameState" :playerData="bluePlayerData"></player-board>
     </div>
   </div>
 </template>
@@ -41,7 +41,7 @@ import { eventBus1, eventBus2, eventBusInfo } from '@/main.js';
 
 export default {
   name: "game-board",
-  props: ['normalMonsters'],
+  props: ['gameCards'],
   components: {
     "player-board": PlayerBoard,
     "ai-board": AIBoard,
