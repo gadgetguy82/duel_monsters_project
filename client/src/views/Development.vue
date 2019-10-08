@@ -8,12 +8,7 @@
         </select>
         <select class="race-type" name="raceType" v-if="type.isSpell" v-model="selectedRace">
           <option disabled value="null">Select spell type...</option>
-          <option :value="'Continuous'">Continuous</option>
-          <option :value="'Equip'">Equip</option>
-          <option :value="'Field'">Field</option>
-          <option :value="'Normal'">Normal</option>
-          <option :value="'Quick-Play'">Quick-Play</option>
-          <option :value="'Ritual'">Ritual</option>
+          <option v-for="spellType of cardTypes[type.spellIndex].spellTypes" :value="spellType">{{ spellType }}</option>
         </select>
       </div>
       <div class="development-card-container">
@@ -22,6 +17,10 @@
         <card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></card-display>
       </div>
       <div class="button-update-container">
+        <div class="checkbox-container">
+          <input type="checkbox" id="initialise" v-model="checked">
+          <label for="initialise">Re-initialise game database</label>
+        </div>
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
         <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(2, 5)"></game-button>
         <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 8)"></game-button>
@@ -69,6 +68,7 @@ export default {
   },
   data() {
     return {
+      checked: false,
       cardTypes: [
         {
           name: "normalMonsters",
@@ -289,6 +289,16 @@ export default {
       });
     },
 
+    getCardType(type) {
+      DBService.getAllCards(type.route)
+      .then(cards => type.array = cards);
+      this.cardTypes.forEach(cardType => {
+        if (cardType.name === type.name) {
+          cardType = type;
+        }
+      });
+    },
+
     getCardTypes() {
       this.allCards.forEach(card => {
         delete card._id;
@@ -310,7 +320,10 @@ export default {
       subArray.forEach(cardType => {
         DBService.postCards(cardType.array, cardType.route);
       });
-      // DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute); // Only use this once to initialise developer db
+      if (this.checked) {
+        DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute);
+        this.getGameCards();
+      }
     },
 
     addToGameDB({set, index}) {
