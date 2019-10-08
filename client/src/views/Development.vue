@@ -17,9 +17,9 @@
         </select>
       </div>
       <div class="development-card-container">
-        <current-card-display :eventBus="eventBus" :display="current" :gameSet="game.set"></current-card-display>
+        <card-display :eventBus="eventBus" :display="current" :gameSet="game.set"></card-display>
         <development-info :type="type" :current="current" :game="game"></development-info>
-        <game-card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></game-card-display>
+        <card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></card-display>
       </div>
       <div class="button-update-container">
         <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
@@ -34,8 +34,8 @@
 
 <script>
 import CurrentCardDisplay from '@/components/CurrentCardDisplay.vue';
+import CardDisplay from '@/components/CardDisplay.vue';
 import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
-import GameCardDisplay from '@/components/GameCardDisplay.vue';
 import GameButton from '@/components/GameButton.vue';
 import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
@@ -46,8 +46,8 @@ export default {
   props: ['allCards'],
   components: {
     "current-card-display": CurrentCardDisplay,
+    "card-display": CardDisplay,
     "development-info": DevelopmentInfo,
-    "game-card-display": GameCardDisplay,
     "game-button": GameButton
   },
   computed: {
@@ -275,7 +275,7 @@ export default {
     },
 
     getGameCards() {
-      DBService.getAllCards("game_cards")
+      DBService.getAllCards("game_cards/")
       .then(cards => {
         this.game.set = cards;
         this.game.card = this.game.set[this.game.index];
@@ -309,7 +309,7 @@ export default {
 
     addToGameDB({set, index}) {
       const card = set[index];
-      DBService.postCard(card, "game_cards")
+      DBService.postCard(card, "game_cards/")
       .then(res => this.eventBus.$emit("card-added", res));
     },
 

@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'game-card-display',
+  name: 'card-display',
   props: ['eventBus', 'display', 'gameSet'],
   mounted() {
     this.eventBus.$on("select-prev", display => {
@@ -28,7 +28,13 @@ export default {
   },
   methods: {
     findCard() {
-      return this.display.set.findIndex(card => card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()));
+      return this.display.set.findIndex(card => {
+        if (this.display.current) {
+          card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id);
+        } else {
+          card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase());
+        }
+      });
     },
 
     findCards(set, searchTerm) {
@@ -40,10 +46,28 @@ export default {
         const subSet = this.findCards(set, searchTerm);
         this.display.subIndex = this.display.subIndex === subSet.length - 1 ? 0 : this.display.subIndex + 1;
         const subSetCard = subSet[this.display.subIndex];
-        return set.findIndex(card => card === subSetCard);
+        index = set.findIndex(card => card === subSetCard);
+        if (this.display.current) {
+          if (this.gameSet.some(card => card.id === subSetCard.id)) {
+            return this.selectNext({set, index, searchTerm});
+          } else {
+            return index;
+          }
+        } else {
+          return index;
+        }
       } else {
         this.display.subIndex = 0;
-        return index = index === set.length - 1 ? 0 : index + 1;
+        index = index === set.length - 1 ? 0 : index + 1;
+        if (this.display.current) {
+          if (this.gameSet.some(card => card.id === set[index].id)) {
+            return this.selectNext({set, index, searchTerm});
+          } else {
+            return index;
+          }
+        } else {
+          return index;
+        }
       }
     },
 
@@ -52,10 +76,28 @@ export default {
         const subSet = this.findCards(set, searchTerm);
         this.display.subIndex = this.display.subIndex === 0 ? subSet.length - 1 : this.display.subIndex - 1;
         const subSetCard = subSet[this.display.subIndex];
-        return set.findIndex(card => card === subSetCard);
+        index = set.findIndex(card => card === subSetCard);
+        if (this.display.current) {
+          if (this.gameSet.some(card => card.id === subSetCard.id)) {
+            return this.selectPrev({set, index, searchTerm});
+          } else {
+            return index;
+          }
+        } else {
+          return index;
+        }
       } else {
         this.display.subIndex = 0;
-        return index = index === 0 ? set.length - 1 : index - 1;
+        index = index === 0 ? set.length - 1 : index - 1;
+        if (this.display.current) {
+          if (this.gameSet.some(card => card.id === set[index].id)) {
+            return this.selectPrev({set, index, searchTerm});
+          } else {
+            return index;
+          }
+        } else {
+          return index;
+        }
       }
     },
 
