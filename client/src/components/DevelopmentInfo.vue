@@ -18,7 +18,7 @@
     <attribute-box :eventBus="eventBus" :card="game.card"></attribute-box>
     <hr>
     <h2>Cards not in game collection</h2>
-    <div class="current-info-container" v-if="current.card.name">
+    <div class="current-info-container" v-if="current.card !== undefined">
       <p>Current set is {{ current.card.type }}</p>
       <p>Total cards in current set collection: {{ current.array.length }}</p>
       <attribute-box :eventBus="eventBus" :card="current.card"></attribute-box>

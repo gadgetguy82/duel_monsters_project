@@ -19,6 +19,7 @@ const createRouter = function(collection) {
   router.get('/write', (req, res) => {
     collection.find().toArray()
     .then(docs => {
+      docs.forEach(object => delete object._id);
       readWrite.writeAsync('game_cards.json', docs);
       res.json(docs);
     })
