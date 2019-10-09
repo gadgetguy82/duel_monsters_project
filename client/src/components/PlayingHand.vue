@@ -3,9 +3,9 @@
     <div class="playing-hand">
       <playing-card v-for="(card,index) in playerHand" :key="index" :card="card" v-on:click.native="placeOrDiscard(card)"></playing-card>
     </div>
-    <div class="button-container">
-      <game-button v-if="canChoosePosition" v-on:click.native="setAttack(summoningCard)" :text="'Attack'" :colour="'red'"></game-button>
-      <game-button v-if="canChoosePosition" v-on:click.native="setDefend(summoningCard)" :text="'Defend'" :colour="'blue'"></game-button>
+    <div class="button-container" v-if="canChoosePosition">
+      <game-button v-on:click.native="setAttack(summoningCard)" :text="'Attack'" :colour="'red'"></game-button>
+      <game-button v-on:click.native="setDefend(summoningCard)" :text="'Defend'" :colour="'blue'"></game-button>
     </div>
   </div>
 </template>

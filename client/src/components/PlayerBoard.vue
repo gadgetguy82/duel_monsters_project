@@ -61,7 +61,8 @@ export default {
   data() {
     return{
       deck: [],
-      minSize: 40
+      minSize: 40,
+      maxRange: 20
     }
   },
   mounted() {
@@ -69,7 +70,7 @@ export default {
   },
   methods: {
     randomizeCards() {
-      const range = Math.floor(Math.random() * 20)
+      const range = Math.floor(Math.random() * maxRange);
       for (let i = 0; i < this.minSize + range; i++) {
         const index = Math.floor(Math.random() * this.gameCards.length);
         const chosenCardCopy = Object.assign({}, this.gameCards[index]);
