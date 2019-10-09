@@ -1,2 +1,2 @@
-web: node server.js
-worker: vue-cli-service serve
+web: npm run --prefix client serve
+worker: node server/server.js
