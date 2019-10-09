@@ -14,9 +14,9 @@
         <input type="text" value="" v-model="value">
       </div>
     </div>
-    <game-button v-on:click.native="addAttribute" :text="textAdd"></game-button>
-    <game-button v-on:click.native="removeAttribute" :text="textRemove"></game-button>
-    <game-button v-if="card.game" v-on:click.native="updateCard" :text="textUpdate"></game-button>
+    <game-button v-on:click.native="addAttribute" :text="textAdd" :colour="'green'"></game-button>
+    <game-button v-on:click.native="removeAttribute" :text="textRemove" :colour="'red'"></game-button>
+    <game-button v-if="card.game" v-on:click.native="updateCard" :text="textUpdate" :colour="'blue'"></game-button>
   </div>
 </template>
 

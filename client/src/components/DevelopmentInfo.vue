@@ -10,13 +10,17 @@
     </div>
     <hr>
     <h2>Cards added in game collection</h2>
-    <p>Total cards in game collection: {{ game.set.length }}</p>
+    <p>Total cards in game collection: {{ game.array.length }}</p>
+    <div class="button-container">
+      <game-button v-on:click="writeToFile" :text="textWrite" :colour="'white'"></game-button>
+      <game-button v-on:click="readFromFile" :text="textRead" :colour="'red'"></game-button>
+    </div>
     <attribute-box :eventBus="eventBus" :card="game.card"></attribute-box>
     <hr>
     <h2>Cards not in game collection</h2>
     <div class="current-info-container" v-if="current.card.name">
       <p>Current set is {{ current.card.type }}</p>
-      <p>Total cards in current set collection: {{ current.set.length }}</p>
+      <p>Total cards in current set collection: {{ current.array.length }}</p>
       <attribute-box :eventBus="eventBus" :card="current.card"></attribute-box>
       <h4>Description:</h4>
       <p class="description">{{ current.card.desc }}</p>
@@ -27,13 +31,28 @@
 <script>
 import AttributeBox from '@/components/AttributeBox.vue';
 import ListBox from '@/components/ListBox.vue';
+import GameButton from '@/components/GameButton.vue';
+import * as ReadWrite from '@/services/read_write.js';
 
 export default {
   name: 'development-info',
   props: ['eventBus', 'type', 'current', 'game'],
   components: {
     "attribute-box": AttributeBox,
-    "list-box": ListBox
+    "list-box": ListBox,
+    "game-button": GameButton
+  },
+  data() {
+    return {
+      file: "game_cards.json",
+      textWrite: "Write DB to file",
+      textRead: "Read DB from file"
+    }
+  },
+  methods: {
+    writeToFile() {
+      ReadWrite.writeAsync(file, game.array);
+    }
   }
 }
 </script>
@@ -44,6 +63,7 @@ export default {
   margin: 10px;
   padding: 5px;
   border: 5px solid #000000;
+  border-radius: 10px;
   background-color: rgba(255, 255, 255, 0.7);
 }
 
@@ -53,6 +73,10 @@ export default {
 
 .card-type, .spell-type {
   flex-grow: 1;
+}
+
+.button-container {
+  display: flex;
 }
 
 .description {
@@ -67,5 +91,25 @@ h2 {
 
 h4, p {
   margin: 2px;
+}
+
+hr {
+    overflow: visible;
+    height: 30px;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+    margin-bottom: 0;
+}
+hr:before {
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -30px;
+    border-style: solid;
+    border-color: #000000;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
 }
 </style>

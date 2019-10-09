@@ -14,13 +14,13 @@
 <script>
 export default {
   name: 'card-display',
-  props: ['eventBus', 'display', 'gameSet'],
+  props: ['eventBus', 'display', 'gameArray'],
   mounted() {
     this.eventBus.$on("select-next-current", display => {
       if (this.display.current) {
         this.display.index = this.selectNext(display);
       } else {
-        this.display.index = this.display.set.length - 1;
+        this.display.index = this.display.array.length - 1;
       }
     });
 
@@ -32,7 +32,7 @@ export default {
   },
   watch: {
     "display.index"() {
-      this.display.card = this.display.set[this.display.index];
+      this.display.card = this.display.array[this.display.index];
       this.display.source = this.display.card ? this.display.card.card_images[0].image_url : "";
     }
   },
@@ -43,29 +43,29 @@ export default {
 
     checkName(card) {
       if (this.display.current) {
-        return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameSet.some(gameCard => card.id === gameCard.id);
+        return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase()) && !this.gameArray.some(gameCard => card.id === gameCard.id);
       } else {
         return card.name.toLowerCase().includes(this.display.searchTerm.toLowerCase());
       }
     },
 
     findCard() {
-      this.display.index = this.display.set.findIndex(this.checkName);
+      this.display.index = this.display.array.findIndex(this.checkName);
     },
 
-    findCards(set, searchTerm) {
-      return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    findCards(array, searchTerm) {
+      return array.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
     },
 
-    selectNext({set, index, searchTerm}) {
+    selectNext({array, index, searchTerm}) {
       if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.display.subIndex = this.display.subIndex === subSet.length - 1 ? 0 : this.display.subIndex + 1;
-        const subSetCard = subSet[this.display.subIndex];
-        index = set.findIndex(card => card === subSetCard);
+        const subArray = thchromeis.findCards(array, searchTerm);
+        this.display.subIndex = this.display.subIndex === subArray.length - 1 ? 0 : this.display.subIndex + 1;
+        const subArrayCard = subArray[this.display.subIndex];
+        index = array.findIndex(card => card === subArrayCard);
         if (this.display.current) {
-          if (this.gameSet.some(card => card.id === subSetCard.id)) {
-            return this.selectNext({set, index, searchTerm});
+          if (this.gameArray.some(card => card.id === subArrayCard.id)) {
+            return this.selectNext({array, index, searchTerm});
           } else {
             return index;
           }
@@ -74,10 +74,10 @@ export default {
         }
       } else {
         this.display.subIndex = 0;
-        index = index === set.length - 1 ? 0 : index + 1;
+        index = index === array.length - 1 ? 0 : index + 1;
         if (this.display.current) {
-          if (this.gameSet.some(card => card.id === set[index].id)) {
-            return this.selectNext({set, index, searchTerm});
+          if (this.gameArray.some(card => card.id === array[index].id)) {
+            return this.selectNext({array, index, searchTerm});
           } else {
             return index;
           }
@@ -87,15 +87,15 @@ export default {
       }
     },
 
-    selectPrev({set, index, searchTerm}) {
+    selectPrev({array, index, searchTerm}) {
       if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.display.subIndex = this.display.subIndex === 0 ? subSet.length - 1 : this.display.subIndex - 1;
-        const subSetCard = subSet[this.display.subIndex];
-        index = set.findIndex(card => card === subSetCard);
+        const subArray = this.findCards(array, searchTerm);
+        this.display.subIndex = this.display.subIndex === 0 ? subArray.length - 1 : this.display.subIndex - 1;
+        const subArrayCard = subArray[this.display.subIndex];
+        index = array.findIndex(card => card === subArrayCard);
         if (this.display.current) {
-          if (this.gameSet.some(card => card.id === subSetCard.id)) {
-            return this.selectPrev({set, index, searchTerm});
+          if (this.gameArray.some(card => card.id === subArrayCard.id)) {
+            return this.selectPrev({array, index, searchTerm});
           } else {
             return index;
           }
@@ -104,10 +104,10 @@ export default {
         }
       } else {
         this.display.subIndex = 0;
-        index = index === 0 ? set.length - 1 : index - 1;
+        index = index === 0 ? array.length - 1 : index - 1;
         if (this.display.current) {
-          if (this.gameSet.some(card => card.id === set[index].id)) {
-            return this.selectPrev({set, index, searchTerm});
+          if (this.gameArray.some(card => card.id === array[index].id)) {
+            return this.selectPrev({array, index, searchTerm});
           } else {
             return index;
           }
@@ -137,6 +137,7 @@ export default {
   margin: 10px;
   padding: 5px;
   border: 5px solid #000000;
+  border-radius: 10px;
 }
 
 .search {

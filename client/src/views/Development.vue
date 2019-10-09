@@ -12,21 +12,23 @@
         </select>
       </div>
       <div class="development-card-container">
-        <card-display :eventBus="eventBus" :display="current" :gameSet="game.set"></card-display>
+        <card-display :eventBus="eventBus" :display="current" :gameArray="game.array"></card-display>
         <development-info :eventBus="eventBus" :type="type" :current="current" :game="game"></development-info>
-        <card-display :eventBus="eventBus" :display="game" :gameSet="game.set"></card-display>
+        <card-display :eventBus="eventBus" :display="game" :gameArray="game.array"></card-display>
       </div>
-      <div class="button-update-container">
-        <div class="checkbox-container">
-          <input type="checkbox" id="initialise" v-model="initialise">
-          <label for="initialise">Initialise game DB</label>
+      <div class="button-container">
+        <div class="add-button-container">
+          <div class="checkbox-container">
+            <input type="checkbox" id="initialise" v-model="initialise">
+            <label for="initialise">Initialise game DB</label>
+          </div>
+          <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
+          <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
+          <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
+          <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
+          <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
+          <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
         </div>
-        <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
-        <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
-        <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
-        <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
-        <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
-        <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
       </div>
     </div>
   </div>
@@ -69,7 +71,6 @@ export default {
   data() {
     return {
       initialise: false,
-      file: "game_cards.json",
       cardTypes: [
         {
           name: "normalMonsters",
@@ -209,7 +210,7 @@ export default {
       current: {
         title: "Working on current card",
         buttonText: "Add Card",
-        set: [],
+        array: [],
         index: 0,
         subIndex: 0,
         card: {},
@@ -221,7 +222,7 @@ export default {
       game: {
         title: "Cards added to game",
         buttonText: "Remove Card",
-        set: [],
+        array: [],
         index: 0,
         subIndex: 0,
         card: {},
@@ -248,12 +249,12 @@ export default {
     this.eventBus.$on("update-card", card => this.updateCardInGameDB(card));
 
     this.eventBus.$on("card-added", card => {
-      this.game.set.push(card);
+      this.game.array.push(card);
       this.eventBus.$emit("select-next-current", this.current);
     });
 
     this.eventBus.$on("card-deleted", () => {
-      this.game.set.splice(this.game.index, 1);
+      this.game.array.splice(this.game.index, 1);
       this.eventBus.$emit("select-prev-game", this.game);
     });
   },
@@ -264,16 +265,16 @@ export default {
       return total;
     },
 
-    setCurrentCard(set) {
-      this.current.set = set;
+    setCurrentCard(array) {
+      this.current.array = array;
       this.current.index = 0;
-      this.current.card = this.current.set[this.current.index];
+      this.current.card = this.current.array[this.current.index];
       this.current.source = this.current.card.card_images[0].image_url;
       this.current.searchTerm = "";
-      while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
+      while (this.game.array.some(card => card.id === this.current.array[this.current.index].id)) {
         this.current.index++;
-        if (this.current.index < this.current.set.length) {
-          this.current.card = this.current.set[this.current.index];
+        if (this.current.index < this.current.array.length) {
+          this.current.card = this.current.array[this.current.index];
           this.current.source = this.current.card.card_images[0].image_url;
         } else {
           this.current.card = {};
@@ -286,8 +287,8 @@ export default {
     getGameCards() {
       DBService.getAllCards("game_cards/")
       .then(cards => {
-        this.game.set = cards;
-        this.game.card = this.game.set[this.game.index];
+        this.game.array = cards;
+        this.game.card = this.game.array[this.game.index];
         this.game.source = this.game.card.card_images[0].image_url;
       });
     },
@@ -331,15 +332,15 @@ export default {
       }
     },
 
-    addToGameDB({set, index}) {
-      const card = set[index];
+    addToGameDB({array, index}) {
+      const card = array[index];
       card.game = true;
       DBService.postCard(card, "game_cards/")
       .then(res => this.eventBus.$emit("card-added", res));
     },
 
-    deleteFromGameDB({set, index}) {
-      const card = set[index];
+    deleteFromGameDB({array, index}) {
+      const card = array[index];
       DBService.deleteCard(card._id, "game_cards/")
       .then(res => this.eventBus.$emit("card-deleted", res));
     },
@@ -374,13 +375,18 @@ export default {
   transform: translateX(50px);
 }
 
-.button-update-container {
+.button-container {
+  display: flex;
+  justify-content: center;
+}
+
+.add-button-container {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
   border: 5px solid #000000;
+  border-radius: 10px;
   width: 92%;
-  transform: translate(60px, 25px);
   background-color: rgba(0, 255, 255, 0.7);
 }
 </style>
