@@ -59,7 +59,7 @@ MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', { us
   if (error) {
     console.log(error);
   }
-  const db = client.db('duel_monsters_game');
+  const db = client.db(process.env.DB_NAME || 'duel_monsters_game');
 
   const cardsCollection = db.collection('cards');
   const cardsRouter = createRouter(cardsCollection);
