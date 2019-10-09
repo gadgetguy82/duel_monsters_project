@@ -55,7 +55,7 @@ io.on('connection', socket => {
 const MongoClient = require('mongodb').MongoClient;
 const createRouter = require('./helpers/create_router.js');
 
-MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (error, client) => {
+MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', { useNewUrlParser: true }, (error, client) => {
   if (error) {
     console.log(error);
   }
@@ -138,10 +138,8 @@ MongoClient.connect('mongodb://localhost:27017', { useNewUrlParser: true }, (err
   app.use('/api/duel_monsters_game/game_cards', gameCardsRouter);
 });
 
-let port = process.env.PORT;
-if (port == null || port == "") {
-  port = 3000;
-}
+let port = process.env.PORT || 3000;
+
 app.listen(port, function() {
   console.log(`Listening on port ${this.address().port}`);
 });
