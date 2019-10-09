@@ -25,3 +25,10 @@ export const objToArray = (obj) => {
   const array = Object.entries(obj);
   return array.sort(comparator);
 }
+
+export const shuffle = (array) => {
+  for (let currentIndex = array.length - 1; currentIndex > 0; currentIndex--) {
+    const randomIndex = Math.floor(Math.random() * currentIndex);
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+}

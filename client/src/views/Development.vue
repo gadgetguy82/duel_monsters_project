@@ -6,84 +6,56 @@
           <option disabled :value="null">Select card type...</option>
           <option v-for="cardType of cardTypes" :value="cardType.array">{{ cardType.type }}</option>
         </select>
-        <select class="race-type" name="raceType" v-if="spells" v-model="selectedRace">
+        <select class="race-type" name="raceType" v-if="type.isSpell" v-model="selectedRace">
           <option disabled value="null">Select spell type...</option>
-          <option :value="'Continuous'">Continuous</option>
-          <option :value="'Equip'">Equip</option>
-          <option :value="'Field'">Field</option>
-          <option :value="'Normal'">Normal</option>
-          <option :value="'Quick-Play'">Quick-Play</option>
-          <option :value="'Ritual'">Ritual</option>
+          <option v-for="spellType of cardTypes[type.spellIndex].spellTypes" :value="spellType">{{ spellType }}</option>
         </select>
       </div>
       <div class="development-card-container">
-        <div class="card-container">
-          <h2>Working on current card</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="current.searchTerm" v-on:input="current.index = findCurrentCard(current)">
-          <img :src="current.source">
-          <div class="button-select-container" v-if="current.source">
-            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentPrev(current)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="addToGameDB(current)">Add Card</button>
-            <button type="button" class="develop-button" v-on:click="current.index = selectCurrentNext(current)">&#8594;</button>
-          </div>
-        </div>
-        <div class="card-info-container">
-          <h2>Cards added database info</h2>
-          <div class="game-info-container">
-            <p>Card count of all cards: {{ totalCards }}</p>
-            <p>Card count in database for game: {{ game.set.length }}</p>
-            <ul class="type-count">
-              <li v-for="pair in typeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
-            </ul>
-            <ul class="spell-type-count">
-              <li v-for="pair in spellTypeCountArray">{{ pair[0] }}: {{ pair[1] }}</li>
-            </ul>
-          </div>
-          <h2>Card info of the current card being worked on</h2>
-          <div class="current-card-container" v-if="current.card">
-            <p>Card count of the current set: {{ current.set.length }}</p>
-            <h4>Description:</h4>
-            <p>{{ current.card.desc }}</p>
-          </div>
-        </div>
-        <div class="card-container">
-          <h2>Cards added to game</h2>
-          <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="game.searchTerm" v-on:input="game.index = findCard(game)">
-          <img :src="game.source">
-          <div class="button-select-container" v-if="game.source">
-            <button type="button" class="develop-button" v-on:click="game.index = selectPrev(game)">&#8592;</button>
-            <button type="button" class="develop-button" v-on:click="deleteFromGameDB(game)">Remove Card</button>
-            <button type="button" class="develop-button" v-on:click="game.index = selectNext(game)">&#8594;</button>
-          </div>
-        </div>
+        <card-display :eventBus="eventBus" :display="current" :gameArray="game.array"></card-display>
+        <development-info :eventBus="eventBus" :type="type" :current="current" :game="game"></development-info>
+        <card-display :eventBus="eventBus" :display="game" :gameArray="game.array"></card-display>
       </div>
-      <div class="button-update-container">
-        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
-        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(2, 5)"></game-button>
-        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 9)"></game-button>
-        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(9, 13)"></game-button>
-        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(13, 17)"></game-button>
+      <div class="button-container">
+        <div class="add-button-container">
+          <div class="checkbox-container">
+            <input type="checkbox" id="initialise" v-model="initialise">
+            <label for="initialise">Initialise game DB</label>
+          </div>
+          <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
+          <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
+          <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
+          <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
+          <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
+          <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import CardDisplay from '@/components/CardDisplay.vue';
+import DevelopmentInfo from '@/components/DevelopmentInfo.vue';
 import GameButton from '@/components/GameButton.vue';
-import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service';
 import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'development',
-  props: ['allCards', 'normalMonsters'],
+  props: ['allCards', 'eventBus'],
+  components: {
+    "card-display": CardDisplay,
+    "development-info": DevelopmentInfo,
+    "game-button": GameButton
+  },
   computed: {
     selectedType: {
       get() {
         return null;
       },
       set(optionValue) {
-        this.spells = this.cardTypes[this.spellCardIndex].array === optionValue;
+        this.type.isSpell = this.cardTypes[this.type.spellIndex].array === optionValue;
         this.setCurrentCard(optionValue);
       }
     },
@@ -92,16 +64,13 @@ export default {
         return null;
       },
       set(optionValue) {
-        this.setCurrentCard(this.cardTypes[this.spellCardIndex].array.filter(card => card.race === optionValue));
+        this.setCurrentCard(this.cardTypes[this.type.spellIndex].array.filter(card => card.race === optionValue));
       }
     }
   },
-  components: {
-    "game-button": GameButton
-  },
   data() {
     return {
-      totalCards: this.allCards.length,
+      initialise: false,
       cardTypes: [
         {
           name: "normalMonsters",
@@ -226,195 +195,159 @@ export default {
         },
       ],
 
-      typeCount: {},
-      typeCountArray: [],
-      spellTypeCount: {},
-      spellTypeCountArray: [],
-      spells: false,
-      spellCardIndex: 15,
+      type: {
+        totalCards: this.allCards.length,
+        checkTotal: 0,
+        allCount: {},
+        allArray: [],
+        spellCount: {},
+        spellArray: [],
+        spell: "Spell Card",
+        isSpell: false,
+        spellIndex: 15
+      },
 
       current: {
-        set: [],
+        title: "Working on current card",
+        buttonText: "Add Card",
+        array: [],
         index: 0,
         subIndex: 0,
         card: {},
         source: "",
-        searchTerm: ""
+        searchTerm: "",
+        current: true
       },
 
       game: {
-        set: [],
+        title: "Cards added to game",
+        buttonText: "Remove Card",
+        array: [],
         index: 0,
         subIndex: 0,
         card: {},
         source: "",
-        searchTerm: ""
+        searchTerm: "",
+        current: false
       }
     }
   },
   mounted() {
     this.getGameCards();
+    this.getCardTypes();
 
-    this.allCards.forEach(card => {
-      delete card._id;
-      let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
-      if (index >= 0) {
-        this.cardTypes[index].array.push(card);
-      }
+    this.type.checkTotal = this.checkSubTotals();
 
-      this.typeCount = Helpers.trackUniqueProperty(this.typeCount, card.type);
-      this.typeCountArray = Helpers.objToArray(this.typeCount);
-      if (card.type === "Spell Card") {
-        this.spellTypeCount = Helpers.trackUniqueProperty(this.spellTypeCount, card.race);
-      }
-      this.spellTypeCountArray = Helpers.objToArray(this.spellTypeCount);
+    this.eventBus.$on("add-card", display => {
+      this.addToGameDB(display);
     });
 
-    eventBusInfo.$on("card-added", card => {
-      this.game.set.push(card);
-      this.current.index = this.selectCurrentNext(this.current);
+    this.eventBus.$on("delete-card", display => {
+      this.deleteFromGameDB(display);
     });
-  },
-  watch: {
-    "current.index"() {
-      this.current.card = this.current.set[this.current.index];
-      this.current.source = this.current.card ? this.current.card.card_images[0].image_url : "";
-    },
 
-    "game.index"() {
-      this.game.card = this.game.set[this.game.index];
-      this.game.source = this.game.card ? this.game.card.card_images[0].image_url : "";
-    }
+    this.eventBus.$on("update-card", card => this.updateCardInGameDB(card));
+
+    this.eventBus.$on("card-added", card => {
+      this.game.array.push(card);
+      this.eventBus.$emit("select-next-current", this.current);
+    });
+
+    this.eventBus.$on("card-deleted", () => {
+      this.game.array.splice(this.game.index, 1);
+      this.eventBus.$emit("select-prev-game", this.game);
+    });
   },
   methods: {
-    setCurrentCard(set) {
-      this.current.set = set;
+    checkSubTotals() {
+      let total = 0;
+      this.cardTypes.forEach(cardType => total += cardType.array.length);
+      return total;
+    },
+
+    setCurrentCard(array) {
+      this.current.array = array;
       this.current.index = 0;
-      while (this.game.set.some(card => card.id === this.current.set[this.current.index].id)) {
-        this.current.index++;
-      }
-      if (this.current.index === this.current.set.length) {
-        this.current.card = {};
-        this.current.source = "";
-      } else {
-        this.current.card = this.current.set[this.current.index];
-        this.current.source = this.current.card.card_images[0].image_url;
-      }
+      this.current.card = this.current.array[this.current.index];
+      this.current.source = this.current.card.card_images[0].image_url;
       this.current.searchTerm = "";
-    },
-
-    findCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    },
-
-    findCurrentCard({set, searchTerm}) {
-      return set.findIndex(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()) && !this.game.set.some(gameCard => card.id === gameCard.id));
-    },
-
-    findCards(set, searchTerm) {
-      return set.filter(card => card.name.toLowerCase().includes(searchTerm.toLowerCase()));
-    },
-
-    selectNext({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === subSet.length - 1 ? 0 : this.game.subIndex + 1;
-        const subSetCard = subSet[this.game.subIndex];
-        return set.findIndex(card => card === subSetCard);
-      } else {
-        this.game.subIndex = 0;
-        return index = index === set.length - 1 ? 0 : index + 1;
-      }
-    },
-
-    selectPrev({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.game.subIndex = this.game.subIndex === 0 ? subSet.length - 1 : this.game.subIndex - 1;
-        const subSetCard = subSet[this.game.subIndex];
-        return set.findIndex(card => card === subSetCard);
-      } else {
-        this.game.subIndex = 0;
-        return index = index === 0 ? set.length - 1 : index - 1;
-      }
-    },
-
-    selectCurrentNext({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === subSet.length - 1 ? 0 : this.current.subIndex + 1;
-        const subSetCard = subSet[this.current.subIndex];
-        index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
+      while (this.game.array.some(card => card.id === this.current.array[this.current.index].id)) {
+        this.current.index++;
+        if (this.current.index < this.current.array.length) {
+          this.current.card = this.current.array[this.current.index];
+          this.current.source = this.current.card.card_images[0].image_url;
         } else {
-          return index;
-        }
-      } else {
-        this.current.subIndex = 0;
-        index = index === set.length - 1 ? 0 : index + 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentNext({set, index, searchTerm});
-        } else {
-          return index;
+          this.current.card = {};
+          this.current.source = "";
+          break;
         }
       }
-    },
-
-    selectCurrentPrev({set, index, searchTerm}) {
-      if (searchTerm) {
-        const subSet = this.findCards(set, searchTerm);
-        this.current.subIndex = this.current.subIndex === 0 ? subSet.length - 1 : this.current.subIndex - 1;
-        const subSetCard = subSet[this.current.subIndex];
-        index = set.findIndex(card => card === subSetCard);
-        if (this.game.set.some(card => card.id === subSetCard.id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      } else {
-        this.current.subIndex = 0;
-        index = index === 0 ? set.length - 1 : index - 1;
-        if (this.game.set.some(card => card.id === set[index].id)) {
-          return this.selectCurrentPrev({set, index, searchTerm});
-        } else {
-          return index;
-        }
-      }
-    },
-
-    addToGameDB({set, index}) {
-      const card = set[index];
-      DBService.postCard(card, "game_cards")
-      .then(res => eventBusInfo.$emit("card-added", res));
-    },
-
-    deleteFromGameDB({set, index}) {
-      const card = set[index];
-      DBService.deleteCard(card._id, "game_cards/");
-      this.game.set.splice(this.game.index, 1);
-      this.game.index = this.selectPrev(this.game);
-      this.game.card = this.game.set[this.game.index];
-      this.game.source = this.game.card.card_images[0].image_url;
     },
 
     getGameCards() {
-      DBService.getAllCards("game_cards")
+      DBService.getAllCards("game_cards/")
       .then(cards => {
-        this.game.set = cards;
-        this.game.card = this.game.set[this.game.index];
+        this.game.array = cards;
+        this.game.card = this.game.array[this.game.index];
         this.game.source = this.game.card.card_images[0].image_url;
       });
     },
 
-    updateSetsOfCards(start, end) {
-      const subArray = this.cardTypes.slice(start, end);
-      subArray.forEach(cardType => this.updateCards(cardType));
-      // this.updateCards({cardTypes[0].array, cardTypes[0].altRoute}); // Only use this once to initialise developer db
+    getCardType(type) {
+      DBService.getAllCards(type.route)
+      .then(cards => type.array = cards);
+      this.cardTypes.forEach(cardType => {
+        if (cardType.name === type.name) {
+          cardType = type;
+        }
+      });
     },
 
-    updateCards(cardSet) {
-      DBService.postCards(cardSet.array, cardSet.route);
+    getCardTypes() {
+      this.allCards.forEach(card => {
+        delete card._id;
+        let index = this.cardTypes.findIndex(type => type.cardTypesList.includes(card.type));
+        if (index >= 0) {
+          this.cardTypes[index].array.push(card);
+        }
+        this.type.allCount = Helpers.trackUniqueProperty(this.type.allCount, card.type);
+        this.type.allArray = Helpers.objToArray(this.type.allCount);
+        if (card.type === this.type.spell) {
+          this.type.spellCount = Helpers.trackUniqueProperty(this.type.spellCount, card.race);
+        }
+        this.type.spellArray = Helpers.objToArray(this.type.spellCount);
+      });
+    },
+
+    addSetsOfCards(start, end) {
+      const subArray = this.cardTypes.slice(start, end);
+      subArray.forEach(cardType => {
+        DBService.postCards(cardType.array, cardType.route);
+      });
+      if (this.initialise) {
+        this.cardTypes[0].array.forEach(card => card.game = true);
+        DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute);
+        this.getGameCards();
+        this.initialise = false;
+      }
+    },
+
+    addToGameDB({array, index}) {
+      const card = array[index];
+      card.game = true;
+      DBService.postCard(card, "game_cards/")
+      .then(res => this.eventBus.$emit("card-added", res));
+    },
+
+    deleteFromGameDB({array, index}) {
+      const card = array[index];
+      DBService.deleteCard(card._id, "game_cards/")
+      .then(res => this.eventBus.$emit("card-deleted", res));
+    },
+
+    updateCardInGameDB(card) {
+      DBService.updateCard(card, "game_cards/")
+      .then(res => this.eventBus.$emit("card-updated", res));
     }
   }
 }
@@ -426,18 +359,13 @@ export default {
   flex-direction: column;
 }
 
-.button-update-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  border: 5px solid #000000;
-  width: 92%;
-  transform: translate(60px, 25px);
-  background-color: rgba(0, 255, 255, 0.7);
-}
-
 .select-container {
   display: flex;
+}
+
+.development-card-container {
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .card-type, .race-type {
@@ -447,64 +375,18 @@ export default {
   transform: translateX(50px);
 }
 
-.type-count, .spell-type-count {
-  border: 1px solid #000000;
-  height: 50px;
-  overflow: scroll;
-  padding: 5px;
-}
-
-.card-container {
-  background-color: rgba(255, 255, 255, 0.7);
+.button-container {
   display: flex;
-  width: 420px;
-  flex-direction: column;
-  margin: 10px;
-  padding: 5px;
-  border: 5px solid #000000;
+  justify-content: center;
 }
 
-.card-info-container {
-  width: 420px;
-  margin: 10px;
-  padding: 5px;
-  border: 5px solid #000000;
-  background-color: rgba(255, 255, 255, 0.7);
-}
-
-.button-select-container, .development-card-container {
+.add-button-container {
   display: flex;
+  flex-direction: row;
   justify-content: space-evenly;
-}
-
-.develop-button {
-  border: solid;
-  border-width: 1px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
-  box-shadow: 2px 2px;
-  background-color: #00FF00;
-  color: #000000;
-  margin: 5px;
-  flex-grow: 1;
-  cursor: pointer;
-}
-
-h2 {
-  text-align: center;
-  margin: 5px 0;
-}
-
-h4, p {
-  margin: 2px;
-}
-
-.search {
-  font-size: 16px;
-  margin: 5px 0;
+  border: 5px solid #000000;
+  border-radius: 10px;
+  width: 92%;
+  background-color: rgba(0, 255, 255, 0.7);
 }
 </style>

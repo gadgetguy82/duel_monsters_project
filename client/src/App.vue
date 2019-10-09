@@ -2,46 +2,65 @@
   <div id="app">
     <nav id="nav-bar">
       <router-link :to="{ name: 'home' }"> HOME </router-link>
-      <router-link :to="{ name: 'game-board' }" v-if="normalMonsterCards.length > 0"> BOARD </router-link>
-      <router-link :to="{ name: 'store' }"> STORE </router-link>
+      <router-link :to="{ name: 'game-board' }" v-if="gameCards.length > 0"> BOARD </router-link>
+      <router-link :to="{ name: 'store' }" v-if="allCards.length > 0"> STORE </router-link>
       <router-link :to="{ name: 'about' }"> ABOUT </router-link>
       <div class="right">
-        <router-link :to="{ name: 'develop' }"> DEVELOPMENT </router-link>
+        <router-link :to="{ name: 'develop' }" v-if="allCards.length > 0"> DEVELOPMENT </router-link>
       </div>
     </nav>
     <div class="view">
-      <router-view id='view' :allCards="allDatabaseCards" :normalMonsters="normalMonsterCards"></router-view>
+      <router-view id='view' :allCards="allCards" :gameCards="gameCards" :normalMonsters="normalMonsters" :eventBus="eventBus"></router-view>
     </div>
   </div>
 </template>
 
 <script>
-import DBService from '@/services/db_service'
+import { eventBusInfo } from '@/main.js';
+import DBService from '@/services/db_service';
 
 export default {
   name: 'app',
   data(){
     return {
-      allDatabaseCards: [],
-      normalMonsterCards: []
+      eventBus: eventBusInfo,
+      allCards: [],
+      gameCards: [],
+      normalMonsters: []
     }
   },
   mounted() {
-    DBService.getAllCards("cards")
-    .then(cards => {
-      this.allDatabaseCards = cards;
-      this.allDatabaseCards.forEach((card) => {
-        if (card.type === "Normal Monster") {
-          delete card._id;
+    this.loadAllCards();
+    this.loadGameCards();
+
+    this.eventBus.$on("reload-game-cards", () => this.loadGameCards());
+  },
+  methods: {
+    loadAllCards() {
+      DBService.getAllCards("cards/")
+      .then(cards => {
+        this.allCards = cards;
+        this.allCards.forEach((card) => {
+          this.$set(card, "game", false);
           this.$set(card, "hidden", true);
-          this.$set(card, "position", "atk");
           this.$set(card, "initial", true);
           this.$set(card, "player", "");
-          this.$set(card, "change", false);
-          this.normalMonsterCards.push(card);
-        }
+          if (card.type.includes("Monster")) {
+            delete card._id;
+            this.$set(card, "position", "atk");
+            this.$set(card, "change", false);
+            if (card.type.includes("Normal Monster")) {
+              this.normalMonsters.push(card);
+            }
+          }
+        });
       });
-    });
+    },
+
+    loadGameCards() {
+      DBService.getAllCards("game_cards/")
+      .then(cards => this.gameCards = cards);
+    }
   }
 }
 </script>

@@ -43,5 +43,6 @@ export default {
 
 .yellow {
   background-image: url('../../public/img/yugioh_exodia.jpg');
+  background-position: center;
 }
 </style>

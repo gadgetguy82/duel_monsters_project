@@ -21,7 +21,7 @@
         <li>Play until someone loses. Once a player’s Life Points reach zero, they lose the duel.</li>
         <li>Click begin game below to start a match</li>
       </ul>
-      <button v-if="normalMonsters.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
+      <button v-if="gameCards.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
     </div>
   </div>
 </template>
@@ -32,7 +32,7 @@ import DBService from '@/services/db_service';
 
 export default {
   name: 'home',
-  props: ['normalMonsters'],
+  props: ['gameCards', 'eventBus'],
   components: {
     "game-button": GameButton
   },
@@ -40,6 +40,9 @@ export default {
     return {
       allCards: []
     }
+  },
+  mounted() {
+    this.eventBus.$emit("reload-game-cards");
   },
   methods: {
     fetchData() {

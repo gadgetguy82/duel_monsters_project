@@ -1,5 +1,6 @@
 const express = require('express');
 const ObjectID = require('mongodb').ObjectID;
+const readWrite = require('./read_write.js');
 
 const createRouter = function(collection) {
 
@@ -7,19 +8,65 @@ const createRouter = function(collection) {
 
   router.get('/', (req, res) => {
     collection.find().toArray()
-    .then((docs) => res.json(docs))
-    .catch((err) => {
+    .then(docs => res.json(docs))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status: 500, error: err });
     });
   }),
 
+  router.get('/write', (req, res) => {
+    collection.find().toArray()
+    .then(docs => {
+      docs.forEach(object => delete object._id);
+      readWrite.writeAsync('game_cards.json', docs);
+      res.json(docs);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500);
+      res.json({ status: 500, error: err });
+    });
+  }),
+
+  router.get('/read', (req, res) => {
+    let finished = false;
+    try {
+      collection.drop();
+    } catch(err) {
+      console.error(err);
+      res.status(500);
+      res.json({ status:500, error:err });
+    }
+    const body = readWrite.readSync('game_cards.json');
+    collection.insertMany(body)
+    .then(result => {
+      res.json(result.ops);
+      finished = true;
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500);
+      res.json({ status:500, error:err });
+    });
+
+    if (finished) {
+      collection.find().toArray()
+      .then(docs => res.json(docs))
+      .catch(err => {
+        console.error(err);
+        res.status(500);
+        res.json({ status:500, error:err });
+      });
+    }
+  }),
+
   router.get('/:id', (req, res) => {
     const id = req.params.id;
     collection.findOne({ _id: ObjectID(id) })
-    .then((doc) => res.json(doc))
-    .catch((err) => {
+    .then(doc => res.json(doc))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status: 500, error:err });
@@ -29,8 +76,8 @@ const createRouter = function(collection) {
   router.post('/', (req, res) => {
     const body = req.body;
     collection.insertOne(body)
-    .then((result) => res.json(result.ops[0]))
-    .catch((err) => {
+    .then(result => res.json(result.ops[0]))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });
@@ -41,8 +88,8 @@ const createRouter = function(collection) {
     collection.drop();
     const body = req.body;
     collection.insertMany(body)
-    .then((result) => res.json(result.ops))
-    .catch((err) => {
+    .then(result => res.json(result.ops))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });
@@ -52,8 +99,8 @@ const createRouter = function(collection) {
   router.delete('/:id', (req, res) => {
     const id = req.params.id;
     collection.deleteOne({ _id: ObjectID(id) })
-    .then((doc) => res.json(doc))
-    .catch((err) => {
+    .then(doc => res.json(doc))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });
@@ -63,13 +110,14 @@ const createRouter = function(collection) {
   router.put('/:id', (req, res) => {
     const id = req.params.id;
     const updatedBody = req.body;
+    delete updatedBody._id;
     collection.findOneAndUpdate(
       { _id: ObjectID(id) },
       { $set: updatedBody },
       { returnOriginal: false }
     )
-    .then((result) => res.json(result.value))
-    .catch((err) => {
+    .then(result => res.json(result.value))
+    .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });

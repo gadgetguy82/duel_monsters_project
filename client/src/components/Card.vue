@@ -16,7 +16,7 @@ export default {
   props: ['card'],
   data() {
     return {
-      eventBusInfo: eventBusInfo,
+      eventBus: eventBusInfo,
       timer: null,
       displayed: false
     }
@@ -24,7 +24,7 @@ export default {
   methods: {
     display(card) {
       this.timer = window.setTimeout(() => {
-        this.eventBusInfo.$emit("display-card", card);
+        this.eventBus.$emit("display-card", card);
         this.displayed = true;
       }, 2000);
     },
@@ -34,7 +34,7 @@ export default {
         window.clearTimeout(this.timer);
       }
       if (this.displayed) {
-        this.eventBusInfo.$emit("cancel");
+        this.eventBus.$emit("cancel");
       }
     }
   }

@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { eventBusInfo } from '@/main.js';
 import * as Constants from '@/services/constants.js';
 import * as Tooltips from '@/services/tooltips.js';
 
@@ -17,19 +16,18 @@ export default {
   props: ['gameState'],
   data() {
     return {
-      eventBusInfo: eventBusInfo,
       source: "",
       text: Tooltips.phases.start
     }
   },
   mounted() {
-    this.eventBusInfo.$on("display-card", card => {
+    this.gameState.eventBus.$on("display-card", card => {
       if (this.gameState.turn === card.player || !card.hidden) {
         this.source = card.card_images[0].image_url;
       }
     });
 
-    this.eventBusInfo.$on("cancel", () => this.source = "");
+    this.gameState.eventBus.$on("cancel", () => this.source = "");
   },
   watch: {
     "gameState.phase"() {
