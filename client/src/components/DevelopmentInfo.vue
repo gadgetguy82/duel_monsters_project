@@ -25,7 +25,7 @@
       <h4>Description:</h4>
       <p class="description">{{ current.card.desc }}</p>
 
-      <button type="button" class="btn" v-on:click="showModal">Open Modal!</button>
+      <button type="button" class="btn" v-on:click="showModal">Test Modal Component</button>
       <modal-box v-show="isModalVisible" v-on:close="closeModal" :data="modalData"></modal-box>
 
     </div>
