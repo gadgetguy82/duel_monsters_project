@@ -24,7 +24,7 @@ button {
   display: inline-block;
   font-size: 16px;
   box-shadow: 2px 2px;
-  background-color: #FF4C4C;
+  background-color: #FF3030;
   color: #000000;
   text-shadow: 0 0 3px #FF0000;
   cursor: pointer;

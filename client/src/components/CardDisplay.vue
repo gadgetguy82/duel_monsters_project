@@ -66,24 +66,18 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === subArrayCard.id)) {
             return this.selectNext({array, index, searchTerm});
-          } else {
-            return index;
           }
-        } else {
-          return index;
         }
+        return index;
       } else {
         this.display.subIndex = 0;
         index = index === array.length - 1 ? 0 : index + 1;
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === array[index].id)) {
             return this.selectNext({array, index, searchTerm});
-          } else {
-            return index;
           }
-        } else {
-          return index;
         }
+        return index;
       }
     },
 
@@ -96,24 +90,18 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === subArrayCard.id)) {
             return this.selectPrev({array, index, searchTerm});
-          } else {
-            return index;
           }
-        } else {
-          return index;
         }
+        return index;
       } else {
         this.display.subIndex = 0;
         index = index === 0 ? array.length - 1 : index - 1;
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === array[index].id)) {
             return this.selectPrev({array, index, searchTerm});
-          } else {
-            return index;
           }
-        } else {
-          return index;
         }
+        return index;
       }
     },
 
