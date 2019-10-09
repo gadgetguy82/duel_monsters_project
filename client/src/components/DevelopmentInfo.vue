@@ -11,13 +11,13 @@
     <hr>
     <h2>Cards added in game collection</h2>
     <p>Total cards in game collection: {{ game.set.length }}</p>
-    <attribute-box :card="game.card"></attribute-box>
+    <attribute-box :eventBus="eventBus" :card="game.card"></attribute-box>
     <hr>
     <h2>Cards not in game collection</h2>
     <div class="current-info-container" v-if="current.card.name">
       <p>Current set is {{ current.card.type }}</p>
       <p>Total cards in current set collection: {{ current.set.length }}</p>
-      <attribute-box :card="current.card"></attribute-box>
+      <attribute-box :eventBus="eventBus" :card="current.card"></attribute-box>
       <h4>Description:</h4>
       <p class="description">{{ current.card.desc }}</p>
     </div>

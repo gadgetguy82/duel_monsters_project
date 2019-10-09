@@ -24,7 +24,7 @@ import GameButton from '@/components/GameButton.vue';
 
 export default {
   name: 'attribute-box',
-  props: ['card'],
+  props: ['eventBus', 'card'],
   components: {
     "game-button": GameButton
   },
