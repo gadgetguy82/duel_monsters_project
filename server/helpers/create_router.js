@@ -31,23 +31,35 @@ const createRouter = function(collection) {
   }),
 
   router.get('/read', (req, res) => {
+    let finished = false;
     try {
       collection.drop();
-    } catch (err) {
+    } catch(err) {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });
     }
     const body = readWrite.readSync('game_cards.json');
     collection.insertMany(body)
-    .then(result => res.json(result.ops))
-    .then(collection.find().toArray())
-    .then(docs => res.json(docs))
+    .then(result => {
+      res.json(result.ops);
+      finished = true;
+    })
     .catch(err => {
       console.error(err);
       res.status(500);
       res.json({ status:500, error:err });
     });
+
+    if (finished) {
+      collection.find().toArray()
+      .then(docs => res.json(docs))
+      .catch(err => {
+        console.error(err);
+        res.status(500);
+        res.json({ status:500, error:err });
+      });
+    }
   }),
 
   router.get('/:id', (req, res) => {
