@@ -24,6 +24,8 @@
       <attribute-box :eventBus="eventBus" :card="current.card"></attribute-box>
       <h4>Description:</h4>
       <p class="description">{{ current.card.desc }}</p>
+      <button type="button" class="btn" v-on:click="showModal">Open Modal!</button>
+      <modal-box v-show="isModalVisible" @close="closeModal"/>
     </div>
   </div>
 </template>
@@ -32,6 +34,7 @@
 import AttributeBox from '@/components/AttributeBox.vue';
 import ListBox from '@/components/ListBox.vue';
 import GameButton from '@/components/GameButton.vue';
+import ModalBox from '@/components/ModalBox.vue';
 import DBService from '@/services/db_service';
 
 export default {
@@ -40,12 +43,14 @@ export default {
   components: {
     "attribute-box": AttributeBox,
     "list-box": ListBox,
-    "game-button": GameButton
+    "game-button": GameButton,
+    "modal-box": ModalBox
   },
   data() {
     return {
       textWrite: "Write DB to file",
-      textRead: "Read DB from file"
+      textRead: "Read DB from file",
+      isModalVisible: false
     }
   },
   methods: {
@@ -61,6 +66,13 @@ export default {
         this.game.subIndex = 0;
         this.game.searchTerm = ""
       });
+    },
+
+    showModal() {
+      this.isModalVisible = true;
+    },
+    closeModal() {
+      this.isModalVisible = false;
     }
   }
 }
