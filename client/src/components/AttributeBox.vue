@@ -3,7 +3,7 @@
     <div class="attribute-container">
       <div class="attribute">
         <h4>Card attribute to add:</h4>
-        <input type="text" list="attributes" value="" placeholder="Enter attribute name..." v-model="attribute" v-on:input="check">
+        <input type="text" list="attributes" value="" placeholder="Enter attribute name..." v-model="attribute" v-on:input="checkValue">
           <datalist id="attributes">
             <option disabled value="null">Select attribute...</option>
             <option v-for="(key, value) of card" :value="value">{{ key }}</option>
@@ -14,7 +14,8 @@
         <input type="text" value="" v-model="value">
       </div>
     </div>
-    <game-button :text="text">Add attribute</game-button>
+    <game-button v-on:click.native="addAttribute" :text="textAdd"></game-button>
+    <game-button v-on:click.native="removeAttribute" :text="textRemove"></game-button>
   </div>
 </template>
 
@@ -29,16 +30,23 @@ export default {
   },
   data() {
     return {
-      text: "Add attribute",
+      textAdd: "Add attribute",
+      textRemove: "Remove attribute",
       attribute: "",
       value: ""
     }
   },
   methods: {
-    check() {
+    checkValue() {
       this.value = this.card[this.attribute];
-      console.log(this.attribute);
-      console.log(this.value);
+    },
+
+    addAttribute() {
+      this.$set(this.card, this.attribute, this.value);
+    },
+
+    removeAttribute() {
+      delete this.card[this.attribute];
     }
   }
 }

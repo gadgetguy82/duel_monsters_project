@@ -17,10 +17,10 @@
     <div class="current-info-container" v-if="current.card.name">
       <p>Current set is {{ current.card.type }}</p>
       <p>Total cards in current set collection: {{ current.set.length }}</p>
+      <attribute-box :card="current.card"></attribute-box>
+      <h4>Description:</h4>
+      <p class="description">{{ current.card.desc }}</p>
     </div>
-    <attribute-box :card="current.card"></attribute-box>
-    <h4>Description:</h4>
-    <p>{{ current.card.desc }}</p>
   </div>
 </template>
 
@@ -53,6 +53,11 @@ export default {
 
 .card-type, .spell-type {
   flex-grow: 1;
+}
+
+.description {
+  height: 150px;
+  overflow: scroll;
 }
 
 h2 {
