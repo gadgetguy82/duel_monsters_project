@@ -12,8 +12,8 @@
     <h2>Cards added in game collection</h2>
     <p>Total cards in game collection: {{ game.array.length }}</p>
     <div class="button-container">
-      <game-button v-on:click="writeToFile" :text="textWrite" :colour="'white'"></game-button>
-      <game-button v-on:click="readFromFile" :text="textRead" :colour="'red'"></game-button>
+      <game-button v-on:click.native="writeServerFile" :text="textWrite" :colour="'white'"></game-button>
+      <game-button v-on:click.native="readServerFile" :text="textRead" :colour="'red'"></game-button>
     </div>
     <attribute-box :eventBus="eventBus" :card="game.card"></attribute-box>
     <hr>
@@ -32,7 +32,7 @@
 import AttributeBox from '@/components/AttributeBox.vue';
 import ListBox from '@/components/ListBox.vue';
 import GameButton from '@/components/GameButton.vue';
-import * as ReadWrite from '@/services/read_write.js';
+import DBService from '@/services/db_service';
 
 export default {
   name: 'development-info',
@@ -44,14 +44,17 @@ export default {
   },
   data() {
     return {
-      file: "game_cards.json",
       textWrite: "Write DB to file",
       textRead: "Read DB from file"
     }
   },
   methods: {
-    writeToFile() {
-      ReadWrite.writeAsync(file, game.array);
+    writeServerFile() {
+      DBService.writeFile("game_cards/");
+    },
+
+    readServerFile() {
+      // console.log(gameCards);
     }
   }
 }

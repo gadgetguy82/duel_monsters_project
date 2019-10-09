@@ -1,5 +1,6 @@
 const express = require('express');
 const ObjectID = require('mongodb').ObjectID;
+const readWrite = require('./read_write.js');
 
 const createRouter = function(collection) {
 
@@ -8,6 +9,16 @@ const createRouter = function(collection) {
   router.get('/', (req, res) => {
     collection.find().toArray()
     .then((docs) => res.json(docs))
+    .catch((err) => {
+      console.error(err);
+      res.status(500);
+      res.json({ status: 500, error: err });
+    });
+  }),
+
+  router.get('/write', (req, res) => {
+    collection.find().toArray()
+    .then(docs => readWrite.writeAsync('game_cards.json', docs))
     .catch((err) => {
       console.error(err);
       res.status(500);

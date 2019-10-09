@@ -20,7 +20,7 @@ export default {
   },
 
   postCards(list, route) {
-    const path = route ? baseURL + route + 'all' : baseURL;
+    const path = route ? baseURL + route + 'all' : baseURL + 'all';
     return fetch(path, jsonData(list)).then(res => res.json());
   },
 
@@ -38,5 +38,11 @@ export default {
       body: JSON.stringify(body),
       headers: {'Content-Type': 'application/json'}
     }).then(res => res.json());
+  },
+
+  writeFile(route) {
+    const path = route ? baseURL + route + 'write' : baseURL + 'write';
+    return fetch(path)
+    .then(res => res.json());
   }
 }
