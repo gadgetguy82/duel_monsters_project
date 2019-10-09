@@ -69,6 +69,7 @@ export default {
   data() {
     return {
       initialise: false,
+      file: "game_cards.json",
       cardTypes: [
         {
           name: "normalMonsters",
