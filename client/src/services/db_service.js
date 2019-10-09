@@ -44,5 +44,11 @@ export default {
     const path = route ? baseURL + route + 'write' : baseURL + 'write';
     return fetch(path)
     .then(res => res.json());
+  },
+
+  readFile(route) {
+    const path = route ? baseURL + route + 'read' : baseURL + 'read';
+    return fetch(path)
+    .then(res => res.json());
   }
 }

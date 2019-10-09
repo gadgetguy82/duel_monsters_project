@@ -18,11 +18,32 @@ const createRouter = function(collection) {
 
   router.get('/write', (req, res) => {
     collection.find().toArray()
-    .then(docs => readWrite.writeAsync('game_cards.json', docs))
+    .then(docs => {
+      readWrite.writeAsync('game_cards.json', docs);
+      res.json(docs);
+    })
     .catch((err) => {
       console.error(err);
       res.status(500);
       res.json({ status: 500, error: err });
+    });
+  }),
+
+  router.get('/read', (req, res) => {
+    try {
+      collection.drop();
+    } catch (err) {
+      console.error(err);
+      res.status(500);
+      res.json({ status:500, error:err });
+    }
+    const body = readWrite.readSync('game_cards.json');
+    collection.insertMany(body)
+    .then((result) => res.json(result.ops))
+    .catch((err) => {
+      console.error(err);
+      res.status(500);
+      res.json({ status:500, error:err });
     });
   }),
 

@@ -54,7 +54,7 @@ export default {
     },
 
     readServerFile() {
-      // console.log(gameCards);
+      DBService.readFile("game_cards/");
     }
   }
 }

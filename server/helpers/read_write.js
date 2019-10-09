@@ -4,7 +4,7 @@ const path = `${__dirname}/../db/files/`;
 
 const readSync = (file) => {
   const rawData = fs.readFileSync(path + file);
-  const gameCards = JSON.parse(rawdata);
+  const gameCards = JSON.parse(rawData);
   return gameCards;
 }
 
