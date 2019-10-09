@@ -66,6 +66,8 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === subArrayCard.id)) {
             return this.selectNext({array, index, searchTerm});
+          } else {
+            return index;
           }
         } else {
           return index;
@@ -76,6 +78,8 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === array[index].id)) {
             return this.selectNext({array, index, searchTerm});
+          } else {
+            return index;
           }
         } else {
           return index;
@@ -92,6 +96,8 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === subArrayCard.id)) {
             return this.selectPrev({array, index, searchTerm});
+          } else {
+            return index;
           }
         } else {
           return index;
@@ -102,6 +108,8 @@ export default {
         if (this.display.current) {
           if (this.gameArray.some(card => card.id === array[index].id)) {
             return this.selectPrev({array, index, searchTerm});
+          } else {
+            return index;
           }
         } else {
           return index;
