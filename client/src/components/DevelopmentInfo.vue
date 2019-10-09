@@ -54,7 +54,13 @@ export default {
     },
 
     readServerFile() {
-      DBService.readFile("game_cards/");
+      DBService.readFile("game_cards/")
+      .then(cards => {
+        this.game.array = cards;
+        this.game.index = 0;
+        this.game.subIndex = 0;
+        this.game.searchTerm = ""
+      });
     }
   }
 }
