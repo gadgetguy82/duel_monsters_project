@@ -24,8 +24,10 @@
       <attribute-box :eventBus="eventBus" :card="current.card"></attribute-box>
       <h4>Description:</h4>
       <p class="description">{{ current.card.desc }}</p>
+
       <button type="button" class="btn" v-on:click="showModal">Open Modal!</button>
-      <modal-box v-show="isModalVisible" @close="closeModal"/>
+      <modal-box v-show="isModalVisible" v-on:close="closeModal" :data="modalData"></modal-box>
+
     </div>
   </div>
 </template>
@@ -50,7 +52,13 @@ export default {
     return {
       textWrite: "Write DB to file",
       textRead: "Read DB from file",
-      isModalVisible: false
+      isModalVisible: false,
+      modalData: {
+        header: "Warning",
+        body: "Accepting alters the database",
+        footer: "Select Yes/No",
+        buttonOptions: "Yes"
+      }
     }
   },
   methods: {

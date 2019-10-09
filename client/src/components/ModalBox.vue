@@ -4,17 +4,17 @@
       <div class="modal" role="dialog" aria-labelledby="modalTitle" aria-describedby="modalDescription">
         <header class="modal-header" id="modalTitle">
           <slot name="header">
-            This is the default tile!
+            {{ data.header }}
             <button type="button" class="btn-close" v-on:click="close" aria-label="Close modal">x</button>
           </slot>
         </header>
         <section class="modal-body" id="modalDescription">
-          <slot name="body">I'm the default body!</slot>
+          <slot name="body">{{ data.body }}</slot>
         </section>
         <footer class="modal-footer">
           <slot name="footer">
-            I'm the default footer!
-            <button type="button" class="btn-green" v-on:click="close" aria-label="Close modal">Close me!</button>
+            {{ data.footer }}
+            <button type="button" class="btn-green" v-on:click="close" aria-label="Close modal">{{ data.buttonOptions }}</button>
           </slot>
         </footer>
       </div>
@@ -25,6 +25,7 @@
 <script>
 export default {
   name: 'modal',
+  props: ['data'],
   methods: {
     close() {
       this.$emit('close');
@@ -67,7 +68,7 @@ export default {
 
 .modal-footer {
   border-top: 1px solid #EEEEEE;
-  justify-content: flex-end;
+  justify-content: center;
 }
 
 .modal-body {
@@ -75,10 +76,18 @@ export default {
   padding: 20px 10px;
 }
 
+.modal-fade-enter, .modal-fade-leave-active {
+  opacity: 0;
+}
+
+.modal-fade-enter-active, .modal-fade-leave-active {
+  transition: opacity .5s ease
+}
+
 .btn-close {
   border: none;
   font-size: 20px;
-  padding: 20px;
+  padding: 2px;
   cursor: pointer;
   font-weight: bold;
   color: #4AAE9B;
