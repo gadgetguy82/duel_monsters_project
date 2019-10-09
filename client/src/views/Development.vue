@@ -18,15 +18,15 @@
       </div>
       <div class="button-update-container">
         <div class="checkbox-container">
-          <input type="checkbox" id="initialise" v-model="checked">
-          <label for="initialise">Re-initialise game database</label>
+          <input type="checkbox" id="initialise" v-model="initialise">
+          <label for="initialise">Initialise game DB</label>
         </div>
-        <game-button :text="'Update first set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(0, 2)"></game-button>
-        <game-button :text="'Update second set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(2, 5)"></game-button>
-        <game-button :text="'Update third set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(5, 8)"></game-button>
-        <game-button :text="'Update fourth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(8, 11)"></game-button>
-        <game-button :text="'Update fifth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(11, 14)"></game-button>
-        <game-button :text="'Update sixth set of cards'" :colour="'brown'" v-on:click.native="updateSetsOfCards(14, 17)"></game-button>
+        <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
+        <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
+        <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
+        <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
+        <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
+        <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
       </div>
     </div>
   </div>
@@ -68,7 +68,7 @@ export default {
   },
   data() {
     return {
-      checked: false,
+      initialise: false,
       cardTypes: [
         {
           name: "normalMonsters",
@@ -244,6 +244,8 @@ export default {
       this.deleteFromGameDB(display);
     });
 
+    this.eventBus.$on("update-card", card => this.updateCardInGameDB(card));
+
     this.eventBus.$on("card-added", card => {
       this.game.set.push(card);
       this.eventBus.$emit("select-next-current", this.current);
@@ -315,19 +317,22 @@ export default {
       });
     },
 
-    updateSetsOfCards(start, end) {
+    addSetsOfCards(start, end) {
       const subArray = this.cardTypes.slice(start, end);
       subArray.forEach(cardType => {
         DBService.postCards(cardType.array, cardType.route);
       });
-      if (this.checked) {
+      if (this.initialise) {
+        this.cardTypes[0].array.forEach(card => card.game = true);
         DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute);
         this.getGameCards();
+        this.initialise = false;
       }
     },
 
     addToGameDB({set, index}) {
       const card = set[index];
+      card.game = true;
       DBService.postCard(card, "game_cards/")
       .then(res => this.eventBus.$emit("card-added", res));
     },
@@ -338,9 +343,8 @@ export default {
       .then(res => this.eventBus.$emit("card-deleted", res));
     },
 
-    updateInGameDB({set, index}) {
-      const card = set[index];
-      DBService.deleteCard(card, "game_cards/")
+    updateCardInGameDB(card) {
+      DBService.updateCard(card, "game_cards/")
       .then(res => this.eventBus.$emit("card-updated", res));
     }
   }

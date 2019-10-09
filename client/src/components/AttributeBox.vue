@@ -16,6 +16,7 @@
     </div>
     <game-button v-on:click.native="addAttribute" :text="textAdd"></game-button>
     <game-button v-on:click.native="removeAttribute" :text="textRemove"></game-button>
+    <game-button v-if="card.game" v-on:click.native="updateCard" :text="textUpdate"></game-button>
   </div>
 </template>
 
@@ -32,6 +33,7 @@ export default {
     return {
       textAdd: "Add attribute",
       textRemove: "Remove attribute",
+      textUpdate: "Update card",
       attribute: "",
       value: ""
     }
@@ -47,6 +49,10 @@ export default {
 
     removeAttribute() {
       delete this.card[this.attribute];
+    },
+
+    updateCard() {
+      this.eventBus.$emit("update-card", this.card);
     }
   }
 }

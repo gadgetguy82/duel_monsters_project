@@ -41,6 +41,7 @@ export default {
       .then(cards => {
         this.allCards = cards;
         this.allCards.forEach((card) => {
+          this.$set(card, "game", false);
           this.$set(card, "hidden", true);
           this.$set(card, "initial", true);
           this.$set(card, "player", "");
