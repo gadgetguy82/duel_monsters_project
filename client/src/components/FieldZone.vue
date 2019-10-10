@@ -38,6 +38,10 @@ export default {
   methods: {
     placeFieldCard() {
       if (this.canPlace) {
+        if (!GameLogic.isEmpty(this.card)) {
+          this.playerData.eventBus.$emit("discard", this.card);
+          this.removeEffects(this.gameState.eventBus);
+        }
         this.card = this.fieldCard;
         this.playerData.eventBus.$emit("field-placed", this.card);
         this.useEffects(this.gameState.eventBus);
@@ -49,9 +53,17 @@ export default {
       if(!GameLogic.isEmpty(this.card)) {
         if (this.card.affects.player === "both") {
           Object.keys(this.card.effect).forEach(key => {
-            eventBus.$emit(key, this.card);
+            eventBus.$emit(key, {action: "add", card: this.card});
           });
         }
+      }
+    },
+
+    removeEffects(eventBus) {
+      if (this.card.affects.player === "both") {
+        Object.keys(this.card.effect).forEach(key => {
+          eventBus.$emit(key, {action: "remove", card: this.card});
+        });
       }
     }
   }

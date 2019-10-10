@@ -62,7 +62,7 @@ export default {
     return{
       deck: [],
       minSize: 40,
-      maxRange: 20
+      maxRange: 15
     }
   },
   mounted() {
@@ -77,9 +77,11 @@ export default {
         chosenCardCopy.player = this.playerData.player;
         this.deck.push(chosenCardCopy);
       }
-      const lastCardCopy = Object.assign({}, this.gameCards[this.gameCards.length - 1]);
-      lastCardCopy.player = this.playerData.player;
-      this.deck.push(lastCardCopy);
+      for (let i = 1; i < 6; i++) {
+        const lastCardCopy = Object.assign({}, this.gameCards[this.gameCards.length - i]);
+        lastCardCopy.player = this.playerData.player;
+        this.deck.push(lastCardCopy);
+      }
     }
   }
 }

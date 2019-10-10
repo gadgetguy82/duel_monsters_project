@@ -62,47 +62,59 @@ export default {
       GameLogic.removeCard(fieldCard, this.playerHand);
     });
 
-    this.gameState.eventBus.$on("monster-zone-atk", card => {
+    this.gameState.eventBus.$on("monster-zone-atk", ({action, card}) => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-          handCard.buff.atk = handCard.buff.atk ? handCard.buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
+          if (action === "add") {
+            handCard.buff.atk = handCard.buff.atk ? handCard.buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
+          }
         }
       });
     });
 
-    this.gameState.eventBus.$on("monster-zone-def", card => {
+    this.gameState.eventBus.$on("monster-zone-def", ({action, card}) => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-          handCard.buff.def = handCard.buff.def ? handCard.buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
+          if (action === "add") {
+            handCard.buff.def = handCard.buff.def ? handCard.buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
+          }
         }
       });
     });
 
-    this.gameState.eventBus.$on("playing-hand-level", card => {
+    this.gameState.eventBus.$on("playing-hand-level", ({action, card}) => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-          handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
-          console.log('game bus');
+          if (action === "add") {
+            handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
+            console.log('game bus');
+          }
         }
       });
     });
 
-    eventBusPlayingHand.$on("monster-zone-atk", card => {
+    eventBusPlayingHand.$on("monster-zone-atk", ({action, card}) => {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-        this.playerHand[this.playerHand.length - 1].buff.atk = this.playerHand[this.playerHand.length - 1].buff.atk ? this.playerHand[this.playerHand.length - 1].buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
+        if (action === "add") {
+          this.playerHand[this.playerHand.length - 1].buff.atk = this.playerHand[this.playerHand.length - 1].buff.atk ? this.playerHand[this.playerHand.length - 1].buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
+        }
       }
     });
 
-    eventBusPlayingHand.$on("monster-zone-def", card => {
+    eventBusPlayingHand.$on("monster-zone-def", ({action, card}) => {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-        this.playerHand[this.playerHand.length - 1].buff.def = this.playerHand[this.playerHand.length - 1].buff.def ? this.playerHand[this.playerHand.length - 1].buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
+        if (action === "add") {
+          this.playerHand[this.playerHand.length - 1].buff.def = this.playerHand[this.playerHand.length - 1].buff.def ? this.playerHand[this.playerHand.length - 1].buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
+        }
       }
     });
 
-    eventBusPlayingHand.$on("playing-hand-level", card => {
+    eventBusPlayingHand.$on("playing-hand-level", ({action, card}) => {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-        this.playerHand[this.playerHand.length - 1].level = parseInt(this.playerHand[this.playerHand.length - 1].level) + parseInt(card.effect["playing-hand-level"]);
-        console.log('hand bus');
+        if (action === "add") {
+          this.playerHand[this.playerHand.length - 1].level = parseInt(this.playerHand[this.playerHand.length - 1].level) + parseInt(card.effect["playing-hand-level"]);
+          console.log('hand bus');
+        }
       }
     });
   },

@@ -97,21 +97,27 @@ export default {
       }
     });
 
-    this.gameState.eventBus.$on("monster-zone-atk", card => {
+    this.gameState.eventBus.$on("monster-zone-atk", ({action, card}) => {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
-        this.card.atk = parseInt(this.card.atk) + parseInt(card.effect["monster-zone-atk"]);
+        if (action === "add") {
+          this.card.atk = parseInt(this.card.atk) + parseInt(card.effect["monster-zone-atk"]);
+        }
       }
     });
 
-    this.gameState.eventBus.$on("monster-zone-def", card => {
+    this.gameState.eventBus.$on("monster-zone-def", ({action, card}) => {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
-        this.card.def = parseInt(this.card.def) + parseInt(card.effect["monster-zone-def"]);
+        if (action === "add") {
+          this.card.def = parseInt(this.card.def) + parseInt(card.effect["monster-zone-def"]);
+        }
       }
     });
 
-    this.gameState.eventBus.$on("playing-hand-level", card => {
+    this.gameState.eventBus.$on("playing-hand-level", ({action, card}) => {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
-        this.card.level = parseInt(this.card.level) + parseInt(card.effect["playing-hand-level"]);
+        if (action === "add") {
+          this.card.level = parseInt(this.card.level) + parseInt(card.effect["playing-hand-level"]);
+        }
       }
     });
   },
