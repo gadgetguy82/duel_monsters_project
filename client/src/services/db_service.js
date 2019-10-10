@@ -1,4 +1,4 @@
-const baseURL = process.env.BASE_URL || 'http://localhost:3000/api/duel_monsters_game/';
+const baseURL = 'http://localhost:3000/api/duel_monsters_game/';
 
 function jsonData(body) {
   return {

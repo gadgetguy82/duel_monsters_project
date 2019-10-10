@@ -100,9 +100,13 @@ export default {
             this.tributeSummon(2);
           }
         }
-        if (card.type === "Spell Card") {
+        if (card.type === "Trap Card") {
+          this.playerData.eventBus.$emit("place-trap", card);
+        } else if (card.type === "Spell Card") {
           if (card.race === "Field") {
             this.playerData.eventBus.$emit("place-field", card);
+          } else {
+            this.playerData.eventBus.$emit("place-spell", card);
           }
         }
       } else if (GameLogic.checkEndPhase(this.gameState, this.playerData)) {
