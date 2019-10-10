@@ -156,7 +156,7 @@ export default {
       this.card = this.summonCard;
       if (!GameLogic.isEmpty(this.card.buff)) {
         Object.entries(this.card.buff).forEach(([key, val]) => {
-          this.card[key] = val;
+          this.card[key] = parseInt(this.card[key]) + val;
         });
       }
       this.playerData.eventBus.$emit("summon-success", this.card);

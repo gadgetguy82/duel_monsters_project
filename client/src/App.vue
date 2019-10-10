@@ -17,7 +17,7 @@
 
 <script>
 import { eventBusInfo } from '@/main.js';
-import DBService from '@/services/db_service';
+import DBService from '@/services/db_service.js';
 
 export default {
   name: 'app',

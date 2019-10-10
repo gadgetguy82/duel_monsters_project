@@ -65,7 +65,7 @@ export default {
     this.gameState.eventBus.$on("monster-zone-atk", card => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-          handCard.buff.atk = parseInt(handCard.atk) + parseInt(card.effect["monster-zone-atk"]);
+          handCard.buff.atk = handCard.buff.atk ? handCard.buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
         }
       });
     });
@@ -73,7 +73,7 @@ export default {
     this.gameState.eventBus.$on("monster-zone-def", card => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-          handCard.buff.def = parseInt(handCard.def) + parseInt(card.effect["monster-zone-def"]);
+          handCard.buff.def = handCard.buff.def ? handCard.buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
         }
       });
     });
@@ -89,13 +89,13 @@ export default {
 
     eventBusPlayingHand.$on("monster-zone-atk", card => {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-        this.playerHand[this.playerHand.length - 1].buff.atk = parseInt(this.playerHand[this.playerHand.length - 1].atk) + parseInt(card.effect["monster-zone-atk"]);
+        this.playerHand[this.playerHand.length - 1].buff.atk = this.playerHand[this.playerHand.length - 1].buff.atk ? this.playerHand[this.playerHand.length - 1].buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
       }
     });
 
     eventBusPlayingHand.$on("monster-zone-def", card => {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-        this.playerHand[this.playerHand.length - 1].buff.def = parseInt(this.playerHand[this.playerHand.length - 1].def) + parseInt(card.effect["monster-zone-def"]);
+        this.playerHand[this.playerHand.length - 1].buff.def = this.playerHand[this.playerHand.length - 1].buff.def ? this.playerHand[this.playerHand.length - 1].buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
       }
     });
 
