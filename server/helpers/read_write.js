@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = `${__dirname}/../db/files/`;
 
 const readSync = (file) => {
-  const rawData = fs.readFileSync(path + file);
-  const gameCards = JSON.parse(rawData);
+  const data = fs.readFileSync(path + file);
+  const gameCards = JSON.parse(data);
   return gameCards;
 }
 

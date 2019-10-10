@@ -31390,7 +31390,6 @@
     "game": true,
     "hidden": true,
     "initial": true,
-    "player": "",
-    "effect": "water"
+    "player": ""
   }
 ]

@@ -22,6 +22,7 @@
 
 <script>
 import GameButton from '@/components/GameButton.vue';
+import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'attribute-box',
@@ -44,6 +45,9 @@ export default {
     },
 
     addAttribute() {
+      if (this.attribute.includes("effect")) {
+        this.value = Helpers.convertToJSON(this.value);
+      }
       this.$set(this.card, this.attribute, this.value);
     },
 

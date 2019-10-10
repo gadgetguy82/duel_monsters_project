@@ -3,7 +3,7 @@
     <div class="development-container">
       <div class="select-container">
         <select class="card-type" name="cardTypes" v-model="selectedType">
-          <option disabled :value="null">Select card type...</option>
+          <option disabled value="null">Select card type...</option>
           <option v-for="cardType of cardTypes" :value="cardType.array">{{ cardType.type }}</option>
         </select>
         <select class="race-type" name="raceType" v-if="type.isSpell" v-model="selectedRace">
@@ -208,7 +208,7 @@ export default {
       },
 
       current: {
-        title: "Working on current card",
+        title: "Cards not in game",
         buttonText: "Add Card",
         array: [],
         index: 0,
@@ -220,7 +220,7 @@ export default {
       },
 
       game: {
-        title: "Cards added to game",
+        title: "Cards in game",
         buttonText: "Remove Card",
         array: [],
         index: 0,

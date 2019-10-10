@@ -32,3 +32,19 @@ export const shuffle = (array) => {
     [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
   }
 }
+
+export const convertToJSON = (string) => {
+  let stringArray = string.split(",");
+  const trimmedArray = [];
+  stringArray.forEach(property => {
+    const pair = property.split(":");
+    const trimmedPair = [];
+    for (let item of pair) {
+      const trimmedItem = item.replace(/\./gi, '').trim();
+      trimmedPair.push(JSON.stringify(trimmedItem));
+    }
+    trimmedArray.push("  " + trimmedPair.join(": "));
+  });
+  const result = "{\n" + trimmedArray.join(",\n") + "\n}";
+  return JSON.parse(result);
+}
