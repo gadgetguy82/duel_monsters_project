@@ -159,4 +159,8 @@ h2 {
   text-align: center;
   margin: 5px 0;
 }
+
+img {
+  height: 614px;
+}
 </style>
