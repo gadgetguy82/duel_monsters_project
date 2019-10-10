@@ -121,8 +121,9 @@ export default {
         this.canChangePosition = true;
         this.card.initial = false;
       } else if (GameLogic.checkBattlePhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
-        if (!(this.playerData.player === Constants.ONE && this.playerData.firstTurn) && this.card.position === Constants.ATTACK) {
-          this.canAttack = true;
+        this.canAttack = true
+        if (this.playerData.player === Constants.ONE && this.playerData.firstTurn) {
+          this.canAttack = false;
         }
       } else if (GameLogic.checkMainPhase(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
         this.canAttack = false;

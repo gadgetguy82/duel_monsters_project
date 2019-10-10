@@ -65,7 +65,7 @@ export default {
   },
   watch: {
     "gameState.phase"() {
-      if (this.gameState.phase === Constants.SECOND_MAIN) {
+      if (this.gameState.phase === Constants.SECOND_MAIN || this.gameState.phase === Constants.END) {
         if (this.battleOver) {
           this.resultCheck();
         } else {
