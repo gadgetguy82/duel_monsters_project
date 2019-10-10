@@ -45,7 +45,7 @@ export default {
     },
 
     addAttribute() {
-      if (this.attribute.includes("effect")) {
+      if (this.attribute.includes("effect") || this.attribute.includes("affects")) {
         this.value = Helpers.convertToJSON(this.value);
       }
       this.$set(this.card, this.attribute, this.value);

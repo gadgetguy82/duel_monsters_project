@@ -70,7 +70,7 @@ export default {
   },
   methods: {
     randomizeCards() {
-      const range = Math.floor(Math.random() * maxRange);
+      const range = Math.floor(Math.random() * this.maxRange);
       for (let i = 0; i < this.minSize + range; i++) {
         const index = Math.floor(Math.random() * this.gameCards.length);
         const chosenCardCopy = Object.assign({}, this.gameCards[index]);

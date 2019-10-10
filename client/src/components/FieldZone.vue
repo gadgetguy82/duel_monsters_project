@@ -37,6 +37,11 @@ export default {
       if (this.canPlace) {
         this.card = this.fieldCard;
         this.playerData.eventBus.$emit("field-placed", this.card);
+        if (this.card.affects.player === "both") {
+          Object.keys(this.card.effect).forEach(key => {
+            this.gameState.eventBus.$emit(key, this.card);
+          });
+        }
       }
     }
   }

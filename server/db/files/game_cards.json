@@ -31392,12 +31392,14 @@
     "initial": true,
     "player": "",
     "effect": {
-      "attribute": "WATER",
-      "atk": "200",
-      "def": "200",
-      "level": "-1",
-      "zone": "field",
-      "player": "both"
+      "monster-zone-atk": "200",
+      "monster-zone-def": "200",
+      "playing-hand-level": "-1"
+    },
+    "affects": {
+      "player": "both",
+      "on": "attribute",
+      "attribute": "WATER"
     }
   }
 ]

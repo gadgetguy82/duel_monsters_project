@@ -45,7 +45,7 @@ import GraveyardDeck from '@/components/GraveyardDeck'
 
 export default {
   name: 'ai-board',
-  props: ['normalMonsters', 'gameState', 'playerData'],
+  props: ['gameCards', 'gameState', 'playerData'],
   components: {
     "main-deck": MainDeck,
     "extra-deck": ExtraDeck,
@@ -60,7 +60,9 @@ export default {
   },
   data() {
     return{
-      deck: []
+      deck: [],
+      minSize: 40,
+      maxRange: 20
     }
   },
   mounted() {
@@ -68,11 +70,16 @@ export default {
   },
   methods: {
     randomizeCards() {
-      for (let i = 0; i < 40; i++) {
-        const index = Math.floor(Math.random() * this.normalMonsters.length);
-        const chosenCardCopy = Object.assign({}, this.normalMonsters[index]);
+      const range = Math.floor(Math.random() * this.maxRange);
+      for (let i = 0; i < this.minSize + range; i++) {
+        const index = Math.floor(Math.random() * this.gameCards.length);
+        const chosenCardCopy = Object.assign({}, this.gameCards[index]);
+        chosenCardCopy.player = this.playerData.player;
         this.deck.push(chosenCardCopy);
       }
+      const lastCardCopy = Object.assign({}, this.gameCards[this.gameCards.length - 1]);
+      lastCardCopy.player = this.playerData.player;
+      this.deck.push(lastCardCopy);
     }
   }
 }

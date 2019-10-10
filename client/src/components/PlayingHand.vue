@@ -52,8 +52,8 @@ export default {
       this.canNormalSummon = false
     });
 
-    this.playerData.eventBus.$on("field-placed", card => {
-      GameLogic.removeCard(card, this.playerHand);
+    this.playerData.eventBus.$on("field-placed", fieldCard => {
+      GameLogic.removeCard(fieldCard, this.playerHand);
     });
   },
   watch: {
