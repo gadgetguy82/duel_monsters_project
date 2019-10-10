@@ -11,6 +11,7 @@
 
 <script>
 import Card from '@/components/Card.vue';
+import { eventBusPlayingHand } from '@/main.js';
 import GameLogic from '@/services/game_logic.js';
 
 export default {
@@ -31,15 +32,24 @@ export default {
       this.canPlace = true;
       this.fieldCard = card;
     });
+
+    eventBusPlayingHand.$on("check-card", () => this.useEffects(eventBusPlayingHand));
   },
   methods: {
     placeFieldCard() {
       if (this.canPlace) {
         this.card = this.fieldCard;
         this.playerData.eventBus.$emit("field-placed", this.card);
+        this.useEffects(this.gameState.eventBus);
+        this.canPlace = false;
+      }
+    },
+
+    useEffects(eventBus) {
+      if(!GameLogic.isEmpty(this.card)) {
         if (this.card.affects.player === "both") {
           Object.keys(this.card.effect).forEach(key => {
-            this.gameState.eventBus.$emit(key, this.card);
+            eventBus.$emit(key, this.card);
           });
         }
       }

@@ -13,6 +13,7 @@
 <script>
 import Card from '@/components/Card.vue';
 import GameButton from '@/components/GameButton.vue';
+import { eventBusPlayingHand } from '@/main.js';
 import GameLogic from '@/services/game_logic.js';
 import * as Constants from '@/services/constants.js';
 
@@ -25,6 +26,7 @@ export default {
   },
   data() {
     return {
+      eventBus: eventBusPlayingHand,
       playerHand: [],
       monsterZone: {
         spaces: Constants.MAX_SPACES,
@@ -40,8 +42,12 @@ export default {
   mounted() {
     this.playerData.eventBus.$on("draw-card", card => {
       card.hidden = false;
+      card.buff = {};
       this.playerHand.push(card);
+      eventBusPlayingHand.$emit("check-card");
     });
+
+    eventBusPlayingHand.$on()
 
     this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
 
@@ -56,12 +62,48 @@ export default {
       GameLogic.removeCard(fieldCard, this.playerHand);
     });
 
+    this.gameState.eventBus.$on("monster-zone-atk", card => {
+      this.playerHand.forEach(handCard => {
+        if (handCard[card.affects.on] === card.affects[card.affects.on]) {
+          handCard.buff.atk = parseInt(handCard.atk) + parseInt(card.effect["monster-zone-atk"]);
+        }
+      });
+    });
+
+    this.gameState.eventBus.$on("monster-zone-def", card => {
+      this.playerHand.forEach(handCard => {
+        if (handCard[card.affects.on] === card.affects[card.affects.on]) {
+          handCard.buff.def = parseInt(handCard.def) + parseInt(card.effect["monster-zone-def"]);
+        }
+      });
+    });
+
     this.gameState.eventBus.$on("playing-hand-level", card => {
       this.playerHand.forEach(handCard => {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
           handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
+          console.log('game bus');
         }
-      })
+      });
+    });
+
+    eventBusPlayingHand.$on("monster-zone-atk", card => {
+      if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
+        this.playerHand[this.playerHand.length - 1].buff.atk = parseInt(this.playerHand[this.playerHand.length - 1].atk) + parseInt(card.effect["monster-zone-atk"]);
+      }
+    });
+
+    eventBusPlayingHand.$on("monster-zone-def", card => {
+      if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
+        this.playerHand[this.playerHand.length - 1].buff.def = parseInt(this.playerHand[this.playerHand.length - 1].def) + parseInt(card.effect["monster-zone-def"]);
+      }
+    });
+
+    eventBusPlayingHand.$on("playing-hand-level", card => {
+      if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
+        this.playerHand[this.playerHand.length - 1].level = parseInt(this.playerHand[this.playerHand.length - 1].level) + parseInt(card.effect["playing-hand-level"]);
+        console.log('hand bus');
+      }
     });
   },
   watch: {

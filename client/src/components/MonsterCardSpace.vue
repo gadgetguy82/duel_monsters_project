@@ -24,11 +24,11 @@ export default {
     return {
       card: {},
       summonCard: {},
-      canSummon: false,
-      canTribute: false,
       tributeData: {
         tributes: []
       },
+      canSummon: false,
+      canTribute: false,
       canChangePosition: false,
       canAttack: false,
       canBeTargetted: false,
@@ -154,6 +154,11 @@ export default {
 
     summon() {
       this.card = this.summonCard;
+      if (!GameLogic.isEmpty(this.card.buff)) {
+        Object.entries(this.card.buff).forEach(([key, val]) => {
+          this.card[key] = val;
+        });
+      }
       this.playerData.eventBus.$emit("summon-success", this.card);
     },
 
