@@ -5,7 +5,7 @@
         <playing-hand :gameState="gameState" :playerData="playerData"></playing-hand>
       </div>
       <div class="bottom-row deck-container">
-        <playing-deck :deck="deck" :gameState="gameState" :playerData="playerData"></playing-deck>
+        <main-deck :deck="deck" :gameState="gameState" :playerData="playerData"></main-deck>
         <extra-deck></extra-deck>
         <side-deck></side-deck>
       </div>
@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import PlayingDeck from '@/components/PlayingDeck'
+import MainDeck from '@/components/MainDeck'
 import ExtraDeck from '@/components/ExtraDeck'
 import SideDeck from '@/components/SideDeck'
 import PlayingHand from '@/components/PlayingHand'
@@ -47,7 +47,7 @@ export default {
   name: 'player-board',
   props: ['gameCards', 'gameState', 'playerData'],
   components: {
-    "playing-deck": PlayingDeck,
+    "main-deck": MainDeck,
     "extra-deck": ExtraDeck,
     "side-deck": SideDeck,
     "playing-hand": PlayingHand,

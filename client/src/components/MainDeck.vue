@@ -1,6 +1,6 @@
 <template lang="html">
-  <div class="playing-deck-container">
-    <div class="playing-deck" :class="{'last': deck.length === 0}" v-on:click="drawCard">
+  <div class="main-deck-container">
+    <div class="main-deck" :class="{'last': deck.length === 0}" v-on:click="drawCard">
       <h4>Main Deck</h4>
     </div>
   </div>
@@ -10,7 +10,7 @@
 import GameLogic from '@/services/game_logic.js';
 
 export default {
-  name: 'playing-deck',
+  name: 'main-deck',
   props: ['deck', 'gameState', 'playerData'],
   data() {
     return {
@@ -69,11 +69,11 @@ h4 {
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
 }
 
-.playing-deck-container {
+.main-deck-container {
   text-align: center;
 }
 
-.playing-deck {
+.main-deck {
   border-style: solid;
   border-width: 1px;
   border-radius: 5px;

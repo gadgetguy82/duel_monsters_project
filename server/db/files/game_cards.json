@@ -31390,6 +31390,14 @@
     "game": true,
     "hidden": true,
     "initial": true,
-    "player": ""
+    "player": "",
+    "effect": {
+      "attribute": "WATER",
+      "atk": "200",
+      "def": "200",
+      "level": "-1",
+      "zone": "field",
+      "player": "both"
+    }
   }
 ]
