@@ -55,6 +55,14 @@ export default {
     this.playerData.eventBus.$on("field-placed", fieldCard => {
       GameLogic.removeCard(fieldCard, this.playerHand);
     });
+
+    this.gameState.eventBus.$on("playing-hand-level", card => {
+      this.playerHand.forEach(handCard => {
+        if (handCard[card.affects.on] === card.affects[card.affects.on]) {
+          handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
+        }
+      })
+    });
   },
   watch: {
     "gameState.phase"() {

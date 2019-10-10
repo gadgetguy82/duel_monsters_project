@@ -90,6 +90,24 @@ export default {
         }
       }
     });
+
+    this.gameState.eventBus.$on("monster-zone-atk", card => {
+      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+        this.card.atk = parseInt(this.card.atk) + parseInt(card.effect["monster-zone-atk"]);
+      }
+    });
+
+    this.gameState.eventBus.$on("monster-zone-def", card => {
+      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+        this.card.def = parseInt(this.card.def) + parseInt(card.effect["monster-zone-def"]);
+      }
+    });
+
+    this.gameState.eventBus.$on("playing-hand-level", card => {
+      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+        this.card.level = parseInt(this.card.level) + parseInt(card.effect["playing-hand-level"]);
+      }
+    });
   },
   watch: {
     "gameState.phase"() {
