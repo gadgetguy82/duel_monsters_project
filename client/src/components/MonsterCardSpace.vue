@@ -59,9 +59,15 @@ export default {
       };
     });
 
-    this.gameState.eventBus.$on("battle-select-monster", () => {
+    this.gameState.eventBus.$on("battle-select-attacker", () => {
       if (!GameLogic.checkTurn(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
         this.canBeTargetted = true;
+      }
+    });
+
+    this.gameState.eventBus.$on("battle-over", () => {
+      if (!GameLogic.checkTurn(this.gameState, this.playerData) && !GameLogic.isEmpty(this.card)) {
+        this.canBeTargetted = false;
       }
     });
 
@@ -174,7 +180,7 @@ export default {
     },
 
     attack() {
-      this.gameState.eventBus.$emit("battle-select-monster", {card: this.card, player: this.playerData.player});
+      this.gameState.eventBus.$emit("battle-select-attacker", {card: this.card, player: this.playerData.player});
       this.canAttack = false;
       this.spaceSelected = true;
       this.card = {};

@@ -87,7 +87,7 @@ class GameLogic {
       } else if (card1BattleStat < card2BattleStat) {
         damage = card1BattleStat - card2BattleStat;
         losingCards.push(card1);
-      } else {
+      } else if (card1.position === card2.position) {
         losingCards.push(card1);
         losingCards.push(card2);
       }
@@ -100,7 +100,7 @@ class GameLogic {
 
   static checkDamage(card1, card2) {
     const result = this.compareStats(card1, card2);
-    if (result.cards[0].position === constants.DEFEND) {
+    if (result.cards.length > 0 && result.cards[0].position === constants.DEFEND) {
       result.damage = 0;
     }
     return result;

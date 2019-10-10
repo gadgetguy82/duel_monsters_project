@@ -47,7 +47,7 @@ export default {
     }
   },
   mounted() {
-    this.gameState.eventBus.$on('battle-select-monster', battleData => {
+    this.gameState.eventBus.$on('battle-select-attacker', battleData => {
       if (this.battleOver) {
         this.resultCheck();
       }
@@ -83,7 +83,10 @@ export default {
       this.battleCards.two.hidden = false;
       const result = GameLogic.checkDamage(this.battleCards.one, this.battleCards.two);
       this.damage = result.damage;
-      if (result.cards.length < 2) {
+      if (result.cards.length === 0) {
+        this.event.one = "no-win";
+        this.event.two = "no-win";
+      } else if (result.cards.length < 2) {
         if (result.cards[0] === this.battleCards.one) {
           this.event.one = this.battleCards.two.position === Constants.ATTACK ? "lose" : "no-win";
           this.event.two = "win";
@@ -96,6 +99,7 @@ export default {
         this.event.two = "lose";
       }
       this.gameState.skipBattle = false;
+      this.gameState.eventBus.$emit("battle-over");
       this.battleOver = true;
     },
 

@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="monster-zone-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }" v-on:click="checkMonsterZone">
+  <div class="monster-zone-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }">
     <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
     <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
     <monster-space :gameState="gameState" :playerData="playerData"></monster-space>
@@ -51,6 +51,10 @@ export default {
       if (this.spaces < Constants.MAX_SPACES) {
         this.spaces++;
       }
+    });
+
+    this.gameState.eventBus.$on("battle-select-attacker", () => {
+      this.checkMonsterZone();
     });
   },
   watch: {
