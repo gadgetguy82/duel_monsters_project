@@ -127,10 +127,14 @@ export default {
 
     this.gameState.eventBus.$on("summon-change-def", eventData => {
       const event = "summon-change-def";
-      FieldEffects.alterCardStat(eventData, event, this.card, this.spaceSummoned);
-      FieldEffects.alterCardStat(eventData, event, this.card, this.spaceChanged);
+      let spaceCheck = false;
+      if (this.spaceSummoned || this.spaceChanged) {
+        spaceCheck = true;
+      }
+      FieldEffects.alterCardStat(eventData, event, this.card, spaceCheck);
       this.spaceSummoned = false;
       this.spaceChanged = false;
+      spaceCheck = false;
     });
   },
   watch: {

@@ -44,16 +44,13 @@ export const alterCardStat = ({action, fieldCard}, event, currentCard, checkSpac
       currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
     } else if (action === "add-summon" && checkSpace) {
       currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
-    } else if (action === "change-position" && checkSpace) {
-      if (currentCard.position === stat) {
-        console.log("add");
-        currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
-      } else {
-        console.log("remove");
-        currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
-      }
+    } else if (action === "change-position" && checkSpace && currentCard.position === stat) {
+      currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
     } else if (action === "remove") {
       currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
+      console.log("remove", currentCard[stat]);
     }
+  } else if (action === "change-position" && checkSpace && currentCard.position !== stat) {
+    currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
   }
 }
