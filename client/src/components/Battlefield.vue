@@ -126,7 +126,7 @@ export default {
 
 <style lang="css" scoped>
 .battlefield-container {
-  margin: 20px 10px;
+  margin: 20px 100px;
   background-image: url('../../public/img/battleresult_background.jpg');
   background-size: contain;
   background-position: center;

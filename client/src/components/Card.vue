@@ -3,7 +3,12 @@
     <div class="card">
       <img class="hover" :class="{'show': !card.hidden, 'hide': card.hidden}" :src="card.card_images[0].image_url_small"/>
       <img :class="{'hide': !card.hidden, 'show': card.hidden}" src="../../public/img/card_back.png">
-      <p class="hide text">{{card.name}}<br>lvl: {{card.level}}<br>atk: {{card.atk}}<br>def: {{card.def}}</p>
+      <div class="hide text">
+        <p>{{card.name}}</p>
+        <p v-if="card.level">lvl: {{card.level}}</p>
+        <p v-if="card.atk">atk: {{card.atk}}</p>
+        <p v-if="card.def">def: {{card.def}}</p>
+      </div>
     </div>
   </div>
 </template>
@@ -26,7 +31,7 @@ export default {
       this.timer = window.setTimeout(() => {
         this.eventBus.$emit("display-card", card);
         this.displayed = true;
-      }, 2000);
+      }, 1000);
     },
 
     cancel() {
@@ -75,11 +80,16 @@ img {
   z-index: 2;
 }
 
+p {
+  margin: 0;
+}
+
 .text {
   visibility: hidden;
   padding: 4px;
   border-style: solid;
   border-width: 1px;
+  border-radius: 5px;
   border-color: rgb(201, 169, 109);
   background-color: rgba(201, 169, 109, 0.8);
   z-index: 3;

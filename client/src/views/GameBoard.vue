@@ -4,22 +4,18 @@
       <player-board :gameCards="gameCards" :gameState="gameState" :playerData="yellowPlayerData"></player-board>
     </div>
     <div class="middle-section">
-      <info-box :gameState="gameState"></info-box>
-      <div class="button-container">
+      <div class="phase-container">
         <h2><i class="arrow-up"></i> Player One <i class="arrow-up"></i></h2>
-        <div class="btn">
+        <div class="button-container">
           <phase-button v-if="gameState.turn === 'one'" :gameState="gameState" :playerData="yellowPlayerData"></phase-button>
         </div>
-        <h2 class="hide"></h2>
-      </div>
-      <battle-field :gameState="gameState"></battle-field>
-      <div class="button-container">
-        <h2 class="hide"></h2>
-        <div class="btn">
+        <div class="button-container">
           <phase-button v-if="gameState.turn === 'two'" :gameState="gameState" :playerData="bluePlayerData"></phase-button>
         </div>
         <h2><i class="arrow-down"></i> Player Two <i class="arrow-down"></i></h2>
       </div>
+      <battle-field :gameState="gameState"></battle-field>
+      <info-box :gameState="gameState"></info-box>
     </div>
     <div class="win-lose">
       <win-lose></win-lose>
@@ -92,8 +88,9 @@ export default {
   background-color: rgba(110, 140, 200, 0.85);
 }
 
-.button-container {
-  width: 260px;
+.phase-container {
+  width: 300px;
+  margin: 0 80px;
 }
 
 h2 {
@@ -117,7 +114,7 @@ i {
   -webkit-transform: rotate(45deg);
 }
 
-.btn {
+.button-container {
   height: 100px;
 }
 

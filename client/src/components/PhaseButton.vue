@@ -45,7 +45,7 @@ button {
   display: inline-block;
   font-size: 20px;
   width: 160px;
-  height: 100px;
+  height: 80px;
   position: relative;
 }
 
@@ -65,8 +65,8 @@ button:before {
   bottom: 0;
   width: 0;
   height: 0;
-  border-top: 50px solid transparent;
-  border-bottom: 50px solid transparent;
+  border-top: 40px solid transparent;
+  border-bottom: 40px solid transparent;
 }
 
 button.yellow:before {
@@ -86,8 +86,8 @@ button:after {
   bottom: 0;
   width: 0;
   height: 0;
-  border-top: 50px solid transparent;
-  border-bottom: 50px solid transparent;
+  border-top: 40px solid transparent;
+  border-bottom: 40px solid transparent;
 }
 
 button.yellow:after {
