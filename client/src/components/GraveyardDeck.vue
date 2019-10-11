@@ -23,20 +23,28 @@ export default {
   mounted() {
     this.playerData.eventBus.$on('lose', result => {
       if (result.card.name !== "null_card") {
-        result.card.hidden = false;
+        this.resetCard(result.card);
         this.cards.push(result.card);
       }
     });
 
     this.playerData.eventBus.$on('discard', card => {
-      card.hidden = false;
+      this.resetCard(card);
       this.cards.push(card);
     });
 
     this.playerData.eventBus.$on('tribute-selected', card => {
-      card.hidden = false;
+      this.resetCard(card);
       this.cards.push(card);
     });
+  },
+  methods: {
+    resetCard(card) {
+      card.hidden = false;
+      card.afterOneChange = false;
+      card.changePosition = false;
+      card.position = "atk";
+    }
   }
 }
 </script>

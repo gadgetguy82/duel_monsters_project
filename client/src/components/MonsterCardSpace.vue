@@ -33,7 +33,9 @@ export default {
       canChangePosition: false,
       canAttack: false,
       canBeTargetted: false,
-      spaceSelected: false
+      spaceSelected: false,
+      spaceSummoned: false,
+      spaceChanged: false
     }
   },
   mounted() {
@@ -122,6 +124,14 @@ export default {
       const event = "all-zone-def";
       FieldEffects.alterCardStat(eventData, event, this.card);
     });
+
+    this.gameState.eventBus.$on("summon-change-def", eventData => {
+      const event = "summon-change-def";
+      FieldEffects.alterCardStat(eventData, event, this.card, this.spaceSummoned);
+      FieldEffects.alterCardStat(eventData, event, this.card, this.spaceChanged);
+      this.spaceSummoned = false;
+      this.spaceChanged = false;
+    });
   },
   watch: {
     "gameState.phase"() {
@@ -162,12 +172,14 @@ export default {
 
     summon() {
       this.card = this.summonCard;
+      this.spaceSummoned = true;
       if (!GameLogic.isEmpty(this.card.buff)) {
         Object.entries(this.card.buff).forEach(([key, val]) => {
           this.card[key] = parseInt(this.card[key]) + val;
         });
       }
       this.playerData.eventBus.$emit("summon-success", this.card);
+      this.gameState.eventBus.$emit("check-field", "summon");
     },
 
     tribute() {
@@ -188,8 +200,10 @@ export default {
           this.card.hidden = false;
         }
         this.card.position = this.card.position === Constants.ATTACK ? Constants.DEFEND : Constants.ATTACK;
-        this.card.change = true;
+        this.card.afterOneChange = true;
+        this.spaceChanged = true;
         this.canChangePosition = false;
+        this.gameState.eventBus.$emit("check-field", "position");
       }
     },
 

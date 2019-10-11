@@ -48,7 +48,7 @@ export default {
           if (card.type.includes("Monster")) {
             delete card._id;
             this.$set(card, "position", "atk");
-            this.$set(card, "change", false);
+            this.$set(card, "afterOneChange", false);
             if (card.type.includes("Normal Monster")) {
               this.normalMonsters.push(card);
             }

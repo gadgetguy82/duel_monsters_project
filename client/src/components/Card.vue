@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="card-container" :class="{'shown': !card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.change}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
+  <div class="card-container" :class="{'shown': !card.hidden, 'atk': card.position === 'atk', 'def': card.position === 'def', 'change': card.AfterOneChange}" v-on:mouseover="display(card)" v-on:mouseout="cancel">
     <div class="card">
       <img class="hover" :class="{'show': !card.hidden, 'hide': card.hidden}" :src="card.card_images[0].image_url_small"/>
       <img :class="{'hide': !card.hidden, 'show': card.hidden}" src="../../public/img/card_back.png">

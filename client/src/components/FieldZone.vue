@@ -33,36 +33,44 @@ export default {
       this.fieldCard = card;
     });
 
-    eventBusPlayingHand.$on("card-drawn", () => this.addEffects(eventBusPlayingHand));
+    this.gameState.eventBus.$on("check-field", action => {
+      if (action === "summon") {
+        this.addEffects(this.gameState.eventBus, "add-summon");
+      } else if (action === "position") {
+        this.addEffects(this.gameState.eventBus, "change-position");
+      }
+    });
+
+    eventBusPlayingHand.$on("card-drawn", () => this.addEffects(eventBusPlayingHand, "add"));
   },
   methods: {
     placeFieldCard() {
       if (this.canPlace) {
         if (!GameLogic.isEmpty(this.card)) {
           this.playerData.eventBus.$emit("discard", this.card);
-          this.removeEffects(this.gameState.eventBus);
+          this.removeEffects(this.gameState.eventBus, "remove");
         }
         this.card = this.fieldCard;
         this.playerData.eventBus.$emit("field-placed", this.card);
-        this.addEffects(this.gameState.eventBus);
+        this.addEffects(this.gameState.eventBus, "add");
         this.canPlace = false;
       }
     },
 
-    addEffects(eventBus) {
+    addEffects(eventBus, action) {
       if(!GameLogic.isEmpty(this.card)) {
         if (this.card.affects.player === "both") {
           Object.keys(this.card.effect).forEach(key => {
-            eventBus.$emit(key, {action: "add", fieldCard: this.card});
+            eventBus.$emit(key, {action: action, fieldCard: this.card});
           });
         }
       }
     },
 
-    removeEffects(eventBus) {
+    removeEffects(eventBus, action) {
       if (this.card.affects.player === "both") {
         Object.keys(this.card.effect).forEach(key => {
-          eventBus.$emit(key, {action: "remove", fieldCard: this.card});
+          eventBus.$emit(key, {action: action, fieldCard: this.card});
         });
       }
     }

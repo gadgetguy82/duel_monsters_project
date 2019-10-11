@@ -36,12 +36,22 @@ export const addToCardBuff = ({action, fieldCard}, event, currentCard) => {
   }
 }
 
-export const alterCardStat = ({action, fieldCard}, event, currentCard) => {
+export const alterCardStat = ({action, fieldCard}, event, currentCard, checkSpace) => {
   const evtArray = event.split("-");
   const stat = evtArray[evtArray.length - 1];
-  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on] && !currentCard.hidden) {
+  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on] && (!currentCard.hidden || currentCard.position === "def")) {
     if (action === "add") {
       currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
+    } else if (action === "add-summon" && checkSpace) {
+      currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
+    } else if (action === "change-position" && checkSpace) {
+      if (currentCard.position === stat) {
+        console.log("add");
+        currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
+      } else {
+        console.log("remove");
+        currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
+      }
     } else if (action === "remove") {
       currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
     }

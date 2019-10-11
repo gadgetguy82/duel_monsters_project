@@ -16,7 +16,7 @@
     </div>
     <game-button v-on:click.native="addAttribute" :text="textAdd" :colour="'green'"></game-button>
     <game-button v-on:click.native="removeAttribute" :text="textRemove" :colour="'red'"></game-button>
-    <game-button v-if="card.game" v-on:click.native="updateCard" :text="textUpdate" :colour="'blue'"></game-button>
+    <game-button v-if="card && card.game" v-on:click.native="updateCard" :text="textUpdate" :colour="'blue'"></game-button>
   </div>
 </template>
 

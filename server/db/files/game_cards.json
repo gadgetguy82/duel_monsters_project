@@ -31442,5 +31442,69 @@
       "on": "attribute",
       "attribute": "EARTH"
     }
+  },
+  {
+    "id": "81380218",
+    "name": "Chorus of Sanctuary",
+    "type": "Spell Card",
+    "desc": "Increase the DEF of all Defense Position monsters by 500 points.",
+    "race": "Field",
+    "card_sets": [
+      {
+        "set_name": "Dark Beginning 1",
+        "set_code": "DB1-EN022",
+        "set_rarity": "Common",
+        "set_price": "0.91"
+      },
+      {
+        "set_name": "Magic Ruler",
+        "set_code": "MRL-037",
+        "set_rarity": "Common",
+        "set_price": "0.85"
+      },
+      {
+        "set_name": "Spell Ruler",
+        "set_code": "MRL-E037",
+        "set_rarity": "Common",
+        "set_price": "44.56"
+      },
+      {
+        "set_name": "Spell Ruler",
+        "set_code": "SRL-037",
+        "set_rarity": "Common",
+        "set_price": "1.01"
+      },
+      {
+        "set_name": "Spell Ruler",
+        "set_code": "SRL-EN037",
+        "set_rarity": "Common",
+        "set_price": "6.35"
+      }
+    ],
+    "card_images": [
+      {
+        "id": "81380218",
+        "image_url": "https://storage.googleapis.com/ygoprodeck.com/pics/81380218.jpg",
+        "image_url_small": "https://storage.googleapis.com/ygoprodeck.com/pics_small/81380218.jpg"
+      }
+    ],
+    "card_prices": {
+      "cardmarket_price": "0.07",
+      "tcgplayer_price": "0.12",
+      "ebay_price": "0.99",
+      "amazon_price": "0.15"
+    },
+    "game": true,
+    "hidden": true,
+    "initial": true,
+    "player": "",
+    "affects": {
+      "player": "both",
+      "on": "position",
+      "position": "def"
+    },
+    "effect": {
+      "summon-change-def": "500"
+    }
   }
 ]
