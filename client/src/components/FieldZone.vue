@@ -1,10 +1,10 @@
 <template lang="html">
   <div class="field-zone-container" v-on:click="placeFieldCard">
     <div class="field-zone">
-      <div class="layer" v-if="!card.name">
+      <div class="layer">
         <h4>Field Zone</h4>
       </div>
-      <playing-card v-if="card.name" :card="card"></playing-card>
+      <playing-card class="card" v-if="card.name" :card="card"></playing-card>
     </div>
   </div>
 </template>
@@ -91,6 +91,7 @@ h4 {
   background-image: url("../../public/img/card_back.png");
   background-repeat: no-repeat;
   background-size: 100px;
+  position: relative;
 }
 
 .layer {
@@ -103,5 +104,12 @@ h4 {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.card {
+  z-index: 5;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 </style>
