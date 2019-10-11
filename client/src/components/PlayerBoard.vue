@@ -62,7 +62,8 @@ export default {
     return{
       deck: [],
       minSize: 40,
-      maxRange: 15
+      maxRange: 20,
+      testNumber: 2
     }
   },
   mounted() {
@@ -70,14 +71,14 @@ export default {
   },
   methods: {
     randomizeCards() {
-      const range = Math.floor(Math.random() * this.maxRange);
+      const range = Math.floor(Math.random() * (this.maxRange - this.testNumber));
       for (let i = 0; i < this.minSize + range; i++) {
         const index = Math.floor(Math.random() * this.gameCards.length);
         const chosenCardCopy = Object.assign({}, this.gameCards[index]);
         chosenCardCopy.player = this.playerData.player;
         this.deck.push(chosenCardCopy);
       }
-      for (let i = 1; i < 6; i++) {
+      for (let i = 1; i < this.testNumber + 1; i++) {
         const lastCardCopy = Object.assign({}, this.gameCards[this.gameCards.length - i]);
         lastCardCopy.player = this.playerData.player;
         this.deck.push(lastCardCopy);

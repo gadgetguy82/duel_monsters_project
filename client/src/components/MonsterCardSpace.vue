@@ -97,32 +97,32 @@ export default {
       }
     });
 
-    this.gameState.eventBus.$on("monster-zone-atk", ({action, card}) => {
-      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+    this.gameState.eventBus.$on("monster-zone-atk", ({action, fieldCard}) => {
+      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
         if (action === "add") {
-          this.card.atk = parseInt(this.card.atk) + parseInt(card.effect["monster-zone-atk"]);
+          this.card.atk = parseInt(this.card.atk) + parseInt(fieldCard.effect["monster-zone-atk"]);
         } else if (action === "remove") {
-          this.card.atk = parseInt(this.card.atk) - parseInt(card.effect["monster-zone-atk"]);
+          this.card.atk = parseInt(this.card.atk) - parseInt(fieldCard.effect["monster-zone-atk"]);
         }
       }
     });
 
-    this.gameState.eventBus.$on("monster-zone-def", ({action, card}) => {
-      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+    this.gameState.eventBus.$on("monster-zone-def", ({action, fieldCard}) => {
+      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
         if (action === "add") {
-          this.card.def = parseInt(this.card.def) + parseInt(card.effect["monster-zone-def"]);
+          this.card.def = parseInt(this.card.def) + parseInt(fieldCard.effect["monster-zone-def"]);
         } else if (action === "remove") {
-          this.card.def = parseInt(this.card.def) - parseInt(card.effect["monster-zone-def"]);
+          this.card.def = parseInt(this.card.def) - parseInt(fieldCard.effect["monster-zone-def"]);
         }
       }
     });
 
-    this.gameState.eventBus.$on("playing-hand-level", ({action, card}) => {
-      if (this.card[card.affects.on] === card.affects[card.affects.on]) {
+    this.gameState.eventBus.$on("playing-hand-level", ({action, fieldCard}) => {
+      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
         if (action === "add") {
-          this.card.level = parseInt(this.card.level) + parseInt(card.effect["playing-hand-level"]);
+          this.card.level = parseInt(this.card.level) + parseInt(fieldCard.effect["playing-hand-level"]);
         } else if (action === "remove") {
-          this.card.level = parseInt(this.card.level) - parseInt(card.effect["playing-hand-level"]);
+          this.card.level = parseInt(this.card.level) - parseInt(fieldCard.effect["playing-hand-level"]);
         }
       }
     });
