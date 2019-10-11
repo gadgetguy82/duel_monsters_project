@@ -31394,12 +31394,53 @@
     "effect": {
       "monster-zone-atk": "200",
       "monster-zone-def": "200",
-      "playing-hand-level": "-1"
+      "all-zone-level": "-1"
     },
     "affects": {
       "player": "both",
       "on": "attribute",
       "attribute": "WATER"
+    }
+  },
+  {
+    "id": "35956022",
+    "name": "Acidic Downpour",
+    "type": "Spell Card",
+    "desc": "All EARTH monsters lose 500 ATK and gain 400 DEF.",
+    "race": "Field",
+    "card_sets": [
+      {
+        "set_name": "Phantom Darkness",
+        "set_code": "PTDN-EN058",
+        "set_rarity": "Common",
+        "set_price": "0.84"
+      }
+    ],
+    "card_images": [
+      {
+        "id": "35956022",
+        "image_url": "https://storage.googleapis.com/ygoprodeck.com/pics/35956022.jpg",
+        "image_url_small": "https://storage.googleapis.com/ygoprodeck.com/pics_small/35956022.jpg"
+      }
+    ],
+    "card_prices": {
+      "cardmarket_price": "0.09",
+      "tcgplayer_price": "0.11",
+      "ebay_price": "0.99",
+      "amazon_price": "0.22"
+    },
+    "game": true,
+    "hidden": true,
+    "initial": true,
+    "player": "",
+    "effect": {
+      "all-zone-atk": "-500",
+      "all-zone-def": "400"
+    },
+    "affects": {
+      "player": "both",
+      "on": "attribute",
+      "attribute": "EARTH"
     }
   }
 ]

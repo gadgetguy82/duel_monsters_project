@@ -26,22 +26,24 @@ export const alterCardStatInArray = ({action, fieldCard}, event, array) => {
   });
 }
 
-export const addToCardBuff = ({action, fieldCard, currentCard}, event) => {
+export const addToCardBuff = ({action, fieldCard}, event, currentCard) => {
   const evtArray = event.split("-");
   const buff = evtArray[evtArray.length - 1];
-  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
+  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on] && !currentCard.hidden) {
     if (action === "add") {
       currentCard.buff[buff] = currentCard.buff[buff] ? currentCard.buff[buff] + parseInt(fieldCard.effect[event]) : parseInt(fieldCard.effect[event]);
     }
   }
 }
 
-export const alterCardStat = ({action, fieldCard, currentCard}, event) => {
+export const alterCardStat = ({action, fieldCard}, event, currentCard) => {
   const evtArray = event.split("-");
   const stat = evtArray[evtArray.length - 1];
-  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
+  if (currentCard[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on] && !currentCard.hidden) {
     if (action === "add") {
       currentCard[stat] = parseInt(currentCard[stat]) + parseInt(fieldCard.effect[event]);
+    } else if (action === "remove") {
+      currentCard[stat] = parseInt(currentCard[stat]) - parseInt(fieldCard.effect[event]);
     }
   }
 }

@@ -33,7 +33,7 @@ export default {
       this.fieldCard = card;
     });
 
-    eventBusPlayingHand.$on("card-drawn", card => this.useEffects(eventBusPlayingHand, card));
+    eventBusPlayingHand.$on("card-drawn", () => this.addEffects(eventBusPlayingHand));
   },
   methods: {
     placeFieldCard() {
@@ -44,25 +44,25 @@ export default {
         }
         this.card = this.fieldCard;
         this.playerData.eventBus.$emit("field-placed", this.card);
-        this.useEffects(this.gameState.eventBus);
+        this.addEffects(this.gameState.eventBus);
         this.canPlace = false;
       }
     },
 
-    useEffects(eventBus, card) {
+    addEffects(eventBus) {
       if(!GameLogic.isEmpty(this.card)) {
         if (this.card.affects.player === "both") {
           Object.keys(this.card.effect).forEach(key => {
-            eventBus.$emit(key, {action: "add", fieldCard: this.card, currentCard: card});
+            eventBus.$emit(key, {action: "add", fieldCard: this.card});
           });
         }
       }
     },
 
-    removeEffects(eventBus, card) {
+    removeEffects(eventBus) {
       if (this.card.affects.player === "both") {
         Object.keys(this.card.effect).forEach(key => {
-          eventBus.$emit(key, {action: "remove", fieldCard: this.card, currentCard: card});
+          eventBus.$emit(key, {action: "remove", fieldCard: this.card});
         });
       }
     }

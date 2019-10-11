@@ -12,6 +12,7 @@
 <script>
 import Card from '@/components/Card.vue';
 import GameLogic from '@/services/game_logic.js';
+import * as FieldEffects from '@/services/field_effects.js';
 import * as Constants from '@/services/constants.js';
 
 export default {
@@ -97,34 +98,29 @@ export default {
       }
     });
 
-    this.gameState.eventBus.$on("monster-zone-atk", ({action, fieldCard}) => {
-      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
-        if (action === "add") {
-          this.card.atk = parseInt(this.card.atk) + parseInt(fieldCard.effect["monster-zone-atk"]);
-        } else if (action === "remove") {
-          this.card.atk = parseInt(this.card.atk) - parseInt(fieldCard.effect["monster-zone-atk"]);
-        }
-      }
+    this.gameState.eventBus.$on("monster-zone-atk", eventData => {
+      const event = "monster-zone-atk";
+      FieldEffects.alterCardStat(eventData, event, this.card);
     });
 
-    this.gameState.eventBus.$on("monster-zone-def", ({action, fieldCard}) => {
-      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
-        if (action === "add") {
-          this.card.def = parseInt(this.card.def) + parseInt(fieldCard.effect["monster-zone-def"]);
-        } else if (action === "remove") {
-          this.card.def = parseInt(this.card.def) - parseInt(fieldCard.effect["monster-zone-def"]);
-        }
-      }
+    this.gameState.eventBus.$on("monster-zone-def", eventData => {
+      const event = "monster-zone-def";
+      FieldEffects.alterCardStat(eventData, event, this.card);
     });
 
-    this.gameState.eventBus.$on("playing-hand-level", ({action, fieldCard}) => {
-      if (this.card[fieldCard.affects.on] === fieldCard.affects[fieldCard.affects.on]) {
-        if (action === "add") {
-          this.card.level = parseInt(this.card.level) + parseInt(fieldCard.effect["playing-hand-level"]);
-        } else if (action === "remove") {
-          this.card.level = parseInt(this.card.level) - parseInt(fieldCard.effect["playing-hand-level"]);
-        }
-      }
+    this.gameState.eventBus.$on("all-zone-level", eventData => {
+      const event = "all-zone-level";
+      FieldEffects.alterCardStat(eventData, event, this.card);
+    });
+
+    this.gameState.eventBus.$on("all-zone-atk", eventData => {
+      const event = "all-zone-atk";
+      FieldEffects.alterCardStat(eventData, event, this.card);
+    });
+
+    this.gameState.eventBus.$on("all-zone-def", eventData => {
+      const event = "all-zone-def";
+      FieldEffects.alterCardStat(eventData, event, this.card);
     });
   },
   watch: {

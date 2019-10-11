@@ -27,7 +27,6 @@ export default {
   },
   data() {
     return {
-      eventBus: eventBusPlayingHand,
       playerHand: [],
       monsterZone: {
         spaces: Constants.MAX_SPACES,
@@ -45,10 +44,8 @@ export default {
       card.hidden = false;
       card.buff = {};
       this.playerHand.push(card);
-      eventBusPlayingHand.$emit("card-drawn", card);
+      eventBusPlayingHand.$emit("card-drawn");
     });
-
-    eventBusPlayingHand.$on()
 
     this.playerData.eventBus.$on("monster-zone-spaces", monsterZone => this.monsterZone = monsterZone);
 
@@ -66,76 +63,56 @@ export default {
     this.gameState.eventBus.$on("monster-zone-atk", eventData => {
       const event = "monster-zone-atk";
       FieldEffects.addToCardBuffInArray(eventData, event, this.playerHand);
-      // this.playerHand.forEach(handCard => {
-      //   if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-      //     if (action === "add") {
-      //       handCard.buff.atk = handCard.buff.atk ? handCard.buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
-      //     } else if (action === "remove") {
-      //       handCard.buff.atk -= parseInt(card.effect["monster-zone-atk"]);
-      //     }
-      //   }
-      // });
     });
 
     this.gameState.eventBus.$on("monster-zone-def", eventData => {
       const event = "monster-zone-def";
       FieldEffects.addToCardBuffInArray(eventData, event, this.playerHand);
-      // this.playerHand.forEach(handCard => {
-      //   if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-      //     if (action === "add") {
-      //       handCard.buff.def = handCard.buff.def ? handCard.buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
-      //     } else if (action === "remove") {
-      //       handCard.buff.def -= parseInt(card.effect["monster-zone-def"]);
-      //     }
-      //   }
-      // });
     });
 
-    this.gameState.eventBus.$on("playing-hand-level", eventData => {
-      const event = "playing-hand-level";
+    this.gameState.eventBus.$on("all-zone-level", eventData => {
+      const event = "all-zone-level";
       FieldEffects.alterCardStatInArray(eventData, event, this.playerHand);
-      // this.playerHand.forEach(handCard => {
-      //   if (handCard[card.affects.on] === card.affects[card.affects.on]) {
-      //     if (action === "add") {
-      //       handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
-      //     } else if (action === "remove") {
-      //       handCard.level -= parseInt(card.effect["playing-hand-level"]);
-      //     }
-      //   }
-      // });
+    });
+
+    this.gameState.eventBus.$on("all-zone-atk", eventData => {
+      const event = "all-zone-atk";
+      FieldEffects.alterCardStatInArray(eventData, event, this.playerHand);
+    });
+
+    this.gameState.eventBus.$on("all-zone-def", eventData => {
+      const event = "all-zone-def";
+      FieldEffects.alterCardStatInArray(eventData, event, this.playerHand);
     });
 
     eventBusPlayingHand.$on("monster-zone-atk", eventData => {
       const event = "monster-zone-atk";
-      const handCard = this.playerHand[this.playerHand.length - 1]
-      FieldEffects.addToCardBuff(eventData, event);
-      // if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-      //   if (action === "add") {
-      //     this.playerHand[this.playerHand.length - 1].buff.atk = this.playerHand[this.playerHand.length - 1].buff.atk ? this.playerHand[this.playerHand.length - 1].buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
-      //   }
-      // }
+      const handCard = this.playerHand[this.playerHand.length - 1];
+      FieldEffects.addToCardBuff(eventData, event, handCard);
     });
 
     eventBusPlayingHand.$on("monster-zone-def", eventData => {
       const event = "monster-zone-def";
-      const handCard = this.playerHand[this.playerHand.length - 1]
-      FieldEffects.addToCardBuff(eventData, event);
-      // if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-      //   if (action === "add") {
-      //     this.playerHand[this.playerHand.length - 1].buff.def = this.playerHand[this.playerHand.length - 1].buff.def ? this.playerHand[this.playerHand.length - 1].buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
-      //   }
-      // }
+      const handCard = this.playerHand[this.playerHand.length - 1];
+      FieldEffects.addToCardBuff(eventData, event, handCard);
     });
 
-    eventBusPlayingHand.$on("playing-hand-level", eventData => {
-      const event = "playing-hand-level";
-      const handCard = this.playerHand[this.playerHand.length - 1]
-      FieldEffects.alterCardStat(eventData, event);
-      // if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
-      //   if (action === "add") {
-      //     this.playerHand[this.playerHand.length - 1].level = parseInt(this.playerHand[this.playerHand.length - 1].level) + parseInt(card.effect["playing-hand-level"]);
-      //   }
-      // }
+    eventBusPlayingHand.$on("all-zone-level", eventData => {
+      const event = "all-zone-level";
+      const handCard = this.playerHand[this.playerHand.length - 1];
+      FieldEffects.alterCardStat(eventData, event, handCard);
+    });
+
+    eventBusPlayingHand.$on("all-zone-atk", eventData => {
+      const event = "all-zone-atk";
+      const handCard = this.playerHand[this.playerHand.length - 1];
+      FieldEffects.alterCardStat(eventData, event, handCard);
+    });
+
+    eventBusPlayingHand.$on("all-zone-def", eventData => {
+      const event = "all-zone-def";
+      const handCard = this.playerHand[this.playerHand.length - 1];
+      FieldEffects.alterCardStat(eventData, event, handCard);
     });
   },
   watch: {
