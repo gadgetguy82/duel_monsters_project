@@ -67,6 +67,8 @@ export default {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
           if (action === "add") {
             handCard.buff.atk = handCard.buff.atk ? handCard.buff.atk + parseInt(card.effect["monster-zone-atk"]) : parseInt(card.effect["monster-zone-atk"]);
+          } else if (action === "remove") {
+            handCard.buff.atk -= parseInt(card.effect["monster-zone-atk"]);
           }
         }
       });
@@ -77,6 +79,8 @@ export default {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
           if (action === "add") {
             handCard.buff.def = handCard.buff.def ? handCard.buff.def + parseInt(card.effect["monster-zone-def"]) : parseInt(card.effect["monster-zone-def"]);
+          } else if (action === "remove") {
+            handCard.buff.def -= parseInt(card.effect["monster-zone-def"]);
           }
         }
       });
@@ -87,7 +91,8 @@ export default {
         if (handCard[card.affects.on] === card.affects[card.affects.on]) {
           if (action === "add") {
             handCard.level = parseInt(handCard.level) + parseInt(card.effect["playing-hand-level"]);
-            console.log('game bus');
+          } else if (action === "remove") {
+            handCard.level -= parseInt(card.effect["playing-hand-level"]);
           }
         }
       });
@@ -113,7 +118,6 @@ export default {
       if (this.playerHand[this.playerHand.length - 1][card.affects.on] === card.affects[card.affects.on]) {
         if (action === "add") {
           this.playerHand[this.playerHand.length - 1].level = parseInt(this.playerHand[this.playerHand.length - 1].level) + parseInt(card.effect["playing-hand-level"]);
-          console.log('hand bus');
         }
       }
     });

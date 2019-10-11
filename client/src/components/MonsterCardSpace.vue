@@ -101,6 +101,8 @@ export default {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
         if (action === "add") {
           this.card.atk = parseInt(this.card.atk) + parseInt(card.effect["monster-zone-atk"]);
+        } else if (action === "remove") {
+          this.card.atk = parseInt(this.card.atk) - parseInt(card.effect["monster-zone-atk"]);
         }
       }
     });
@@ -109,6 +111,8 @@ export default {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
         if (action === "add") {
           this.card.def = parseInt(this.card.def) + parseInt(card.effect["monster-zone-def"]);
+        } else if (action === "remove") {
+          this.card.def = parseInt(this.card.def) - parseInt(card.effect["monster-zone-def"]);
         }
       }
     });
@@ -117,6 +121,8 @@ export default {
       if (this.card[card.affects.on] === card.affects[card.affects.on]) {
         if (action === "add") {
           this.card.level = parseInt(this.card.level) + parseInt(card.effect["playing-hand-level"]);
+        } else if (action === "remove") {
+          this.card.level = parseInt(this.card.level) - parseInt(card.effect["playing-hand-level"]);
         }
       }
     });
