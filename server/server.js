@@ -142,5 +142,5 @@ MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', { us
 let port = process.env.PORT || 3000;
 
 app.listen(port, function() {
-  console.log(`Listening on port ${this.address().port} at ${this.address()}`);
+  console.log(`Listening on port ${this.address().port}`);
 });
