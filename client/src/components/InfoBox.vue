@@ -1,11 +1,11 @@
 <template lang="html">
   <div class="info-box-container">
+    <transition name="text-bounce" class="text-container">
+      <p class="text" v-if="!source">{{ text }}</p>
+    </transition>
     <transition name="image-fade">
       <img v-if="source" :src="source"/>
     </transition>
-    <div class="text-container">
-      <p class="text">{{ text }}</p>
-    </div>
   </div>
 </template>
 
@@ -69,25 +69,21 @@ export default {
   width: 180px;
   height: 220px;
   padding: 5px;
-  z-index: 10;
   position: relative;
 }
 
 .text-container {
   height: 100%;
   overflow: scroll;
-  position: absolute;
-  top: 0;
-  left: 0;
   padding: 2px;
 }
 
 img {
-  position: relative;
+  position: absolute;
   width: auto;
   height: 400px;
-  right: 60px;
-  bottom: 80px;
+  top: -90px;
+  left: -25px;
   z-index: 2;
 }
 
@@ -96,6 +92,26 @@ img {
 }
 
 .image-fade-enter-active, .image-fade-leave-active {
-  transition: opacity .5s ease
+  transition: opacity 1s ease
+}
+
+.text-bounce-enter-active {
+  animation: bounce-in .5s;
+}
+
+.text-bounce-leave-active {
+  animation: bounce-in .5s reverse;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>
