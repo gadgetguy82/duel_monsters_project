@@ -4,7 +4,7 @@ import router from '@/router.js';
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-let socketPort = process.env.SOCKET_PORT || 5000;
+let socketPort = process.env.SOCKET_PORT || 4000;
 const conn = `http://localhost:${socketPort}`
 
 export const SocketInstance = socketio(conn);

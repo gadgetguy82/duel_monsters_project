@@ -13,7 +13,7 @@ const server = http.Server(app);
 
 const socketIO = require('socket.io');
 const io = socketIO(server, {pingTimeout: 60000});
-let socketPort = process.env.SOCKET_PORT || 5000;
+let socketPort = process.env.SOCKET_PORT || 4000;
 app.set('port', socketPort);
 app.use(express.static('../client/public'));
 
