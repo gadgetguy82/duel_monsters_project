@@ -13,10 +13,11 @@ const server = http.Server(app);
 
 const socketIO = require('socket.io');
 const io = socketIO(server, {pingTimeout: 60000});
-app.set('port', 5000);
+let socketPort = process.env.SOCKET_PORT || 5000;
+app.set('port', socketPort);
 app.use(express.static('../client/public'));
 
-server.listen(5000, function() {
+server.listen(socketPort, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
 
@@ -141,5 +142,5 @@ MongoClient.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017', { us
 let port = process.env.PORT || 3000;
 
 app.listen(port, function() {
-  console.log(`Listening on port ${this.address().port}`);
+  console.log(`Listening on port ${this.address().port} at ${this.address()}`);
 });

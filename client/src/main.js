@@ -4,11 +4,14 @@ import router from '@/router.js';
 import socketio from 'socket.io-client';
 import VueSocketIO from 'vue-socket.io';
 
-export const SocketInstance = socketio('http://localhost:5000');
+let socketPort = process.env.SOCKET_PORT || 5000;
+const conn = `http://localhost:${socketPort}`
+
+export const SocketInstance = socketio(conn);
 
 Vue.use(new VueSocketIO({
   debug: true,
-  connection: 'http://localhost:5000',
+  connection: conn,
   vue: {
     actionPrefix: 'SOCKET_',
     mutationPrefix: 'SOCKET_'
