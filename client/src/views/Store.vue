@@ -15,17 +15,33 @@
 
 <script>
 import DBService from '@/services/db_service';
+import * as Helpers from '@/services/helpers.js';
 
 export default {
   name: 'store',
   props: ['allCards'],
   data() {
     return {
-      storeCards: []
+      storeCards: [],
+      arrayOfSetCodes: [],
+      arrayOfSetNames: []
     }
   },
   mounted() {
     this.storeCards = this.allCards.slice(0, 120);
+
+    this.allCards.forEach(card => {
+      if (card.card_sets) {
+        card.card_sets.forEach(set => {
+          if (!this.arrayOfSetCodes.includes(set.set_code)) {
+            this.arrayOfSetCodes.push(set.set_code);
+          }
+          if (!this.arrayOfSetNames.includes(set.set_name)) {
+            this.arrayOfSetNames.push(set.set_name);
+          }
+        });
+      }
+    });
   }
 }
 </script>

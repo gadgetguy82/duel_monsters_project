@@ -1,8 +1,10 @@
 <template lang="html">
   <div class="info-box-container">
-    <img v-if="source" :src="source"/>
+    <transition name="image-fade">
+      <img v-if="source" :src="source"/>
+    </transition>
     <div class="text-container">
-      <p class="text" v-if="!source">{{ text }}</p>
+      <p class="text">{{ text }}</p>
     </div>
   </div>
 </template>
@@ -68,11 +70,16 @@ export default {
   height: 220px;
   padding: 5px;
   z-index: 10;
+  position: relative;
 }
 
 .text-container {
   height: 100%;
   overflow: scroll;
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 2px;
 }
 
 img {
@@ -81,5 +88,14 @@ img {
   height: 400px;
   right: 60px;
   bottom: 80px;
+  z-index: 2;
+}
+
+.image-fade-enter, .image-fade-leave-active {
+  opacity: 0;
+}
+
+.image-fade-enter-active, .image-fade-leave-active {
+  transition: opacity .5s ease
 }
 </style>
