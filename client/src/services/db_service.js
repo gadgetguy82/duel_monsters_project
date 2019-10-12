@@ -1,5 +1,5 @@
-let host = process.env.HOST || 'http://localhost'
-let port = process.env.PORT || 3000;
+const host = process.env.HOST || 'http://localhost'
+const port = process.env.PORT || 3000;
 const baseURL = `${host}:${port}/api/duel_monsters_game/`;
 
 function jsonData(body) {
