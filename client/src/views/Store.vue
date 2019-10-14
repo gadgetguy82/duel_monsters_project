@@ -60,7 +60,6 @@ export default {
   methods: {
     downloadImages() {
       DBService.downloadImages({indices: startIndex + "/" + endIndex}, "cards/");
-      }
     }
   }
 }
