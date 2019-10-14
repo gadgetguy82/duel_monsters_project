@@ -1,12 +1,12 @@
 const fs = require('fs');
 const request = require('request');
 
-const dir = `${__dirname}/../../../server/card_images/`;
+const directory = `${__dirname}/../../../server/card_images/`;
 
-export const download = (uri, callback) => {
+export const download = (uri, subDirectory) => {
   request.head(uri, (err, res, body) => {
     const uriArray = uri.split("/");
     const filename = uriArray[uriArray.length - 1];
-    request(uri).pipe(fs.createWriteStream(`${dir}${filename}`)).on('close', callback);
+    request(uri).pipe(fs.createWriteStream(`${directory}${subDirectory}${filename}`)).on('close');
   });
 };

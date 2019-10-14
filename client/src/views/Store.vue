@@ -6,7 +6,7 @@
         <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
           <!-- <img :src="card.card_images[0].image_url_small"> -->
-          <button>Buy!</button>
+          <game-button :text="'Buy!'"></game-button>
         </div>
       </div>
       <div class="add-container">
@@ -14,7 +14,7 @@
         <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
         <label for="end"></label>
         <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
-        <game-button :text="buttonText" :colour="'brown'"></game-button>
+        <game-button :text="buttonText" :colour="'brown'" v-on:click.native="downloadImages"></game-button>
       </div>
     </div>
   </div>
@@ -37,6 +37,8 @@ export default {
       storeCards: [],
       arrayOfSetCodes: [],
       arrayOfSetNames: [],
+      startIndex: 0,
+      endIndex: 1,
       buttonText: "Get card images"
     }
   },
@@ -55,6 +57,14 @@ export default {
         });
       }
     });
+  },
+  methods: {
+    downloadImages() {
+      for (let index = this.startIndex; index < this.endIndex; index++) {
+        StoreImages.download(this.allCards[index].card_images[0].image_url, "large/");
+        StoreImages.download(this.allCards[index].card_images[0].image_url_small, "small/");
+      }
+    }
   }
 }
 </script>
