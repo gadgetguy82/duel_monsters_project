@@ -5,26 +5,39 @@
       <div class="store-cards-container">
         <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
-          <img :src="card.card_images[0].image_url_small">
+          <!-- <img :src="card.card_images[0].image_url_small"> -->
           <button>Buy!</button>
         </div>
+      </div>
+      <div class="add-container">
+        <label for="start"></label>
+        <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
+        <label for="end"></label>
+        <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
+        <game-button :text="buttonText" :colour="'brown'"></game-button>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import GameButton from '@/components/GameButton.vue';
 import DBService from '@/services/db_service';
 import * as Helpers from '@/services/helpers.js';
+import * as StoreImages from '@/services/store_images.js';
 
 export default {
   name: 'store',
   props: ['allCards'],
+  components: {
+    "game-button": GameButton
+  },
   data() {
     return {
       storeCards: [],
       arrayOfSetCodes: [],
-      arrayOfSetNames: []
+      arrayOfSetNames: [],
+      buttonText: "Get card images"
     }
   },
   mounted() {
@@ -73,5 +86,16 @@ img, .store-card{
 
 .card-title{
   height: 40px
+}
+
+.add-container {
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  margin: 5px;
+  font-size: 16px;
 }
 </style>

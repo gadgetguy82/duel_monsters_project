@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="card-display-container">
     <h2>{{ display.title }}</h2>
-    <input class="search" type="text" value="" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="findCard">
+    <input class="search" type="text" placeholder="Enter name of card..." v-model="display.searchTerm" v-on:input="findCard">
     <img :src="display.source" v-on:click="displayInfo">
     <div class="button-select-container" v-if="display.source">
       <button class="develop-button" type="button" v-on:click="display.index = selectPrev(display)">&#8592;</button>
