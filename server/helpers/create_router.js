@@ -73,6 +73,24 @@ const createRouter = function(collection) {
     });
   }),
 
+  router.get('/download/:start/:end', (req, res) => {
+    const start = req.params.start;
+    const end = req.params.end;
+    collection.find().toArray()
+    .then(docs => {
+      for (let index = start; index < end; index++) {
+        readWrite.download(docs[index].card_images[0].image_url, "large/");
+        readWrite.download(docs[index].card_images[0].image_url_small, "small/");
+      }
+      res.json(docs);
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(500);
+      res.json({ status: 500, error: err });
+    });
+  }),
+
   router.post('/', (req, res) => {
     const body = req.body;
     collection.insertOne(body)

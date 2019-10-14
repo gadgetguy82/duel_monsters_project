@@ -24,7 +24,6 @@
 import GameButton from '@/components/GameButton.vue';
 import DBService from '@/services/db_service';
 import * as Helpers from '@/services/helpers.js';
-import * as StoreImages from '@/services/store_images.js';
 
 export default {
   name: 'store',
@@ -60,9 +59,7 @@ export default {
   },
   methods: {
     downloadImages() {
-      for (let index = this.startIndex; index < this.endIndex; index++) {
-        StoreImages.download(this.allCards[index].card_images[0].image_url, "large/");
-        StoreImages.download(this.allCards[index].card_images[0].image_url_small, "small/");
+      DBService.downloadImages({indices: startIndex + "/" + endIndex}, "cards/");
       }
     }
   }

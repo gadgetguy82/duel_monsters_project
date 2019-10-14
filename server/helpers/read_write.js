@@ -1,6 +1,8 @@
 const fs = require('fs');
+const request = require('request');
 
 const path = `${__dirname}/../db/files/`;
+const directory = `${__dirname}/../card_images/`;
 
 const readSync = (file) => {
   const data = fs.readFileSync(path + file);
@@ -32,9 +34,18 @@ const writeAsync = (file, gameCards) => {
   });
 }
 
+const download = (uri, subDirectory) => {
+  request.head(uri, (err, res, body) => {
+    const uriArray = uri.split("/");
+    const filename = uriArray[uriArray.length - 1];
+    request(uri).pipe(fs.createWriteStream(`${directory}${subDirectory}${filename}`)).on('close');
+  });
+};
+
 module.exports = {
   readSync: readSync,
   readAsync: readAsync,
   writeSync: writeAsync,
-  writeAsync: writeAsync
+  writeAsync: writeAsync,
+  download: download
 };

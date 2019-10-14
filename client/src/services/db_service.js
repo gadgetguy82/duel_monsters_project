@@ -53,5 +53,11 @@ export default {
     const path = route ? baseURL + route + 'read' : baseURL + 'read';
     return fetch(path)
     .then(res => res.json());
+  },
+
+  downloadImages(body, route) {
+    const path = route ? baseURL + route + 'download/' + body.indices : baseURL + 'download';
+    return fetch(path)
+    .then(res => res.json());
   }
 }
