@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     downloadImages() {
-      DBService.downloadImages({indices: startIndex + "/" + endIndex}, "cards/");
+      DBService.downloadImages({indices: this.startIndex + "/" + this.endIndex}, "cards/");
     }
   }
 }

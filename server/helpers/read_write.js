@@ -34,11 +34,11 @@ const writeAsync = (file, gameCards) => {
   });
 }
 
-const download = (uri, subDirectory) => {
+const download = (uri, subDirectory, callback) => {
   request.head(uri, (err, res, body) => {
     const uriArray = uri.split("/");
     const filename = uriArray[uriArray.length - 1];
-    request(uri).pipe(fs.createWriteStream(`${directory}${subDirectory}${filename}`)).on('close');
+    request(uri).pipe(fs.createWriteStream(`${directory}${subDirectory}${filename}`)).on('close', () => console.log(filename));
   });
 };
 
