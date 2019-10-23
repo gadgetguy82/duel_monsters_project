@@ -73,6 +73,14 @@ const createRouter = function(collection) {
     });
   }),
 
+  router.get('/image/:folder/:id', (req, res) => {
+    const id = req.params.id;
+    const folder = req.params.folder;
+    const filePath = `${__dirname}/../card_images/${folder}/${id}.jpg`;
+    res.sendFile(filePath);
+    console.log(filePath);
+  }),
+
   router.get('/download/:start/:end', (req, res) => {
     const start = req.params.start;
     const end = req.params.end;

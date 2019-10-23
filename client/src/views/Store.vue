@@ -5,6 +5,7 @@
       <div class="store-cards-container">
         <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
+          <img :src="path + card.id">
           <!-- <img :src="card.card_images[0].image_url_small"> -->
           <game-button :text="'Buy!'"></game-button>
         </div>
@@ -38,7 +39,8 @@ export default {
       arrayOfSetNames: [],
       startIndex: 0,
       endIndex: 1,
-      buttonText: "Get card images"
+      buttonText: "Get card images",
+      path: "http:localhost:3000/api/duel_monsters_game/cards/image/small/"
     }
   },
   mounted() {
