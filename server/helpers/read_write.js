@@ -3,7 +3,7 @@ const request = require('request');
 
 const db_path = `${__dirname}/../db/files/`;
 const image_path = `${__dirname}/../card_images/`;
-const public_image_path = `${__dirname}/../../client/public/img/card_images/`;
+const public_image_path = `${__dirname}/../../client/public/card_images/`;
 
 const readSync = (file) => {
   const data = fs.readFileSync(db_path + file);

@@ -5,7 +5,7 @@
       <div class="store-cards-container">
         <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
-          <img :src="'/img/card_images/small' + card.id + '.jpg'">
+          <img :src="'/card_images/small/' + card.id + '.jpg'">
           <!-- <img :src="getImage(card.id)"> -->
           <!-- <img :src="card.card_images[0].image_url_small"> -->
           <game-button :text="'Buy!'"></game-button>
