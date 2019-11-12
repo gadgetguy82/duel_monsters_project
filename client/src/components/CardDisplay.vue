@@ -33,7 +33,7 @@ export default {
   watch: {
     "display.index"() {
       this.display.card = this.display.array[this.display.index];
-      this.display.source = this.display.card ? this.display.card.card_images[0].image_url : "";
+      this.display.source = this.display.card ? this.display.card.large_image : "";
     }
   },
   methods: {
