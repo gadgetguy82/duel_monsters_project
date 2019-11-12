@@ -3,6 +3,7 @@ const request = require('request');
 
 const db_path = `${__dirname}/../db/files/`;
 const image_path = `${__dirname}/../card_images/`;
+const public_image_path = `${__dirname}/../../client/public/img/card_images/`;
 
 const readSync = (file) => {
   const data = fs.readFileSync(db_path + file);
@@ -39,6 +40,7 @@ const download = (uri, subDirectory, callback) => {
     const uriArray = uri.split("/");
     const filename = uriArray[uriArray.length - 1];
     request(uri).pipe(fs.createWriteStream(`${image_path}${subDirectory}${filename}`)).on('close', () => console.log(filename));
+    request(uri).pipe(fs.createWriteStream(`${public_image_path}${subDirectory}${filename}`)).on('close', () => console.log(filename));
   });
 };
 

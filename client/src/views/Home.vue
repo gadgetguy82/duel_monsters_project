@@ -23,25 +23,27 @@
       </ul>
       <button v-if="gameCards.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
     </div>
-    <div class="button-container">
-      <div class="add-container">
-        <label for="start"></label>
-        <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
-        <label for="end"></label>
-        <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
-        <game-button :text="buttonText" :colour="'brown'" v-on:click.native="downloadImages"></game-button>
-      </div>
-      <div class="add-button-container">
-        <div class="checkbox-container">
-          <input type="checkbox" id="initialise" v-model="initialise">
-          <label for="initialise">Initialise game DB</label>
+    <div class="bottom-container">
+      <div class="button-container">
+        <div class="add-image-container">
+          <label for="start">Start image index</label>
+          <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
+          <label for="end">End image index</label>
+          <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
+          <game-button :text="buttonText" :colour="'brown'" v-on:click.native="downloadImages"></game-button>
         </div>
-        <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
-        <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
-        <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
-        <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
-        <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
-        <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
+        <div class="add-button-container">
+          <div class="checkbox-container">
+            <input type="checkbox" id="initialise" v-model="initialise">
+            <label for="initialise">Initialise game DB</label>
+          </div>
+          <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
+          <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
+          <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
+          <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
+          <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
+          <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
+        </div>
       </div>
     </div>
   </div>
@@ -122,20 +124,33 @@ export default {
   padding: 10px;
 }
 
+.bottom-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  height: 20%;
+}
+
 .button-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   border: 5px solid #000000;
   border-radius: 10px;
-  width: 92%;
+  width: 90%;
   background-color: rgba(0, 255, 255, 0.7);
+}
+
+.add-image-container {
+  display: flex;
+  padding: 5px;
 }
 
 .add-button-container {
   display: flex;
-  flex-direction: row;
   justify-content: space-evenly;
+  padding: 5px;
+  width: 100%;
 }
 
 p, li {

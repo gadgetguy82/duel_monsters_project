@@ -56,7 +56,6 @@ export default {
   },
   data() {
     return {
-      initialise: false,
       cardTypes: [
         {
           name: "normalMonsters",
