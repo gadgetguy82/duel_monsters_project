@@ -58,7 +58,7 @@ export default {
         player: 'one',
         eventBus: eventBus1,
         firstTurn: true,
-        firstDrawAmount: 5
+        firstDrawAmount: 6
       },
       bluePlayerData: {
         player: 'two',

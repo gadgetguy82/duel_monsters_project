@@ -90,6 +90,7 @@ const createRouter = function(collection) {
         readWrite.download(docs[index].card_images[0].image_url, "large/");
         readWrite.download(docs[index].card_images[0].image_url_small, "small/");
       }
+      console.log("Done");
       res.json(docs);
     })
     .catch(err => {
