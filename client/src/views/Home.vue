@@ -1,6 +1,6 @@
 <template lang="html">
   <div id="home">
-    <div id="background">
+    <div class="instruction-container">
       <h1>Duel Monsters Card Game</h1>
       <p>Select 'update database' for the most current card collection</p>
       <game-button :text="'Update Database'" :colour="'blue'" v-on:click.native='fetchData'></game-button>
@@ -23,6 +23,27 @@
       </ul>
       <button v-if="gameCards.length > 0"><router-link :to="{ name: 'game-board'}">Start Game!</router-link></button>
     </div>
+    <div class="button-container">
+      <div class="add-container">
+        <label for="start"></label>
+        <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
+        <label for="end"></label>
+        <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
+        <game-button :text="buttonText" :colour="'brown'" v-on:click.native="downloadImages"></game-button>
+      </div>
+      <div class="add-button-container">
+        <div class="checkbox-container">
+          <input type="checkbox" id="initialise" v-model="initialise">
+          <label for="initialise">Initialise game DB</label>
+        </div>
+        <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
+        <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
+        <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
+        <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
+        <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
+        <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -38,7 +59,11 @@ export default {
   },
   data() {
     return {
-      allCards: []
+      allCards: [],
+      startIndex: 0,
+      endIndex: 1,
+      buttonText: "Get card images",
+      initialise: false
     }
   },
   mounted() {
@@ -51,13 +76,39 @@ export default {
         this.allCards = cardData;
         DBService.postCards(this.allCards, "cards/");
       });
-    }
+    },
+
+    downloadImages() {
+      DBService.downloadImages({indices: this.startIndex + "/" + this.endIndex}, "cards/");
+    },
+
+    getGameCards() {
+      DBService.getAllCards("game_cards/")
+      .then(cards => {
+        this.game.array = cards;
+        this.game.card = this.game.array[this.game.index];
+        this.game.source = this.game.card.card_images[0].image_url;
+      });
+    },
+
+    addSetsOfCards(start, end) {
+      const subArray = this.cardTypes.slice(start, end);
+      subArray.forEach(cardType => {
+        DBService.postCards(cardType.array, cardType.route);
+      });
+      if (this.initialise) {
+        this.cardTypes[0].array.forEach(card => card.game = true);
+        DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute);
+        this.getGameCards();
+        this.initialise = false;
+      }
+    },
   }
 }
 </script>
 
 <style lang="css" scoped>
-#background {
+.instruction-container {
   color: #FF8C00;
   text-shadow: 1px 1px 2px black, 0 0 2px black, 0 0 2px black;
   display: flex;
@@ -69,6 +120,22 @@ export default {
   width: fit-content;
   margin: auto;
   padding: 10px;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 5px solid #000000;
+  border-radius: 10px;
+  width: 92%;
+  background-color: rgba(0, 255, 255, 0.7);
+}
+
+.add-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
 }
 
 p, li {

@@ -16,20 +16,6 @@
         <development-info :eventBus="eventBus" :type="type" :current="current" :game="game"></development-info>
         <card-display :eventBus="eventBus" :display="game" :gameArray="game.array"></card-display>
       </div>
-      <div class="button-container">
-        <div class="add-button-container">
-          <div class="checkbox-container">
-            <input type="checkbox" id="initialise" v-model="initialise">
-            <label for="initialise">Initialise game DB</label>
-          </div>
-          <game-button :text="'Add first set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(0, 2)"></game-button>
-          <game-button :text="'Add second set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(2, 5)"></game-button>
-          <game-button :text="'Add third set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(5, 8)"></game-button>
-          <game-button :text="'Add fourth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(8, 11)"></game-button>
-          <game-button :text="'Add fifth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(11, 14)"></game-button>
-          <game-button :text="'Add sixth set of cards'" :colour="'brown'" v-on:click.native="addSetsOfCards(14, 17)"></game-button>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -319,19 +305,6 @@ export default {
       });
     },
 
-    addSetsOfCards(start, end) {
-      const subArray = this.cardTypes.slice(start, end);
-      subArray.forEach(cardType => {
-        DBService.postCards(cardType.array, cardType.route);
-      });
-      if (this.initialise) {
-        this.cardTypes[0].array.forEach(card => card.game = true);
-        DBService.postCards(this.cardTypes[0].array, this.cardTypes[0].altRoute);
-        this.getGameCards();
-        this.initialise = false;
-      }
-    },
-
     addToGameDB({array, index}) {
       const card = array[index];
       card.game = true;
@@ -373,20 +346,5 @@ export default {
   margin: 10px;
   width: 200px;
   transform: translateX(50px);
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-}
-
-.add-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  border: 5px solid #000000;
-  border-radius: 10px;
-  width: 92%;
-  background-color: rgba(0, 255, 255, 0.7);
 }
 </style>

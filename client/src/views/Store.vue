@@ -5,17 +5,10 @@
       <div class="store-cards-container">
         <div class="store-card" v-for="(card) in storeCards">
           <p class="card-title">{{card.name}}</p>
-          <img :src="path + card.id">
+          <img :src="getImage(card.id)">
           <!-- <img :src="card.card_images[0].image_url_small"> -->
           <game-button :text="'Buy!'"></game-button>
         </div>
-      </div>
-      <div class="add-container">
-        <label for="start"></label>
-        <input type="number" id="start" min="0" :max="allCards.length - 1" v-model="startIndex">
-        <label for="end"></label>
-        <input type="number" id="end" min="1" :max="allCards.length" v-model="endIndex">
-        <game-button :text="buttonText" :colour="'brown'" v-on:click.native="downloadImages"></game-button>
       </div>
     </div>
   </div>
@@ -37,10 +30,8 @@ export default {
       storeCards: [],
       arrayOfSetCodes: [],
       arrayOfSetNames: [],
-      startIndex: 0,
-      endIndex: 1,
-      buttonText: "Get card images",
-      path: "http:localhost:3000/api/duel_monsters_game/cards/image/small/"
+      path: "http:localhost:3000/api/duel_monsters_game/cards/image/small/",
+      folder: "small/"
     }
   },
   mounted() {
@@ -60,8 +51,8 @@ export default {
     });
   },
   methods: {
-    downloadImages() {
-      DBService.downloadImages({indices: this.startIndex + "/" + this.endIndex}, "cards/");
+    getImage(id) {
+      return DBService.getImage(id, this.folder, "cards/");
     }
   }
 }
@@ -94,12 +85,6 @@ img, .store-card{
 
 .card-title{
   height: 40px
-}
-
-.add-container {
-  background-color: rgba(0, 0, 0, 0.7);
-  display: flex;
-  justify-content: center;
 }
 
 input {
