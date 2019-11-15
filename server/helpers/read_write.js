@@ -44,6 +44,12 @@ const download = (uri, subDirectory, callback) => {
   });
 };
 
+const fileCount = () => {
+  const dir = `${__dirname}/../card_images/small`;
+  fs.readdir(dir, (err, files) => {
+  console.log(files.length);
+}
+
 module.exports = {
   readSync: readSync,
   readAsync: readAsync,

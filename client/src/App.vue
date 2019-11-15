@@ -40,9 +40,9 @@ export default {
       DBService.getAllCards("cards/")
       .then(cards => {
         this.allCards = cards;
-        this.allCards.forEach((card) => {
-          this.$set(card, "small_image", '/card_images/small/' + card.id + '.jpg');
+        this.allCards.forEach((card, index) => {
           this.$set(card, "large_image", '/card_images/large/' + card.id + '.jpg');
+          this.$set(card, "small_image", '/card_images/small/' + card.id + '.jpg');
           this.$set(card, "game", false);
           this.$set(card, "hidden", true);
           this.$set(card, "initial", true);
