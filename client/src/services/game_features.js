@@ -1,5 +1,5 @@
 const playSound = (sound) => {
-  if(sound) {
+  if (sound) {
     const audio = new Audio(sound);
     audio.play();
   }

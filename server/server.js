@@ -17,6 +17,8 @@ const socketPort = process.env.SOCKET_PORT || 4000;
 app.set('port', socketPort);
 app.use(express.static('../client/public'));
 
+const readWrite = require('./helpers/read_write.js');
+
 server.listen(socketPort, function() {
   console.log(`Starting server on port ${this.address().port}`);
 });
@@ -26,6 +28,11 @@ let roomCount = 1;
 io.on('connection', socket => {
   socket.on('SEND_MESSAGE', msg => {
     console.log(msg);
+  });
+
+  socket.on("count-images", () => {
+    const imageCount = readWrite.fileCount();
+    socket.emit("image-total", imageCount);
   });
 
   const roomList = io.sockets.adapter.rooms;

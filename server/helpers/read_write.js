@@ -45,9 +45,9 @@ const download = (uri, subDirectory, callback) => {
 };
 
 const fileCount = () => {
-  const dir = `${__dirname}/../card_images/small`;
+  const dir = `${__dirname}/../card_images/small/`;
   fs.readdir(dir, (err, files) => {
-  console.log(files.length);
+  return files.length;
 }
 
 module.exports = {
@@ -55,5 +55,6 @@ module.exports = {
   readAsync: readAsync,
   writeSync: writeAsync,
   writeAsync: writeAsync,
-  download: download
+  download: download,
+  fileCount: fileCount
 };

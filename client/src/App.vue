@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import socketio from 'socket.io-client';
 import { eventBusInfo } from '@/main.js';
 import DBService from '@/services/db_service.js';
 
@@ -23,6 +24,7 @@ export default {
   name: 'app',
   data(){
     return {
+      socket : socketio('localhost:5000'),
       eventBus: eventBusInfo,
       allCards: [],
       gameCards: [],
@@ -30,19 +32,25 @@ export default {
     }
   },
   mounted() {
-    this.loadAllCards();
+    this.socket.emit("count-images");
+
+    this.socket.on("image-total", count => {
+      this.loadAllCards(count);
+    })
     this.loadGameCards();
 
     this.eventBus.$on("reload-game-cards", () => this.loadGameCards());
   },
   methods: {
-    loadAllCards() {
+    loadAllCards(count) {
       DBService.getAllCards("cards/")
       .then(cards => {
         this.allCards = cards;
         this.allCards.forEach((card, index) => {
-          this.$set(card, "large_image", '/card_images/large/' + card.id + '.jpg');
-          this.$set(card, "small_image", '/card_images/small/' + card.id + '.jpg');
+          if (index < count) {
+            this.$set(card, "large_image", '/card_images/large/' + card.id + '.jpg');
+            this.$set(card, "small_image", '/card_images/small/' + card.id + '.jpg');
+          }
           this.$set(card, "game", false);
           this.$set(card, "hidden", true);
           this.$set(card, "initial", true);
