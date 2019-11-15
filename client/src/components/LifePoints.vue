@@ -14,7 +14,7 @@ export default {
   data() {
     return {
       points: 8000,
-      socket : socketio('localhost:5000')
+      socket : socketio('localhost:4000')
     }
   },
   mounted() {

@@ -24,7 +24,7 @@ export default {
   name: 'app',
   data(){
     return {
-      socket : socketio('localhost:5000'),
+      socket : socketio('localhost:4000'),
       eventBus: eventBusInfo,
       allCards: [],
       gameCards: [],
