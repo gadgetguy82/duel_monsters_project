@@ -1,19 +1,23 @@
 <template lang="html">
-  <div class="magic-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }">
-    <div class="spell-trap-zone">
-
-    </div>
+  <div class="spell-trap-container" :class= "{ 'yellow' : playerData.player === 'one', 'blue' : playerData.player === 'two' }">
+    <spell-trap-space :gameState="gameState" :playerData="playerData"></spell-trap-space>
+    <spell-trap-space :gameState="gameState" :playerData="playerData"></spell-trap-space>
+    <spell-trap-space :gameState="gameState" :playerData="playerData"></spell-trap-space>
+    <spell-trap-space :gameState="gameState" :playerData="playerData"></spell-trap-space>
+    <spell-trap-space :gameState="gameState" :playerData="playerData"></spell-trap-space>
   </div>
 </template>
 
 <script>
 import Card from '@/components/Card';
+import SpellTrapSpace from '@/components/SpellTrapSpace';
 
 export default {
   name: 'spell-trap-zone',
   props: ['gameState', 'playerData'],
   components: {
-    "playing-card" : Card
+    "playing-card" : Card,
+    "spell-trap-space" : SpellTrapSpace
   }
 }
 </script>
@@ -24,7 +28,7 @@ export default {
   opacity: 1;
 }
 
-.magic-container {
+.spell-trap-container {
   background-size: cover;
   border-width: 1px;
   border-style: solid;
