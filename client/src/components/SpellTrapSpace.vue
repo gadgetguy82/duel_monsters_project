@@ -1,13 +1,27 @@
 <template lang="html">
   <div class="spell-trap-space-container">
     <div class="space">
-
+      <playing-card v-if="card" :card="card"></playing-card>
     </div>
   </div>
 </template>
 
 <script>
+import Card from '@/components/Card.vue';
+import GameLogic from '@/services/game_logic.js';
+import * as Constants from '@/services/constants.js';
+
 export default {
+  name: 'spell-trap-space',
+  props: ['gameState', 'playerData'],
+  components: {
+    "playing-card": Card
+  },
+  data() {
+    return {
+      card: {}
+    }
+  }
 }
 </script>
 
